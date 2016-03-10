@@ -1,0 +1,21 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ProductListFragment">
+
+
+    <ListView
+        android:id="@+id/list"
+        android:name="com.giants3.hd.android.ProductListActivityListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/icon_divider"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+         />
+
+
+</FrameLayout>

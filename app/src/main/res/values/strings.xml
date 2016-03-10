@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">云飞家居</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">账号</string>
+    <string name="prompt_password">输入密码</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- TODO: Remove or parse this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_productlistactivity_list">Items</string>
+    <string name="title_productlistactivity_detail">ProductListActivity Detail</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">设置</string>
+    <string name="product_list">产品列表</string>
+    <string name="quotate_list">报价列表</string>
+    <string name="order_list">订单列表</string>
+
+    <string-array name="table_head_order_item">
+        <item>序号||itm||1||60</item>
+        <item>图片||url||2||91</item>
+        <!--2表示图片类型-->
+        <item>产品名称||prd_name||1||91</item>
+        <item>配方号||id_no||1||91</item>
+        <item>客号||bat_no||1||91</item>
+        <item>数量||qty||1||60</item>
+        <item>单位||ut||1||60</item>
+        <item>单价||up||1||60</item>
+        <item>金额||amt||1||80</item>
+        <item>箱数||htxs||1||40</item>
+        <item>每箱数||so_zxs||1||40</item>
+        <item>箱规||khxg||1||91</item>
+        <item>立方数||xgtj||1||60</item>
+        <item>总立方数||zxgtj||1||60</item>
+        <item>产品尺寸||hpgg||1||120</item>
+    </string-array>
+    <string name="title_activity_picture_view">PictureViewActivity</string>
+
+
+</resources>

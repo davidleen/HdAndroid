@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_product"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/product_list" />
+        <item
+            android:id="@+id/nav_quotate"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/quotate_list" />
+        <item
+            android:id="@+id/nav_order"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/order_list" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Tools" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+    <item android:title="功能">
+        <menu>
+            <item
+                android:id="@+id/reLogin"
+                android:icon="@drawable/ic_menu_share"
+                android:title="切换登录" />
+
+        </menu>
+    </item>
+</menu>
