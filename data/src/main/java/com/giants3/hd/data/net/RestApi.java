@@ -41,7 +41,7 @@ public interface RestApi {
   static final String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
 
   static String API_URL_GET_PRODUCT_LIST = "/api/product/appSearch?name=%s&pageIndex=%d&pageSize=%d";
-  String API_URL_GET_ORDER_LIST = "/api/order/list?name=%s&pageIndex=%d&pageSize=%d";
+  String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
   String API_URL_GET_ORDER_ITEM_LIST = "/api/order/findOrderItems?orderNo=%s";
 
   /**

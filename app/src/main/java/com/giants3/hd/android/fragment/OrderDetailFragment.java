@@ -87,7 +87,6 @@ public class OrderDetailFragment extends BaseFragment {
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ITEM, GsonUtils.toJson(erpOrder));
-
         fragment.setArguments(args);
         return fragment;
     }

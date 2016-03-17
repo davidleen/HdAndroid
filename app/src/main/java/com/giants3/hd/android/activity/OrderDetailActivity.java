@@ -46,10 +46,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
 
-        toolbar.setTitle("订单详情");
-        //  toolbar.setLogo(R.mipmap.icon_photo);
-        toolbar.setOnMenuItemClickListener( this);
-
         setSupportActionBar(toolbar);
 
 
@@ -59,11 +55,12 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailFrag
             actionBar.setDisplayHomeAsUpEnabled(true);
             //actionBar.setDisplayShowTitleEnabled(true);
 
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle("订单详情");
 
+
+            //actionBar.setOnMenuItemClickListener(this);
         }
-
-
-
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity

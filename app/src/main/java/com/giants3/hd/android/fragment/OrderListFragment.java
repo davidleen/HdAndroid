@@ -5,9 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,7 +38,7 @@ import rx.Subscriber;
  * Use the {@link OrderListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OrderListFragment extends BaseFragment {
+public class OrderListFragment extends BaseFragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,6 +51,12 @@ public class OrderListFragment extends BaseFragment {
 
     @Bind(R.id.list)
     ListView orderList;
+
+    @Bind(R.id.btn_search)
+    View btn_search;
+
+    @Bind(R.id.search_text)
+    EditText search_text;
 
 
     public OrderListFragment() {
@@ -95,8 +104,26 @@ public class OrderListFragment extends BaseFragment {
 
 
         orderList.setAdapter(adapter);
+        btn_search.setOnClickListener(this);
 
+        search_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                getActivity().getWindow().getDecorView().removeCallbacks(runnable);
+                getActivity().getWindow().getDecorView().postDelayed(runnable, 1000);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         attemptLoadList();
 
@@ -160,6 +187,34 @@ public class OrderListFragment extends BaseFragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.btn_search:
+                getActivity().getWindow().getDecorView().removeCallbacks(runnable);
+                getActivity().getWindow().getDecorView().postDelayed(runnable,1000);
+                break;
+
+        }
+
+    }
+
+
+    /**
+     *
+     */
+    private Runnable runnable=new Runnable() {
+        @Override
+        public void run() {
+
+
+           String key= search_text.getText().toString().trim();
+
+            attemptLoadList(key,0,100);
+        }
+    };
 
     /**
      * This interface must be implemented by activities that contain this

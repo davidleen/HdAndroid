@@ -10,6 +10,7 @@
         android:layout_width="71dp"
         android:layout_height="91dp"
         android:scaleType="center"
+        android:src="@mipmap/ic_launcher"
         />
 
     <TextView

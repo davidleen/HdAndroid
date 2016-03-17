@@ -3,10 +3,12 @@ package com.giants3.hd.android.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.data.net.HttpUrl;
 
@@ -29,6 +31,9 @@ public class SettingActivity extends BaseActivity {
     @Bind(R.id.btn_save)
     Button btnSave;
 
+    @Bind(R.id.setOutUrl)
+    Button setOutUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,16 @@ public class SettingActivity extends BaseActivity {
             }
         });
 
+        setOutUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                etIp.setText("59.56.182.132");
+                etPort.setText("8079");
+                etService.setText("Server");
+            }
+        });
+        setOutUrl.setVisibility(BuildConfig.DEBUG?View.VISIBLE:View.GONE);
         etIp.setText(HttpUrl.IPAddress);
         etPort.setText(HttpUrl.IPPort);
         etService.setText(HttpUrl.ServiceName);

@@ -150,7 +150,6 @@ public class OrderItemListAdapter
                     imageView.setTag(url);
                     imageView.setOnClickListener(listener);
 
-
                 } else {
                     TextView textView = (TextView) views[i];
 

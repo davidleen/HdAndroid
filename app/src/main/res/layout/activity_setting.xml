@@ -58,5 +58,13 @@
             android:text="保存"
             />
 
+
+
+    <Button
+        android:id="@+id/setOutUrl"
+        android:layout_marginTop="20dip"
+        android:layout_width="100dp" android:layout_height="wrap_content"
+        android:text="设置外网"
+        />
 </LinearLayout>
 

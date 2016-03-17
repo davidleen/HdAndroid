@@ -27,7 +27,7 @@ public class HttpUrl {
     public static String KEY_ServiceName="_ServiceName";
 
 
-    public static final String BASE_URL_FORMAT="http://%s:%s/%s";
+    public static final String BASE_URL_FORMAT="http://%s:%s/%s/";
     public static String BASE_URL="";
     static final String API_LOGIN ="/api/authority/aLogin" ;
     public static String token="";

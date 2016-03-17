@@ -13,6 +13,7 @@ import com.giants3.hd.android.fragment.ProductListFragment;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.StringUtils;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -88,11 +89,7 @@ public class ProductListAdapter
             mItem = aProduct;
             mIdView.setText(aProduct.name);
             mContentView.setText(aProduct.pVersion);
-
-
-                picasso.load(HttpUrl.completeUrl(aProduct.url)).placeholder(R.mipmap.ic_launcher).into(image);
-
-
+            picasso.load(HttpUrl.completeUrl(aProduct.url)).placeholder(R.mipmap.ic_launcher).into(image);
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
             mView.setOnClickListener(itemClickListener);
         }

@@ -1,11 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.ProductListFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_text"
+            android:layout_weight="1" />
+
+        <ImageView
+
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/list"
@@ -14,8 +30,7 @@
         android:layout_height="match_parent"
         android:divider="@drawable/icon_divider"
         android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
-         />
+        android:headerDividersEnabled="true" />
 
 
-</FrameLayout>
+</LinearLayout>
