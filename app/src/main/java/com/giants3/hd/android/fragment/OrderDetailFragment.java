@@ -1,27 +1,31 @@
 package com.giants3.hd.android.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.Utils;
+import com.giants3.hd.android.activity.LongTextActivity;
 import com.giants3.hd.android.adapter.OrderItemListAdapter;
 import com.giants3.hd.android.adapter.TableHeadAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.giants3.hd.android.widget.CustomScrollView;
+import com.giants3.hd.android.widget.ExpandableHeightListView;
 import com.giants3.hd.data.entity.ErpOrder;
 import com.giants3.hd.data.entity.ErpOrderItem;
 import com.giants3.hd.data.entity.RemoteData;
@@ -43,12 +47,13 @@ import rx.Subscriber;
  * Use the {@link OrderDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OrderDetailFragment extends BaseFragment {
+public class OrderDetailFragment extends BaseFragment implements View.OnClickListener {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     public static String ARG_ITEM = "ARG_ITEM";
 
+    private static  final int MAX_MEMO_ROW_LINE=3;
 
     ErpOrder erpOrder;
 
@@ -77,10 +82,19 @@ public class OrderDetailFragment extends BaseFragment {
     TextView sal;
     @Bind(R.id.memo)
     TextView memo;
+    @Bind(R.id.showMore)
+    View showMore;
+    @Bind(R.id.more_text)
+    View more_text;
+    @Bind(R.id.scrollIndicatorDown)
+    HorizontalScrollView horizontalScrollView1;
 
     public OrderDetailFragment() {
         // Required empty public constructor
     }
+
+
+
 
 
     public static OrderDetailFragment newInstance(ErpOrder erpOrder) {
@@ -131,6 +145,9 @@ public class OrderDetailFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+       horizontalScrollView1.setFocusable(true);
+
+
         order_no.setText(erpOrder.os_no);
         cus_no.setText(erpOrder.cus_no);
         cus_os_no.setText(erpOrder.cus_os_no);
@@ -139,7 +156,35 @@ public class OrderDetailFragment extends BaseFragment {
         so_data.setText(erpOrder.so_data);
         sal.setText(erpOrder.sal_name);
         memo.setText(erpOrder.rem);
+        memo.setMaxLines(MAX_MEMO_ROW_LINE);
+        memo.post(new Runnable() {
+            @Override
+            public void run() {
 
+
+                int count = MAX_MEMO_ROW_LINE;
+                boolean more = false;
+
+
+                if (memo.getLineCount() > MAX_MEMO_ROW_LINE) {
+
+                    int width = memo.getLayout().getLineEnd(count - 1);
+
+                    more = erpOrder.rem.length() > width;
+
+
+                }
+
+
+                showMore.setVisibility(more ? View.VISIBLE : View.GONE);
+                more_text.setVisibility(more ? View.VISIBLE : View.GONE);
+
+
+            }
+        });
+
+
+         showMore.setOnClickListener(this);
 
         TableData tableData = TableData.resolveData(getContext(), R.array.table_head_order_item);
         TableHeadAdapter adapter = new TableHeadAdapter(getActivity());
@@ -173,10 +218,20 @@ public class OrderDetailFragment extends BaseFragment {
         order_item_list.addHeaderView(tempView);
         order_item_list.addHeaderView(linearLayout);
 
-        order_item_list.setAdapter(orderItemListAdapter);
+
+        View footDivder=new View(getContext());
+        footDivder.setLayoutParams(new AbsListView.LayoutParams(totalWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+        footDivder.setBackgroundResource(R.drawable.icon_divider);
+        order_item_list.addFooterView(footDivder);
+
+        //order_item_list.setExpanded(true);
+         order_item_list.setAdapter(orderItemListAdapter);
 
 
         attemptLoad(erpOrder.os_no);
+
+
+
     }
 
     private void attemptLoad() {
@@ -202,7 +257,13 @@ public class OrderDetailFragment extends BaseFragment {
             public void onNext(RemoteData<ErpOrderItem> orderItemRemoteData) {
                 if (orderItemRemoteData.isSuccess()) {
                     orderItemListAdapter.setDataArray(orderItemRemoteData.datas);
-
+//                    int size=orderItemListAdapter.getCount();
+//                   // order_item_list.removeAllViews();
+//                    for(int i=0;i<size;i++)
+//                    {
+//                        order_item_list.addView(orderItemListAdapter.getView(i,null,null));
+//                    }
+//                    horizontalScrollView1.invalidate();
 
                 } else {
                     ToastHelper.show(orderItemRemoteData.message);
@@ -236,6 +297,20 @@ public class OrderDetailFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case  R.id.showMore:
+                Intent intent=new Intent(getActivity(), LongTextActivity.class);
+                intent.putExtra(LongTextActivity.PARAM_TITLE,"订单备注");
+                intent.putExtra(LongTextActivity.PARAM_CONTENT,erpOrder.rem);
+                getActivity().startActivity(intent);
+
+                break;
+        }
     }
 
     /**

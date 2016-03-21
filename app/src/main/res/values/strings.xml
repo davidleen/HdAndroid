@@ -48,6 +48,7 @@
         <item>产品尺寸||hpgg||1||120</item>
     </string-array>
     <string name="title_activity_picture_view">PictureViewActivity</string>
+    <string name="title_activity_long_text">LongText</string>
 
 
 </resources>

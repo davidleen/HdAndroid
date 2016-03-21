@@ -135,7 +135,7 @@
 ////
 ////        scrollView.setScrollViewListener(new HorizontalScrollView1.ScrollViewListener() {
 ////            @Override
-////            public void onScrollChanged(HorizontalScrollView scrollView, int x, int y, int oldx, int oldy) {
+////            public void onScrollChanged(TwoDScrollView scrollView, int x, int y, int oldx, int oldy) {
 ////                //   Log.d(TAG, "x:" + x + ",Y:" + y + ",oldx:" + oldx + ",oldY:" + oldy);
 ////                //拖动表头 移动列表
 ////                //     if (pullToRefreshListView != null)

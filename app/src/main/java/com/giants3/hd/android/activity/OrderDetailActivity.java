@@ -55,7 +55,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailFrag
             actionBar.setDisplayHomeAsUpEnabled(true);
             //actionBar.setDisplayShowTitleEnabled(true);
 
-            actionBar.setDisplayShowTitleEnabled(true);
+
             actionBar.setTitle("订单详情");
 
 
@@ -104,8 +104,9 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailFrag
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-
+            onBackPressed();
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);

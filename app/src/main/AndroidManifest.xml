@@ -12,13 +12,13 @@
 
     <application
         android:name=".HdApplication"
-        android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.QRCaptureActivity" />
         <activity
             android:name=".activity.ProductListActivity"
@@ -50,7 +50,12 @@
         <activity
             android:name=".activity.PictureViewActivity"
             android:label="@string/title_activity_picture_view"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.LongTextActivity"
+            android:label="@string/title_activity_long_text"
+            android:theme="@style/AppTheme.NoActionBarDialog"
+         ></activity>
     </application>
 
 </manifest>

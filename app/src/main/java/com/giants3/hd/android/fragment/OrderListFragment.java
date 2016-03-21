@@ -58,6 +58,11 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
     @Bind(R.id.search_text)
     EditText search_text;
 
+    @Bind(R.id.progressBar)
+    View progressBar;
+
+
+
 
     public OrderListFragment() {
 
@@ -141,14 +146,17 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
     private void attemptLoadList(String name,int pageIndex,int pageSize)
     {
 
+        progressBar.setVisibility(View.VISIBLE);
         UseCaseFactory.getInstance().createOrderListCase(name,pageIndex,pageSize).execute(new Subscriber<RemoteData<ErpOrder>>() {
             @Override
             public void onCompleted() {
 //                showProgress(false);
+                progressBar.setVisibility(View.GONE);
             }
             @Override
             public void onError(Throwable e) {
 //                showProgress(false);
+                progressBar.setVisibility(View.GONE);
                 ToastHelper.show(e.getMessage());
             }
 

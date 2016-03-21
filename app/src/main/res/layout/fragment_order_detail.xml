@@ -1,245 +1,277 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragment.OrderDetailFragment">
 
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+
+
+
+        tools:context=".fragment.OrderDetailFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-
-                android:text="订单号" />
-
-            <TextView
-                android:id="@+id/order_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-
-                android:text="order_no" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-
-
-                android:text="合同日期" />
-
-            <TextView
-                android:id="@+id/os_dd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                />
-
-
-        </LinearLayout>
-        s
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-
-                android:text="客号" />
-
-            <TextView
-                android:id="@+id/cus_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-
-                android:text="order_no" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-
-
-                android:text="预交日期" />
-
-            <TextView
-                android:id="@+id/est_dd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                />
-
-
-        </LinearLayout>
-        s
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-
-                android:text="客单号" />
-
-            <TextView
-                android:id="@+id/cus_os_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-
-                android:text="order_no" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-
-
-                android:text="生产交期" />
-
-            <TextView
-                android:id="@+id/so_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                />
-
-
-        </LinearLayout>
-        s
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-
-                android:text="业务员" />
-
-            <TextView
-                android:id="@+id/sal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-
-                android:text="order_no" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+
+                    android:text="订单号" />
+
+                <TextView
+                    android:id="@+id/order_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
 
-            android:text="备注:" />
+                    android:text="order_no" />
 
-        <TextView
-            android:id="@+id/memo"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+
+
+                    android:text="合同日期" />
+
+                <TextView
+                    android:id="@+id/os_dd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+
+                    android:text="客号" />
+
+                <TextView
+                    android:id="@+id/cus_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+                    android:text="order_no" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+
+
+                    android:text="预交日期" />
+
+                <TextView
+                    android:id="@+id/est_dd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    />
+
+
+            </LinearLayout>
+            s
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+
+                    android:text="客单号" />
+
+                <TextView
+                    android:id="@+id/cus_os_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+                    android:text="order_no" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+
+
+                    android:text="生产交期" />
+
+                <TextView
+                    android:id="@+id/so_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    />
+
+
+            </LinearLayout>
+            s
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+
+                    android:text="业务员" />
+
+                <TextView
+                    android:id="@+id/sal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+                    android:text="order_no" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:orientation="vertical">
 
-            />
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:text="备注:" />
+
+            <TextView
+                android:id="@+id/memo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+
+                />
+            <TextView
+                android:id="@+id/more_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="......"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@+id/memo"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:id="@+id/showMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:text="查看详细"
+               android:layout_below="@+id/memo"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/button_white_selector"
+                android:paddingLeft="5dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingRight="5dp"
+                android:layout_alignParentRight="true"
+                />
+
+
+        </RelativeLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/scrollIndicatorDown"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none"
+
+            android:fillViewport="true">
+
+            <ListView
+                android:id="@+id/order_item_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:divider="@drawable/icon_divider"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true"
+
+
+                android:fillViewport="false" />
+
+        </HorizontalScrollView>
 
 
     </LinearLayout>
-
-    <HorizontalScrollView
-        android:id="@+id/scrollIndicatorDown"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
-
-        <ListView
-            android:id="@+id/order_item_list"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:divider="@drawable/icon_divider"
-            android:footerDividersEnabled="true"
-            android:headerDividersEnabled="true"
-
-
-            />
-
-    </HorizontalScrollView>
-
-
-</LinearLayout>
