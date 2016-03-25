@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.giants3.hd.android.activity.PictureViewActivity">
 
-    <ImageView
+    <com.giants3.hd.android.widget.ZoomImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:scaleType="center"

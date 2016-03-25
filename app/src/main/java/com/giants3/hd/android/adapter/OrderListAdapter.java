@@ -19,7 +19,7 @@ import com.giants3.hd.data.entity.ErpOrder;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.data.utils.StringUtils;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class OrderListAdapter
         extends AbstractAdapter<ErpOrder> {
 
 
-    Picasso picasso;
+
 
     private View.OnClickListener itemClickListener = new View.OnClickListener() {
         @Override
@@ -54,8 +54,7 @@ public class OrderListAdapter
     public OrderListAdapter(Context context) {
         super(context);
         this.context = context;
-        picasso = Picasso.with(context);
-        picasso.setLoggingEnabled(true);
+
     }
 
     @Override

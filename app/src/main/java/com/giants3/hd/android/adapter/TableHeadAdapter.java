@@ -13,7 +13,7 @@ import com.giants3.hd.android.Utils;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.fragment.OrderListFragment;
 import com.giants3.hd.data.entity.ErpOrder;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 import java.util.List;

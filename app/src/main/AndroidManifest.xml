@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -56,6 +57,13 @@
             android:label="@string/title_activity_long_text"
             android:theme="@style/AppTheme.NoActionBarDialog"
          ></activity>
+
+
+        <activity
+            android:name="com.sigseg.android.map.ImageViewerActivity"
+            android:label="@string/title_activity_long_text"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>

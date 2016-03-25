@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.giants3.hd.android.HdApplication;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.fragment.ProductListFragment;
+import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.StringUtils;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -25,13 +26,11 @@ public class ProductListAdapter
         extends AbstractAdapter<AProduct> {
 
 
-    Picasso picasso;
-
-    private View.OnClickListener itemClickListener =  new View.OnClickListener() {
+    private View.OnClickListener itemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
-            ViewHolder  viewHolder = (ViewHolder) v.getTag();
+            ViewHolder viewHolder = (ViewHolder) v.getTag();
 
             Context context = v.getContext();
             if (context instanceof ProductListFragment.OnFragmentInteractionListener) {
@@ -43,26 +42,19 @@ public class ProductListAdapter
     };
 
 
-    public ProductListAdapter(Context context ) {
+    public ProductListAdapter(Context context) {
         super(context);
 
 
-        picasso = Picasso.with(context);
-        picasso.setLoggingEnabled(true);
     }
 
     @Override
     protected Bindable<AProduct> createViewHolder(int itemViewType) {
-        return new ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.productlistactivity_list_content,null));
+        return new ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.productlistactivity_list_content, null));
     }
 
 
-
-
-
-
-
-    public class ViewHolder   implements Bindable<AProduct>{
+    public class ViewHolder implements Bindable<AProduct> {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
@@ -89,7 +81,9 @@ public class ProductListAdapter
             mItem = aProduct;
             mIdView.setText(aProduct.name);
             mContentView.setText(aProduct.pVersion);
-            picasso.load(HttpUrl.completeUrl(aProduct.url)).placeholder(R.mipmap.ic_launcher).into(image);
+            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(aProduct.url), image);
+            image.setTag(aProduct.url);
+            image.setOnClickListener(imageClickListener);
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
             mView.setOnClickListener(itemClickListener);
         }
@@ -99,4 +93,15 @@ public class ProductListAdapter
             return mView;
         }
     }
+
+
+    private View.OnClickListener imageClickListener =new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            String url= (String) v.getTag();
+            ImageViewerHelper.view(v.getContext(),url);
+
+        }
+    };
 }

@@ -27,7 +27,7 @@ import com.giants3.hd.data.interractor.UseCaseFactory;
 
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.StringUtils;
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +156,7 @@ public class ProductListActivity extends BaseActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private   List<AProduct> mValues;
-        Picasso picasso;
+
         private Context context;
 
 
@@ -164,8 +164,7 @@ public class ProductListActivity extends BaseActivity {
         public SimpleItemRecyclerViewAdapter(Context context,List<AProduct> items) {
             this.context=context;
             mValues = items;
-            picasso=Picasso.with(context);
-            picasso.setLoggingEnabled(true);
+
         }
 
         @Override
@@ -184,11 +183,9 @@ public class ProductListActivity extends BaseActivity {
             holder.mIdView.setText(aProduct.name);
             holder.mContentView.setText(aProduct.pVersion);
 
-            if(!StringUtils.isEmpty(aProduct.url))
-            {
-                picasso.load(HttpUrl.completeUrl(aProduct.url)).into(holder.image);
-            }else
-            picasso.load(R.mipmap.ic_launcher).into(holder.image);
+
+            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(aProduct.url),holder.image);
+
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

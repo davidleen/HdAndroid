@@ -2,7 +2,11 @@ package com.giants3.hd.android.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +15,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.giants3.hd.android.HdApplication;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.Utils;
-import com.giants3.hd.android.activity.PictureViewActivity;
+
 import com.giants3.hd.android.entity.TableData;
+import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.entity.ErpOrderItem;
 import com.giants3.hd.data.net.HttpUrl;
-import com.squareup.picasso.Picasso;
+import com.google.zxing.common.StringUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sigseg.android.io.RandomAccessFileInputStream;
+import com.sigseg.android.map.ImageViewerActivity;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import de.greenrobot.common.io.FileUtils;
 
 /**
  * 订单货款item adapter
@@ -30,15 +45,15 @@ public class OrderItemListAdapter
     private static final int DEFAULT_ROW_HEIGHT = Utils.dp2px(91);
 
     public TableData tableData;
-    Picasso picasso;
+
     private Context context;
 
 
     public OrderItemListAdapter(Context context) {
         super(context);
         this.context = context;
-        picasso = Picasso.with(context);
-        picasso.setLoggingEnabled(true);
+
+
     }
 
     @Override
@@ -145,8 +160,9 @@ public class OrderItemListAdapter
                 if (tableData.type[i] == TableData.TYPE_IMAGE) {
 
                     ImageView imageView = (ImageView) views[i];
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     String url = String.valueOf(o);
-                    picasso.load(HttpUrl.completeUrl(url)).resize(tableData.width[i],DEFAULT_ROW_HEIGHT).centerCrop( ).placeholder(R.mipmap.ic_launcher).into(imageView);
+                    ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(url), imageView);
                     imageView.setTag(url);
                     imageView.setOnClickListener(listener);
 
@@ -178,10 +194,11 @@ public class OrderItemListAdapter
         @Override
         public void onClick(View v) {
 
+
             String url = (String) v.getTag();
-            Intent intent = new Intent(v.getContext(), PictureViewActivity.class);
-            intent.putExtra(PictureViewActivity.EXTRA_URL, url);
-            v.getContext().startActivity(intent);
+            if(!TextUtils.isEmpty(url)) {
+                ImageViewerHelper.view(v.getContext(), url);
+            }
 
 
         }

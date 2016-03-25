@@ -16,7 +16,7 @@ import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AQuotation;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.StringUtils;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 
@@ -27,15 +27,14 @@ public class QuotationListAdapter
         extends RecyclerView.Adapter<QuotationListAdapter.ViewHolder> {
 
     private List<AQuotation> mValues;
-    Picasso picasso;
+
     private Context context;
 
 
     public QuotationListAdapter(Context context, List<AQuotation> items) {
         this.context = context;
         mValues = items;
-        picasso = Picasso.with(context);
-        picasso.setLoggingEnabled(true);
+
     }
 
     @Override
