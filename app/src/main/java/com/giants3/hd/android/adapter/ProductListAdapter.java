@@ -1,23 +1,17 @@
 package com.giants3.hd.android.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.giants3.hd.android.HdApplication;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.fragment.ProductListFragment;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.data.utils.StringUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.util.List;
 
 /**
  * Created by david on 2016/2/14.
@@ -50,7 +44,7 @@ public class ProductListAdapter
 
     @Override
     protected Bindable<AProduct> createViewHolder(int itemViewType) {
-        return new ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.productlistactivity_list_content, null));
+        return new ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.product_list_content, null));
     }
 
 

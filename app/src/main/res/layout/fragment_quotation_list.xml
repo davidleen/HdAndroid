@@ -14,5 +14,5 @@
 
         app:layoutManager="LinearLayoutManager"
         tools:context=".activity.QuotationListFragment"
-        tools:listitem="@layout/productlistactivity_list_content" />
+        tools:listitem="@layout/product_list_content" />
 </FrameLayout>

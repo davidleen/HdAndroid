@@ -1,7 +1,6 @@
 package com.giants3.hd.android.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.activity.ProductDetailActivity;
-import com.giants3.hd.android.fragment.ProductDetailFragment;
-import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AQuotation;
-import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.data.utils.StringUtils;
 
 
 import java.util.List;
@@ -40,7 +34,7 @@ public class QuotationListAdapter
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.productlistactivity_list_content, parent, false);
+                .inflate(R.layout.product_list_content, parent, false);
         return new ViewHolder(view);
     }
 

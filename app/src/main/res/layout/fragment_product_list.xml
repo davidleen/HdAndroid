@@ -15,7 +15,7 @@
         android:divider="@drawable/icon_divider"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        tools:listitem="@layout/productlistactivity_list_content" />
+        tools:listitem="@layout/product_list_content" />
 
 
 </FrameLayout>
