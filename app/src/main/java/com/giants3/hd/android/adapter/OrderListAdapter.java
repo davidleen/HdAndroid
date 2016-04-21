@@ -1,28 +1,13 @@
 package com.giants3.hd.android.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.activity.ProductDetailActivity;
-import com.giants3.hd.android.fragment.OrderDetailFragment;
 import com.giants3.hd.android.fragment.OrderListFragment;
-import com.giants3.hd.android.fragment.ProductDetailFragment;
-import com.giants3.hd.appdata.AProduct;
-import com.giants3.hd.data.entity.ErpOrder;
-import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.data.utils.StringUtils;
-
-
-import java.util.ArrayList;
-import java.util.List;
+import com.giants3.hd.utils.entity.ErpOrder;
 
 /**
  * Created by david on 2016/2/14.

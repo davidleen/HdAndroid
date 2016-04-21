@@ -2,11 +2,12 @@ package com.giants3.hd.data.net;
 
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.data.entity.ErpOrder;
-import com.giants3.hd.data.entity.ErpOrderItem;
-import com.giants3.hd.data.entity.RemoteData;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
+import com.giants3.hd.utils.entity.ErpOrder;
+import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.RemoteData;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -45,6 +46,8 @@ public class ApiManager {
         }.getType());
         tokenMaps.put(ErpOrderItem.class, new TypeToken<RemoteData<ErpOrderItem>>() {
         }.getType());
+        tokenMaps.put(ProductDetail.class, new TypeToken<RemoteData<ProductDetail>>() {
+        }.getType());
     }
 
     /**
@@ -64,7 +67,8 @@ public class ApiManager {
     }
 
 
-    /**  获取产品列表
+    /**
+     * 获取产品列表
      *
      * @param name
      * @param pageIndex
@@ -95,9 +99,8 @@ public class ApiManager {
 
         Type generateType = tokenMaps.get(aClass);
 
-        if(generateType==null)
-        {
-            throw HdException.create("未配置"+aClass.getName()+"对应的通配类型");
+        if (generateType == null) {
+            throw HdException.create("未配置" + aClass.getName() + "对应的通配类型");
         }
         RemoteData<T> remoteData = GsonUtils.fromJson(result, generateType);
         return remoteData;
@@ -113,9 +116,17 @@ public class ApiManager {
 
     public RemoteData<ErpOrderItem> getOrderItemList(String orderNo) throws HdException {
 
-        String url = HttpUrl.getOrderItemList(orderNo );
+        String url = HttpUrl.getOrderItemList(orderNo);
         String result = apiConnection.getString(url);
         RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
+        return remoteData;
+    }
+
+    public RemoteData<ProductDetail> getProductDetail(long productId) throws HdException {
+
+        String url = HttpUrl.getProductDetail(productId);
+        String result = apiConnection.getString(url);
+        RemoteData<ProductDetail> remoteData = invokeByReflect(result, ProductDetail.class);
         return remoteData;
     }
 }

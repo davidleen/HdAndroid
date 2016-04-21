@@ -1,4 +1,4 @@
-package com.giants3.hd.data.entity;
+package com.giants3.hd.utils.entity;
 
 
         import java.io.Serializable;

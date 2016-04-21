@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,11 +22,9 @@ import com.giants3.hd.android.adapter.OrderItemListAdapter;
 import com.giants3.hd.android.adapter.TableHeadAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ToastHelper;
-import com.giants3.hd.android.widget.CustomScrollView;
-import com.giants3.hd.android.widget.ExpandableHeightListView;
-import com.giants3.hd.data.entity.ErpOrder;
-import com.giants3.hd.data.entity.ErpOrderItem;
-import com.giants3.hd.data.entity.RemoteData;
+import com.giants3.hd.utils.entity.ErpOrder;
+import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
@@ -327,6 +323,9 @@ public class OrderDetailFragment extends BaseFragment implements View.OnClickLis
 
         void onFragmentInteraction(Uri uri);
     }
+
+
+
 
 
     @Override

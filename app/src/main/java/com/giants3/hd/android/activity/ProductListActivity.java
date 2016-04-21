@@ -19,7 +19,7 @@ import com.giants3.hd.android.R;
 import com.giants3.hd.android.fragment.ProductDetailFragment;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AProduct;
-import com.giants3.hd.data.entity.RemoteData;
+import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 
 import com.giants3.hd.data.net.HttpUrl;

@@ -18,10 +18,9 @@ package com.giants3.hd.data.net;
 
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.data.entity.Quotation;
-import com.giants3.hd.data.entity.RemoteData;
+import com.giants3.hd.utils.entity.Quotation;
+import com.giants3.hd.utils.entity.RemoteData;
 
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +42,7 @@ public interface RestApi {
   static String API_URL_GET_PRODUCT_LIST = "/api/product/appSearch?name=%s&pageIndex=%d&pageSize=%d";
   String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
   String API_URL_GET_ORDER_ITEM_LIST = "/api/order/findOrderItems?orderNo=%s";
+  String API_URL_GET_PRODUCT_DETAIL = "/api/product/detail?id=%d";
 
   /**
    * Retrieves an {@link rx.Observable} which will emit a List of {@link Quotation}.
@@ -76,4 +76,6 @@ public interface RestApi {
   Observable getOrderList(String name, int pageIndex, int pageSize);
 
   Observable getOrderItemList(String orderNo);
+
+  Observable getProductDetail(long productId);
 }

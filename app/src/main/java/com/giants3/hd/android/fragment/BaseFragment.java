@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.giants3.hd.android.activity.BaseActivity;
 import com.giants3.hd.android.activity.LoginActivity;
+import com.giants3.hd.android.viewer.BaseViewer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,12 +50,19 @@ public class BaseFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
+        if(getViewer()!=null)
+        {
+            getViewer().onCreateView(view);
+        }
     }
 
     @Override public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        if(getViewer()!=null)
+        {
+            getViewer().onDestroyView();
+        }
     }
 
 
@@ -95,5 +103,11 @@ public class BaseFragment extends Fragment {
     {
 
 
+    }
+
+
+    protected BaseViewer getViewer()
+    {
+        return null;
     }
 }

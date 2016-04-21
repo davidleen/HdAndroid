@@ -18,21 +18,15 @@ package com.giants3.hd.data.net;
 
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.data.entity.ErpOrder;
-import com.giants3.hd.data.entity.ErpOrderItem;
-import com.giants3.hd.data.entity.Product;
-import com.giants3.hd.data.entity.Quotation;
-import com.giants3.hd.data.entity.RemoteData;
+import com.giants3.hd.utils.entity.ErpOrder;
+import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.Quotation;
+import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.exception.NetworkConnectionException;
-import com.giants3.hd.data.exception.RemoteDataException;
-import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
 
@@ -131,6 +125,16 @@ public class RestApiImpl implements RestApi {
             @Override
             public RemoteData<ErpOrderItem> invoker() throws HdException {
                 return apiManager.getOrderItemList(orderNo);
+            }
+        });
+    }
+
+    @Override
+    public Observable getProductDetail(final long productId) {
+        return create( new ApiInvoker<ProductDetail>() {
+            @Override
+            public RemoteData<ProductDetail> invoker() throws HdException {
+                return apiManager.getProductDetail(productId);
             }
         });
     }

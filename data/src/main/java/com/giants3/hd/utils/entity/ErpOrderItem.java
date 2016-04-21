@@ -1,4 +1,4 @@
-package com.giants3.hd.data.entity;
+package com.giants3.hd.utils.entity;
 
 /**
  * erp 订单货款信息

@@ -34,6 +34,9 @@ public class SettingActivity extends BaseActivity {
     @Bind(R.id.setOutUrl)
     Button setOutUrl;
 
+    @Bind(R.id.setInUrl)
+    Button setInUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,15 @@ public class SettingActivity extends BaseActivity {
                 etService.setText("Server");
             }
         });
-        setOutUrl.setVisibility(BuildConfig.DEBUG?View.VISIBLE:View.GONE);
+        setInUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etIp.setText("192.168.10.198");
+                etPort.setText("8080");
+                etService.setText("Server");
+            }
+        });
+       // setOutUrl.setVisibility(BuildConfig.DEBUG?View.VISIBLE:View.GONE);
         etIp.setText(HttpUrl.IPAddress);
         etPort.setText(HttpUrl.IPPort);
         etService.setText(HttpUrl.ServiceName);

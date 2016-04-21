@@ -1,10 +1,8 @@
 package com.giants3.hd.android.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,19 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.OrderListAdapter;
-import com.giants3.hd.android.adapter.ProductListAdapter;
 import com.giants3.hd.android.helper.ToastHelper;
-import com.giants3.hd.appdata.AProduct;
-import com.giants3.hd.data.entity.ErpOrder;
-import com.giants3.hd.data.entity.RemoteData;
+import com.giants3.hd.utils.entity.ErpOrder;
+import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import rx.Subscriber;

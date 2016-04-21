@@ -26,27 +26,20 @@ public class ProductDetailActivity extends BaseActivity {
 
     @Bind(R.id.detail_toolbar )
     Toolbar toolbar  ;
-    @Bind(R.id.fab )
-    FloatingActionButton fab ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_productlistactivity_detail);
+        setContentView(R.layout.activity_product_detail);
         setSupportActionBar(toolbar);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            
+            actionBar.setTitle("产品详情");
         }
 
         // savedInstanceState is non-null when there is fragment state
@@ -67,7 +60,7 @@ public class ProductDetailActivity extends BaseActivity {
             ProductDetailFragment fragment = new ProductDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.productlistactivity_detail_container, fragment)
+                    .add(R.id.product_detail_container, fragment)
                     .commit();
         }
     }
@@ -82,7 +75,7 @@ public class ProductDetailActivity extends BaseActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

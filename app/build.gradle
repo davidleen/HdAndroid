@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '23.0.3'
     defaultConfig {
         applicationId "com.giants3.hd.android"
         minSdkVersion 12
@@ -40,6 +40,7 @@ dependencies {
     }
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.greenrobot:java-common:2.3.1'
+    compile "com.wefika:flowlayout:0.4.1"
     compile project(':data')
     compile project(':library')
 }

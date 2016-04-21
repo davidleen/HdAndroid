@@ -83,4 +83,13 @@ public class UseCaseFactory  {
     public UseCase createOrderItemListCase(String orderNo) {
         return new GetOrderItemListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),orderNo  , restApi);
     }
+
+    /***
+     * 读取订单详情
+     * @param productId
+     * @return
+     */
+    public UseCase createGetProductDetailCase(long productId) {
+        return new GetProductDetailCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),productId  , restApi);
+    }
 }

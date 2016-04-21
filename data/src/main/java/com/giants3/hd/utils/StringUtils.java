@@ -1,4 +1,4 @@
-package com.giants3.hd.data.utils;
+package com.giants3.hd.utils;
 
 /**
  * Created by david on 2016/1/9.

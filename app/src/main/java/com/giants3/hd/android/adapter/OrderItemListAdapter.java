@@ -1,38 +1,21 @@
 package com.giants3.hd.android.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
-import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.giants3.hd.android.HdApplication;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.Utils;
 
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ImageViewerHelper;
-import com.giants3.hd.data.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.data.net.HttpUrl;
-import com.google.zxing.common.StringUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.sigseg.android.io.RandomAccessFileInputStream;
-import com.sigseg.android.map.ImageViewerActivity;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import de.greenrobot.common.io.FileUtils;
 
 /**
  * 订单货款item adapter

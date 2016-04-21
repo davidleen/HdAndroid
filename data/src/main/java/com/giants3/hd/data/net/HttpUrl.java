@@ -3,7 +3,7 @@ package com.giants3.hd.data.net;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.giants3.hd.data.utils.StringUtils;
+import com.giants3.hd.utils.StringUtils;
 
 /**
  *  网络常量
@@ -12,6 +12,7 @@ public class HttpUrl {
 
     public static final String SHARE_FILE="url_file";
 
+    public static final String CLIENT_TYPE="ANDROID";
 
     public static final  String DEFAULT_IPAddress="192.168.2.108";
     public static final String DEFAULT_IPPort="8080";
@@ -33,6 +34,7 @@ public class HttpUrl {
     public static String token="";
 
     private static Context mContext;
+    private static String versionCode="111";
 
     public static void init(Context context)
     {
@@ -120,13 +122,21 @@ public class HttpUrl {
         {
             url+="?token="+token;
         }
-//        if(url.contains("?"))
-//        {
-//            url+="&appVersion="+versionCode;
-//        }else
-//        {
-//            url+="?appVersion="+versionCode;
-//        }
+        if(url.contains("?"))
+        {
+            url+="&appVersion="+versionCode;
+        }else
+        {
+            url+="?appVersion="+versionCode;
+        }
+
+        if(url.contains("?"))
+        {
+            url+="&client="+CLIENT_TYPE;
+        }else
+        {
+            url+="?client="+CLIENT_TYPE;
+        }
 
         return url;
     }
@@ -146,5 +156,9 @@ public class HttpUrl {
 
     public static String getOrderItemList(String orderNo ) {
         return completeUrl(String.format(RestApi.API_URL_GET_ORDER_ITEM_LIST, orderNo ));
+    }
+
+    public static String getProductDetail(long productId) {
+        return completeUrl(String.format(RestApi.API_URL_GET_PRODUCT_DETAIL, productId ));
     }
 }

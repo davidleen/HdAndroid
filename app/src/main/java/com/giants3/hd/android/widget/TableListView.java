@@ -6,7 +6,7 @@
 //import android.view.ViewGroup;
 //import android.widget.*;
 //
-//import com.giants3.hd.data.entity.RemoteData;
+//import com.giants3.hd.utils.entity.RemoteData;
 //
 //
 //import junit.framework.Assert;

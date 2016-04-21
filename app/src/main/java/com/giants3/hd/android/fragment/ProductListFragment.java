@@ -1,20 +1,21 @@
 package com.giants3.hd.android.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.ProductListAdapter;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AProduct;
-import com.giants3.hd.data.entity.RemoteData;
+import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class ProductListFragment extends BaseFragment {
 
     @Bind(R.id.list)
     ListView product_list;
+    @Bind(R.id.search_text)
+    EditText search_text;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -98,7 +101,24 @@ public class ProductListFragment extends BaseFragment {
 
         product_list.setAdapter(adapter);
 
+        search_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                getActivity().getWindow().getDecorView().removeCallbacks(runnable);
+                getActivity().getWindow().getDecorView().postDelayed(runnable, 1000);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         attemptLoadList();
 
@@ -107,6 +127,17 @@ public class ProductListFragment extends BaseFragment {
     {
         attemptLoadList(0,100);
     }
+    /**
+     *
+     */
+    private Runnable runnable=new Runnable() {
+        @Override
+        public void run() {
+
+            String key= search_text.getText().toString().trim();
+            attemptLoadList(key,0,100);
+        }
+    };
 
     private void attemptLoadList(int pageIndex,int pageSize)
     {

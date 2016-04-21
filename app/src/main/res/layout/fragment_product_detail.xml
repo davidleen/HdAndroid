@@ -1,0 +1,335 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        tools:context=".fragment.ProductDetailFragment">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/photo"
+                android:layout_width="91dp"
+                android:layout_height="91dp" />
+
+            <com.wefika.flowlayout.FlowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|top">
+
+                <LinearLayout
+                    style="@style/item_group_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/title_text_style"
+                        android:text="名称" />
+
+                    <TextView
+                        android:id="@+id/name"
+
+                        style="@style/value_text_style" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/item_group_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+
+                        style="@style/title_text_style"
+                        android:text="配方" />
+
+                    <TextView
+                        android:id="@+id/pversion"
+                        style="@style/value_text_style" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/item_group_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/title_text_style"
+                        android:text="单位" />
+
+                    <TextView
+                        android:id="@+id/unit"
+                        style="@style/value_text_style" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/item_group_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+
+                        style="@style/title_text_style"
+                        android:text="类型" />
+
+                    <TextView
+                        android:id="@+id/pClass"
+                        style="@style/value_text_style" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/item_group_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+
+                        style="@style/title_text_style"
+                        android:text="包装" />
+
+                    <TextView
+                        android:id="@+id/pack"
+                        style="@style/value_text_style" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/item_group_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/title_text_style"
+                        android:text="净重KG" />
+
+                    <TextView
+                        android:id="@+id/weight"
+                        style="@style/value_text_style" />
+
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    style="@style/item_group_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/title_text_style"
+                        android:text="厂家" />
+
+                    <TextView
+                        android:id="@+id/factory"
+                        style="@style/value_text_style" />
+
+                </LinearLayout>
+
+
+
+            </com.wefika.flowlayout.FlowLayout>
+        </LinearLayout>
+
+        <com.wefika.flowlayout.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                style="@style/item_group_style"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/title_text_style"
+                    android:layout_width="@dimen/title_long_length"
+                    android:text="产品规格Cm" />
+
+                <TextView
+                    android:id="@+id/specCm"
+                    android:layout_width="@dimen/value_lengthX2"
+                    style="@style/value_text_style" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                style="@style/item_group_style"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/title_text_style"
+                    android:layout_width="@dimen/title_long_length"
+                    android:text="包装规格cm" />
+
+                <TextView
+                    android:id="@+id/packSize"
+
+                    style="@style/value_text_style"
+                    android:layout_width="@dimen/value_lengthX2"
+                    />
+
+            </LinearLayout>
+        </com.wefika.flowlayout.FlowLayout>
+
+        <com.wefika.flowlayout.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                style="@style/item_group_style"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/title_text_style"
+
+                    android:text="成本价" />
+
+                <TextView
+                    android:id="@+id/cost"
+                    style="@style/value_text_style" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                style="@style/item_group_style"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/title_text_style"
+
+                    android:text="出厂价" />
+
+                <TextView
+                    android:id="@+id/price"
+                    style="@style/value_text_style" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                style="@style/item_group_style"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/title_text_style"
+
+                    android:text="FOB$" />
+
+                <TextView
+                    android:id="@+id/fob"
+
+                    style="@style/value_text_style"
+                    android:layout_width="@dimen/value_lengthX2"
+                    />
+
+            </LinearLayout>
+        </com.wefika.flowlayout.FlowLayout>
+        <TextView
+
+            android:id="@+id/textView"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="16dp"
+            android:textIsSelectable="true" />
+
+
+        <com.giants3.hd.android.widget.ExpandableGridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </com.giants3.hd.android.widget.ExpandableGridView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_bg_selector"
+
+                android:gravity="center"
+                android:text="白胚" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_bg_selector"
+                android:gravity="center"
+                android:text="组装" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_bg_selector"
+                android:gravity="center"
+                android:text="油漆" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:background="@drawable/list_item_bg_selector"
+                android:gravity="center"
+                android:text="包装" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_bg_selector"
+                android:gravity="center"
+                android:text="材料" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_bg_selector"
+                android:gravity="center"
+                android:text="工资" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerInParent="true"
+        android:indeterminate="true" />
+
+</RelativeLayout>

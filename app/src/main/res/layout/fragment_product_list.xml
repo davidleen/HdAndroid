@@ -1,21 +1,28 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.ProductListFragment">
-
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_text"
+        android:background="@drawable/bg_gray_input_selector"
+        android:drawableLeft="@drawable/icon_search_selector"
+         />
     <ListView
         android:id="@+id/list"
         android:name="com.giants3.hd.android.ProductListActivityListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:divider="@drawable/icon_divider"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
         tools:listitem="@layout/product_list_content" />
 
 
-</FrameLayout>
+</LinearLayout>

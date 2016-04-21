@@ -15,7 +15,7 @@
  */
 package com.giants3.hd.data.cache;
 
-import com.giants3.hd.data.entity.Quotation;
+import com.giants3.hd.utils.entity.Quotation;
 
 import rx.Observable;
 
@@ -24,7 +24,7 @@ import rx.Observable;
  */
 public interface QuotationCache {
   /**
-   * Gets an {@link rx.Observable} which will emit a {@link com.giants3.hd.data.entity.Quotation}.
+   * Gets an {@link rx.Observable} which will emit a {@link com.giants3.hd.utils.entity.Quotation}.
    *
    * @param userId The user id to retrieve data.
    */

@@ -3,7 +3,6 @@ package com.giants3.hd.android.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -11,12 +10,6 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.Utils;
 import com.giants3.hd.android.entity.TableData;
-import com.giants3.hd.android.fragment.OrderListFragment;
-import com.giants3.hd.data.entity.ErpOrder;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 表格头部

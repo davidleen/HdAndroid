@@ -18,7 +18,7 @@ package com.giants3.hd.data.cache;
 import android.content.Context;
 
 
-import com.giants3.hd.data.entity.Quotation;
+import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.data.exception.QuotationNotFoundException;
 import com.giants3.hd.data.utils.GsonUtils;
 

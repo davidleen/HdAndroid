@@ -26,7 +26,7 @@ import com.giants3.hd.android.fragment.QuotationListFragment;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.data.entity.ErpOrder;
+import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 
