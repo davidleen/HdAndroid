@@ -41,7 +41,7 @@ public class TableData {
     public static TableData resolveData(Context context, int arrayResourceId)
     {
         TableData tableData=new TableData();
-        String[] data=context.getResources().getStringArray(R.array.table_head_order_item);
+        String[] data=context.getResources().getStringArray(arrayResourceId);
         int size=data.length;
         tableData.size=size;
         tableData.fields=new String[size];

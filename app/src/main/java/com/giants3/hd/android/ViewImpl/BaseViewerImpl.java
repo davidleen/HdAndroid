@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 public  abstract  class BaseViewerImpl implements BaseViewer{
 
 
-    private Context context;
+    protected Context context;
     public BaseViewerImpl( Context context)
     {
 

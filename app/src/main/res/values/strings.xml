@@ -47,6 +47,62 @@
         <item>总立方数||zxgtj||1||60</item>
         <item>产品尺寸||hpgg||1||120</item>
     </string-array>
+
+
+
+    <!--产品材料清单（白培 组装） 表格-->
+    <string-array name="table_head_product_material_item">
+        <item>序号||itemIndex||1||60</item>
+
+        <!--2表示图片类型-->
+        <item>材料编码||materialCode||1||91</item>
+        <item>材料名称||materialName||1||91</item>
+        <item>单位用量||quantity||1||60</item>
+        <item>长||pLong||1||40</item>
+        <item>宽||pWidth||1||40</item>
+        <item>高||pHeight||1||40</item>
+        <item>毛长||wLong||1||40</item>
+        <item>毛宽||wWidth||1||40</item>
+        <item>毛高||wHeight||1||40</item>
+        <item>配额||quota||1||80</item>
+        <item>单位||unitName||1||40</item>
+        <item>利用率||available||1||60</item>
+        <item>类型||type||1||40</item>
+        <item>单价||price||1||60</item>
+        <item>金额||amount||1||80</item>
+        <item>分件备注||memo||1||120</item>
+    </string-array>
+
+
+
+    <!--产品材料清单（包装） 表格-->
+    <string-array name="table_head_product_pack_material_item">
+        <item>序号||itemIndex||1||60</item>
+
+        <!-- 比白培组装 多三列 -->
+        <item>材料类别||packMaterialClass||1||80</item>
+        <item>材质||packMaterialType||1||60</item>
+        <item>位置||packMaterialPosition||1||60</item>
+        <!-- 比白培组装 多三列 -->
+
+
+        <item>材料编码||materialCode||1||91</item>
+        <item>材料名称||materialName||1||91</item>
+        <item>单位用量||quantity||1||60</item>
+        <item>长||pLong||1||40</item>
+        <item>宽||pWidth||1||40</item>
+        <item>高||pHeight||1||40</item>
+        <item>毛长||wLong||1||40</item>
+        <item>毛宽||wWidth||1||40</item>
+        <item>毛高||wHeight||1||40</item>
+        <item>配额||quota||1||80</item>
+        <item>单位||unitName||1||40</item>
+        <item>利用率||available||1||60</item>
+        <item>类型||type||1||40</item>
+        <item>单价||price||1||60</item>
+        <item>金额||amount||1||80</item>
+        <item>分件备注||memo||1||120</item>
+    </string-array>
     <string name="title_activity_picture_view">PictureViewActivity</string>
     <string name="title_activity_long_text">LongText</string>
 
