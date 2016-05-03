@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
+import com.giants3.hd.android.presenter.ProductDetailPresenter;
 import com.giants3.hd.android.viewer.ProductDetailViewer;
 import com.giants3.hd.android.widget.ExpandableHeightListView;
 import com.giants3.hd.data.net.HttpUrl;
@@ -90,8 +91,21 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
     @Bind(R.id.panel_pack)
     TextView panel_pack;
 
+    @Bind(R.id.panel_material_wage)
+    View panel_material_wage;
+
+    @Bind(R.id.segment_material)
+    View segment_material;
+
+    @Bind(R.id.segment_wage)
+    View segment_wage;
+
     //四合一控件 用作选中状态控制
+    @Bind({R.id.panel_conceptus,R.id.panel_assemble,R.id.panel_paint,R.id.panel_pack})
     View[] panels;
+    //二合一 材料工资  选中状态控制
+    @Bind({R.id.segment_material,R.id.segment_wage})
+    View[] materialWage;
     @Bind(R.id.product_item_list)
     ExpandableHeightListView listView;
 
@@ -102,13 +116,14 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
     ItemListAdapter adapter;
 
-    private ProductDetail productDetail;
+
 
     //表格模型 对应的数据结构
     private TableData productMaterialTableData;
      private TableData productWageTableData;
     private TableData productPaintTableData;
      private TableData productPackMaterialTableData;
+    private ProductDetailPresenter productDetailPresenter;
 
 
     public ProductDetailViewerImpl(Context context) {
@@ -116,8 +131,8 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
         productMaterialTableData = TableData.resolveData(context, R.array.table_head_product_material_item);
-         productWageTableData=TableData.resolveData(context,R.array.table_head_order_item);
-        productPaintTableData=TableData.resolveData(context,R.array.table_head_order_item);
+         productWageTableData=TableData.resolveData(context,R.array.table_head_product_wage_item);
+        productPaintTableData=TableData.resolveData(context,R.array.table_head_product_paint_item);
         productPackMaterialTableData=TableData.resolveData(context,R.array.table_head_product_pack_material_item);
         adapter = new ItemListAdapter(context);
     }
@@ -128,11 +143,15 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         super.onCreateView(v);
 
 
-        panels=new View[]{panel_paint,panel_pack,panel_conceptus,panel_assemble};
+
         panel_paint.setOnClickListener(this);
         panel_pack.setOnClickListener(this);
         panel_conceptus.setOnClickListener(this);
         panel_assemble.setOnClickListener(this);
+
+        segment_material.setOnClickListener(this);
+
+        segment_wage.setOnClickListener(this);
         showMore.setOnClickListener(this);
 
         listView.setAdapter(adapter);
@@ -144,7 +163,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
     @Override
     public void bindData(ProductDetail productDetail) {
 
-        this.productDetail=productDetail;
+
 
         final Product product = productDetail.product;
         String url = product.url;
@@ -207,13 +226,94 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         });
 
 
-        panel_conceptus.performClick();
-//        adapter.setTableData(productMaterialTableData);
-//
-//
-//        setData(productDetail.conceptusMaterials);
 
 
+    }
+
+    @Override
+    public void setPresenter(ProductDetailPresenter productDetailPresenter) {
+
+        this.productDetailPresenter = productDetailPresenter;
+    }
+
+    @Override
+    public void showConceptusMaterial(ProductDetail productDetail) {
+
+        setPanelSelected(panel_conceptus);
+        setMaterialWageSelected(segment_material);
+        panel_material_wage.setVisibility(View.VISIBLE);
+        adapter.setTableData(productMaterialTableData);
+        setData(productDetail.conceptusMaterials);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showConceptusWage(ProductDetail productDetail) {
+        setPanelSelected(panel_conceptus);
+        setMaterialWageSelected(segment_wage);
+        panel_material_wage.setVisibility(View.VISIBLE);
+        adapter.setTableData(productWageTableData);
+        setData(productDetail.conceptusWages);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showAssembleMaterial(ProductDetail productDetail) {
+
+
+        setPanelSelected(panel_assemble);
+        setMaterialWageSelected(segment_material);
+        panel_material_wage.setVisibility(View.VISIBLE);
+
+        adapter.setTableData(productMaterialTableData);
+        setData(productDetail.assembleMaterials);
+        listView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void showAssembleWage(ProductDetail productDetail) {
+        setPanelSelected(panel_assemble);
+        setMaterialWageSelected(segment_wage);
+        panel_material_wage.setVisibility(View.VISIBLE);
+
+
+        adapter.setTableData(productWageTableData);
+        setData(productDetail.assembleWages);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showPaintMaterialWage(ProductDetail productDetail) {
+        setPanelSelected(panel_paint);
+        panel_material_wage.setVisibility(View.GONE);
+
+        adapter.setTableData(productPaintTableData);
+        setData(productDetail.paints);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showPackMaterial(ProductDetail productDetail) {
+
+        setPanelSelected(panel_pack);
+        setMaterialWageSelected(segment_material);
+        panel_material_wage.setVisibility(View.VISIBLE);
+
+        adapter.setTableData(productPackMaterialTableData);
+        setData(productDetail.packMaterials);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showPackWage(ProductDetail productDetail) {
+        setPanelSelected(panel_pack);
+        setMaterialWageSelected(segment_wage);
+        panel_material_wage.setVisibility(View.VISIBLE);
+
+        adapter.setTableData(productWageTableData);
+        setData(productDetail.packWages);
+        listView.setAdapter(adapter);
     }
 
     List<Object> objects = new ArrayList<>(100);
@@ -230,32 +330,6 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         adapter.setDataArray(objects);
     }
 
-//    private  View generateListHead(TableData tableData)
-//    {
-//
-//        LinearLayout linearLayout = new LinearLayout(context);
-//        linearLayout.setGravity(Gravity.CENTER);
-//        int totalWidth = 0;
-//        if (tableData != null) {
-//
-//            for (int i = 0; i < tableData.size; i++) {
-//                TextView textView = new TextView(context);
-//                textView.setGravity(Gravity.CENTER);
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width[i], Utils.dp2px(40));
-//                textView.setText(tableData.headNames[i]);
-//                linearLayout.addView(textView, layoutParams);
-//                totalWidth+=tableData.width[i];
-//            }
-//        }
-//        linearLayout.setDividerDrawable(context.getResources().getDrawable(R.drawable.icon_divider));
-//        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-////        View tempView=new View(context);
-////        tempView.setLayoutParams(new AbsListView.LayoutParams(totalWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
-//
-//
-//        return linearLayout;
-//
-//    }
 
 
     private CharSequence addUnderLineStringForTextView(String underLine) {
@@ -272,12 +346,14 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
     @Override
     public void hideWaiting() {
+        if(loading!=null)
         loading.setVisibility(View.GONE);
 
     }
 
     @Override
     public void onClick(View v) {
+        int id=v.getId();
         switch (v.getId()) {
 
 
@@ -288,37 +364,55 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
                 break;
 
             case R.id.panel_conceptus:
-                adapter.setTableData(productMaterialTableData);
-                setData(productDetail.conceptusMaterials);
-                listView.setAdapter(adapter);
-                setPanelSelected(v);
-                break;
             case R.id.panel_assemble:
-                adapter.setTableData(productMaterialTableData);
-                setData(productDetail.assembleMaterials);
-                listView.setAdapter(adapter);
-                setPanelSelected(v);
-                break;
             case R.id.panel_pack:
-                adapter.setTableData(productPackMaterialTableData);
-                setData(productDetail.packMaterials);
-                listView.setAdapter(adapter);
-                setPanelSelected(v);
+            case R.id.panel_paint: {
+                //找出点击index
+                int index=-1;
+                for (int i = 0; i < panels.length; i++) {
+                    if(v==panels[i])
+                    {
+                        index=i;
+                        break;
+                    }
+                }
+                if(index!=-1)
+                {
+                    productDetailPresenter.onPanelForClick(index);
+                }
+
+
+            }
                 break;
-            case R.id.panel_paint:
-                adapter.setTableData(productPaintTableData);
-                setData(productDetail.paints);
-                listView.setAdapter(adapter);
-                setPanelSelected(v);
+
+            case R.id.segment_material:
+
+            case R.id.segment_wage:
+
+                    productDetailPresenter.onMaterialWageClick(id==R.id.segment_material?0:1);
+
+
                 break;
         }
     }
 
+    /**
+     * 设置面板选中
+     * @param v
+     */
     private void setPanelSelected(View v)
     {
         for(View view:panels)
         {
 
+            view.setSelected(v==view);
+        }
+    }
+
+    private void setMaterialWageSelected(View v)
+    {
+        for(View view:materialWage)
+        {
             view.setSelected(v==view);
         }
     }

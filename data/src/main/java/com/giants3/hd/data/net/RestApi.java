@@ -40,6 +40,7 @@ public interface RestApi {
   static final String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
 
   static String API_URL_GET_PRODUCT_LIST = "/api/product/appSearch?name=%s&pageIndex=%d&pageSize=%d";
+  static String API_URL_GET_QUOTATION_LIST = "/api/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d";
   String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
   String API_URL_GET_ORDER_ITEM_LIST = "/api/order/findOrderItems?orderNo=%s";
   String API_URL_GET_PRODUCT_DETAIL = "/api/product/detail?id=%d";
@@ -78,4 +79,7 @@ public interface RestApi {
   Observable getOrderItemList(String orderNo);
 
   Observable getProductDetail(long productId);
+
+  Observable getQuotationList(String name, int pageIndex, int pageSize);
+
 }

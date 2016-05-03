@@ -7,6 +7,7 @@ import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -48,6 +49,11 @@ public class ApiManager {
         }.getType());
         tokenMaps.put(ProductDetail.class, new TypeToken<RemoteData<ProductDetail>>() {
         }.getType());
+
+        tokenMaps.put(Quotation.class, new TypeToken<RemoteData<Quotation>>() {
+        }.getType());
+
+
     }
 
     /**
@@ -127,6 +133,14 @@ public class ApiManager {
         String url = HttpUrl.getProductDetail(productId);
         String result = apiConnection.getString(url);
         RemoteData<ProductDetail> remoteData = invokeByReflect(result, ProductDetail.class);
+        return remoteData;
+    }
+
+    public RemoteData<Quotation> getQuotationList(String name, int pageIndex, int pageSize) throws HdException {
+
+        String url = HttpUrl.getQuotationList(name,pageIndex,pageSize);
+        String result = apiConnection.getString(url);
+        RemoteData<Quotation> remoteData = invokeByReflect(result, Quotation.class);
         return remoteData;
     }
 }

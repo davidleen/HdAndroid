@@ -28,7 +28,7 @@
     <string name="product_list">产品列表</string>
     <string name="quotate_list">报价列表</string>
     <string name="order_list">订单列表</string>
-
+    <!--订单表结构-->
     <string-array name="table_head_order_item">
         <item>序号||itm||1||60</item>
         <item>图片||url||2||91</item>
@@ -103,6 +103,56 @@
         <item>金额||amount||1||80</item>
         <item>分件备注||memo||1||120</item>
     </string-array>
+
+
+    <!--产品油漆清单 表格-->
+    <string-array name="table_head_product_paint_item">
+        <item>序号||itemIndex||1||60</item>
+
+        <!--2表示图片类型-->
+        <item>工序代码||processCode||1||80</item>
+        <item>工序名称||processName||1||80</item>
+        <item>工价||processPrice||1||60</item>
+        <item>材料编码||materialCode||1||80</item>
+        <item>材料名称||materialName||1||80</item>
+        <item>配料比例||ingredientRatio||1||60</item>
+        <item>单位||unitName||1||40</item>
+        <item>用量||quantity||1||60</item>
+        <item>物料单价||price||1||60</item>
+        <item>物料费用||cost||1||60</item>
+        <item>配料量||materialQuantity||1||60</item>
+        <item>稀释剂||ingredientQuantity||1||60</item>
+        <item>备注||memo||1||120</item>
+
+    </string-array>
+
+    <!--产品工资表 表格-->
+    <string-array name="table_head_product_wage_item">
+        <item>序号||itemIndex||1||60</item>
+
+        <!--2表示图片类型-->
+        <item>工序编码||processCode||1||100</item>
+        <item>工序名称||processName||1||100</item>
+        <item>工价||price||1||80</item>
+        <item>金额||amount||1||80</item>
+        <item>备注||memo||1||150</item>
+    </string-array>
+
+    <!--产品工资表 表格-->
+    <string-array name="table_head_quotation_list">
+        <item>报价日期||qDate||1||120</item>
+
+
+        <item>报价单号||qNumber||1||100</item>
+        <item>客户||customerName||1||100</item>
+        <item>有效日期||vDate||1||120</item>
+        <item>币别||currency||1||80</item>
+        <item>业务员||salesman||1||100</item>
+        <item>报价类型||quotationTypeName||1||100</item>
+        <item>审核||isVerified||1||60</item>
+        <item>备注||memo||1||200</item>
+    </string-array>
+
     <string name="title_activity_picture_view">PictureViewActivity</string>
     <string name="title_activity_long_text">LongText</string>
 

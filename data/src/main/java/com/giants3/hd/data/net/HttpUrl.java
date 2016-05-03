@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 import com.giants3.hd.utils.StringUtils;
 
+import java.net.URLEncoder;
+
 /**
  *  网络常量
  */
@@ -30,7 +32,7 @@ public class HttpUrl {
 
     public static final String BASE_URL_FORMAT="http://%s:%s/%s/";
     public static String BASE_URL="";
-    static final String API_LOGIN ="/api/authority/aLogin" ;
+    static final String API_LOGIN ="/api/authority/aLogin2" ;
     public static String token="";
 
     private static Context mContext;
@@ -102,6 +104,7 @@ public class HttpUrl {
 
     public static String completeUrl(String url)
     {
+        if(StringUtils.isEmpty(url))return "";
         return additionInfo(BASE_URL+url );
     }
 
@@ -160,5 +163,9 @@ public class HttpUrl {
 
     public static String getProductDetail(long productId) {
         return completeUrl(String.format(RestApi.API_URL_GET_PRODUCT_DETAIL, productId ));
+    }
+
+    public static String getQuotationList(String name, int pageIndex, int pageSize) {
+        return completeUrl(String.format(RestApi.API_URL_GET_QUOTATION_LIST, URLEncoder.encode( name), pageIndex, pageSize));
     }
 }

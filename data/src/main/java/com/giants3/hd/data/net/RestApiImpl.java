@@ -184,4 +184,24 @@ public class RestApiImpl implements RestApi {
         return true;
 
     }
+
+
+    /**
+     * 读取产品列表
+     *
+     * @param name
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Observable<RemoteData<Quotation>> getQuotationList(final String name, final int pageIndex, final int pageSize) {
+
+        return create( new ApiInvoker<Quotation>() {
+            @Override
+            public RemoteData<Quotation> invoker() throws HdException {
+                return apiManager.getQuotationList(name, pageIndex, pageSize);
+            }
+        });
+    }
 }

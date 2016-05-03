@@ -1,32 +1,27 @@
 package com.giants3.hd.android.fragment;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.giants3.hd.android.R;
 import com.giants3.hd.android.ViewImpl.ProductDetailViewerImpl;
 import com.giants3.hd.android.activity.ProductDetailActivity;
 import com.giants3.hd.android.activity.ProductListActivity;
-import com.giants3.hd.android.R;
 import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.giants3.hd.android.presenter.ProductDetailPresenter;
 import com.giants3.hd.android.viewer.BaseViewer;
 import com.giants3.hd.android.viewer.ProductDetailViewer;
 import com.giants3.hd.appdata.AProduct;
-import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.utils.entity.ProductDetail;
-import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.RemoteData;
 
-import butterknife.Bind;
 import rx.Subscriber;
 
 
@@ -36,7 +31,7 @@ import rx.Subscriber;
  * in two-pane mode (on tablets) or a {@link ProductDetailActivity}
  * on handsets.
  */
-public class ProductDetailFragment extends BaseFragment {
+public class ProductDetailFragment extends BaseFragment implements ProductDetailPresenter {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -44,11 +39,10 @@ public class ProductDetailFragment extends BaseFragment {
     public static final String ARG_ITEM = "item";
 
 
-
-
     AProduct aProduct;
 
     private ProductDetailSingleton productDetailSingleton;
+
 
     ProductDetailViewer viewer;
 
@@ -78,17 +72,18 @@ public class ProductDetailFragment extends BaseFragment {
 
 
             try {
-                aProduct=GsonUtils.fromJson(getArguments().getString(ARG_ITEM),AProduct.class);
+                aProduct = GsonUtils.fromJson(getArguments().getString(ARG_ITEM), AProduct.class);
             } catch (HdException e) {
                 e.printStackTrace();
                 ToastHelper.show("参数异常");
                 getActivity().finish();
             }
-            productDetailSingleton=ProductDetailSingleton.getInstance();
+            productDetailSingleton = ProductDetailSingleton.getInstance();
 
         }
 
-        viewer=new ProductDetailViewerImpl(activity);
+        viewer = new ProductDetailViewerImpl(activity);
+        viewer.setPresenter(this);
     }
 
     @Override
@@ -105,7 +100,6 @@ public class ProductDetailFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
         loadProductDetail(aProduct.id);
     }
 
@@ -115,36 +109,33 @@ public class ProductDetailFragment extends BaseFragment {
         return viewer;
     }
 
-    private void loadProductDetail(long productId)
-    {
+    private void loadProductDetail(long productId) {
         viewer.showWaiting();
-        UseCaseFactory.getInstance().createGetProductDetailCase(productId ).execute(new Subscriber<RemoteData<ProductDetail>>() {
+        UseCaseFactory.getInstance().createGetProductDetailCase(productId).execute(new Subscriber<RemoteData<ProductDetail>>() {
             @Override
             public void onCompleted() {
                 viewer.hideWaiting();
             }
+
             @Override
             public void onError(Throwable e) {
-               viewer.hideWaiting();
+                viewer.hideWaiting();
                 ToastHelper.show(e.getMessage());
             }
 
             @Override
             public void onNext(RemoteData<ProductDetail> remoteData) {
-                if(remoteData.isSuccess()) {
-
+                if (remoteData.isSuccess()) {
 
 
                     productDetailSingleton.setProductDetail(remoteData.datas.get(0));
                     viewer.bindData(productDetailSingleton.getProductDetail());
+                    viewer.showConceptusMaterial(productDetailSingleton.getProductDetail());
 
 
-
-                }else
-                {
+                } else {
                     ToastHelper.show(remoteData.message);
-                    if(remoteData.code==RemoteData.CODE_UNLOGIN)
-                    {
+                    if (remoteData.code == RemoteData.CODE_UNLOGIN) {
                         startLoginActivity();
                     }
                 }
@@ -153,4 +144,65 @@ public class ProductDetailFragment extends BaseFragment {
 
     }
 
+    //当前材料清单显示标记
+    public int panelIndex, subIndex;
+
+    @Override
+    public void onPanelForClick(int index) {
+
+        //无改变 不响应
+        if (panelIndex == index)
+
+            return;
+        panelIndex = index;
+        showBaseOnIndex();
+
+    }
+
+    @Override
+    public void onMaterialWageClick(int index) {
+//无改变 不响应
+        if (subIndex == index)
+            return;
+        subIndex = index;
+        showBaseOnIndex();
+    }
+
+    private void showBaseOnIndex() {
+
+
+        switch (panelIndex) {
+
+            case 0:
+                if (subIndex == 0) {
+                    viewer.showConceptusMaterial(productDetailSingleton.getProductDetail());
+                } else {
+                    viewer.showConceptusWage(productDetailSingleton.getProductDetail());
+                }
+
+                break;
+
+            case 1:
+                ;
+                if (subIndex == 0) {
+                    viewer.showAssembleMaterial(productDetailSingleton.getProductDetail());
+                } else {
+                    viewer.showAssembleWage(productDetailSingleton.getProductDetail());
+                }
+                break;
+            case 2:
+                ;
+                viewer.showPaintMaterialWage(productDetailSingleton.getProductDetail());
+                break;
+            case 3:
+                if (subIndex == 0) {
+                    viewer.showPackMaterial(productDetailSingleton.getProductDetail());
+                } else {
+                    viewer.showPackWage(productDetailSingleton.getProductDetail());
+                }
+                break;
+
+        }
+
+    }
 }

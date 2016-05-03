@@ -92,4 +92,9 @@ public class UseCaseFactory  {
     public UseCase createGetProductDetailCase(long productId) {
         return new GetProductDetailCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),productId  , restApi);
     }
+
+    public UseCase createGetQuotationList(String name, int pageIndex, int pageSize) {
+
+        return new GetQuotationListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),name,pageIndex,pageSize  , restApi);
+    }
 }

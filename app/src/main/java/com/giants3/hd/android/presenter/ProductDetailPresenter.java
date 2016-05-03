@@ -4,4 +4,19 @@ package com.giants3.hd.android.presenter;
  * Created by david on 2016/4/13.
  */
 public interface ProductDetailPresenter  extends  BasePresenter{
+
+
+    /**
+     * 白胚 组装 油漆 包装 模板四选一 点击事件
+     * @param index
+     */
+    public void onPanelForClick( int index);
+
+
+    /**
+     * 工资材料 面板点击
+     * @param index
+     */
+    public void onMaterialWageClick(int index);
+
 }

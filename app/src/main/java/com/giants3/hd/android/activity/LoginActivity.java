@@ -35,6 +35,7 @@ import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.appdata.QRProduct;
+import com.giants3.hd.crypt.DigestUtils;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
@@ -252,7 +253,9 @@ public class LoginActivity extends BaseActivity {
             showProgress(true);
             Map<String,String> map=new HashMap<>();
             map.put("userName",userName);
-            map.put("password",password);
+
+
+            map.put("password",  DigestUtils.md5(password));
             map.put("client" ,"ANDROID");
             map.put("version","1.1.0");
             UseCaseFactory.getInstance().createLogin(map).execute(new Subscriber<RemoteData<AUser>>() {

@@ -13,7 +13,11 @@ import com.giants3.hd.android.Utils;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
+import com.giants3.hd.utils.StringUtils;
+import com.giants3.hd.utils.entity.Quotation;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
 
 /**
  * 表格item adapter
@@ -23,8 +27,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 /**
  *
  */
-public class ItemListAdapter
-        extends AbstractAdapter<Object> {
+public class ItemListAdapter<T>
+        extends AbstractAdapter< T> {
 
 
     private static final int DEFAULT_ROW_HEIGHT = Utils.dp2px(91);
@@ -69,7 +73,7 @@ public class ItemListAdapter
     }
 
     @Override
-    protected Bindable<Object> createViewHolder(int itemViewType) {
+    protected Bindable<T> createViewHolder(int itemViewType) {
 
         switch (itemViewType) {
             case 0://表头
@@ -93,8 +97,9 @@ public class ItemListAdapter
         ViewHolder viewHolder = new ViewHolder(linearLayout, tableData);
         linearLayout.setGravity(Gravity.CENTER);
 
-        viewHolder.views = new View[tableData.size];
+
         if (tableData != null)
+            viewHolder.views = new View[tableData.size];
             for (int i = 0; i < tableData.size; i++) {
 
 
@@ -141,7 +146,7 @@ public class ItemListAdapter
 
 
     @Override
-    public Object getItem(int position) {
+    public T getItem(int position) {
 
         if (position == 0) return null;
         return super.getItem(position - 1);
@@ -160,7 +165,10 @@ public class ItemListAdapter
 
     }
 
-    public class HeadViewHolder implements Bindable<Object> {
+
+
+
+    public class HeadViewHolder implements Bindable<T> {
 
 
         View mView;
@@ -172,7 +180,7 @@ public class ItemListAdapter
 
 
         @Override
-        public void bindData(AbstractAdapter<Object> adapter, Object data, int position) {
+        public void bindData(AbstractAdapter<T> adapter, T data, int position) {
 
         }
 
@@ -183,7 +191,7 @@ public class ItemListAdapter
     }
 
 
-    public class ViewHolder implements Bindable<Object> {
+    public class ViewHolder implements Bindable<T> {
 
         public View[] views;
         public View mView;
@@ -215,7 +223,7 @@ public class ItemListAdapter
 
                     ImageView imageView = (ImageView) views[i];
                     imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    String url = String.valueOf(o);
+                    String url =o==null?"": String.valueOf(o);
                     ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(url), imageView);
                     imageView.setTag(url);
                     imageView.setOnClickListener(listener);
@@ -223,7 +231,9 @@ public class ItemListAdapter
                 } else {
                     TextView textView = (TextView) views[i];
 
-                    textView.setText(String.valueOf(o));
+
+
+                    textView.setText(o==null?"":String.valueOf(o));
                 }
 
 
@@ -234,7 +244,7 @@ public class ItemListAdapter
 
 
         @Override
-        public void bindData(AbstractAdapter<Object> adapter, Object data, int position) {
+        public void bindData(AbstractAdapter<T> adapter, T data, int position) {
             bind(data);
         }
 

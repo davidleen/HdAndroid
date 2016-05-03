@@ -24,6 +24,9 @@ public  abstract  class BaseViewerImpl implements BaseViewer{
 
 
 
+
+
+
     @Override
     public void onCreateView(View v)
     {

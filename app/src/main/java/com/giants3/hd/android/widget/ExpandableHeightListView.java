@@ -1,5 +1,6 @@
 package com.giants3.hd.android.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class ExpandableHeightListView extends ListView {
         return expanded;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (isExpanded()) {
@@ -32,7 +34,8 @@ public class ExpandableHeightListView extends ListView {
             super.onMeasure(widthMeasureSpec, expandSpec);
 
             ViewGroup.LayoutParams params = getLayoutParams();
-            params.height = getMeasuredHeight();
+            params.height =  getMeasuredHeight()  ;
+
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
