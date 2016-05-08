@@ -13,131 +13,124 @@ import java.util.List;
 import butterknife.ButterKnife;
 
 /**
-     * a abstract class do some job to reduce code about bind view to holder and
-     * easy on use baseAdapter
+ * a abstract class do some job to reduce code about bind view to holder and
+ * easy on use baseAdapter
+ *
+ * @param <D>
+ * @author davidleen29
+ * @创建时间 2013年11月14日
+ */
+public abstract class AbstractAdapter<D> extends BaseAdapter {
+
+    protected Context context;
+    protected String TAG;
+    protected LayoutInflater inflater;
+    protected List<D> datas;
+
+    public AbstractAdapter(Context context) {
+        this(context, null);
+    }
+
+    /**
+     * set the datas Arrays and notify update
      *
-     * @author davidleen29
-     * @创建时间 2013年11月14日
-     * @param <D>
+     * @param arrayData
      */
-    public abstract class AbstractAdapter<D> extends BaseAdapter {
-
-        protected Context context;
-        protected String TAG;
-        protected LayoutInflater inflater;
-        protected List<D> datas;
-
-        public AbstractAdapter(Context context) {
-            this(context, null);
+    public void setDataArray(List<D> arrayData) {
+        datas.clear();
+        if (arrayData != null) {
+            datas.addAll(arrayData);
         }
 
-        /**
-         * set the datas Arrays and notify update
-         *
-         * @param arrayData
-         */
-        public void setDataArray(List<D> arrayData) {
-            datas.clear();
-            if (arrayData != null) {
-                datas.addAll(arrayData);
-            }
+        notifyDataSetChanged();
+    }
 
-            notifyDataSetChanged();
+    /**
+     * constructor
+     *
+     * @param context
+     * @param initDatas
+     */
+    public AbstractAdapter(Context context, List<D> initDatas) {
+
+        this.context = context;
+        TAG = this.getClass().getName();
+        if (initDatas == null) {
+            this.datas = new ArrayList<D>();
+        } else {
+            this.datas = initDatas;
         }
 
-        /**
-         * constructor
-         *
-         * @param context
-         * @param initDatas
-         */
-        public AbstractAdapter(Context context, List<D> initDatas) {
+        inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
 
-            this.context = context;
-            TAG = this.getClass().getName();
-            if (initDatas == null) {
-                this.datas = new ArrayList<D>();
-            } else {
-                this.datas = initDatas;
-            }
+    @Override
+    public int getCount() {
 
-            inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return datas.size();
+    }
+
+    @Override
+    public D getItem(int position) {
+
+        return datas.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+
+        return position;
+    }
+
+
+    public void addItem(D data) {
+
+        datas.add(data);
+    }
+
+
+    public void removeItem(D data) {
+
+        datas.remove(data);
+    }
+
+
+    /**
+     * get the binder base on viewType;
+     * 获取对应itemType的控件集合绑定工具
+     *
+     * @param itemViewType
+     * @return
+     */
+    protected abstract Bindable<D> createViewHolder(int itemViewType);
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        int type = getItemViewType(position);
+
+        Bindable<D> holder;
+        if (convertView == null) {
+
+
+            Bindable<D> obj = createViewHolder(type);
+            convertView = obj.getContentView();
+            convertView.setTag(obj);
         }
+        holder = (Bindable<D>) convertView.getTag();
+        D data = getItem(position);
 
-        @Override
-        public int getCount() {
+        holder.bindData(this, data, position);
+        return convertView;
 
-            return datas.size();
-        }
-
-        @Override
-        public D getItem(int position) {
-
-            return datas.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-
-            return position;
-        }
-
-
-
-
-            public void addItem(D data)
-            {
-
-                datas.add(data);
-            }
-
-
-        public void removeItem(D data)
-        {
-
-            datas.remove(data);
-        }
-
-
-
-
-        /**
-         * get the binder base on viewType;
-         * 获取对应itemType的控件集合绑定工具
-         *
-         * @param itemViewType
-         * @return
-         */
-        protected abstract Bindable<D> createViewHolder(int itemViewType);
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            int type = getItemViewType(position);
-
-            Bindable<D> holder;
-            if (convertView == null) {
-
-
-                Bindable<D> obj = createViewHolder(type);
-                convertView= obj.getContentView();
-                convertView.setTag(obj);
-            }
-            holder = (Bindable<D>) convertView.getTag();
-            D data = getItem(position);
-
-            holder.bindData(this,data, position);
-            return convertView;
-
-        }
+    }
 
     public List<D> getDatas() {
         return datas;
     }
 
-    public   void addDataArray(List<D> arrayData)
-    {
+    public void addDataArray(List<D> arrayData) {
 
         if (arrayData != null) {
             datas.addAll(arrayData);
@@ -148,31 +141,32 @@ import butterknife.ButterKnife;
     }
 
     /**
-         * a bindable interface with a bindData method
-         * 数据绑定类 包含绑定的控件成员 绑定方法。
+     * a bindable interface with a bindData method
+     * 数据绑定类 包含绑定的控件成员 绑定方法。
+     *
+     * @param <D>
+     * @author davidleen29
+     * @创建时间 2013年11月13日
+     */
+
+
+    public interface Bindable<D> {
+        /**
+         * bind the data message
          *
-         * @author davidleen29
-         * @创建时间 2013年11月13日
-         * @param <D>
+         * @param data     the data params
+         * @param position the position of data in the datasArray
          */
+        public abstract void bindData(AbstractAdapter<D> adapter, D data, int position);
+
+        public abstract View getContentView();
+
+    }
+
+    protected Context getContext() {
+        return context;
+    }
 
 
-        public interface Bindable<D>  {
-            /**
-             * bind the data message
-             *
-             * @param data
-             *            the data params
-             * @param position
-             *            the position of data in the datasArray
-             */
-            public abstract void bindData(AbstractAdapter<D> adapter, D data, int position);
 
-            public  abstract  View getContentView();
-
-        }
-
-        protected Context getContext() {
-            return context;
-        }
 }

@@ -1,14 +1,13 @@
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.QuotationDetailFragment">
 
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
 
 
-
-        tools:context=".fragment.OrderDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -169,7 +168,6 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
 
         <LinearLayout
@@ -223,29 +221,29 @@
                 android:layout_marginTop="20dp"
 
                 />
+
             <TextView
                 android:id="@+id/more_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="......"
-                android:layout_marginLeft="30dp"
-                android:layout_below="@+id/memo"
                 android:layout_alignParentLeft="true"
-                />
+                android:layout_below="@+id/memo"
+                android:layout_marginLeft="30dp"
+                android:text="......" />
+
             <TextView
                 android:id="@+id/showMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 android:text="查看详细"
-               android:layout_below="@+id/memo"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/memo"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/button_white_selector"
-                android:paddingLeft="5dp"
-                android:paddingTop="2dp"
                 android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:layout_alignParentRight="true"
-                />
+                android:paddingTop="2dp"
+                android:text="查看详细" />
 
 
         </RelativeLayout>
@@ -255,23 +253,25 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scrollbars="none"
+            android:fillViewport="true"
 
-            android:fillViewport="true">
+            android:scrollbars="none">
 
-            <ListView
-                android:id="@+id/order_item_list"
+            <com.giants3.hd.android.widget.ExpandableHeightListView
+                android:id="@+id/listView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:divider="@drawable/icon_divider"
+                android:fillViewport="false"
                 android:footerDividersEnabled="true"
                 android:headerDividersEnabled="true"
 
 
-                android:fillViewport="false" />
+                android:orientation="vertical" />
 
         </HorizontalScrollView>
 
 
     </LinearLayout>
+
+</ScrollView>

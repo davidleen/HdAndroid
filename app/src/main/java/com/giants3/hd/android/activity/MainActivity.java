@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,23 +19,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.fragment.MaterialListFragment;
 import com.giants3.hd.android.fragment.OrderDetailFragment;
 import com.giants3.hd.android.fragment.OrderListFragment;
 import com.giants3.hd.android.fragment.ProductDetailFragment;
 import com.giants3.hd.android.fragment.ProductListFragment;
+import com.giants3.hd.android.fragment.QuotationDetailFragment;
 import com.giants3.hd.android.fragment.QuotationListFragment;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.utils.entity.ErpOrder;
+import com.giants3.hd.utils.entity.Material;
+import com.giants3.hd.utils.entity.Quotation;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ProductListFragment.OnFragmentInteractionListener, QuotationListFragment.OnFragmentInteractionListener, OrderListFragment.OnFragmentInteractionListener,OrderDetailFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ProductListFragment.OnFragmentInteractionListener, QuotationListFragment.OnFragmentInteractionListener, OrderListFragment.OnFragmentInteractionListener, OrderDetailFragment.OnFragmentInteractionListener,MaterialListFragment.OnFragmentInteractionListener {
 
 
     NavigationViewHelper helper;
@@ -123,7 +128,7 @@ public class MainActivity extends BaseActivity
         if (findViewById(R.id.detail_container) == null) {
 
             //调整act
-            Intent intent=new Intent(this,OrderDetailActivity.class);
+            Intent intent = new Intent(this, OrderDetailActivity.class);
             intent.putExtra(OrderDetailFragment.ARG_ITEM, GsonUtils.toJson(erpOrder));
             startActivity(intent);
 
@@ -141,11 +146,10 @@ public class MainActivity extends BaseActivity
     public void onFragmentInteraction(AProduct aProduct) {
 
 
-
         if (findViewById(R.id.detail_container) == null) {
 
             //调整act
-            Intent intent=new Intent(this,ProductDetailActivity.class);
+            Intent intent = new Intent(this, ProductDetailActivity.class);
             intent.putExtra(ProductDetailFragment.ARG_ITEM, GsonUtils.toJson(aProduct));
             startActivity(intent);
 
@@ -156,6 +160,30 @@ public class MainActivity extends BaseActivity
         }
 
 
+    }
+
+    @Override
+    public void onFragmentInteraction(Quotation quotation) {
+
+        //打开报价详情单
+        if (findViewById(R.id.detail_container) == null) {
+
+            //调整act
+            Intent intent = new Intent(this, QuotationDetailActivity.class);
+            intent.putExtra(ProductDetailFragment.ARG_ITEM, GsonUtils.toJson(quotation));
+            startActivity(intent);
+
+        } else {
+
+            QuotationDetailFragment fragment = QuotationDetailFragment.newInstance(quotation);
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
+        }
+
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Material Material) {
 
     }
 
@@ -256,10 +284,7 @@ public class MainActivity extends BaseActivity
 
             ProductListFragment fragment = ProductListFragment.newInstance("", "");
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.list_container, fragment)
-                    .commit();
-
+            showNewListFragment(fragment);
             getSupportActionBar().setTitle("产品列表");
 
             // Handle the camera action
@@ -267,22 +292,20 @@ public class MainActivity extends BaseActivity
 
 
             QuotationListFragment fragment = QuotationListFragment.newInstance("", "");
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.list_container, fragment)
-                    .commit();
+            showNewListFragment(fragment);
             getSupportActionBar().setTitle("报价列表");
 
         } else if (id == R.id.nav_order) {
 
             OrderListFragment fragment = OrderListFragment.newInstance("", "");
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.list_container, fragment)
-                    .commit();
+            showNewListFragment(fragment);
             getSupportActionBar().setTitle("订单列表");
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_material) {
+
+            MaterialListFragment fragment = MaterialListFragment.newInstance("", "");
+            showNewListFragment(fragment);
+            getSupportActionBar().setTitle("材料列表");
 
         } else if (id == R.id.nav_share) {
 
@@ -295,5 +318,18 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showNewListFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.list_container, fragment)
+                .commit();
+
+
+        //清空详情fragment
+        if (findViewById(R.id.detail_container) != null) {
+            //替换空白
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, new Fragment()).commit();
+        }
     }
 }

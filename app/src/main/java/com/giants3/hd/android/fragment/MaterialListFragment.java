@@ -8,56 +8,52 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.adapter.QuotationListAdapter;
+import com.giants3.hd.android.adapter.MaterialListAdapter;
+import com.giants3.hd.android.adapter.ProductListAdapter;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.RemoteData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import rx.Subscriber;
 
 
 /**
- * 报价列表 fragment
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link QuotationListFragment.OnFragmentInteractionListener} interface
+ * {@link MaterialListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link QuotationListFragment#newInstance} factory method to
+ * Use the {@link MaterialListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class QuotationListFragment extends BaseFragment {
-
+public class MaterialListFragment extends BaseFragment {
+    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
+    // TODO: Rename and parse types of parameters
     private String mParam1;
     private String mParam2;
 
 
-    private QuotationListAdapter adapter;
+    MaterialListAdapter adapter;
     private OnFragmentInteractionListener mListener;
+
     @Bind(R.id.list)
-    ListView listView;
-
-    @Bind(R.id.btn_search)
-    View btn_search;
-
+    ListView product_list;
     @Bind(R.id.search_text)
     EditText search_text;
 
-    @Bind(R.id.progressBar)
-    View progressBar;
-
-    public QuotationListFragment() {
+    public MaterialListFragment() {
         // Required empty public constructor
     }
 
@@ -67,11 +63,11 @@ public class QuotationListFragment extends BaseFragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment QuotationListFragment.
+     * @return A new instance of fragment ProductListFragment.
      */
-
-    public static QuotationListFragment newInstance(String param1, String param2) {
-        QuotationListFragment fragment = new QuotationListFragment();
+    // TODO: Rename and parse types and number of parameters
+    public static MaterialListFragment newInstance(String param1, String param2) {
+        MaterialListFragment fragment = new MaterialListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -86,26 +82,22 @@ public class QuotationListFragment extends BaseFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        adapter = new QuotationListAdapter(getActivity());
-//        TableData tableData=TableData.resolveData(getActivity(),R.array.table_head_quotation_list);
-//        adapter.setTableData(tableData);
-//        adapter.setRowHeight(Utils.dp2px(40));
+
+        adapter =new MaterialListAdapter(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quotation_list, container, false);
+        return inflater.inflate(R.layout.fragment_material_list, container, false);
     }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-        listView.setAdapter(adapter);
-
+        product_list.setAdapter(adapter);
         search_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -125,67 +117,53 @@ public class QuotationListFragment extends BaseFragment {
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Quotation quotation = adapter.getItem(position);
-                if (mListener != null) {
-                    mListener.onFragmentInteraction(quotation);
-                }
-
-            }
-        });
-
-        attemptLoadList(0, 100);
+        attemptLoadList();
 
     }
-
+    private void attemptLoadList()
+    {
+        attemptLoadList(0,100);
+    }
     /**
      *
      */
-    private Runnable runnable = new Runnable() {
+    private Runnable runnable=new Runnable() {
         @Override
         public void run() {
 
-            String key = search_text.getText().toString().trim();
-            attemptLoadList(key, 0, 100);
+            String key= search_text.getText().toString().trim();
+            attemptLoadList(key,0,100);
         }
     };
 
-
-    private void attemptLoadList(int pageIndex, int pageSize) {
-        attemptLoadList("", pageIndex, pageSize);
+    private void attemptLoadList(int pageIndex,int pageSize)
+    {
+        attemptLoadList("",pageIndex,pageSize);
 
     }
+    private void attemptLoadList(String name,int pageIndex,int pageSize)
+    {
 
-    private void attemptLoadList(String name, int pageIndex, int pageSize) {
-
-
-        progressBar.setVisibility(View.VISIBLE);
-
-        UseCaseFactory.getInstance().createGetQuotationList(name, pageIndex, pageSize).execute(new Subscriber<RemoteData<Quotation>>() {
+        UseCaseFactory.getInstance().createMaterialListCase(name,pageIndex,pageSize).execute(new Subscriber<RemoteData<Material>>() {
             @Override
             public void onCompleted() {
 //                showProgress(false);
-                progressBar.setVisibility(View.GONE);
             }
-
             @Override
             public void onError(Throwable e) {
 //                showProgress(false);
-                progressBar.setVisibility(View.GONE);
                 ToastHelper.show(e.getMessage());
             }
 
             @Override
-            public void onNext(RemoteData<Quotation> aUser) {
-                if (aUser.isSuccess()) {
+            public void onNext(RemoteData<Material> aUser) {
+                if(aUser.isSuccess()) {
                     adapter.setDataArray(aUser.datas);
-
-                } else {
+                }else
+                {
                     ToastHelper.show(aUser.message);
-                    if (aUser.code == RemoteData.CODE_UNLOGIN) {
+                    if(aUser.code==RemoteData.CODE_UNLOGIN)
+                    {
                         startLoginActivity();
                     }
                 }
@@ -193,6 +171,7 @@ public class QuotationListFragment extends BaseFragment {
         });
 
     }
+
 
 
     @Override
@@ -224,6 +203,16 @@ public class QuotationListFragment extends BaseFragment {
      */
     public interface OnFragmentInteractionListener {
 
-        void onFragmentInteraction(Quotation quotation);
+        void onFragmentInteraction(Material Material);
     }
+
+
+    @Override
+    protected void onLoginRefresh() {
+
+          attemptLoadList();
+
+
+    }
+
 }

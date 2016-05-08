@@ -168,4 +168,12 @@ public class HttpUrl {
     public static String getQuotationList(String name, int pageIndex, int pageSize) {
         return completeUrl(String.format(RestApi.API_URL_GET_QUOTATION_LIST, URLEncoder.encode( name), pageIndex, pageSize));
     }
+
+    public static String getQuotationDetail(long quotationId) {
+        return completeUrl(String.format(RestApi.API_URL_GET_QUOTATION_DETAIL,  quotationId));
+    }
+
+    public static String getMaterialList(String name, int pageIndex, int pageSize) {
+        return completeUrl(String.format(RestApi.API_URL_GET_MATERIAL_LIST, URLEncoder.encode( name), pageIndex, pageSize));
+    }
 }

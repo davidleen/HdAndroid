@@ -10,7 +10,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import java.util.Map;
-
+import java.util.concurrent.Executor;
 
 
 /**   用例工厂类
@@ -96,5 +96,15 @@ public class UseCaseFactory  {
     public UseCase createGetQuotationList(String name, int pageIndex, int pageSize) {
 
         return new GetQuotationListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),name,pageIndex,pageSize  , restApi);
+    }
+
+    public UseCase createGetQuotationDetail(long quotationId) {
+        return new GetQuotationDetailCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),quotationId , restApi);
+
+    }
+
+    public UseCase createMaterialListCase(String name, int pageIndex, int pageSize) {
+
+        return new GetMaterialListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),name,pageIndex,pageSize , restApi);
     }
 }

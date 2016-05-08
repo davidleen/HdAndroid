@@ -1,100 +1,69 @@
 package com.giants3.hd.android.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.appdata.AQuotation;
+import com.giants3.hd.utils.entity.Quotation;
 
+import butterknife.Bind;
 
-import java.util.List;
 
 /**
+ * 报价列表
  * Created by david on 2016/2/14.
  */
 public class QuotationListAdapter
-        extends RecyclerView.Adapter<QuotationListAdapter.ViewHolder> {
+        extends AbstractAdapter<Quotation> {
 
-    private List<AQuotation> mValues;
 
     private Context context;
 
 
-    public QuotationListAdapter(Context context, List<AQuotation> items) {
+    public QuotationListAdapter(Context context) {
+        super(context);
         this.context = context;
-        mValues = items;
+
 
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.product_list_content, parent, false);
+    protected Bindable<Quotation> createViewHolder(int itemViewType) {
+        View view = LayoutInflater.from(getContext())
+                .inflate(R.layout.list_item_quotation, null, false);
         return new ViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
 
+    public static class ViewHolder extends AbstractViewHolder<Quotation> {
 
-        AQuotation aQuotation = mValues.get(position);
-        holder.mItem = aQuotation;
-        holder.mIdView.setText(aQuotation.name);
-        holder.mContentView.setText(aQuotation.salesMan);
+        @Bind(R.id.qNumber)
+        public TextView qNumber;
+        @Bind(R.id.customer)
+        public TextView customer;
+        @Bind(R.id.saleman)
+        public TextView saleman;
+        @Bind(R.id.qDate)
+        public TextView qDate;
 
-//        if (!StringUtils.isEmpty(aQuotation.url)) {
-//            picasso.load(HttpUrl.completeUrl(aQuotation.url)).into(holder.image);
-//        } else
-//            picasso.load(R.mipmap.ic_launcher).into(holder.image);
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-//                Context context = v.getContext();
-//                Intent intent = new Intent(context, ProductDetailActivity.class);
-//                intent.putExtra(ProductDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-//
-//                context.startActivity(intent);
-
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mValues.size();
-    }
-
-    public void setData(List<AQuotation> data) {
-        this.mValues = data;
-        notifyDataSetChanged();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public final ImageView image;
         public AQuotation mItem;
 
         public ViewHolder(View view) {
             super(view);
-            // ButterKnife.bind(this, view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-            image = (ImageView) view.findViewById(R.id.image);
         }
 
+
         @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+        public void bindData(AbstractAdapter<Quotation> adapter, Quotation data, int position) {
+            qNumber.setText(data.qNumber);
+            qDate.setText(data.qDate);
+            saleman.setText(data.salesman);
+            customer.setText(data.customerName);
         }
+
+
     }
 }

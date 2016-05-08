@@ -18,13 +18,15 @@ package com.giants3.hd.data.net;
 
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.utils.entity.ErpOrder;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.ProductDetail;
-import com.giants3.hd.utils.entity.Quotation;
-import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.exception.NetworkConnectionException;
 import com.giants3.hd.exception.HdException;
+import com.giants3.hd.utils.entity.ErpOrder;
+import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.Material;
+import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.Quotation;
+import com.giants3.hd.utils.entity.QuotationDetail;
+import com.giants3.hd.utils.entity.RemoteData;
 import com.google.inject.Inject;
 
 import java.util.List;
@@ -101,7 +103,7 @@ public class RestApiImpl implements RestApi {
     @Override
     public Observable<RemoteData<AProduct>> getProductList(final String name, final int pageIndex, final int pageSize) {
 
-        return create( new ApiInvoker<AProduct>() {
+        return create(new ApiInvoker<AProduct>() {
             @Override
             public RemoteData<AProduct> invoker() throws HdException {
                 return apiManager.getProductList(name, pageIndex, pageSize);
@@ -110,8 +112,8 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable<RemoteData<ErpOrder>> getOrderList(final  String name, final int pageIndex,final int pageSize) {
-        return create( new ApiInvoker<ErpOrder>() {
+    public Observable<RemoteData<ErpOrder>> getOrderList(final String name, final int pageIndex, final int pageSize) {
+        return create(new ApiInvoker<ErpOrder>() {
             @Override
             public RemoteData<ErpOrder> invoker() throws HdException {
                 return apiManager.getOrderList(name, pageIndex, pageSize);
@@ -121,7 +123,7 @@ public class RestApiImpl implements RestApi {
 
     @Override
     public Observable getOrderItemList(final String orderNo) {
-        return create( new ApiInvoker<ErpOrderItem>() {
+        return create(new ApiInvoker<ErpOrderItem>() {
             @Override
             public RemoteData<ErpOrderItem> invoker() throws HdException {
                 return apiManager.getOrderItemList(orderNo);
@@ -131,7 +133,7 @@ public class RestApiImpl implements RestApi {
 
     @Override
     public Observable getProductDetail(final long productId) {
-        return create( new ApiInvoker<ProductDetail>() {
+        return create(new ApiInvoker<ProductDetail>() {
             @Override
             public RemoteData<ProductDetail> invoker() throws HdException {
                 return apiManager.getProductDetail(productId);
@@ -141,6 +143,7 @@ public class RestApiImpl implements RestApi {
 
     /**
      * 通用调用命令接口
+     *
      * @param <T>
      */
     public interface ApiInvoker<T> {
@@ -172,8 +175,6 @@ public class RestApiImpl implements RestApi {
     }
 
 
-
-
     /**
      * Checks if the device has any active internet connection.
      *
@@ -197,10 +198,41 @@ public class RestApiImpl implements RestApi {
     @Override
     public Observable<RemoteData<Quotation>> getQuotationList(final String name, final int pageIndex, final int pageSize) {
 
-        return create( new ApiInvoker<Quotation>() {
+        return create(new ApiInvoker<Quotation>() {
             @Override
             public RemoteData<Quotation> invoker() throws HdException {
                 return apiManager.getQuotationList(name, pageIndex, pageSize);
+            }
+        });
+    }
+
+
+    @Override
+    public Observable<RemoteData<QuotationDetail>> getQuotationDetail(final long quotationId) {
+        return create(new ApiInvoker<QuotationDetail>() {
+            @Override
+            public RemoteData<QuotationDetail> invoker() throws HdException {
+                return apiManager.getQuotationDetail(quotationId);
+            }
+        });
+    }
+
+
+    /**
+     * 读取产品列表
+     *
+     * @param name
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Observable<RemoteData<Material>> getMaterialList(final String name, final int pageIndex, final int pageSize) {
+
+        return create(new ApiInvoker<Material>() {
+            @Override
+            public RemoteData<Material> invoker() throws HdException {
+                return apiManager.getMaterialList(name, pageIndex, pageSize);
             }
         });
     }
