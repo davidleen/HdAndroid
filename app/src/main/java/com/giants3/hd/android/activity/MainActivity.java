@@ -16,9 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.fragment.MaterialDetailFragment;
 import com.giants3.hd.android.fragment.MaterialListFragment;
 import com.giants3.hd.android.fragment.OrderDetailFragment;
 import com.giants3.hd.android.fragment.OrderListFragment;
@@ -38,10 +40,17 @@ import com.giants3.hd.utils.entity.Quotation;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * 主界面
+ */
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ProductListFragment.OnFragmentInteractionListener, QuotationListFragment.OnFragmentInteractionListener, OrderListFragment.OnFragmentInteractionListener, OrderDetailFragment.OnFragmentInteractionListener,MaterialListFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ProductListFragment.OnFragmentInteractionListener,
+        QuotationListFragment.OnFragmentInteractionListener, OrderListFragment.OnFragmentInteractionListener,
+        OrderDetailFragment.OnFragmentInteractionListener, MaterialListFragment.OnFragmentInteractionListener,
+        MaterialDetailFragment.OnFragmentInteractionListener {
 
 
+    public static final Fragment EMPTYP_FRAGMENT = new Fragment();
     NavigationViewHelper helper;
 
 
@@ -183,7 +192,23 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onFragmentInteraction(Material Material) {
+    public void onFragmentInteraction(Material material) {
+
+
+        //打开报价详情单
+        if (findViewById(R.id.detail_container) == null) {
+
+            //调整act
+            Intent intent = new Intent(this, MaterialDetailActivity.class);
+            intent.putExtra(MaterialDetailFragment.ARG_ITEM, GsonUtils.toJson(material));
+            startActivity(intent);
+
+        } else {
+
+            MaterialDetailFragment fragment = MaterialDetailFragment.newInstance(material);
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
+        }
+
 
     }
 
@@ -328,8 +353,13 @@ public class MainActivity extends BaseActivity
 
         //清空详情fragment
         if (findViewById(R.id.detail_container) != null) {
+
+
+            LinearLayout.LayoutParams layoutParams = ((LinearLayout.LayoutParams) frameLayout.getLayoutParams());
+            layoutParams.weight = fragment instanceof MaterialListFragment ? 2 : 1;
+            frameLayout.setLayoutParams(layoutParams);
             //替换空白
-            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, new Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, EMPTYP_FRAGMENT).commit();
         }
     }
 }

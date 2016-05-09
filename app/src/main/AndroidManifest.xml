@@ -35,6 +35,12 @@
             android:name=".activity.OrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activity.MaterialDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.QuotationDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.MainActivity"
             android:parentActivityName=".activity.BaseActivity"
             android:theme="@style/AppTheme.NoActionBar">

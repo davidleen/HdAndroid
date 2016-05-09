@@ -215,4 +215,11 @@ public class MaterialListFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+
+        search_text.removeCallbacks(runnable);
+        super.onDestroyView();
+
+    }
 }
