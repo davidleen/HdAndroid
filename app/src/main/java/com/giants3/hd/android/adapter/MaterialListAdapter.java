@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.fragment.MaterialListFragment;
 import com.giants3.hd.android.helper.ImageViewerHelper;
+import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.utils.entity.Material;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -22,20 +23,20 @@ public class MaterialListAdapter
         extends AbstractAdapter<Material> {
 
 
-    private View.OnClickListener itemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            ViewHolder viewHolder = (ViewHolder) v.getTag();
-
-            Context context = v.getContext();
-            if (context instanceof MaterialListFragment.OnFragmentInteractionListener) {
-                ((MaterialListFragment.OnFragmentInteractionListener) context).onFragmentInteraction(viewHolder.mItem);
-            }
-
-
-        }
-    };
+//    private View.OnClickListener itemClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//
+//            ViewHolder viewHolder = (ViewHolder) v.getTag();
+//
+//            Context context = v.getContext();
+//            if (context instanceof MaterialListFragment.OnFragmentInteractionListener) {
+//                ((MaterialListFragment.OnFragmentInteractionListener) context).onFragmentInteraction(viewHolder.mItem);
+//            }
+//
+//
+//        }
+//    };
 
 
     public MaterialListAdapter(Context context) {
@@ -79,8 +80,8 @@ public class MaterialListAdapter
             materialName.setText(data.name);
             materialType.setText(data.className);
             unit.setText(data.unitName);
-            ImageLoader.getInstance().displayImage(data.url, picture);
-            v.setOnClickListener(itemClickListener);
+            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
+//            v.setOnClickListener(itemClickListener);
         }
 
         @Override

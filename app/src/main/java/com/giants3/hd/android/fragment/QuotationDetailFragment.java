@@ -15,6 +15,7 @@ import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.giants3.hd.android.widget.ExpandableHeightListView;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
@@ -50,7 +51,7 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
     private OnFragmentInteractionListener mListener;
 
     @Bind(R.id.listView)
-    ListView listView;
+    ExpandableHeightListView listView;
 
 
     @Bind(R.id.order_no)
@@ -142,6 +143,7 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
 
 
         horizontalScrollView1.setFocusable(true);
+        listView.setExpanded(true);
 
 
 //        order_no.setText(erpOrder.os_no);

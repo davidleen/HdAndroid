@@ -20,20 +20,20 @@ public class ProductListAdapter
         extends AbstractAdapter<AProduct> {
 
 
-    private View.OnClickListener itemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            ViewHolder viewHolder = (ViewHolder) v.getTag();
-
-            Context context = v.getContext();
-            if (context instanceof ProductListFragment.OnFragmentInteractionListener) {
-                ((ProductListFragment.OnFragmentInteractionListener) context).onFragmentInteraction(viewHolder.mItem);
-            }
-
-
-        }
-    };
+//    private View.OnClickListener itemClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//
+//            ViewHolder viewHolder = (ViewHolder) v.getTag();
+//
+//            Context context = v.getContext();
+//            if (context instanceof ProductListFragment.OnFragmentInteractionListener) {
+//                ((ProductListFragment.OnFragmentInteractionListener) context).onFragmentInteraction(viewHolder.mItem);
+//            }
+//
+//
+//        }
+//    };
 
 
     public ProductListAdapter(Context context) {
@@ -79,7 +79,7 @@ public class ProductListAdapter
             image.setTag(aProduct.url);
             image.setOnClickListener(imageClickListener);
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
-            mView.setOnClickListener(itemClickListener);
+//            mView.setOnClickListener(itemClickListener);
         }
 
         @Override

@@ -18,21 +18,21 @@ public class OrderListAdapter
 
 
 
-    private View.OnClickListener itemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-
-            ViewHolder viewHolder = (ViewHolder) v.getTag();
-
-            Context context = v.getContext();
-            if (context instanceof OrderListFragment.OnFragmentInteractionListener) {
-                ((OrderListFragment.OnFragmentInteractionListener) context).onFragmentInteraction(viewHolder.mItem);
-            }
-
-
-        }
-    };
+//    private View.OnClickListener itemClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//
+//
+//            ViewHolder viewHolder = (ViewHolder) v.getTag();
+//
+//            Context context = v.getContext();
+//            if (context instanceof OrderListFragment.OnFragmentInteractionListener) {
+//                ((OrderListFragment.OnFragmentInteractionListener) context).onFragmentInteraction(viewHolder.mItem);
+//            }
+//
+//
+//        }
+//    };
     ;
 
 
@@ -86,8 +86,8 @@ public class OrderListAdapter
             sal.setText(order.sal_name==null?"":order.sal_name);
 
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
-            mView.setOnClickListener(
-                    itemClickListener);
+//            mView.setOnClickListener(
+//                    itemClickListener);
         }
 
         @Override

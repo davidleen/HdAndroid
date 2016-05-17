@@ -13,15 +13,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.events.MaterialUpdateEvent;
 import com.giants3.hd.android.helper.CapturePictureHelper;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.giants3.hd.data.interractor.UseCaseFactory;
+import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.entity.Material;
+import com.giants3.hd.utils.entity.RemoteData;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.io.ByteArrayOutputStream;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import rx.Subscriber;
 
 
 /**
@@ -132,6 +140,10 @@ public class MaterialDetailFragment extends BaseFragment implements View.OnClick
             @Override
             public void onPictureGet(Bitmap bitmap) {
 
+
+                if (newPicture != null && !newPicture.isRecycled()) {
+                    newPicture.recycle();
+                }
                 newPicture = bitmap;
                 image.setImageBitmap(bitmap);
                 upload.setVisibility(View.VISIBLE);
@@ -150,6 +162,10 @@ public class MaterialDetailFragment extends BaseFragment implements View.OnClick
 
     @OnClick(R.id.upload)
     public void uploadPicture() {
+
+        if (newPicture == null || newPicture.isRecycled()) return;
+        uploadPicture(newPicture);
+
 
     }
 
@@ -193,7 +209,7 @@ public class MaterialDetailFragment extends BaseFragment implements View.OnClick
         unitRatio.setText(String.valueOf(material.unitRatio));
         ingredientRatio.setText(String.valueOf(material.ingredientRatio));
         outOfService.setText(material.outOfService ? "停用" : "使用中");
-        ImageLoader.getInstance().displayImage(material.url, image);
+        ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(material.url), image);
         upload.setVisibility(newPicture == null ? View.GONE : View.VISIBLE);
     }
 
@@ -244,4 +260,53 @@ public class MaterialDetailFragment extends BaseFragment implements View.OnClick
 
     }
 
+
+    public void uploadPicture(Bitmap newPicture) {
+
+        showProgress(true);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        newPicture.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        UseCaseFactory.getInstance().createUploadMaterialPictureCase(byteArrayOutputStream.toByteArray(), material.id).execute(new Subscriber<RemoteData<Void>>() {
+            @Override
+            public void onCompleted() {
+                showProgress(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastHelper.show(e.getMessage());
+                showProgress(false);
+            }
+
+            @Override
+            public void onNext(RemoteData<Void> remoteData) {
+                if (remoteData.isSuccess()) {
+
+
+                    upload.setVisibility(View.GONE);
+                    ToastHelper.show("图片上传成功");
+                    EventBus.getDefault().post(new MaterialUpdateEvent());
+
+
+                    //adapter.setDataArray(aUser.datas);
+                } else {
+                    ToastHelper.show(remoteData.message);
+
+                }
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onDestroyView() {
+
+        if (newPicture != null && !newPicture.isRecycled()) {
+            newPicture.recycle();
+        }
+        super.onDestroyView();
+
+
+    }
 }

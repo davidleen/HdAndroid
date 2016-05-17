@@ -39,6 +39,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'de.greenrobot:eventbus:2.4.1'
     compile 'de.greenrobot:java-common:2.3.1'
     compile "com.wefika:flowlayout:0.4.1"
     compile project(':data')

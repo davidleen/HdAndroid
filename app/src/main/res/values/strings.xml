@@ -156,7 +156,7 @@
 
 
 
-    <!--普通报价细项表 表格-->
+    <!--咸康报价细项表 表格-->
     <string-array name="table_head_xkquotation_item">
         <item>报价日期||qDate||1||120</item>
 
@@ -172,10 +172,8 @@
     </string-array>
     <!--普通报价细项表 表格-->
     <string-array name="table_head_quotation_item">
-        <item>序号||COLUMN_INDEX||1||120</item>
+        <item>序号||iIndex||1||120</item>
 
-
-        <item>报价单号||qNumber||1||100</item>
         <item>品名||productName||1||100</item>
         <item>配方号||pVersion||1||120</item>
         <item>*内盒*||inBoxCount||1||60</item>

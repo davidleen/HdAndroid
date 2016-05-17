@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,14 +16,16 @@ import android.view.View;
 import com.giants3.hd.android.R;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by david on 2016/5/9.
  */
 public class CapturePictureHelper implements View.OnClickListener {
 
-    public static final int DEFAULT_OUT_WIDTH = 360;
-    public static final int DEFAULT_OUT_HEIGHT = 360;
+    public static final int DEFAULT_OUT_WIDTH = 600;
+    public static final int DEFAULT_OUT_HEIGHT = 600;
     public int outWidth = DEFAULT_OUT_WIDTH;
     public int outHeight = DEFAULT_OUT_HEIGHT;
     Fragment activity;
@@ -50,7 +53,8 @@ public class CapturePictureHelper implements View.OnClickListener {
         switch (requestCode) {
             case FROM_ALBUM:
                 if (data != null) {
-                    startPhotoZoom(data.getData());
+                    initTempFile();
+                    startPhotoZoom(data.getData(),Uri.fromFile(tempFilePath));
                 }
                 break;
 
@@ -58,7 +62,9 @@ public class CapturePictureHelper implements View.OnClickListener {
 
 
                 if (tempFilePath.exists()) {
-                    startPhotoZoom(Uri.fromFile(tempFilePath));
+
+
+                    startPhotoZoom(Uri.fromFile(tempFilePath),Uri.fromFile(tempFilePath));
                 }
 
                 break;
@@ -81,10 +87,13 @@ public class CapturePictureHelper implements View.OnClickListener {
 
     private void setPicToView(Intent data) {
         Bundle extras = data.getExtras();
-        if (extras != null) {
+
 //            if(upLoadBitmap!=null&&!upLoadBitmap.isRecycled())
 
-            upLoadBitmap = extras.getParcelable("data");
+        if(tempFilePath.exists())
+        {
+
+                  upLoadBitmap=  BitmapFactory.decodeFile(tempFilePath.getPath());
             if (upLoadBitmap != null) {
 
                 if (listener != null) {
@@ -99,6 +108,10 @@ public class CapturePictureHelper implements View.OnClickListener {
             }
 
         }
+
+
+
+
     }
 
     /**
@@ -106,7 +119,7 @@ public class CapturePictureHelper implements View.OnClickListener {
      *
      * @param data
      */
-    private void startPhotoZoom(Uri data) {
+    private void startPhotoZoom(Uri data,Uri dest) {
         try {
             Intent intent = new Intent("com.android.camera.action.CROP");
             intent.setDataAndType(data, "image/*");
@@ -115,10 +128,11 @@ public class CapturePictureHelper implements View.OnClickListener {
             intent.putExtra("aspectY", 1);
             intent.putExtra("outputX", outWidth);
             intent.putExtra("outputY", outHeight);
-            intent.putExtra("return-data", true);
+            intent.putExtra("return-data", false);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,dest);
             activity.startActivityForResult(intent, SET_PIC);
         } catch (Exception e) {
-
+            e.printStackTrace();
             ToastHelper.showShort("相册打开失败");
         }
     }
@@ -166,11 +180,13 @@ public class CapturePictureHelper implements View.OnClickListener {
                 }
                 try {
                     Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    tempFilePath = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
+                    initTempFile();
                     intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFilePath));
+                    intent2.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 50);
                     activity.startActivityForResult(intent2, START_CAMERA);
                 } catch (Exception e) {
 
+                    e.printStackTrace();
                     ToastHelper.showShort("相机打开失败");
                 }
                 break;
@@ -197,5 +213,11 @@ public class CapturePictureHelper implements View.OnClickListener {
     public interface OnPictureGetListener {
         public void onPictureGet(Bitmap bitmap);
 
+    }
+
+    private void initTempFile()
+    {
+        if(tempFilePath==null||!tempFilePath.exists())
+                 tempFilePath=  new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
     }
 }

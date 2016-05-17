@@ -23,6 +23,7 @@ import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.noEntity.BufferData;
 
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,8 @@ public interface RestApi {
   static String API_URL_GET_PRODUCT_LIST = "/api/product/appSearch?name=%s&pageIndex=%d&pageSize=%d";
   static String API_URL_GET_QUOTATION_LIST = "/api/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d";
   static String API_URL_GET_MATERIAL_LIST = "/api/material/search?codeOrName=%s&pageIndex=%d&pageSize=%d";
-
+  static String API_URL_UPLOAD_MATERIAL_PICTURE = "/api/file/uploadMaterialPicture?materialId=%d";
+  static String API_URL_GET_INITDATA = "/api/user/getInitData?userId=%d";
   static String API_URL_GET_QUOTATION_DETAIL = "/api/quotation/detail?id=%d";
   String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
   String API_URL_GET_ORDER_ITEM_LIST = "/api/order/findOrderItems?orderNo=%s";
@@ -91,4 +93,8 @@ public interface RestApi {
   Observable<RemoteData<QuotationDetail>> getQuotationDetail(long quotationId);
 
   Observable<RemoteData<Material>> getMaterialList(String name, int pageIndex, int pageSize);
+
+  Observable<RemoteData<Void>> uploadMaterialPicture(long materialId, byte[] data);
+
+  Observable<RemoteData<BufferData>> getInitData(long userId);
 }

@@ -1,5 +1,6 @@
 package com.giants3.hd.android.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.fragment.ProductDetailFragment;
+import com.giants3.hd.android.fragment.QuotationDetailFragment;
 
 import butterknife.Bind;
 
@@ -16,7 +18,7 @@ import butterknife.Bind;
  * item details are presented side-by-side with a list of items
  * in a {@link ProductListActivity}.
  */
-public class QuotationDetailActivity extends BaseActivity {
+public class QuotationDetailActivity extends BaseActivity  implements  QuotationDetailFragment.OnFragmentInteractionListener{
 
 
 
@@ -35,7 +37,7 @@ public class QuotationDetailActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("产品详情");
+            actionBar.setTitle("报价详情");
         }
 
         // savedInstanceState is non-null when there is fragment state
@@ -51,9 +53,9 @@ public class QuotationDetailActivity extends BaseActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ProductDetailFragment.ARG_ITEM,
-                    getIntent().getStringExtra(ProductDetailFragment.ARG_ITEM));
-            ProductDetailFragment fragment = new ProductDetailFragment();
+            arguments.putString(QuotationDetailFragment.ARG_ITEM,
+                    getIntent().getStringExtra(QuotationDetailFragment.ARG_ITEM));
+            QuotationDetailFragment fragment = new QuotationDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.product_detail_container, fragment)
@@ -75,5 +77,10 @@ public class QuotationDetailActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

@@ -11,6 +11,7 @@ import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.noEntity.BufferData;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -57,6 +58,9 @@ public class ApiManager {
         tokenMaps.put(QuotationDetail.class, new TypeToken<RemoteData<QuotationDetail>>() {
         }.getType());
         tokenMaps.put(Material.class, new TypeToken<RemoteData<Material>>() {
+        }.getType());
+
+        tokenMaps.put(BufferData.class, new TypeToken<RemoteData<BufferData>>() {
         }.getType());
 
 
@@ -182,6 +186,44 @@ public class ApiManager {
         String url = HttpUrl.getMaterialList(name, pageIndex, pageSize);
         String result = apiConnection.getString(url);
         RemoteData<Material> remoteData = invokeByReflect(result, Material.class);
+        //移动端不需要photo
+        if(remoteData.isSuccess())
+        {
+            for (Material  material:remoteData.datas)
+            {
+                material.photo=null;
+            }
+        }
+        return remoteData;
+    }
+
+    /**
+     * 上传材料图片
+     *
+     * @param bytes
+     * @return
+     * @throws HdException
+     */
+    public RemoteData<Void> uploadMaterialPicture(long materialId, byte[] bytes) throws HdException {
+
+        String url = HttpUrl.uploadMaterialPicture(materialId);
+        String result = "";
+
+        result = apiConnection.postBytes(url, bytes);
+
+        RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
+
+        return remoteData;
+    }
+
+
+    public RemoteData<BufferData> getInitData(long userId) throws HdException {
+
+        String url = HttpUrl.loadInitData(userId);
+        String result = apiConnection.getString(url );
+
+        RemoteData<BufferData> remoteData = invokeByReflect(result, BufferData.class);
+
         return remoteData;
     }
 }

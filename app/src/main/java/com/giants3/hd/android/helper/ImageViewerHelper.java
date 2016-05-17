@@ -37,9 +37,6 @@ public class ImageViewerHelper {
 
             File newFile = file;
 
-
-
-
                 Intent intent = new Intent(context, ImageViewerActivity.class);
                 intent.setData(Uri.fromFile(newFile));
 

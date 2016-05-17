@@ -3,15 +3,11 @@ package com.giants3.hd.android.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
@@ -31,24 +27,27 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.events.LoginSuccessEvent;
+import com.giants3.hd.android.helper.CacheManager;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.appdata.QRProduct;
 import com.giants3.hd.crypt.DigestUtils;
-import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.noEntity.BufferData;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import de.greenrobot.event.EventBus;
 import rx.Subscriber;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -86,10 +85,6 @@ public class LoginActivity extends BaseActivity {
     ScrollView loginForm;
     @Bind(R.id.setUrl)
     Button setUrl;
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
 
     @Override
@@ -161,10 +156,6 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        if (VERSION.SDK_INT >= 8) {
-            // Use AccountManager (API 8+)
-            new SetupEmailAutoCompleteTask().execute(null, null);
-        }
     }
 
     private boolean mayRequestContacts() {
@@ -215,11 +206,9 @@ public class LoginActivity extends BaseActivity {
         String password = mPasswordView.getText().toString();
 
 
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
-
 
 
         boolean cancel = false;
@@ -251,17 +240,18 @@ public class LoginActivity extends BaseActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Map<String,String> map=new HashMap<>();
-            map.put("userName",userName);
+            Map<String, String> map = new HashMap<>();
+            map.put("userName", userName);
 
 
-            map.put("password",  DigestUtils.md5(password));
-            map.put("client" ,"ANDROID");
-            map.put("version","1.1.0");
+            map.put("password", DigestUtils.md5(password));
+            map.put("client", "ANDROID");
+            map.put("version", "1.1.0");
             UseCaseFactory.getInstance().createLogin(map).execute(new Subscriber<RemoteData<AUser>>() {
                 @Override
                 public void onCompleted() {
-                    showProgress(false);
+                     showProgress(false);
+
                 }
 
                 @Override
@@ -272,20 +262,59 @@ public class LoginActivity extends BaseActivity {
 
                 @Override
                 public void onNext(RemoteData<AUser> aUser) {
-                    if(aUser.isSuccess())
-                    {
+                    if (aUser.isSuccess()) {
                         SharedPreferencesHelper.saveLoginUser(aUser.datas.get(0));
                         HttpUrl.setToken(aUser.datas.get(0).token);
                         ToastHelper.show("登录成功");
+
+                    //    loadInitData(aUser.datas.get(0).id);
+                        EventBus.getDefault().post(new LoginSuccessEvent());
                         setResult(RESULT_OK);
                         finish();
-                    }else {
+                    } else {
                         ToastHelper.show(aUser.message);
+                        showProgress(false);
                     }
                 }
             });
 
         }
+    }
+
+
+    /**
+     * 初始数据加载
+     */
+    private void loadInitData(long userId)
+    {
+
+        UseCaseFactory.getInstance().createGetInitDataCase(userId).execute(new Subscriber<RemoteData<BufferData>>() {
+            @Override
+            public void onCompleted() {
+                showProgress(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showProgress(false);
+                ToastHelper.show("初始数据加载失败："+e.getMessage());
+            }
+
+            @Override
+            public void onNext(RemoteData<BufferData> remoteData) {
+                if (remoteData.isSuccess()) {
+
+
+
+                    SharedPreferencesHelper.saveInitData(remoteData.datas.get(0));
+                    EventBus.getDefault().post(new LoginSuccessEvent());
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    ToastHelper.show(remoteData.message);
+                }
+            }
+        });
     }
 
     private boolean isUserNameValid(String email) {
@@ -345,96 +374,13 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-
-
-    /**
-     * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
-     * the email text field with results on the main UI thread.
-     */
-    class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
-
-        @Override
-        protected List<String> doInBackground(Void... voids) {
-            ArrayList<String> emailAddressCollection = new ArrayList<>();
-
-            // Get all emails from the user's contacts and copy them to a list.
-            ContentResolver cr = getContentResolver();
-            Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
-                    null, null, null);
-            while (emailCur.moveToNext()) {
-                String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract
-                        .CommonDataKinds.Email.DATA));
-                emailAddressCollection.add(email);
-            }
-            emailCur.close();
-
-            return emailAddressCollection;
-        }
-
-        @Override
-        protected void onPostExecute(List<String> emailAddressCollection) {
-            addEmailsToAutoComplete(emailAddressCollection);
-        }
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String userName;
-        private final String password;
-
-        UserLoginTask(String email, String password) {
-            userName = email;
-            this.password = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
 
         if (result != null) {
-            Log.d("TEST", "result:" + result.getContents());
+
 
             try {
                 QRProduct product = GsonUtils.fromJson(result.getContents(), QRProduct.class);

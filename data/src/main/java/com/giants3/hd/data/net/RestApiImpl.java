@@ -27,6 +27,7 @@ import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.noEntity.BufferData;
 import com.google.inject.Inject;
 
 import java.util.List;
@@ -233,6 +234,26 @@ public class RestApiImpl implements RestApi {
             @Override
             public RemoteData<Material> invoker() throws HdException {
                 return apiManager.getMaterialList(name, pageIndex, pageSize);
+            }
+        });
+    }
+
+    @Override
+    public Observable<RemoteData<Void>> uploadMaterialPicture(final long materialId, final byte[] data) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+                return apiManager.uploadMaterialPicture(materialId, data);
+            }
+        });
+    }
+
+    @Override
+    public Observable<RemoteData<BufferData>> getInitData(final long userId) {
+        return create(new ApiInvoker<BufferData>() {
+            @Override
+            public RemoteData<BufferData> invoker() throws HdException {
+                return apiManager.getInitData(userId);
             }
         });
     }

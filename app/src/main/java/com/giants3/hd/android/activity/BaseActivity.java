@@ -42,6 +42,10 @@ import butterknife.ButterKnife;
 public class BaseActivity extends AppCompatActivity implements  View.OnClickListener {
     public static final  int REQUEST_LOGIN=1009;
 
+    /**
+     * 当前act 是否在最前面
+     */
+    private boolean isTop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,15 +76,22 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
+        isTop=true;
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        isTop=false;
 
     }
 
+
+    public boolean isTop()
+    {
+        return isTop;
+    }
     @Override
     protected void onNewIntent( Intent intent ) {
         super.onNewIntent(intent);

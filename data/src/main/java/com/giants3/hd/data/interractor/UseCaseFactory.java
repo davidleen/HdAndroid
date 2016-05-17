@@ -107,4 +107,13 @@ public class UseCaseFactory  {
 
         return new GetMaterialListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),name,pageIndex,pageSize , restApi);
     }
+
+    public UseCase createUploadMaterialPictureCase(byte[] bytes, long id) {
+            return new UploadMaterialPictureCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),id,bytes , restApi);
+    }
+
+
+    public UseCase createGetInitDataCase( long userId) {
+        return new GetInitDataCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),userId , restApi);
+    }
 }

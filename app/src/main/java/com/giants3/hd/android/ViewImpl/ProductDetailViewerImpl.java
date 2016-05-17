@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
+import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.android.presenter.ProductDetailPresenter;
 import com.giants3.hd.android.viewer.ProductDetailViewer;
 import com.giants3.hd.android.widget.ExpandableHeightListView;
 import com.giants3.hd.data.net.HttpUrl;
+import com.giants3.hd.utils.StringUtils;
 import com.giants3.hd.utils.entity.Product;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -157,6 +159,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         listView.setAdapter(adapter);
         listView.setExpanded(true);
         adapter.setRowHeight(40);
+        photo.setOnClickListener(this);
 
     }
 
@@ -168,7 +171,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         final Product product = productDetail.product;
         String url = product.url;
         ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(url), photo);
-
+        photo.setTag(url);
 
         name.setText(product.name);
         pversion.setText(product.pVersion);
@@ -390,6 +393,14 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
             case R.id.segment_wage:
 
                     productDetailPresenter.onMaterialWageClick(id==R.id.segment_material?0:1);
+
+
+                break;
+            case R.id.photo:
+
+                String url= (String) v.getTag();
+                if(StringUtils.isEmpty(url)) return ;
+                ImageViewerHelper.view(context,url);
 
 
                 break;

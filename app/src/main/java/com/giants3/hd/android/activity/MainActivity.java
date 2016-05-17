@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.fragment.ListFragment;
 import com.giants3.hd.android.fragment.MaterialDetailFragment;
 import com.giants3.hd.android.fragment.MaterialListFragment;
 import com.giants3.hd.android.fragment.OrderDetailFragment;
@@ -28,6 +29,7 @@ import com.giants3.hd.android.fragment.ProductDetailFragment;
 import com.giants3.hd.android.fragment.ProductListFragment;
 import com.giants3.hd.android.fragment.QuotationDetailFragment;
 import com.giants3.hd.android.fragment.QuotationListFragment;
+import com.giants3.hd.android.helper.AuthorityUtil;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
@@ -40,17 +42,21 @@ import com.giants3.hd.utils.entity.Quotation;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.giants3.hd.android.fragment.ProductListFragment.OnFragmentInteractionListener;
+
 /**
  * 主界面
  */
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ProductListFragment.OnFragmentInteractionListener,
-        QuotationListFragment.OnFragmentInteractionListener, OrderListFragment.OnFragmentInteractionListener,
-        OrderDetailFragment.OnFragmentInteractionListener, MaterialListFragment.OnFragmentInteractionListener,
-        MaterialDetailFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+
+        OrderDetailFragment.OnFragmentInteractionListener,
+        MaterialDetailFragment.OnFragmentInteractionListener,
+        QuotationDetailFragment.OnFragmentInteractionListener {
 
 
     public static final Fragment EMPTYP_FRAGMENT = new Fragment();
+    public static final Fragment EMPTY_LIST_FRAGMENT = new Fragment();
     NavigationViewHelper helper;
 
 
@@ -65,6 +71,21 @@ public class MainActivity extends BaseActivity
     @Bind(R.id.list_container)
     FrameLayout frameLayout;
 
+
+    private int currentListFragmentIndex;
+
+    private ListFragment<Material> materialListFragment;
+    private ListFragment<AProduct> productListFragment;
+    private ListFragment<ErpOrder> orderListFragment;
+    private ListFragment<Quotation> quotationListFragment;
+    //材料列表监听
+    ListFragment.OnFragmentInteractionListener<Material> materialListFragmentListener;
+    //订单列表 监听
+    ListFragment.OnFragmentInteractionListener<ErpOrder> orderOnFragmentInteractionListener;
+    //报价列表监听
+    ListFragment.OnFragmentInteractionListener<Quotation> quotationListFragmentListener;
+    //产品列表监听
+    ListFragment.OnFragmentInteractionListener<AProduct> productListFragmentListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +121,14 @@ public class MainActivity extends BaseActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        helper = new NavigationViewHelper(navigationView);
+
+
+//        navigationView.getMenu().getItem(0).setVisible(AuthorityUtil.getInstance().viewProductDelete());
+//        navigationView.getMenu().getItem(1).setVisible(AuthorityUtil.getInstance().viewQuotationList());
+//        navigationView.getMenu().getItem(2).setVisible(AuthorityUtil.getInstance().viewOrderMenu());
+//        navigationView.getMenu().getItem(3).setVisible(AuthorityUtil.getInstance().viewMaterialList());
+
+        helper = new NavigationViewHelper(navigationView.getHeaderView(0));
 
 
         //登录验证
@@ -108,107 +136,107 @@ public class MainActivity extends BaseActivity
         if (SharedPreferencesHelper.getLoginUser() == null) {
 
             startLoginActivity();
-        } else {
-
-
-            getWindow().getDecorView().post(new Runnable() {
-                @Override
-                public void run() {
-
-
-                    helper.bind();
-                }
-            });
-
         }
+        createListeners();
+        productListFragment = ProductListFragment.newInstance("", "");
+        productListFragment.setFragmentListener(productListFragmentListener);
+        quotationListFragment = QuotationListFragment.newInstance("", "");
+        quotationListFragment.setFragmentListener(quotationListFragmentListener);
+        orderListFragment = OrderListFragment.newInstance("", "");
+        orderListFragment.setFragmentListener(orderOnFragmentInteractionListener);
+        materialListFragment = MaterialListFragment.newInstance("", "");
+        materialListFragment.setFragmentListener(materialListFragmentListener);
+
+
+        showNewListFragment(EMPTY_LIST_FRAGMENT);
+
+
+    }
+
+    private void createListeners() {
+
+        orderOnFragmentInteractionListener = new OnFragmentInteractionListener<ErpOrder>() {
+            @Override
+            public void onFragmentInteraction(ErpOrder data) {
+
+                if (findViewById(R.id.detail_container) == null) {
+
+                    //调整act
+                    Intent intent = new Intent(MainActivity.this, OrderDetailActivity.class);
+                    intent.putExtra(OrderDetailFragment.ARG_ITEM, GsonUtils.toJson(data));
+                    startActivity(intent);
+
+                } else {
+
+                    OrderDetailFragment fragment = OrderDetailFragment.newInstance(data);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
+
+                }
+            }
+        };
+
+
+        quotationListFragmentListener = new OnFragmentInteractionListener<Quotation>() {
+            @Override
+            public void onFragmentInteraction(Quotation data) {
+                //打开报价详情单
+                if (findViewById(R.id.detail_container) == null) {
+
+                    //调整act
+                    Intent intent = new Intent(MainActivity.this, QuotationDetailActivity.class);
+                    intent.putExtra(QuotationDetailFragment.ARG_ITEM, GsonUtils.toJson(data));
+                    startActivity(intent);
+
+                } else {
+
+                    QuotationDetailFragment fragment = QuotationDetailFragment.newInstance(data);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
+                }
+            }
+        };
+
+        productListFragmentListener = new OnFragmentInteractionListener<AProduct>() {
+            @Override
+            public void onFragmentInteraction(AProduct data) {
+                if (findViewById(R.id.detail_container) == null) {
+
+                    //调整act
+                    Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(ProductDetailFragment.ARG_ITEM, GsonUtils.toJson(data));
+                    startActivity(intent);
+
+                } else {
+
+                    ProductDetailFragment fragment = ProductDetailFragment.newInstance(data);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
+                }
+
+            }
+        };
+        materialListFragmentListener = new OnFragmentInteractionListener<Material>() {
+            @Override
+            public void onFragmentInteraction(Material data) {
+//打开报价详情单
+                if (findViewById(R.id.detail_container) == null) {
+
+                    //调整act
+                    Intent intent = new Intent(MainActivity.this, MaterialDetailActivity.class);
+                    intent.putExtra(MaterialDetailFragment.ARG_ITEM, GsonUtils.toJson(data));
+                    startActivity(intent);
+
+                } else {
+
+                    MaterialDetailFragment fragment = MaterialDetailFragment.newInstance(data);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
+                }
+            }
+        };
 
 
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public void onFragmentInteraction(ErpOrder erpOrder) {
-
-
-        if (findViewById(R.id.detail_container) == null) {
-
-            //调整act
-            Intent intent = new Intent(this, OrderDetailActivity.class);
-            intent.putExtra(OrderDetailFragment.ARG_ITEM, GsonUtils.toJson(erpOrder));
-            startActivity(intent);
-
-        } else {
-
-            OrderDetailFragment fragment = OrderDetailFragment.newInstance(erpOrder);
-            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
-
-        }
-
-
-    }
-
-    @Override
-    public void onFragmentInteraction(AProduct aProduct) {
-
-
-        if (findViewById(R.id.detail_container) == null) {
-
-            //调整act
-            Intent intent = new Intent(this, ProductDetailActivity.class);
-            intent.putExtra(ProductDetailFragment.ARG_ITEM, GsonUtils.toJson(aProduct));
-            startActivity(intent);
-
-        } else {
-
-            ProductDetailFragment fragment = ProductDetailFragment.newInstance(aProduct);
-            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
-        }
-
-
-    }
-
-    @Override
-    public void onFragmentInteraction(Quotation quotation) {
-
-        //打开报价详情单
-        if (findViewById(R.id.detail_container) == null) {
-
-            //调整act
-            Intent intent = new Intent(this, QuotationDetailActivity.class);
-            intent.putExtra(ProductDetailFragment.ARG_ITEM, GsonUtils.toJson(quotation));
-            startActivity(intent);
-
-        } else {
-
-            QuotationDetailFragment fragment = QuotationDetailFragment.newInstance(quotation);
-            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
-        }
-
-
-    }
-
-    @Override
-    public void onFragmentInteraction(Material material) {
-
-
-        //打开报价详情单
-        if (findViewById(R.id.detail_container) == null) {
-
-            //调整act
-            Intent intent = new Intent(this, MaterialDetailActivity.class);
-            intent.putExtra(MaterialDetailFragment.ARG_ITEM, GsonUtils.toJson(material));
-            startActivity(intent);
-
-        } else {
-
-            MaterialDetailFragment fragment = MaterialDetailFragment.newInstance(material);
-            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment).commit();
-        }
-
 
     }
 
@@ -221,32 +249,16 @@ public class MainActivity extends BaseActivity
         TextView code;
         @Bind(R.id.name)
         TextView name;
-        NavigationView view;
 
-        boolean viewInject = false;
-
-        public NavigationViewHelper(NavigationView view) {
-
-            this.view = view;
-
-
+        public NavigationViewHelper(View view) {
+            ButterKnife.bind(this, view);
         }
 
-
         public void bind() {
-
-            if (!viewInject) {
-                ButterKnife.bind(this, view);
-                viewInject = true;
-            }
-
-
             AUser user = SharedPreferencesHelper.getLoginUser();
-
             code.setText(user.code);
             name.setText(user.name + "(" + user.chineseName + ")");
             HttpUrl.setToken(user.token);
-
         }
 
     }
@@ -307,29 +319,25 @@ public class MainActivity extends BaseActivity
 
         if (id == R.id.nav_product) {
 
-            ProductListFragment fragment = ProductListFragment.newInstance("", "");
 
-            showNewListFragment(fragment);
+            showNewListFragment(productListFragment);
             getSupportActionBar().setTitle("产品列表");
 
             // Handle the camera action
         } else if (id == R.id.nav_quotate) {
 
 
-            QuotationListFragment fragment = QuotationListFragment.newInstance("", "");
-            showNewListFragment(fragment);
+            showNewListFragment(quotationListFragment);
             getSupportActionBar().setTitle("报价列表");
 
         } else if (id == R.id.nav_order) {
 
-            OrderListFragment fragment = OrderListFragment.newInstance("", "");
-            showNewListFragment(fragment);
+
+            showNewListFragment(orderListFragment);
             getSupportActionBar().setTitle("订单列表");
 
         } else if (id == R.id.nav_material) {
-
-            MaterialListFragment fragment = MaterialListFragment.newInstance("", "");
-            showNewListFragment(fragment);
+            showNewListFragment(materialListFragment);
             getSupportActionBar().setTitle("材料列表");
 
         } else if (id == R.id.nav_share) {
@@ -353,8 +361,6 @@ public class MainActivity extends BaseActivity
 
         //清空详情fragment
         if (findViewById(R.id.detail_container) != null) {
-
-
             LinearLayout.LayoutParams layoutParams = ((LinearLayout.LayoutParams) frameLayout.getLayoutParams());
             layoutParams.weight = fragment instanceof MaterialListFragment ? 2 : 1;
             frameLayout.setLayoutParams(layoutParams);
@@ -362,4 +368,6 @@ public class MainActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, EMPTYP_FRAGMENT).commit();
         }
     }
+
+
 }

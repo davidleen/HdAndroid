@@ -12,9 +12,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.adapter.AbstractAdapter;
 import com.giants3.hd.android.adapter.MaterialListAdapter;
 import com.giants3.hd.android.adapter.ProductListAdapter;
+import com.giants3.hd.android.events.BaseEvent;
+import com.giants3.hd.android.events.MaterialUpdateEvent;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.giants3.hd.appdata.AProduct;
+import com.giants3.hd.data.interractor.UseCase;
 import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.utils.entity.RemoteData;
@@ -34,7 +39,7 @@ import rx.Subscriber;
  * Use the {@link MaterialListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MaterialListFragment extends BaseFragment {
+public class MaterialListFragment extends ListFragment<Material> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -46,15 +51,10 @@ public class MaterialListFragment extends BaseFragment {
 
 
     MaterialListAdapter adapter;
-    private OnFragmentInteractionListener mListener;
 
-    @Bind(R.id.list)
-    ListView product_list;
-    @Bind(R.id.search_text)
-    EditText search_text;
 
     public MaterialListFragment() {
-        // Required empty public constructor
+
     }
 
     /**
@@ -86,140 +86,25 @@ public class MaterialListFragment extends BaseFragment {
         adapter =new MaterialListAdapter(getActivity());
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_material_list, container, false);
-    }
-
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        product_list.setAdapter(adapter);
-        search_text.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                getActivity().getWindow().getDecorView().removeCallbacks(runnable);
-                getActivity().getWindow().getDecorView().postDelayed(runnable, 1000);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        attemptLoadList();
-
-    }
-    private void attemptLoadList()
-    {
-        attemptLoadList(0,100);
-    }
-    /**
-     *
-     */
-    private Runnable runnable=new Runnable() {
-        @Override
-        public void run() {
-
-            String key= search_text.getText().toString().trim();
-            attemptLoadList(key,0,100);
-        }
-    };
-
-    private void attemptLoadList(int pageIndex,int pageSize)
-    {
-        attemptLoadList("",pageIndex,pageSize);
-
-    }
-    private void attemptLoadList(String name,int pageIndex,int pageSize)
-    {
-
-        UseCaseFactory.getInstance().createMaterialListCase(name,pageIndex,pageSize).execute(new Subscriber<RemoteData<Material>>() {
-            @Override
-            public void onCompleted() {
-//                showProgress(false);
-            }
-            @Override
-            public void onError(Throwable e) {
-//                showProgress(false);
-                ToastHelper.show(e.getMessage());
-            }
-
-            @Override
-            public void onNext(RemoteData<Material> aUser) {
-                if(aUser.isSuccess()) {
-                    adapter.setDataArray(aUser.datas);
-                }else
-                {
-                    ToastHelper.show(aUser.message);
-                    if(aUser.code==RemoteData.CODE_UNLOGIN)
-                    {
-                        startLoginActivity();
-                    }
-                }
-            }
-        });
-
-    }
-
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    protected AbstractAdapter<Material> getAdapter() {
+        return adapter;
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(Material Material);
+    protected UseCase getUserCase(String key, int pageIndex, int pageSize) {
+        return UseCaseFactory.getInstance().createMaterialListCase(key,pageIndex,pageSize);
     }
 
 
-    @Override
-    protected void onLoginRefresh() {
 
-          attemptLoadList();
+    public void onEvent(MaterialUpdateEvent event) {
 
-
+        onLoginRefresh();
     }
 
-    @Override
-    public void onDestroyView() {
 
-        search_text.removeCallbacks(runnable);
-        super.onDestroyView();
 
-    }
+
 }

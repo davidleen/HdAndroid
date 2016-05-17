@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.giants3.hd.utils.StringUtils;
 
+import java.io.File;
 import java.net.URLEncoder;
 
 /**
@@ -175,5 +176,20 @@ public class HttpUrl {
 
     public static String getMaterialList(String name, int pageIndex, int pageSize) {
         return completeUrl(String.format(RestApi.API_URL_GET_MATERIAL_LIST, URLEncoder.encode( name), pageIndex, pageSize));
+    }
+
+    /**
+     * 上传材料图片
+     * @param materialId
+     * @return
+     */
+    public static String uploadMaterialPicture( long materialId) {
+
+
+        return completeUrl( String.format(RestApi.API_URL_UPLOAD_MATERIAL_PICTURE, materialId  ));
+    }
+
+    public static String loadInitData(long userId) {
+        return completeUrl( String.format(RestApi.API_URL_GET_INITDATA, userId  ));
     }
 }
