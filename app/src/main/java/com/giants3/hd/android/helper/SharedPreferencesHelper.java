@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.data.utils.*;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.utils.noEntity.BufferData;
-import com.google.zxing.common.StringUtils;
 
 /**
  * Created by david on 2016/1/2.
@@ -26,8 +24,10 @@ public class SharedPreferencesHelper {
         mContext=context;
 
         aUser=getLoginUserFromCache();
+
+        AuthorityUtil.getInstance().setLoginUser(aUser);
         aBufferData=getInitDataFromCache();
-        CacheManager.getInstance().bufferData=aBufferData;
+
 
     }
 
@@ -58,6 +58,7 @@ public class SharedPreferencesHelper {
     {
 
         aUser=auser;
+        AuthorityUtil.getInstance().setLoginUser(auser);
         SharedPreferences sharedPreferences=mContext.getSharedPreferences(SHARED_PREFERENCE_APP,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         String value=GsonUtils.toJson(auser);
@@ -79,7 +80,7 @@ public class SharedPreferencesHelper {
     {
 
         aBufferData=bufferData;
-        CacheManager.getInstance().bufferData=aBufferData;
+
         SharedPreferences sharedPreferences=mContext.getSharedPreferences(SHARED_PREFERENCE_APP,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         String value=GsonUtils.toJson(bufferData);

@@ -177,6 +177,9 @@ public class HttpUrl {
     public static String getMaterialList(String name, int pageIndex, int pageSize) {
         return completeUrl(String.format(RestApi.API_URL_GET_MATERIAL_LIST, URLEncoder.encode( name), pageIndex, pageSize));
     }
+    public static String getMaterialListInService(String name, int pageIndex, int pageSize) {
+        return completeUrl(String.format(RestApi.API_URL_GET_MATERIAL_LIST_IN_SERVICE, URLEncoder.encode( name), pageIndex, pageSize));
+    }
 
     /**
      * 上传材料图片
@@ -191,5 +194,10 @@ public class HttpUrl {
 
     public static String loadInitData(long userId) {
         return completeUrl( String.format(RestApi.API_URL_GET_INITDATA, userId  ));
+    }
+
+    public static String saveProductDetail() {
+
+        return completeUrl( RestApi.API_URL_SAVE_PRODUCTDETAIL );
     }
 }

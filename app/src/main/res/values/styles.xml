@@ -33,6 +33,14 @@
         <item name="android:layout_height"> wrap_content</item>
 
     </style>
+
+    <style name="value_edit_text_style" parent="value_text_style">
+        <item name="android:drawableRight">@mipmap/ic_menu_edit</item>
+        <item name="android:background">@drawable/bg_gray_input_selector</item>
+
+
+    </style>
+
     <style name="title_text_style">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/title_color</item>

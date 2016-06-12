@@ -1,6 +1,7 @@
 package com.giants3.hd.android.helper;
 
 
+import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.utils.entity.Authority;
 import com.giants3.hd.utils.entity.Module;
 import com.giants3.hd.utils.entity.User;
@@ -20,6 +21,12 @@ public class AuthorityUtil {
         return authorityUtil;
     }
 
+    private AUser loginUser;
+    public  void setLoginUser(AUser aUser)
+    {
+        loginUser=aUser;
+    }
+
 
 
     /**
@@ -29,7 +36,9 @@ public class AuthorityUtil {
      */
     private boolean isViewable(String moduleName)
     {
-        if(CacheManager.getInstance().bufferData.loginUser.name.equals(User.ADMIN))
+        if(loginUser==null) return false;
+
+        if( loginUser.name.equals(User.ADMIN))
             return true;
         for(Authority authority:getAuthority())
         {
@@ -53,7 +62,8 @@ public class AuthorityUtil {
      */
     private boolean isVerifiable(String moduleName)
     {
-        if(CacheManager.getInstance().bufferData.loginUser.name.equals(User.ADMIN))
+        if(loginUser==null) return false;
+        if( loginUser.name.equals(User.ADMIN))
             return true;
         for(Authority authority:getAuthority())
         {
@@ -75,7 +85,8 @@ public class AuthorityUtil {
      */
     private boolean isAddable(String moduleName)
     {
-        if(CacheManager.getInstance().bufferData.loginUser.name.equals(User.ADMIN))
+        if(loginUser==null) return false;
+        if( loginUser.name.equals(User.ADMIN))
             return true;
         for(Authority authority:getAuthority())
         {
@@ -96,7 +107,8 @@ public class AuthorityUtil {
      */
     private boolean editable(String moduleName)
     {
-        if(CacheManager.getInstance().bufferData.loginUser.name.equals(User.ADMIN))
+        if(loginUser==null) return false;
+        if( loginUser.name.equals(User.ADMIN))
             return true;
         for(Authority authority:getAuthority())
         {
@@ -119,7 +131,8 @@ public class AuthorityUtil {
      */
     private boolean deletable(String moduleName)
     {
-        if(CacheManager.getInstance().bufferData.loginUser.name.equals(User.ADMIN))
+        if(loginUser==null) return false;
+        if( loginUser.name.equals(User.ADMIN))
             return true;
         for(Authority authority:getAuthority())
         {
@@ -141,7 +154,8 @@ public class AuthorityUtil {
      */
     private boolean exportable(String moduleName)
     {
-        if(CacheManager.getInstance().bufferData.loginUser.name.equals(User.ADMIN))
+        if(loginUser==null) return false;
+        if( loginUser.name.equals(User.ADMIN))
             return true;
         for(Authority authority:getAuthority())
         {
@@ -159,7 +173,7 @@ public class AuthorityUtil {
 
     public List<Authority> getAuthority()
     {
-        return CacheManager.getInstance().bufferData.authorities;
+        return  loginUser.authorities;
     }
 
     public boolean viewProductModule()

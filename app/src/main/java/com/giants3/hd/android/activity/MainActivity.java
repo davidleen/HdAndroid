@@ -30,17 +30,24 @@ import com.giants3.hd.android.fragment.ProductListFragment;
 import com.giants3.hd.android.fragment.QuotationDetailFragment;
 import com.giants3.hd.android.fragment.QuotationListFragment;
 import com.giants3.hd.android.helper.AuthorityUtil;
+
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
+import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
+import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.Material;
+import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.Quotation;
+import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.noEntity.BufferData;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscriber;
 
 import static com.giants3.hd.android.fragment.ProductListFragment.OnFragmentInteractionListener;
 
@@ -123,12 +130,9 @@ public class MainActivity extends BaseActivity
 
 
 
-//        navigationView.getMenu().getItem(0).setVisible(AuthorityUtil.getInstance().viewProductDelete());
-//        navigationView.getMenu().getItem(1).setVisible(AuthorityUtil.getInstance().viewQuotationList());
-//        navigationView.getMenu().getItem(2).setVisible(AuthorityUtil.getInstance().viewOrderMenu());
-//        navigationView.getMenu().getItem(3).setVisible(AuthorityUtil.getInstance().viewMaterialList());
 
         helper = new NavigationViewHelper(navigationView.getHeaderView(0));
+        bindData();
 
 
         //登录验证
@@ -150,6 +154,17 @@ public class MainActivity extends BaseActivity
 
         showNewListFragment(EMPTY_LIST_FRAGMENT);
 
+
+    }
+
+    private void bindData()
+    {
+
+        navigationView.getMenu().getItem(0).setVisible(AuthorityUtil.getInstance().viewProductDelete());
+        navigationView.getMenu().getItem(1).setVisible(AuthorityUtil.getInstance().viewQuotationList());
+        navigationView.getMenu().getItem(2).setVisible(AuthorityUtil.getInstance().viewOrderMenu());
+        navigationView.getMenu().getItem(3).setVisible(AuthorityUtil.getInstance().viewMaterialList());
+        helper.bind();
 
     }
 
@@ -256,6 +271,7 @@ public class MainActivity extends BaseActivity
 
         public void bind() {
             AUser user = SharedPreferencesHelper.getLoginUser();
+            if(user==null ) return ;
             code.setText(user.code);
             name.setText(user.name + "(" + user.chineseName + ")");
             HttpUrl.setToken(user.token);
@@ -270,7 +286,8 @@ public class MainActivity extends BaseActivity
         getWindow().getDecorView().post(new Runnable() {
             @Override
             public void run() {
-                helper.bind();
+
+                bindData();
             }
         });
 
@@ -300,15 +317,66 @@ public class MainActivity extends BaseActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            SettingActivity.startActivity(this, 100);
+        switch (id)
+        {
+            case R.id.action_settings:
+                SettingActivity.startActivity(this, 100);
+                return true;
+
+            case R.id.action_clean:
 
 
-            return true;
+                reLoadBufferData();
+                return true;
         }
 
+
+
+
         return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     *重新读取缓存数据
+     */
+    private  void reLoadBufferData()
+    {
+
+        if(SharedPreferencesHelper.getLoginUser()!=null)
+        {
+            UseCaseFactory.getInstance().createGetInitDataCase(SharedPreferencesHelper.getLoginUser().id).execute(new Subscriber<RemoteData<BufferData>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                    ToastHelper.show(e.getMessage());
+                }
+
+                @Override
+                public void onNext(RemoteData<BufferData> remoteData) {
+                    if (remoteData.isSuccess()) {
+
+                        SharedPreferencesHelper.saveInitData(remoteData.datas.get(0));
+                        ToastHelper.show("缓存清理成功");
+
+                    } else {
+                        ToastHelper.show(remoteData.message);
+
+                    }
+                }
+            });
+
+        }
+
+
+
+
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -318,36 +386,23 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_product) {
-
-
             showNewListFragment(productListFragment);
             getSupportActionBar().setTitle("产品列表");
-
             // Handle the camera action
         } else if (id == R.id.nav_quotate) {
-
-
             showNewListFragment(quotationListFragment);
             getSupportActionBar().setTitle("报价列表");
-
         } else if (id == R.id.nav_order) {
-
-
             showNewListFragment(orderListFragment);
             getSupportActionBar().setTitle("订单列表");
-
         } else if (id == R.id.nav_material) {
             showNewListFragment(materialListFragment);
             getSupportActionBar().setTitle("材料列表");
-
         } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.nav_send) {
-
         } else if (id == R.id.reLogin) {
             startLoginActivity();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

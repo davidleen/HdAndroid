@@ -17,4 +17,34 @@ public class ProductDetailPresenterImpl extends BasePresenterImpl implements Pro
     public void onMaterialWageClick(int index) {
 
     }
+
+    @Override
+    public void toEditProductDetail() {
+
+    }
+
+    @Override
+    public void onItemAdd() {
+
+    }
+
+    @Override
+    public void onItemModify(Object object, int position) {
+
+    }
+
+    @Override
+    public void onItemDelete(Object object, int position) {
+
+    }
+
+    @Override
+    public void saveProductDetail() {
+
+
+
+
+    }
+
+
 }

@@ -27,10 +27,6 @@ public class BufferData implements Serializable{
     public   List<MaterialType> materialTypes;
     //public    List<MaterialEquation> materialEquations=new ArrayList<>();
     public   List<User> salesmans;
-    public List<Authority> authorities;
-    public QuoteAuth quoteAuth;
-
-    public  User loginUser;
 
     public  GlobalData globalData;
 

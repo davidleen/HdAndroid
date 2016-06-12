@@ -196,7 +196,7 @@ public class ApiConnection {
     public byte[] get(String url) throws HdException {
 
 
-        Base64 base;
+
         Request request = null;
         try {
             request = new Request.Builder()

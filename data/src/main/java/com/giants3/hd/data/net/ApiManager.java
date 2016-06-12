@@ -196,6 +196,30 @@ public class ApiManager {
         }
         return remoteData;
     }
+    /**
+     * 读取未停用的材料列表
+     *
+     * @param name
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     * @throws HdException
+     */
+    public RemoteData<Material> getMaterialListInService(String name, int pageIndex, int pageSize) throws HdException {
+
+        String url = HttpUrl.getMaterialListInService(name, pageIndex, pageSize);
+        String result = apiConnection.getString(url);
+        RemoteData<Material> remoteData = invokeByReflect(result, Material.class);
+        //移动端不需要photo
+        if(remoteData.isSuccess())
+        {
+            for (Material  material:remoteData.datas)
+            {
+                material.photo=null;
+            }
+        }
+        return remoteData;
+    }
 
     /**
      * 上传材料图片
@@ -224,6 +248,13 @@ public class ApiManager {
 
         RemoteData<BufferData> remoteData = invokeByReflect(result, BufferData.class);
 
+        return remoteData;
+    }
+
+    public RemoteData<ProductDetail> saveProductDetail(ProductDetail productDetail) throws HdException {
+        String url = HttpUrl.saveProductDetail();
+        String result = apiConnection.post(url, GsonUtils.toJson(productDetail));
+        RemoteData<ProductDetail> remoteData = invokeByReflect(result, ProductDetail.class);
         return remoteData;
     }
 }

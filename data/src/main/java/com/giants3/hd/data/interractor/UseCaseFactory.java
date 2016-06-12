@@ -3,6 +3,7 @@ package com.giants3.hd.data.interractor;
 import com.giants3.hd.data.module.AppModule;
 import com.giants3.hd.data.net.RestApi;
 
+import com.giants3.hd.utils.entity.ProductDetail;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
@@ -105,9 +106,14 @@ public class UseCaseFactory  {
 
     public UseCase createMaterialListCase(String name, int pageIndex, int pageSize) {
 
-        return new GetMaterialListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),name,pageIndex,pageSize , restApi);
+        return new GetMaterialListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),name,pageIndex,pageSize ,true, restApi);
     }
 
+
+    public UseCase createMaterialListInServiceCase(String name, int pageIndex, int pageSize) {
+
+        return new GetMaterialListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),name,pageIndex,pageSize ,false, restApi);
+    }
     public UseCase createUploadMaterialPictureCase(byte[] bytes, long id) {
             return new UploadMaterialPictureCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),id,bytes , restApi);
     }
@@ -115,5 +121,9 @@ public class UseCaseFactory  {
 
     public UseCase createGetInitDataCase( long userId) {
         return new GetInitDataCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),userId , restApi);
+    }
+
+    public UseCase saveProductDetailCase( ProductDetail productDetail) {
+        return new SaveProductDetailCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),productDetail , restApi);
     }
 }

@@ -1,0 +1,335 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<LinearLayout
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".fragment.ProductMaterialFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|top"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/title_text_style"
+                android:layout_width="@dimen/title_length"
+                android:text="材料编码" />
+
+            <TextView
+                android:id="@+id/materialCode"
+                style="@style/value_text_style"
+
+                android:layout_width="@dimen/value_lengthX2" />
+
+
+            <TextView
+                android:id="@+id/selectMaterial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_white_round_selector"
+                android:padding="5dp"
+                android:text="材料选择"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/title_text_style"
+                android:layout_width="@dimen/title_length"
+                android:text="材料名称" />
+
+            <TextView
+                android:id="@+id/materialName"
+
+                style="@style/value_text_style"
+                android:layout_width="@dimen/value_lengthX2" />
+
+            <TextView
+                android:id="@+id/selectMaterial2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_white_round_selector"
+                android:padding="5dp"
+                android:text="材料选择"
+                />
+
+
+        </LinearLayout>
+
+
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="数量" />
+
+        <TextView
+            android:id="@+id/quantity"
+            style="@style/value_edit_text_style" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="长" />
+
+        <TextView
+            android:id="@+id/mLong"
+            style="@style/value_edit_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="宽：" />
+
+        <TextView
+            android:id="@+id/mWidth"
+            style="@style/value_edit_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="高：" />
+
+        <TextView
+            android:id="@+id/mHeight"
+            style="@style/value_edit_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="毛长" />
+
+        <TextView
+            android:id="@+id/wLong"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="毛宽" />
+
+        <TextView
+            android:id="@+id/wWidth"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="毛高" />
+
+        <TextView
+            android:id="@+id/wHeight"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="配额" />
+
+        <TextView
+            android:id="@+id/quota"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="单位" />
+
+        <TextView
+            android:id="@+id/unit"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="利用率" />
+
+        <TextView
+            android:id="@+id/available"
+
+            style="@style/value_edit_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="类型" />
+
+        <TextView
+            android:id="@+id/type"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="单价" />
+
+        <TextView
+            android:id="@+id/price"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="金额" />
+
+        <TextView
+            android:id="@+id/amount"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/item_group_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+
+            android:text="分件备注" />
+
+        <TextView
+            android:id="@+id/memo"
+            style="@style/value_edit_text_style"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+
+
+            />
+
+    </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>

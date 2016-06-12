@@ -19,4 +19,14 @@ public interface ProductDetailPresenter  extends  BasePresenter{
      */
     public void onMaterialWageClick(int index);
 
+    /**
+     * 编辑点击
+     */
+   public  void toEditProductDetail();
+
+    public void onItemAdd();
+    public void onItemModify(Object object,int position);
+    public void onItemDelete(Object object,int position);
+
+   public  void saveProductDetail();
 }

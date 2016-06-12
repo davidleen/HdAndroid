@@ -1,9 +1,11 @@
 package com.giants3.hd.android.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +38,9 @@ public class ItemListAdapter<T>
     public TableData tableData;
 
     private Context context;
+
+
+    private int selectedPosition=-1;
 
 
     private int rowHeight=DEFAULT_ROW_HEIGHT;
@@ -93,13 +98,18 @@ public class ItemListAdapter<T>
     public ViewHolder onCreateViewHolder() {
 
 
-        LinearLayout linearLayout = new LinearLayout(getContext());
-        ViewHolder viewHolder = new ViewHolder(linearLayout, tableData);
-        linearLayout.setGravity(Gravity.CENTER);
 
+        LinearLayout convertView=new LinearLayout(context);
+        convertView.setBackgroundResource(R.drawable.list_item_bg_selector);
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        convertView.addView(linearLayout);
+        ViewHolder viewHolder = new ViewHolder(convertView, tableData);
+        linearLayout.setGravity(Gravity.CENTER);
+        viewHolder.contentView=linearLayout;
 
         if (tableData != null)
             viewHolder.views = new View[tableData.size];
+
             for (int i = 0; i < tableData.size; i++) {
 
 
@@ -128,12 +138,15 @@ public class ItemListAdapter<T>
             }
         linearLayout.setDividerDrawable(context.getResources().getDrawable(R.drawable.icon_divider));
         linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-        linearLayout.setBackgroundResource(R.drawable.list_item_bg_selector);
 
-        linearLayout.setClickable(true);
 
         return viewHolder;
     }
+
+
+
+
+
 
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
@@ -198,11 +211,11 @@ public class ItemListAdapter<T>
         private TableData tableData;
         private Object mItem;
 
+        public View contentView;
         public ViewHolder(View view, TableData tableData) {
 
 
             mView = view;
-
             this.tableData = tableData;
         }
 
@@ -240,12 +253,15 @@ public class ItemListAdapter<T>
             }
 
 
+
         }
 
 
         @Override
-        public void bindData(AbstractAdapter<T> adapter, T data, int position) {
+        public void bindData(final AbstractAdapter<T> adapter, T data, final int position) {
             bind(data);
+            contentView.setBackgroundColor(adapter.getSelectedPosition()==position? Color.GRAY:Color.TRANSPARENT);
+
         }
 
         @Override
@@ -255,6 +271,7 @@ public class ItemListAdapter<T>
 
 
     }
+
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -296,4 +313,10 @@ public class ItemListAdapter<T>
         return linearLayout;
 
     }
+
+
+
+
+
+
 }

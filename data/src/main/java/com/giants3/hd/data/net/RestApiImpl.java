@@ -228,12 +228,14 @@ public class RestApiImpl implements RestApi {
      * @return
      */
     @Override
-    public Observable<RemoteData<Material>> getMaterialList(final String name, final int pageIndex, final int pageSize) {
+    public Observable<RemoteData<Material>> getMaterialList(final String name, final int pageIndex, final int pageSize, final boolean loadAll) {
 
         return create(new ApiInvoker<Material>() {
             @Override
             public RemoteData<Material> invoker() throws HdException {
-                return apiManager.getMaterialList(name, pageIndex, pageSize);
+                if(loadAll)
+                    return apiManager.getMaterialList(name,pageIndex,pageSize);
+                return apiManager.getMaterialListInService(name, pageIndex, pageSize);
             }
         });
     }
@@ -254,6 +256,16 @@ public class RestApiImpl implements RestApi {
             @Override
             public RemoteData<BufferData> invoker() throws HdException {
                 return apiManager.getInitData(userId);
+            }
+        });
+    }
+
+    @Override
+    public Observable saveProductDetail(final ProductDetail productDetail) {
+        return create(new ApiInvoker<ProductDetail>() {
+            @Override
+            public RemoteData<ProductDetail> invoker() throws HdException {
+                return apiManager.saveProductDetail(productDetail);
             }
         });
     }

@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.events.LoginSuccessEvent;
-import com.giants3.hd.android.helper.CacheManager;
+import com.giants3.hd.android.helper.AuthorityUtil;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AUser;
@@ -250,7 +250,7 @@ public class LoginActivity extends BaseActivity {
             UseCaseFactory.getInstance().createLogin(map).execute(new Subscriber<RemoteData<AUser>>() {
                 @Override
                 public void onCompleted() {
-                     showProgress(false);
+                     //showProgress(false);
 
                 }
 
@@ -265,12 +265,13 @@ public class LoginActivity extends BaseActivity {
                     if (aUser.isSuccess()) {
                         SharedPreferencesHelper.saveLoginUser(aUser.datas.get(0));
                         HttpUrl.setToken(aUser.datas.get(0).token);
+
                         ToastHelper.show("登录成功");
 
-                    //    loadInitData(aUser.datas.get(0).id);
-                        EventBus.getDefault().post(new LoginSuccessEvent());
-                        setResult(RESULT_OK);
-                        finish();
+                      loadInitData(aUser.datas.get(0).id);
+//                        EventBus.getDefault().post(new LoginSuccessEvent());
+//                        setResult(RESULT_OK);
+//                        finish();
                     } else {
                         ToastHelper.show(aUser.message);
                         showProgress(false);

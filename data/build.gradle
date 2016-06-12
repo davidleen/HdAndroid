@@ -39,7 +39,6 @@ dependencies {
     compile "io.reactivex:rxjava:${rxVersion}"
 
     compile "com.google.code.gson:gson:${gsonVersion}"
-
     compile 'com.google.inject:guice:4.0:no_aop'
 
     provided 'com.google.inject:guice:4.0'

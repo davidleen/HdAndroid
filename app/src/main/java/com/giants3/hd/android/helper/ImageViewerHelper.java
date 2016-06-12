@@ -39,13 +39,12 @@ public class ImageViewerHelper {
 
                 Intent intent = new Intent(context, ImageViewerActivity.class);
                 intent.setData(Uri.fromFile(newFile));
-
                 context.startActivity(intent);
 
         } else {
-            Intent intent = new Intent(context, PictureViewActivity.class);
-            intent.putExtra(PictureViewActivity.EXTRA_URL, url);
-            context.startActivity(intent);
+                Intent intent = new Intent(context, PictureViewActivity.class);
+                intent.putExtra(PictureViewActivity.EXTRA_URL, url);
+                context.startActivity(intent);
 
 
             }

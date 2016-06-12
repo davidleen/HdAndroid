@@ -43,7 +43,7 @@ import rx.Subscriber;
 public class MaterialDetailFragment extends BaseFragment implements View.OnClickListener {
 
 
-    public static String ARG_ITEM = "ARG_ITEM";
+    public static String ARG_ITEM = "PRODUCT_MATERIAL_TYPE";
 
     private static final int MAX_MEMO_ROW_LINE = 3;
 

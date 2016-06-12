@@ -25,6 +25,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">设置</string>
+    <string name="action_clear">清理缓存</string>
     <string name="product_list">产品列表</string>
     <string name="quotate_list">报价列表</string>
     <string name="order_list">订单列表</string>
@@ -192,5 +193,23 @@
     <string name="title_activity_picture_view">PictureViewActivity</string>
     <string name="title_activity_long_text">LongText</string>
 
-
+    <!--材料细项表 表格-->
+    <string-array name="table_head_material_item">
+        <item>图片||url||2||91</item>
+        <item>材料代码||code||1||120</item>
+        <item>材料名称||name||1||100</item>
+        <item>毛长||pVersion||1||120</item>
+        <item>毛宽||inBoxCount||1||60</item>
+        <item>毛高||packQuantity||1||60</item>
+        <item>利用率||available||1||60</item>
+        <item>损耗率||discount||1||60</item>
+        <item>单价||price||1||60</item>
+        <item>类型||typeName||1||60</item>
+        <item>缓冲||classId||1||60</item>
+        <item>规格||spec||1||120</item>
+        <item>单位||unitName||1||60</item>
+        <item>类别||className||1||60</item>
+        <item>是否停用||outOfService||1||60</item>
+        <item>备注||memo||1||200</item>
+    </string-array>
 </resources>

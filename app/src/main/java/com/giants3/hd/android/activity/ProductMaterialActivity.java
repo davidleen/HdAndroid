@@ -1,31 +1,28 @@
 package com.giants3.hd.android.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.fragment.ProductDetailFragment;
+
+import com.giants3.hd.android.fragment.ProductMaterialFragment;
 
 import butterknife.Bind;
-import butterknife.BindString;
 
 /**
+ *
+ * 产品材料清单编辑界面
  * An activity representing a single ProductListActivity detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link ProductListActivity}.
  */
-public class ProductDetailActivity extends BaseActivity {
+public class ProductMaterialActivity extends BaseActivity implements  ProductMaterialFragment.OnFragmentInteractionListener {
 
 
-
-      boolean editable;
 
     @Bind(R.id.detail_toolbar )
     Toolbar toolbar  ;
@@ -33,8 +30,9 @@ public class ProductDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_detail);
+        setContentView(R.layout.activity_product_material);
         setSupportActionBar(toolbar);
+
 
 
 
@@ -54,16 +52,14 @@ public class ProductDetailActivity extends BaseActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ProductDetailFragment.ARG_ITEM,
-                    getIntent().getStringExtra(ProductDetailFragment.ARG_ITEM));
-
-            editable=getIntent().getBooleanExtra(ProductDetailFragment.EXTRA_EDITABLE,false);
-            arguments.putBoolean(ProductDetailFragment.EXTRA_EDITABLE,
-                    editable);
-            ProductDetailFragment fragment = new ProductDetailFragment();
+            arguments.putInt(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE,
+                    getIntent().getIntExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE,ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS));
+            arguments.putInt(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION,
+                    getIntent().getIntExtra(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION,-1));
+            ProductMaterialFragment fragment = new ProductMaterialFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.product_detail_container, fragment)
+                    .add(R.id.product_material_container, fragment)
                     .commit();
         }
 
@@ -72,7 +68,7 @@ public class ProductDetailActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(editable?"产品编辑":"产品详情");
+            actionBar.setTitle("材料清单编辑" );
         }
     }
 
@@ -90,5 +86,10 @@ public class ProductDetailActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

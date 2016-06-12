@@ -1,9 +1,40 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:context=".fragment.ProductDetailFragment"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.ProductDetailFragment">
 
+
+    <LinearLayout
+        android:id="@+id/control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/edit"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_white_round_selector"
+            android:gravity="center"
+            android:padding="5dp"
+
+            android:text="编辑" />
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/button_white_round_selector"
+            android:gravity="center"
+            android:padding="5dp"
+
+            android:text="保存" />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,11 +44,10 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:showDividers="middle"
             android:divider="@drawable/icon_divider"
+            android:orientation="vertical"
             android:padding="5dp"
-          >
+            android:showDividers="middle">
 
 
             <LinearLayout
@@ -249,8 +279,6 @@
             </com.wefika.flowlayout.FlowLayout>
 
 
-
-
             <com.giants3.hd.android.widget.ExpandableGridView
                 android:id="@+id/gridView"
                 android:layout_width="match_parent"
@@ -258,43 +286,40 @@
 
 
             </com.giants3.hd.android.widget.ExpandableGridView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="备注" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginLeft="40dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/list_item_bg_selector"
-                android:id="@+id/memo" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="备注" />
+
+                <TextView
+                    android:id="@+id/memo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:background="@drawable/list_item_bg_selector" />
 
                 <TextView
                     android:id="@+id/showMore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
-                    android:text="......(点击查看全部)"
                     android:drawableRight="@android:drawable/arrow_down_float"
-                    />
+                    android:text="......(点击查看全部)" />
 
 
-
-
-
-        </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -337,21 +362,21 @@
                     android:text="白胚" />
 
                 <TextView
+                    android:id="@+id/conceptusCost"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/list_item_bg_selector"
 
-                    android:gravity="center"
-                    android:id="@+id/conceptusCost" />
+                    android:background="@drawable/list_item_bg_selector"
+                    android:gravity="center" />
 
                 <TextView
+                    android:id="@+id/conceptusWage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/list_item_bg_selector"
-                    android:gravity="center"
-                    android:id="@+id/conceptusWage" />
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -370,20 +395,20 @@
                     android:text="组装" />
 
                 <TextView
+                    android:id="@+id/assembleCost"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/list_item_bg_selector"
-                    android:gravity="center"
-                    android:id="@+id/assembleCost" />
+                    android:gravity="center" />
 
                 <TextView
+                    android:id="@+id/assembleWage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/list_item_bg_selector"
-                    android:gravity="center"
-                    android:id="@+id/assembleWage" />
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -402,20 +427,20 @@
                     android:text="油漆" />
 
                 <TextView
+                    android:id="@+id/paintCost"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/list_item_bg_selector"
-                    android:gravity="center"
-                    android:id="@+id/paintCost" />
+                    android:gravity="center" />
 
                 <TextView
+                    android:id="@+id/paintWage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/list_item_bg_selector"
-                    android:gravity="center"
-                    android:id="@+id/paintWage" />
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -435,137 +460,174 @@
                     android:text="包装" />
 
                 <TextView
+                    android:id="@+id/packCost"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/list_item_bg_selector"
-                    android:gravity="center"
-                    android:id="@+id/packCost" />
+                    android:gravity="center" />
 
                 <TextView
+                    android:id="@+id/packWage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/list_item_bg_selector"
-                    android:gravity="center"
-                    android:id="@+id/packWage" />
+                    android:gravity="center" />
 
             </LinearLayout>
 
 
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="清单"
-                />
+                android:layout_marginTop="10dp"
+                android:text="清单" />
+
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:divider="@drawable/icon_divider"
-                android:showDividers="beginning|middle|end"
-                android:layout_height="wrap_content">
+                android:showDividers="beginning|middle|end">
 
                 <TextView
+                    android:id="@+id/panel_conceptus"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="5dp"
                     android:background="@drawable/list_item_bg_selector"
 
-                    android:id="@+id/panel_conceptus"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:text="白胚" />
 
                 <TextView
+                    android:id="@+id/panel_assemble"
                     android:layout_width="0dp"
-                    android:padding="5dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/list_item_bg_selector"
                     android:gravity="center"
-                    android:id="@+id/panel_assemble"
-                    android:text="组装"
-                  />
+                    android:padding="5dp"
+                    android:text="组装" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:background="@drawable/list_item_bg_selector"
                     android:id="@+id/panel_paint"
-                    android:gravity="center"
-                    android:text="油漆" />
-                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:id="@+id/panel_pack"
-                    android:padding="5dp"
                     android:background="@drawable/list_item_bg_selector"
                     android:gravity="center"
+                    android:padding="5dp"
+                    android:text="油漆" />
+
+                <TextView
+                    android:id="@+id/panel_pack"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/list_item_bg_selector"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="包装" />
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:layout_width="match_parent"
                 android:id="@+id/panel_material_wage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:divider="@drawable/icon_divider"
-                android:showDividers="beginning|middle|end"
-                android:layout_height="wrap_content">
-
+                android:showDividers="beginning|middle|end">
 
 
                 <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-
-                    android:padding="2dp"
-                    android:background="@drawable/list_item_bg_selector"
-                    android:gravity="center"
                     android:id="@+id/segment_material"
-                    android:text="材料" />
-                <TextView
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
 
-                    android:padding="2dp"
-                    android:id="@+id/segment_wage"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/list_item_bg_selector"
                     android:gravity="center"
+                    android:padding="2dp"
+                    android:text="材料" />
+
+                <TextView
+                    android:id="@+id/segment_wage"
+                    android:layout_width="100dp"
+
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/list_item_bg_selector"
+                    android:gravity="center"
+                    android:padding="2dp"
                     android:text="工资" />
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/table_operate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:padding="3dp">
 
+                <TextView
+                    android:id="@+id/table_add"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_white_round_selector"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="添加" />
+
+                <TextView
+                    android:id="@+id/table_modify"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_white_round_selector"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:text="修改" />
+
+                <TextView
+                    android:id="@+id/table_delete"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:background="@drawable/button_white_round_selector"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="删除" />
+
+            </LinearLayout>
 
             <HorizontalScrollView
                 android:id="@+id/scrollIndicatorDown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
+                android:fillViewport="true"
                 android:minHeight="200dp"
-                android:fillViewport="true">
+                android:scrollbars="none">
 
                 <com.giants3.hd.android.widget.ExpandableHeightListView
-                    android:minHeight="300dp"
                     android:id="@+id/product_item_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:background="@drawable/background_gray_border"
                     android:divider="@drawable/icon_divider"
                     android:dividerHeight="1dp"
-                    android:background="@drawable/background_gray_border"
+                    android:fillViewport="false"
                     android:footerDividersEnabled="true"
                     android:headerDividersEnabled="true"
-                    android:fillViewport="false" />
+                    android:listSelector="#00000000"
+                    android:minHeight="300dp"
+                    android:orientation="vertical" />
 
             </HorizontalScrollView>
 
         </LinearLayout>
-
 
 
     </ScrollView>
@@ -574,17 +636,18 @@
     <FrameLayout
         android:id="@+id/loading"
         android:layout_width="match_parent"
-        android:background="#88000000"
-        android:layout_height="match_parent">
-    <ProgressBar
+        android:layout_height="match_parent"
+        android:background="#88000000">
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <ProgressBar
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
 
-        android:layout_gravity="center"
+            android:layout_centerInParent="true"
 
-        android:layout_centerInParent="true"
-        android:indeterminate="true" />
+            android:layout_gravity="center"
+            android:indeterminate="true" />
     </FrameLayout>
-</RelativeLayout>
+</LinearLayout>

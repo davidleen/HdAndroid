@@ -32,8 +32,6 @@ public class GetOrderListCase extends UseCase {
     @Override
     protected Observable buildUseCaseObservable() {
 
-
-
        return  restApi.getOrderList(name,pageIndex,pageSize);
 
 

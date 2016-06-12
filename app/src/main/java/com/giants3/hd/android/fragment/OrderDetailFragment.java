@@ -47,7 +47,7 @@ public class OrderDetailFragment extends BaseFragment implements View.OnClickLis
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    public static String ARG_ITEM = "ARG_ITEM";
+    public static String ARG_ITEM = "PRODUCT_MATERIAL_TYPE";
 
     private static  final int MAX_MEMO_ROW_LINE=3;
 

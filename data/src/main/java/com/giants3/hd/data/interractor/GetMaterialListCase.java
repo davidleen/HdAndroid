@@ -14,16 +14,17 @@ public class GetMaterialListCase extends UseCase {
     private final String name;
     private final int pageIndex;
     private final int pageSize;
+    private final boolean loadAll;
     RestApi restApi;
 
 
 
-    public GetMaterialListCase(Scheduler threadExecutor, Scheduler postExecutionThread, String name, int pageIndex, int pageSize, RestApi restApi) {
+    public GetMaterialListCase(Scheduler threadExecutor, Scheduler postExecutionThread, String name, int pageIndex, int pageSize,boolean loadAll, RestApi restApi) {
         super(threadExecutor, postExecutionThread);
         this.name = name;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
-
+        this.loadAll=loadAll;
         this.restApi=restApi;
 
 
@@ -34,7 +35,8 @@ public class GetMaterialListCase extends UseCase {
 
 
 
-       return  restApi.getMaterialList(name,pageIndex,pageSize);
+       return  restApi.getMaterialList(name,pageIndex,pageSize,loadAll
+       );
 
 
 

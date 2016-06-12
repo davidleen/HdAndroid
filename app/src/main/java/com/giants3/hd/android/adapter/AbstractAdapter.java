@@ -27,6 +27,9 @@ public abstract class AbstractAdapter<D> extends BaseAdapter {
     protected LayoutInflater inflater;
     protected List<D> datas;
 
+
+    private  int selectedPosition;
+
     public AbstractAdapter(Context context) {
         this(context, null);
     }
@@ -122,6 +125,7 @@ public abstract class AbstractAdapter<D> extends BaseAdapter {
         D data = getItem(position);
 
         holder.bindData(this, data, position);
+        convertView.setSelected(selectedPosition==position);
         return convertView;
 
     }
@@ -168,5 +172,17 @@ public abstract class AbstractAdapter<D> extends BaseAdapter {
     }
 
 
+    public void setSelectedPosition(int selectedPosition) {
+        if(selectedPosition>=0&&selectedPosition<getCount()) {
+            this.selectedPosition = selectedPosition;
+        }else
+        {
+            this.selectedPosition=-1;
+        }
 
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
 }
