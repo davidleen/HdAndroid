@@ -1,5 +1,7 @@
 package com.giants3.hd.android.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.fragment.ProductDetailFragment;
 
 import butterknife.Bind;
@@ -38,18 +41,6 @@ public class ProductDetailActivity extends BaseActivity {
 
 
 
-        // Show the Up button in the action bar.
-
-
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
@@ -90,5 +81,36 @@ public class ProductDetailActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+
+        if(ProductDetailSingleton.getInstance().hasModifyDetail())
+        {
+            AlertDialog alertDialog =new AlertDialog.Builder(this).setMessage("未保存数据，确认退出？").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+
+                    finish();
+
+                }
+            }).create();
+            alertDialog.show();
+
+
+        }else
+        {
+            super.onBackPressed();
+        }
+
     }
 }

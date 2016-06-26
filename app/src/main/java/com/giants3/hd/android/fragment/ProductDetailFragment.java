@@ -9,13 +9,17 @@ import android.view.ViewGroup;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.ViewImpl.ProductDetailViewerImpl;
+import com.giants3.hd.android.activity.BaseActivity;
 import com.giants3.hd.android.activity.ProductDetailActivity;
 import com.giants3.hd.android.activity.ProductListActivity;
 import com.giants3.hd.android.activity.ProductMaterialActivity;
+import com.giants3.hd.android.activity.ProductPaintActivity;
+import com.giants3.hd.android.activity.ProductWageActivity;
 import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.events.MaterialUpdateEvent;
 import com.giants3.hd.android.events.ProductUpdateEvent;
+import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.presenter.ProductDetailPresenter;
 import com.giants3.hd.android.viewer.BaseViewer;
@@ -25,6 +29,9 @@ import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.ProductMaterial;
+import com.giants3.hd.utils.entity.ProductPaint;
+import com.giants3.hd.utils.entity.ProductWage;
 import com.giants3.hd.utils.entity.RemoteData;
 
 import de.greenrobot.event.EventBus;
@@ -44,6 +51,9 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
      */
     public static final String ARG_ITEM = "item";
     public static final String EXTRA_EDITABLE = "EXTRA_EDITABLE";
+    private static final int REQUEST_PRODUCT_MATERIAL = 113;
+    private static final int REQUEST_PRODUCT_WAGE = 114;
+    private static final int REQUEST_PRODUCT_PAINT = 115;
 
 
     private boolean  editable=false;
@@ -210,29 +220,58 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
     }
 
     @Override
-    public void onItemAdd() {
+    public void onItemAdd(int position) {
+
 
 
             switch (panelIndex)
             {
+
+
                 case 0://白胚
                 {
 
                     if(subIndex==0)
                     {
-                            startProductMaterial();
+
+                        startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS,position,null);
+
                     }else
                     {
-
+                        startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS,position,null);
                     }
 
                 }
                     break;
                 case 1: //组装
+
+                    if(subIndex==0)
+                    {
+
+                        startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_ASSEMBLE,position,null);
+
+                    }else
+                    {
+                        startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_ASSEMBLE,position,null);
+                    }
+
+
                     break;
                 case 2://油漆
+
+                    startProductPaintEdit(position,null);
+
                     break;
                 case 3 ://包装
+
+                    if(subIndex==0)
+                    {
+                        startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_PACK,position,null);
+
+                    }else
+                    {
+                        startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_PACK,position,null);
+                    }
                     break;
 
 
@@ -241,49 +280,106 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
 
 
 
-    }
-
-
-    /**
-     * 启动产品材料界面
-     */
-    private void startProductMaterial() {
-
-
-        Intent intent=new Intent(getActivity(), ProductMaterialActivity.class);
-        startActivity(intent);
 
     }
+
+
+
 
     @Override
     public void onItemModify(Object object,int position) {
 
-        Intent intent=new Intent(getActivity(),ProductMaterialActivity.class);
+
 
         switch (panelIndex)
         {
             case 0://白胚
 
 
+                if(subIndex==0)
+                {
+                    startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS,position,productDetail.conceptusMaterials.get(position));
 
-                intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION,position);
-                intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE,ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS);
+                }else
+                {
+                    startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS,position,productDetail.conceptusWages.get(position));
+                }
+
+
 
 
                 break;
             case 1: //组装
+
+
+
+                if(subIndex==0)
+                {
+                    startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_ASSEMBLE,position,productDetail.assembleMaterials.get(position));
+
+                }else
+                {
+                    startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_ASSEMBLE,position,productDetail.assembleWages.get(position));
+                }
                 break;
             case 2://油漆
+
+                startProductPaintEdit(position,productDetail.paints.get(position));
                 break;
             case 3 ://包装
+                if(subIndex==0) {
+
+                    startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_PACK,position,productDetail.packMaterials.get(position));
+                }else{
+                    startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_PACK,position,productDetail.packWages.get(position));
+                }
                 break;
 
 
         }
-        startActivity(intent);
+
 
     }
 
+    /**
+     * 启动产品材料编辑
+     * @param type
+     * @param position
+     * @param productMaterial
+     */
+    private void startProductMaterialEdit(int type, int position, ProductMaterial productMaterial)
+    {   Intent intent=new Intent(getActivity(),ProductMaterialActivity.class);
+        if(productMaterial!=null)
+        intent.putExtra(ProductMaterialFragment.EXTRA_PRODUCT_MATERIAL, GsonUtils.toJson(productMaterial));
+        intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION, position);
+        intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE, type);
+        startActivityForResult(intent,REQUEST_PRODUCT_MATERIAL);
+    }  /**
+     * 启动产品油漆材料编辑
+     * @param position
+     * @param productPaint
+     */
+    private void startProductPaintEdit(  int position, ProductPaint productPaint)
+    {   Intent intent=new Intent(getActivity(),ProductPaintActivity.class);
+        if(productPaint!=null)
+        intent.putExtra(ProductPaintFragment.EXTRA_PRODUCT_PAINT, GsonUtils.toJson(productPaint));
+        intent.putExtra(ProductPaintFragment.PRODUCT_PAINT_POSITION, position);
+        intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE, ProductMaterialFragment.PRODUCT_MATERIAL_PAINT);
+        startActivityForResult(intent,REQUEST_PRODUCT_PAINT);
+    }
+    /* 启动产品工资编辑
+     * @param type
+     * @param position
+     * @param productPaint
+     */
+    private void startProductWageEdit(int type, int position, ProductWage productWage)
+    {   Intent intent=new Intent(getActivity(),ProductWageActivity.class);
+        if(productWage!=null)
+        intent.putExtra(ProductWageFragment.EXTRA_PRODUCT_WAGE, GsonUtils.toJson(productWage));
+        intent.putExtra(ProductWageFragment.PRODUCT_WAGE_POSITION, position);
+        intent.putExtra(ProductWageFragment.PRODUCT_MATERIAL_TYPE, type);
+        startActivityForResult(intent,REQUEST_PRODUCT_WAGE);
+    }
     @Override
     public void onItemDelete(Object object,int position) {
 
@@ -291,16 +387,64 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
         switch (panelIndex)
         {
             case 0://白胚
+                if(subIndex==0)
+                {
+                    productDetail.conceptusMaterials.remove(position);
+
+                }else
+                {
+                    //工资
+                    productDetail.conceptusWages.remove(position);
+
+                }
+
+
+
                 break;
             case 1: //组装
+                if(subIndex==0)
+                {
+                    productDetail.assembleMaterials.remove(position);
+
+
+
+
+                }else
+                {
+                    //工资
+                    productDetail.assembleWages.remove(position);
+
+
+                }
+
                 break;
             case 2://油漆
+
+                //材料
+
+                productDetail.paints.remove(position);
+
                 break;
             case 3 ://包装
+                if(subIndex==0)
+                {
+                    productDetail.packMaterials.remove(position);
+
+                }else
+                {
+                    //工资
+                    productDetail.packWages.remove(position);
+
+
+                }
+
+
                 break;
 
 
         }
+        productDetail.updateProductStatistics(SharedPreferencesHelper.getInitData().globalData);
+        bindData();
 
 
     }
@@ -309,7 +453,15 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
     public void saveProductDetail() {
 
 
+        if(!productDetailSingleton.hasModifyDetail())
+        {
 
+            ToastHelper.show("数据无改变");
+            getActivity().finish();
+            return;
+        }
+
+        showProgress(true);
         //保存产品详情信息
         UseCaseFactory.getInstance().saveProductDetailCase(productDetail).execute(new Subscriber<RemoteData<ProductDetail>>() {
             @Override
@@ -337,6 +489,101 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
                 }
             }
         });
+
+    }
+
+
+
+
+
+    public void onEvent(LoginSuccessEvent event) {
+
+        onLoginRefresh();
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode!=Activity.RESULT_OK) return;
+        switch (requestCode)
+        {
+            case REQUEST_PRODUCT_MATERIAL:
+
+                bindData();
+                break;
+
+            case REQUEST_PRODUCT_WAGE:
+
+                bindData();
+                break;
+            case REQUEST_PRODUCT_PAINT
+                    :
+
+                bindData();
+                break;
+        }
+    }
+
+
+    private  void bindData()
+    {
+
+        switch (panelIndex)
+        {
+            case 0://白胚
+                if(subIndex==0)
+                {
+
+                    viewer.showConceptusMaterial(productDetail);
+                }else
+                {
+
+                    viewer.showConceptusWage(productDetail);
+                }
+                viewer.bindData(productDetail);
+
+
+                break;
+            case 1: //组装
+                if(subIndex==0)
+                {
+                    viewer.showAssembleMaterial(productDetail);
+                }else
+                {
+
+                    viewer.showAssembleWage(productDetail);
+
+                }
+                viewer.bindData(productDetail);
+                break;
+            case 2://油漆
+
+                //材料
+
+
+                viewer.showPaintMaterialWage(productDetail);
+                // productDetail.updateProductStatistics();
+                viewer.bindData(productDetail);
+                break;
+            case 3 ://包装
+                if(subIndex==0)
+                {
+
+                    viewer.showPackMaterial(productDetail);
+                }else
+                {
+
+                    viewer.showPackWage(productDetail);
+
+                }
+
+                viewer.bindData(productDetail);
+                break;
+
+
+        }
 
     }
 
@@ -387,6 +634,8 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
         if(viewer!=null)
         {
             viewer.bindData(productDetail);
+            bindData();
         }
+        ProductDetailSingleton.getInstance().setProductDetail(null);
     }
 }

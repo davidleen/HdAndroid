@@ -8,6 +8,7 @@ import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.ProductProcess;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
@@ -61,6 +62,8 @@ public class ApiManager {
         }.getType());
 
         tokenMaps.put(BufferData.class, new TypeToken<RemoteData<BufferData>>() {
+        }.getType());
+        tokenMaps.put(ProductProcess.class, new TypeToken<RemoteData<ProductProcess>>() {
         }.getType());
 
 
@@ -255,6 +258,14 @@ public class ApiManager {
         String url = HttpUrl.saveProductDetail();
         String result = apiConnection.post(url, GsonUtils.toJson(productDetail));
         RemoteData<ProductDetail> remoteData = invokeByReflect(result, ProductDetail.class);
+        return remoteData;
+    }
+
+    public RemoteData<ProductProcess> getProductProcessList(String name, int pageIndex, int pageSize) throws HdException {
+        String url = HttpUrl.getProductProcessList(name, pageIndex, pageSize);
+        String result = apiConnection.getString(url);
+        RemoteData<ProductProcess> remoteData = invokeByReflect(result, ProductProcess.class);
+        //移动端不需要photo
         return remoteData;
     }
 }

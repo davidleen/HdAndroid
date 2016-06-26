@@ -150,7 +150,7 @@ public class ItemListAdapter<T>
 
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Object orderItem = getItem(position);
+        T orderItem = getItem(position);
         holder.mItem = orderItem;
         holder.bind(orderItem);
 
@@ -219,19 +219,19 @@ public class ItemListAdapter<T>
             this.tableData = tableData;
         }
 
-        public void bind(Object orderItem) {
+        public void bind(T orderItem) {
             mItem = orderItem;
 
 
             for (int i = 0; i < tableData.size; i++) {
-                Object o = null;
-                try {
-                    o = orderItem.getClass().getField(tableData.fields[i]).get(orderItem);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                }
+                Object o = getData(tableData.fields[i],orderItem);
+//                try {
+//                    o = orderItem.getClass().getField(tableData.fields[i]).get(orderItem);
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                } catch (NoSuchFieldException e) {
+//                    e.printStackTrace();
+//                }
                 if (tableData.type[i] == TableData.TYPE_IMAGE) {
 
                     ImageView imageView = (ImageView) views[i];
@@ -243,9 +243,6 @@ public class ItemListAdapter<T>
 
                 } else {
                     TextView textView = (TextView) views[i];
-
-
-
                     textView.setText(o==null?"":String.valueOf(o));
                 }
 
@@ -255,6 +252,9 @@ public class ItemListAdapter<T>
 
 
         }
+
+
+
 
 
         @Override
@@ -271,7 +271,25 @@ public class ItemListAdapter<T>
 
 
     }
+    /**
+     * 通过反射获取数据
+     * @param field
+     * @param object
+     * @return
+     */
+    public Object   getData(String field, T object)
+    {
 
+        try {
+            return  object.getClass().getField(field).get(object);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override

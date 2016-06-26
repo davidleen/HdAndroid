@@ -24,9 +24,11 @@ public class ProductDetailPresenterImpl extends BasePresenterImpl implements Pro
     }
 
     @Override
-    public void onItemAdd() {
+    public void onItemAdd(int position) {
 
     }
+
+
 
     @Override
     public void onItemModify(Object object, int position) {

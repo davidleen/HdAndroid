@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.helper.AuthorityUtil;
@@ -149,6 +150,12 @@ public class LoginActivity extends BaseActivity {
 
 
         setUrl.setOnClickListener(this);
+
+        if(BuildConfig.DEBUG)
+        {
+            mEmailView.setText("admin");
+            mPasswordView.setText("xinsui");
+        }
     }
 
     private void populateAutoComplete() {
@@ -325,7 +332,7 @@ public class LoginActivity extends BaseActivity {
 
     private boolean isPasswordValid(String password) {
 
-        return password.length() >= 6;
+        return true;
     }
 
     /**

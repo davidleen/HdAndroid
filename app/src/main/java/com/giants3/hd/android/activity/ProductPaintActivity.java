@@ -7,20 +7,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
-
 import com.giants3.hd.android.fragment.ProductMaterialFragment;
+import com.giants3.hd.android.fragment.ProductPaintFragment;
 
 import butterknife.Bind;
 
 /**
  *
- * 产品材料清单编辑界面
+ * 产品油漆清单编辑界面
  * An activity representing a single ProductListActivity detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link ProductListActivity}.
  */
-public class ProductMaterialActivity extends BaseActivity implements  ProductMaterialFragment.OnFragmentInteractionListener {
+public class ProductPaintActivity extends BaseActivity implements  ProductPaintFragment.OnFragmentInteractionListener {
 
 
 
@@ -30,7 +30,7 @@ public class ProductMaterialActivity extends BaseActivity implements  ProductMat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_material);
+        setContentView(R.layout.activity_product_paint);
         setSupportActionBar(toolbar);
 
 
@@ -53,15 +53,15 @@ public class ProductMaterialActivity extends BaseActivity implements  ProductMat
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putInt(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE,
-                    getIntent().getIntExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE,ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS));
-            arguments.putInt(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION,
-                    getIntent().getIntExtra(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION,0));
-            arguments.putString(ProductMaterialFragment.EXTRA_PRODUCT_MATERIAL,
-                    getIntent().getStringExtra(ProductMaterialFragment.EXTRA_PRODUCT_MATERIAL  ));
-            ProductMaterialFragment fragment = new ProductMaterialFragment();
+                    getIntent().getIntExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE, ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS));
+            arguments.putInt(ProductPaintFragment.PRODUCT_PAINT_POSITION,
+                    getIntent().getIntExtra(ProductPaintFragment.PRODUCT_PAINT_POSITION,0));
+            arguments.putString(ProductPaintFragment.EXTRA_PRODUCT_PAINT,
+                    getIntent().getStringExtra(ProductPaintFragment.EXTRA_PRODUCT_PAINT));
+            ProductPaintFragment fragment = new ProductPaintFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.product_material_container, fragment)
+                    .add(R.id.product_paint_container, fragment)
                     .commit();
         }
 
@@ -70,7 +70,7 @@ public class ProductMaterialActivity extends BaseActivity implements  ProductMat
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("材料清单编辑" );
+            actionBar.setTitle("产品油漆清单编辑" );
         }
     }
 

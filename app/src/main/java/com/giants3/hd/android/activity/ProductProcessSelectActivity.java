@@ -1,7 +1,6 @@
 package com.giants3.hd.android.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -9,25 +8,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.fragment.MaterialDetailFragment;
-import com.giants3.hd.android.fragment.MaterialSelectFragment;
-import com.giants3.hd.android.helper.ToastHelper;
+
+import com.giants3.hd.android.fragment.ProcessSelectFragment;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.exception.HdException;
-import com.giants3.hd.utils.entity.Material;
+
+import com.giants3.hd.utils.entity.ProductProcess;
 
 import butterknife.Bind;
 
-/**材料挑选界面
+/**产品工序选择界面
  * An activity representing a single ProductListActivity detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link ProductListActivity}.
  */
-public class MaterialSelectActivity extends BaseActivity implements MaterialSelectFragment.OnFragmentInteractionListener {
+public class ProductProcessSelectActivity extends BaseActivity implements ProcessSelectFragment.OnFragmentInteractionListener<ProductProcess> {
 
 
-    public static final String EXTRA_MATERIAL = "EXTRA_MATERIAL";
+    public static final String EXTRA_PRODUCT_PROCESS = "EXTRA_PRODUCT_PROCESS";
     @Bind(R.id.detail_toolbar )
     Toolbar toolbar  ;
 
@@ -37,11 +35,11 @@ public class MaterialSelectActivity extends BaseActivity implements MaterialSele
 
 
 
-    Material material;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_material_select);
+        setContentView(R.layout.activity_product_process_select);
 
         setSupportActionBar(toolbar);
 
@@ -53,16 +51,16 @@ public class MaterialSelectActivity extends BaseActivity implements MaterialSele
             //actionBar.setDisplayShowTitleEnabled(true);
 
 
-            actionBar.setTitle("材料选择");
+            actionBar.setTitle("工序选择");
 
         }
 
 
         if (savedInstanceState == null) {
 
-            MaterialSelectFragment  fragment = MaterialSelectFragment.newInstance(getIntent().getStringExtra(MaterialSelectFragment.ARG_PARAM_CODE),getIntent().getStringExtra(MaterialSelectFragment.ARG_PARAM_NAME));
+            ProcessSelectFragment fragment = ProcessSelectFragment.newInstance(getIntent().getStringExtra(ProcessSelectFragment.ARG_PARAM_CODE),getIntent().getStringExtra(ProcessSelectFragment.ARG_PARAM_NAME));
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.material_select_container, fragment)
+                    .add(R.id.product_process_select_container, fragment)
                     .commit();
         }
     }
@@ -86,12 +84,12 @@ public class MaterialSelectActivity extends BaseActivity implements MaterialSele
     }
 
     @Override
-    public void onFragmentInteraction(Material material) {
+    public void onFragmentInteraction(ProductProcess productProcess) {
 
 
 
         Intent intent=new Intent();
-        intent.putExtra(EXTRA_MATERIAL,GsonUtils.toJson(material));
+        intent.putExtra(EXTRA_PRODUCT_PROCESS,GsonUtils.toJson(productProcess));
         setResult(RESULT_OK,intent);
         finish();
 

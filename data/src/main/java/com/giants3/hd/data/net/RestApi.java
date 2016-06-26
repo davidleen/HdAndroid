@@ -56,6 +56,7 @@ public interface RestApi {
   String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
   String API_URL_GET_ORDER_ITEM_LIST = "/api/order/findOrderItems?orderNo=%s";
   String API_URL_GET_PRODUCT_DETAIL = "/api/product/detail?id=%d";
+  String API_URL_GET_PRODUCT_PROCESS_LIST = "api/process/search?name=%s&pageIndex=%d&pageSize=%d";
 
   /**
    * Retrieves an {@link rx.Observable} which will emit a List of {@link Quotation}.
@@ -103,4 +104,6 @@ public interface RestApi {
   Observable<RemoteData<BufferData>> getInitData(long userId);
 
   Observable saveProductDetail(ProductDetail productDetail);
+
+  Observable getProductProcessList(String name, int pageIndex, int pageSize);
 }

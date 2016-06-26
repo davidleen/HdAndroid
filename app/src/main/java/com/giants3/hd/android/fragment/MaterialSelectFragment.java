@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.giants3.hd.android.events.MaterialUpdateEvent;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.interractor.UseCase;
 import com.giants3.hd.data.interractor.UseCaseFactory;
+import com.giants3.hd.utils.StringUtils;
 import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.utils.entity.QuotationItem;
 import com.giants3.hd.utils.entity.RemoteData;
@@ -42,8 +45,8 @@ import rx.Subscriber;
 public class MaterialSelectFragment extends BaseFragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM_CODE= "ARG_PARAM_CODE";
-    private static final String ARG_PARAM_NAME= "ARG_PARAM_NAME";
+    public static final String ARG_PARAM_CODE= "ARG_PARAM_CODE";
+    public static final String ARG_PARAM_NAME= "ARG_PARAM_NAME";
 
 
     ItemListAdapter<Material> materialItemListAdapter;
@@ -132,6 +135,17 @@ public class MaterialSelectFragment extends BaseFragment  {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_material_select, container, false);
     }
+    /**
+     *
+     */
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+
+            String key = search_text.getText().toString().trim();
+            loadData(key );
+        }
+    };
 
 
     @Override
@@ -140,7 +154,36 @@ public class MaterialSelectFragment extends BaseFragment  {
 
         itemList.setAdapter(materialItemListAdapter);
 
-        loadData("");
+        search_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                getActivity().getWindow().getDecorView().removeCallbacks(runnable);
+                getActivity().getWindow().getDecorView().postDelayed(runnable, 1000);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        if(!StringUtils.isEmpty(materialCode))
+        {
+            search_text.setText(materialCode);
+            search_text.setSelection(materialCode.length());
+        }else
+        if (!StringUtils.isEmpty(materialName))
+        {
+            search_text.setText(materialName);
+            search_text.setSelection(materialName.length());
+        }else
+             runnable.run();
 
     }
 

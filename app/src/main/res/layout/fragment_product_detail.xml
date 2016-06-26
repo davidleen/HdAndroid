@@ -10,7 +10,8 @@
         android:id="@+id/control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="right"
+        android:visibility="gone"
         android:padding="5dp">
 
         <TextView

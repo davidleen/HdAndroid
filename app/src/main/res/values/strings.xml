@@ -212,4 +212,13 @@
         <item>是否停用||outOfService||1||60</item>
         <item>备注||memo||1||200</item>
     </string-array>
+
+
+    <!--材料细项表 表格-->
+    <string-array name="table_head_product_process">
+
+        <item>工序编码||code||1||120</item>
+        <item>工序名称||code||1||120</item>
+        <item>备注||name||1||200</item>
+    </string-array>
 </resources>

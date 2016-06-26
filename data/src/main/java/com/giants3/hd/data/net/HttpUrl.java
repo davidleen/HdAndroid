@@ -200,4 +200,9 @@ public class HttpUrl {
 
         return completeUrl( RestApi.API_URL_SAVE_PRODUCTDETAIL );
     }
+
+    public static String getProductProcessList(String name, int pageIndex, int pageSize) {
+        return completeUrl(String.format(RestApi.API_URL_GET_PRODUCT_PROCESS_LIST, URLEncoder.encode( name), pageIndex, pageSize));
+
+    }
 }

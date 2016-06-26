@@ -1,8 +1,8 @@
 package com.giants3.hd.android.ViewImpl;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,31 +10,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.activity.OrderDetailActivity;
-import com.giants3.hd.android.activity.ProductDetailActivity;
 import com.giants3.hd.android.adapter.AbstractAdapter;
 import com.giants3.hd.android.adapter.ItemListAdapter;
-import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.entity.TableData;
-import com.giants3.hd.android.fragment.OrderDetailFragment;
-import com.giants3.hd.android.fragment.ProductDetailFragment;
+import com.giants3.hd.android.helper.AuthorityUtil;
 import com.giants3.hd.android.helper.ImageViewerHelper;
+import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.presenter.ProductDetailPresenter;
 import com.giants3.hd.android.viewer.ProductDetailViewer;
 import com.giants3.hd.android.widget.ExpandableHeightListView;
 import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.utils.FloatHelper;
 import com.giants3.hd.utils.StringUtils;
+import com.giants3.hd.utils.entity.Flow;
 import com.giants3.hd.utils.entity.Product;
 import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.ProductMaterial;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.OnItemClick;
 
 public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDetailViewer, View.OnClickListener {
 
@@ -114,10 +112,10 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
     View segment_wage;
 
     //四合一控件 用作选中状态控制
-    @Bind({R.id.panel_conceptus,R.id.panel_assemble,R.id.panel_paint,R.id.panel_pack})
+    @Bind({R.id.panel_conceptus, R.id.panel_assemble, R.id.panel_paint, R.id.panel_pack})
     View[] panels;
     //二合一 材料工资  选中状态控制
-    @Bind({R.id.segment_material,R.id.segment_wage})
+    @Bind({R.id.segment_material, R.id.segment_wage})
     View[] materialWage;
     @Bind(R.id.product_item_list)
     ExpandableHeightListView listView;
@@ -128,20 +126,18 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
     @Bind(R.id.control)
     View control;
-       @Bind(R.id.edit)
+    @Bind(R.id.edit)
     View edit;
     @Bind(R.id.save)
     View save;
     @Bind(R.id.table_operate)
     View table_operate;
-       @Bind(R.id.table_add)
+    @Bind(R.id.table_add)
     TextView table_add;
-   @Bind(R.id.table_modify)
+    @Bind(R.id.table_modify)
     TextView table_modify;
-   @Bind(R.id.table_delete)
+    @Bind(R.id.table_delete)
     TextView table_delete;
-
-
 
 
     boolean editable;
@@ -150,30 +146,42 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
     ItemListAdapter adapter;
 
 
-
     //表格模型 对应的数据结构
     private TableData productMaterialTableData;
-     private TableData productWageTableData;
+    private TableData productWageTableData;
     private TableData productPaintTableData;
-     private TableData productPackMaterialTableData;
+    private TableData productPackMaterialTableData;
     private ProductDetailPresenter productDetailPresenter;
+    private ProductDetail productDetail;
 
 
-    public ProductDetailViewerImpl(Context context,boolean editable) {
+    public ProductDetailViewerImpl(Context context, boolean editable) {
         super(context);
-        this.editable=editable;
+        this.editable = editable;
         productMaterialTableData = TableData.resolveData(context, R.array.table_head_product_material_item);
-         productWageTableData=TableData.resolveData(context,R.array.table_head_product_wage_item);
-        productPaintTableData=TableData.resolveData(context,R.array.table_head_product_paint_item);
-        productPackMaterialTableData=TableData.resolveData(context,R.array.table_head_product_pack_material_item);
-        adapter = new ItemListAdapter(context);
+        productWageTableData = TableData.resolveData(context, R.array.table_head_product_wage_item);
+        productPaintTableData = TableData.resolveData(context, R.array.table_head_product_paint_item);
+        productPackMaterialTableData = TableData.resolveData(context, R.array.table_head_product_pack_material_item);
+        adapter = new ItemListAdapter(context) {
+            @Override
+            public Object getData(String field, Object object) {
+
+                ProductMaterial productMaterial=null;
+                if (object instanceof ProductMaterial) {
+                    productMaterial = (ProductMaterial) object;
+                }
+                if (productDetail!=null&&productMaterial != null && "amount".equals(field) && productMaterial.flowId == Flow.FLOW_PACK) {
+                    return FloatHelper.scale(productMaterial.amount/Math.max(productDetail.product.packQuantity,1));
+                } else
+                    return super.getData(field, object);
+            }
+        };
     }
 
 
     @Override
     public void onCreateView(View v) {
         super.onCreateView(v);
-
 
 
         edit.setOnClickListener(this);
@@ -194,14 +202,14 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         listView.setAdapter(adapter);
         listView.setExpanded(true);
 
-        if(editable)
+        if (editable)
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                  //  listView.setSelection(position);
+                    //  listView.setSelection(position);
 
-                    ((AbstractAdapter)parent.getAdapter()).setSelectedPosition(position);
-                    ((AbstractAdapter)parent.getAdapter()).notifyDataSetChanged();
+                    ((AbstractAdapter) parent.getAdapter()).setSelectedPosition(position);
+                    ((AbstractAdapter) parent.getAdapter()).notifyDataSetChanged();
 
                 }
             });
@@ -214,12 +222,13 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
     @Override
     public void bindData(ProductDetail productDetail) {
 
+        this.productDetail=productDetail;
 
-     control.setVisibility(View.VISIBLE);
-       edit.setVisibility(!editable?View.VISIBLE: View.GONE);
-        save.setVisibility(editable? View.VISIBLE:View.GONE);
+        control.setVisibility(AuthorityUtil.getInstance().editProduct()?View.VISIBLE:View.GONE);
+        edit.setVisibility(!editable ? View.VISIBLE : View.GONE);
+        save.setVisibility(editable ? View.VISIBLE : View.GONE);
 
-        table_operate.setVisibility(editable? View.VISIBLE:View.GONE);
+        table_operate.setVisibility(editable ? View.VISIBLE : View.GONE);
 
 
         final Product product = productDetail.product;
@@ -281,8 +290,6 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
             }
         });
-
-
 
 
     }
@@ -388,29 +395,43 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
     }
 
 
-
     private CharSequence addUnderLineStringForTextView(String underLine) {
         return Html.fromHtml("<u>" + underLine + "</u>");
 
     }
 
+
+    ProgressDialog progressDialog;
+
     @Override
     public void showWaiting() {
 
-        loading.setVisibility(View.VISIBLE);
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("......");
+        progressDialog.show();
+
+        // loading.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public void hideWaiting() {
-        if(loading!=null)
-        loading.setVisibility(View.GONE);
+
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
 
     }
 
     @Override
     public void onClick(View v) {
-        int id=v.getId();
+        int id = v.getId();
         switch (v.getId()) {
 
 
@@ -425,35 +446,33 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
             case R.id.panel_pack:
             case R.id.panel_paint: {
                 //找出点击index
-                int index=-1;
+                int index = -1;
                 for (int i = 0; i < panels.length; i++) {
-                    if(v==panels[i])
-                    {
-                        index=i;
+                    if (v == panels[i]) {
+                        index = i;
                         break;
                     }
                 }
-                if(index!=-1)
-                {
+                if (index != -1) {
                     productDetailPresenter.onPanelForClick(index);
                 }
 
 
             }
-                break;
+            break;
 
             case R.id.segment_material:
 
             case R.id.segment_wage:
-                    productDetailPresenter.onMaterialWageClick(id==R.id.segment_material?0:1);
+                productDetailPresenter.onMaterialWageClick(id == R.id.segment_material ? 0 : 1);
 
 
                 break;
             case R.id.photo:
 
-                String url= (String) v.getTag();
-                if(StringUtils.isEmpty(url)) return ;
-                ImageViewerHelper.view(context,url);
+                String url = (String) v.getTag();
+                if (StringUtils.isEmpty(url)) return;
+                ImageViewerHelper.view(context, url);
 
 
                 break;
@@ -461,29 +480,26 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
             case R.id.edit:
                 //打开编辑
                 productDetailPresenter.toEditProductDetail();
+                break;
 
             case R.id.save:
                 //打开编辑
                 productDetailPresenter.saveProductDetail();
 
 
-
-
-
-
                 break;
 
 
             case R.id.table_delete:
-                if(adapter.getSelectedPosition()>0 &&adapter.getCount()>adapter.getSelectedPosition())
-                productDetailPresenter.onItemDelete(adapter.getItem(adapter.getSelectedPosition()),adapter.getSelectedPosition()-1);
+                if (adapter.getSelectedPosition() > 0 && adapter.getCount() > adapter.getSelectedPosition())
+                    productDetailPresenter.onItemDelete(adapter.getItem(adapter.getSelectedPosition()), adapter.getSelectedPosition() - 1);
                 else
                     ToastHelper.show("请选择一条记录进行删除");
                 break;
 
             case R.id.table_modify:
-                if(adapter.getSelectedPosition()>0 &&adapter.getCount()>adapter.getSelectedPosition())
-                productDetailPresenter.onItemModify(adapter.getItem(adapter.getSelectedPosition()),adapter.getSelectedPosition()-1);
+                if (adapter.getSelectedPosition() > 0 && adapter.getCount() > adapter.getSelectedPosition())
+                    productDetailPresenter.onItemModify(adapter.getItem(adapter.getSelectedPosition()), adapter.getSelectedPosition() - 1);
                 else {
 
                     ToastHelper.show("请选择一条记录进行修改");
@@ -491,7 +507,10 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
                 break;
 
             case R.id.table_add:
-                productDetailPresenter.onItemAdd();
+                int selectPosition = 0;
+                if (adapter.getSelectedPosition() > 0 && adapter.getCount() > adapter.getSelectedPosition())
+                    selectPosition = adapter.getSelectedPosition() - 1;
+                productDetailPresenter.onItemAdd(selectPosition);
                 break;
 
         }
@@ -499,22 +518,19 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
     /**
      * 设置面板选中
+     *
      * @param v
      */
-    private void setPanelSelected(View v)
-    {
-        for(View view:panels)
-        {
+    private void setPanelSelected(View v) {
+        for (View view : panels) {
 
-            view.setSelected(v==view);
+            view.setSelected(v == view);
         }
     }
 
-    private void setMaterialWageSelected(View v)
-    {
-        for(View view:materialWage)
-        {
-            view.setSelected(v==view);
+    private void setMaterialWageSelected(View v) {
+        for (View view : materialWage) {
+            view.setSelected(v == view);
         }
     }
 }

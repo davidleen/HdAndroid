@@ -24,6 +24,7 @@ import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.utils.entity.ProductProcess;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
@@ -266,6 +267,28 @@ public class RestApiImpl implements RestApi {
             @Override
             public RemoteData<ProductDetail> invoker() throws HdException {
                 return apiManager.saveProductDetail(productDetail);
+            }
+        });
+    }
+
+
+    /**
+     * 读取产品列表
+     *
+     * @param name
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Observable<RemoteData<ProductProcess>> getProductProcessList(final String name, final int pageIndex, final int pageSize ) {
+
+        return create(new ApiInvoker<ProductProcess>() {
+            @Override
+            public RemoteData<ProductProcess> invoker() throws HdException {
+
+
+                return apiManager.getProductProcessList(name, pageIndex, pageSize);
             }
         });
     }

@@ -126,4 +126,9 @@ public class UseCaseFactory  {
     public UseCase saveProductDetailCase( ProductDetail productDetail) {
         return new SaveProductDetailCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),productDetail , restApi);
     }
+
+    public UseCase createProductProcessListCase(String key, int pageIndex, int pageSize) {
+        return new GetProductProcessListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),key,pageIndex,pageSize  , restApi);
+
+    }
 }

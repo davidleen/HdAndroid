@@ -24,7 +24,7 @@ public interface ProductDetailPresenter  extends  BasePresenter{
      */
    public  void toEditProductDetail();
 
-    public void onItemAdd();
+    public void onItemAdd(int position);
     public void onItemModify(Object object,int position);
     public void onItemDelete(Object object,int position);
 
