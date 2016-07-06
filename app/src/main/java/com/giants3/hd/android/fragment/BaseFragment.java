@@ -122,6 +122,8 @@ public class BaseFragment extends Fragment {
      */
     public void showProgress(boolean show)
     {
+
+        if(getViewer()==null) return;
             if(show)
             {
                 getViewer().showWaiting();

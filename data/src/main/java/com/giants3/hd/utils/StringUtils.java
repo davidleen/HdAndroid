@@ -76,4 +76,54 @@ public class StringUtils {
     }
 
 
+    /**
+     * 厘米字符串 转换成 英寸字符串
+     *格式如下 999*999*999\n 888*888*88
+     *
+     * @return
+     */
+
+    public static String convertCmStringToInchString(String cmString)
+    {
+
+        String[] rows = cmString.split("["+row_separator+"]+");
+
+        String inchString="";
+
+        for (int i = 0; i <rows.length; i++) {
+
+            String[] specs=rows[i].split(spec_separator_pattern);
+
+            int length = specs.length;
+            for (int j = 0; j < length; j++) {
+                String spec=specs[j];
+                try {
+                    float cmValue = Float.valueOf(spec.trim());
+                    float inchValue=UnitUtils.cmToInch(cmValue);
+                    inchString+=inchValue;
+
+                }catch (Throwable t)
+                {
+
+                    inchString+=spec;
+                }
+                if(j<length-1)
+                    inchString+=spec_separator;
+            }
+
+
+
+
+
+            inchString+=row_separator;
+
+
+        }
+
+
+        return inchString;
+
+    }
+
+
 }

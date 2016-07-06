@@ -3,16 +3,20 @@ package com.giants3.hd.android.ViewImpl;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.Utils;
 import com.giants3.hd.android.adapter.AbstractAdapter;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
+import com.giants3.hd.android.fragment.ValueEditDialogFragment;
 import com.giants3.hd.android.helper.AuthorityUtil;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
@@ -33,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDetailViewer, View.OnClickListener {
 
@@ -213,6 +218,16 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
                 }
             });
+        applyEditStateToView(name);
+        applyEditStateToView(pversion);
+        applyEditStateToView(unit);
+        applyEditStateToView(pClass);
+        applyEditStateToView(pack);
+        applyEditStateToView(weight);
+        applyEditStateToView(factory);
+        applyEditStateToView(specCm);
+        applyEditStateToView(packSize);
+
 
         adapter.setRowHeight(40);
         photo.setOnClickListener(this);
@@ -237,16 +252,26 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         photo.setTag(url);
 
         name.setText(product.name);
+
+
+        //pversion.setCompoundDrawablesWithIntrinsicBounds(0,0,android.R.drawable.ic_menu_edit,0);
         pversion.setText(product.pVersion);
+
         unit.setText(product.pUnitName);
 
         pClass.setText(product.pClassName);
+
         pack.setText(product.pack.getName());
         weight.setText(String.valueOf(product.weight));
+
         factory.setText(String.valueOf(product.factoryName));
+
         specCm.setText(String.valueOf(product.specCm));
+
         String packString = product.insideBoxQuantity + "/" + product.packQuantity + "/" + product.packLong + "*" + product.packWidth + "*" + product.packHeight;
+
         packSize.setText(String.valueOf(packString));
+
         fob.setText(String.valueOf(product.fob));
         price.setText(String.valueOf(product.price));
         cost.setText(String.valueOf(product.cost));
@@ -532,5 +557,82 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         for (View view : materialWage) {
             view.setSelected(v == view);
         }
+    }
+
+
+    /**
+     * 对文本编辑框添加上编辑效果
+     * @param v
+     */
+    private void applyEditStateToView(TextView v)
+    {
+
+        if(!editable) return;
+        v.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_menu_edit,0);
+        v.setBackgroundResource(R.drawable.bg_gray_input_selector);
+        ViewGroup.LayoutParams lp=v.getLayoutParams();
+        lp.width=lp.width+ Utils.dp2px(50);
+        v.setLayoutParams(lp);
+    }
+
+
+    @OnClick(R.id.unit)
+    public void onUnitClick(View v)
+    {
+
+        productDetailPresenter.onUnitClick();
+
+    }
+
+    @OnClick(R.id.pversion)
+    public void onPVersionClick(View v)
+    {
+
+
+        productDetailPresenter.onPVersionEdit();
+
+    }
+
+
+    @OnClick(R.id.name)
+    public void onProductNameClick(View v)
+    {
+
+
+        productDetailPresenter.onProductNameEdit();
+
+    }
+
+
+    @OnClick(R.id.weight)
+    public void onWeightClick(View v)
+    {
+
+        productDetailPresenter.onWeightEdit();
+
+    }
+
+
+    @OnClick(R.id.specCm)
+    public void onSpecCmClick(View v)
+    {
+
+        productDetailPresenter.onSpecCmEdit();
+
+    }
+
+
+    @OnClick(R.id.packSize)
+    public void onPackSizeClick(View v)
+    {
+        productDetailPresenter.onPackQuantityEdit();
+
+    }
+
+    @OnClick(R.id.pack)
+    public void onPackClick(View v)
+    {
+        productDetailPresenter.onPackEdit();
+
     }
 }

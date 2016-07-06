@@ -520,7 +520,6 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
         });
         dialogFragment.show(getActivity().getSupportFragmentManager(), null);
 
-
     }
 
     @OnClick(R.id.quantity)

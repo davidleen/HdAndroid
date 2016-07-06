@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 
+import java.util.List;
+
 /**
  * Created by davidleen29 on 2016/6/13.
  */
@@ -72,7 +74,11 @@ public class ValueEditDialogFragment extends DialogFragment {
         this.listener = listener;
     }
 
-
+    public void set(String titleString, List<Object> datas , ValueChangeListener listener) {
+        this.titleString = titleString;
+        this.oldValue = oldValue;
+        this.listener = listener;
+    }
     public interface  ValueChangeListener
     {public void onValueChange(String title,String oldValue,String newValue);}
 

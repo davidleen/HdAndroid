@@ -3,6 +3,7 @@ package com.giants3.hd.android.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,14 @@ import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
+import com.giants3.hd.utils.StringUtils;
+import com.giants3.hd.utils.entity.Pack;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.ProductMaterial;
 import com.giants3.hd.utils.entity.ProductPaint;
 import com.giants3.hd.utils.entity.ProductWage;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.noEntity.BufferData;
 
 import de.greenrobot.event.EventBus;
 import rx.Subscriber;
@@ -492,8 +496,163 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
 
     }
 
+    @Override
+    public void onUnitClick() {
+
+        if(!editable) return;
+        if(productDetail==null)return;
+        ValueEditDialogFragment dialogFragment = new ValueEditDialogFragment();
+        dialogFragment.set("单位", String.valueOf(productDetail.product.pUnitName), new ValueEditDialogFragment.ValueChangeListener() {
+            @Override
+            public void onValueChange(String title, String oldValue, String newValue) {
+                try {
+
+                    productDetail.product.setpUnitName(newValue) ;
+                      viewer.bindData(productDetail);
+                } catch (Throwable t) {
+
+                }
 
 
+            }
+        });
+        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+    }
+
+
+    @Override
+    public void onPVersionEdit() {
+
+        if(!editable) return;
+        if(productDetail==null)return;
+        ValueEditDialogFragment dialogFragment = new ValueEditDialogFragment();
+        dialogFragment.set("配方号", String.valueOf(productDetail.product.pVersion), new ValueEditDialogFragment.ValueChangeListener() {
+            @Override
+            public void onValueChange(String title, String oldValue, String newValue) {
+                try {
+
+                    productDetail.product.setpVersion(newValue); ;
+                    viewer.bindData(productDetail);
+                } catch (Throwable t) {
+                }
+
+
+            }
+        });
+        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onProductNameEdit() {
+        if(!editable) return;
+        if(productDetail==null)return;
+        ValueEditDialogFragment dialogFragment = new ValueEditDialogFragment();
+        dialogFragment.set("产品名称", String.valueOf(productDetail.product.name), new ValueEditDialogFragment.ValueChangeListener() {
+            @Override
+            public void onValueChange(String title, String oldValue, String newValue) {
+                try {
+
+                    productDetail.product.setName(newValue);
+                    viewer.bindData(productDetail);
+                } catch (Throwable t) {
+                }
+
+
+            }
+        });
+        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onWeightEdit() {
+        if(!editable) return;
+        if(productDetail==null)return;
+        ValueEditDialogFragment dialogFragment = new ValueEditDialogFragment();
+        dialogFragment.set("净重KG", String.valueOf(productDetail.product.weight), new ValueEditDialogFragment.ValueChangeListener() {
+            @Override
+            public void onValueChange(String title, String oldValue, String newValue) {
+                try {
+
+                    float  newWeight=Float.valueOf(newValue.trim());
+                    productDetail.product.setWeight(newWeight);
+                    viewer.bindData(productDetail);
+                } catch (Throwable t) {
+                }
+
+
+            }
+        });
+        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onSpecCmEdit() {
+
+
+
+        if(!editable) return;
+        if(productDetail==null)return;
+        ValueEditDialogFragment dialogFragment = new ValueEditDialogFragment();
+        dialogFragment.set("产品规格cm", String.valueOf(productDetail.product.specCm), new ValueEditDialogFragment.ValueChangeListener() {
+            @Override
+            public void onValueChange(String title, String oldValue, String newValue) {
+                try {
+
+
+                    String spec= StringUtils.convertCmStringToInchString(newValue);
+                    productDetail.product.setSpecCm(newValue);
+                    productDetail.product.setSpec(spec);
+                    viewer.bindData(productDetail);
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+
+
+            }
+        });
+        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onPackQuantityEdit() {
+
+        if(!editable) return;
+        if(productDetail==null)return;
+        ValueEditDialogFragment dialogFragment = new ValueEditDialogFragment();
+        dialogFragment.set("包装装箱数", String.valueOf(productDetail.product.packQuantity ), new ValueEditDialogFragment.ValueChangeListener() {
+            @Override
+            public void onValueChange(String title, String oldValue, String newValue) {
+                try {
+
+                    int  newV=Integer.valueOf(newValue.trim());
+                    productDetail.product.setPackQuantity(newV);
+                    viewer.bindData(productDetail);
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+
+
+            }
+        });
+        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onPackEdit() {
+        if(!editable) return;
+        if(productDetail==null)return;
+        ItemPickDialogFragment<Pack> dialogFragment = new ItemPickDialogFragment<Pack>();
+        dialogFragment.set("包装类型选择",SharedPreferencesHelper.getInitData().packs,  productDetail.product.pack  , new ItemPickDialogFragment.ValueChangeListener<Pack>() {
+            @Override
+            public void onValueChange(String title, Pack oldValue, Pack newValue) {
+
+
+                productDetail.product.pack=newValue;
+                viewer.bindData(productDetail);
+            }
+        });
+        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+    }
 
 
     public void onEvent(LoginSuccessEvent event) {

@@ -29,4 +29,21 @@ public interface ProductDetailPresenter  extends  BasePresenter{
     public void onItemDelete(Object object,int position);
 
    public  void saveProductDetail();
+
+    void onUnitClick();
+
+    void onPVersionEdit();
+
+    void onProductNameEdit();
+
+    void onWeightEdit();
+
+    void onSpecCmEdit();
+
+    void onPackQuantityEdit();
+
+    /**
+     * 包装类型点击
+     */
+    void onPackEdit();
 }
