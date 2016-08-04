@@ -11,6 +11,10 @@ android {
         versionName "1.0"
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
+
+        //友盟appkey常量配置
+        buildConfigField "String", "UMENG_APP_KEY", "\"57a1e715e0f55a37b8004434\""
+        buildConfigField "String", "UMENG_CHANNEL", "\"DEVELOPER\""
     }
     buildTypes {
         release {
@@ -44,6 +48,10 @@ dependencies {
     compile "com.wefika:flowlayout:0.4.1"
     compile project(':data')
     compile project(':library')
+
+
+    //友盟分析统计
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }
 
 

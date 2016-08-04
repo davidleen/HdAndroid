@@ -31,6 +31,7 @@ import android.view.View;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.internal.util.Stopwatch;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -77,6 +78,7 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
     protected void onResume() {
         super.onResume();
         isTop=true;
+        MobclickAgent.onResume(this);
 
     }
 
@@ -84,6 +86,7 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
     protected void onPause() {
         super.onPause();
         isTop=false;
+        MobclickAgent.onPause(this);
 
     }
 

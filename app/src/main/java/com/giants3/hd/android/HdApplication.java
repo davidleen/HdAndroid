@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
+import com.umeng.analytics.MobclickAgent;
 
 
 import java.io.File;
@@ -49,6 +50,13 @@ public class HdApplication extends Application {
 
         boolean autoUpdates = BuildConfig.AUTO_UPDATES;
         initImageLoader();
+
+
+        //与微社区存在UMENG_APP_KEY上不一致的冲突
+        //统计sdk 采用代码注入方式。
+        MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this,BuildConfig.UMENG_APP_KEY,BuildConfig.UMENG_CHANNEL, MobclickAgent.EScenarioType.E_UM_NORMAL);
+        MobclickAgent.startWithConfigure(config);
+        MobclickAgent.setDebugMode(true);
     }
 
 
