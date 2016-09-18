@@ -30,6 +30,7 @@
     <string name="quotate_list">报价列表</string>
     <string name="order_list">订单列表</string>
     <string name="material_list">材料列表</string>
+    <string name="work_list">待办任务</string>
     <!--订单表结构-->
     <string-array name="table_head_order_item">
         <item>序号||itm||1||60</item>
@@ -48,6 +49,7 @@
         <item>立方数||xgtj||1||60</item>
         <item>总立方数||zxgtj||1||60</item>
         <item>产品尺寸||hpgg||1||120</item>
+        <item>生产进度||currentWorkFlow||1||120</item>
     </string-array>
 
 

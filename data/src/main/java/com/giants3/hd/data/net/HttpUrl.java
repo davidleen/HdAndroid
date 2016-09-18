@@ -158,8 +158,8 @@ public class HttpUrl {
         return completeUrl(String.format(RestApi.API_URL_GET_ORDER_LIST, name, pageIndex, pageSize));
     }
 
-    public static String getOrderItemList(String orderNo ) {
-        return completeUrl(String.format(RestApi.API_URL_GET_ORDER_ITEM_LIST, orderNo ));
+    public static String getOrderDetail(String orderNo ) {
+        return completeUrl(String.format(RestApi.API_URL_GET_ORDER_DETAIL, orderNo ));
     }
 
     public static String getProductDetail(long productId) {

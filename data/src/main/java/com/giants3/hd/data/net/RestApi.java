@@ -54,7 +54,7 @@ public interface RestApi {
   static String API_URL_SAVE_PRODUCTDETAIL= "/api/product/save";
   static String API_URL_GET_QUOTATION_DETAIL = "/api/quotation/detail?id=%d";
   String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
-  String API_URL_GET_ORDER_ITEM_LIST = "/api/order/findOrderItems?orderNo=%s";
+  String API_URL_GET_ORDER_DETAIL = "/api/order/detail?os_no=%s";
   String API_URL_GET_PRODUCT_DETAIL = "/api/product/detail?id=%d";
   String API_URL_GET_PRODUCT_PROCESS_LIST = "api/process/search?name=%s&pageIndex=%d&pageSize=%d";
 
@@ -89,7 +89,7 @@ public interface RestApi {
 
   Observable getOrderList(String name, int pageIndex, int pageSize);
 
-  Observable getOrderItemList(String orderNo);
+  Observable getOrderDetail(String orderNo);
 
   Observable getProductDetail(long productId);
 

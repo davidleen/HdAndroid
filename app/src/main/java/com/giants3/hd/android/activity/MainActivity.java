@@ -79,6 +79,7 @@ public class MainActivity extends BaseActivity
     FrameLayout frameLayout;
 
 
+    View view;
     private int currentListFragmentIndex;
 
     private ListFragment<Material> materialListFragment;
@@ -100,6 +101,9 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -265,6 +269,8 @@ public class MainActivity extends BaseActivity
         @Bind(R.id.name)
         TextView name;
 
+
+
         public NavigationViewHelper(View view) {
             ButterKnife.bind(this, view);
         }
@@ -398,7 +404,10 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_material) {
             showNewListFragment(materialListFragment);
             getSupportActionBar().setTitle("材料列表");
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_schedule) {
+
+
+
         } else if (id == R.id.nav_send) {
         } else if (id == R.id.reLogin) {
             startLoginActivity();

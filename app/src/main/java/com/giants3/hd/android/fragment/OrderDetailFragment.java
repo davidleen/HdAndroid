@@ -28,6 +28,7 @@ import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
+import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 
 import java.util.Arrays;
 
@@ -237,7 +238,7 @@ public class OrderDetailFragment extends BaseFragment implements View.OnClickLis
 
     private void attemptLoad(String orderNo) {
 
-        UseCaseFactory.getInstance().createOrderItemListCase(orderNo).execute(new Subscriber<RemoteData<ErpOrderItem>>() {
+        UseCaseFactory.getInstance().createOrderDetailCase(orderNo).execute(new Subscriber<RemoteData<ErpOrderDetail>>() {
             @Override
             public void onCompleted() {
                 showProgress(false);
@@ -250,9 +251,9 @@ public class OrderDetailFragment extends BaseFragment implements View.OnClickLis
             }
 
             @Override
-            public void onNext(RemoteData<ErpOrderItem> orderItemRemoteData) {
+            public void onNext(RemoteData<ErpOrderDetail> orderItemRemoteData) {
                 if (orderItemRemoteData.isSuccess()) {
-                    orderItemListAdapter.setDataArray(orderItemRemoteData.datas);
+                    orderItemListAdapter.setDataArray(orderItemRemoteData.datas.get(0).items);
 //                    int size=orderItemListAdapter.getCount();
 //                   // order_item_list.removeAllViews();
 //                    for(int i=0;i<size;i++)

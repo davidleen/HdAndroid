@@ -94,4 +94,12 @@ public class ErpOrderItem {
      * 图片路径
      */
     public String url;
+
+
+
+    /**
+     * 当前生产流程
+     */
+    public String currentWorkFlow;
+
 }

@@ -11,7 +11,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 
 /**   用例工厂类
@@ -81,8 +80,8 @@ public class UseCaseFactory  {
      * @param orderNo
      * @return
      */
-    public UseCase createOrderItemListCase(String orderNo) {
-        return new GetOrderItemListCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),orderNo  , restApi);
+    public UseCase createOrderDetailCase(String orderNo) {
+        return new GetOrderDetailCase( Schedulers.newThread()    , AndroidSchedulers.mainThread(),orderNo  , restApi);
     }
 
     /***

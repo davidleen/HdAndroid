@@ -83,7 +83,7 @@ public class OrderListAdapter
             cus_no.setText(order.cus_no);
             os_no.setText(order.os_no);
             cus_os_no.setText(order.cus_os_no);
-            sal.setText(order.sal_name==null?"":order.sal_name);
+            sal.setText(order.sal_name==null?"":order.sal_name );
 
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
 //            mView.setOnClickListener(

@@ -29,6 +29,7 @@ import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.noEntity.BufferData;
+import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 import com.google.inject.Inject;
 
 import java.util.List;
@@ -124,11 +125,11 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable getOrderItemList(final String orderNo) {
-        return create(new ApiInvoker<ErpOrderItem>() {
+    public Observable getOrderDetail(final String orderNo) {
+        return create(new ApiInvoker<ErpOrderDetail>() {
             @Override
-            public RemoteData<ErpOrderItem> invoker() throws HdException {
-                return apiManager.getOrderItemList(orderNo);
+            public RemoteData<ErpOrderDetail> invoker() throws HdException {
+                return apiManager.getOrderDetail(orderNo);
             }
         });
     }

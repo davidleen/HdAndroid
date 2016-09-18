@@ -57,6 +57,7 @@ public class HdApplication extends Application {
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this,BuildConfig.UMENG_APP_KEY,BuildConfig.UMENG_CHANNEL, MobclickAgent.EScenarioType.E_UM_NORMAL);
         MobclickAgent.startWithConfigure(config);
         MobclickAgent.setDebugMode(true);
+       // MobclickAgent.setCatchUncaughtExceptions(true);
     }
 
 
