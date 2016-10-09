@@ -34,29 +34,7 @@ import rx.Observable;
  * RestApi for retrieving data from the network.
  */
 public interface RestApi {
-  static final String API_BASE_URL = "";
 
-
-  /** Api url for getting a user profile: Remember to concatenate id + 'json' */
-  static final String API_URL_GET_USER_DETAILS = API_BASE_URL + "user_";
-
-
-  static final String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
-
-  static String API_URL_GET_PRODUCT_LIST = "/api/product/appSearch?name=%s&pageIndex=%d&pageSize=%d";
-  static String API_URL_GET_QUOTATION_LIST = "/api/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d";
-  static String API_URL_GET_MATERIAL_LIST = "/api/material/search?codeOrName=%s&pageIndex=%d&pageSize=%d";
-
-  static String API_URL_GET_MATERIAL_LIST_IN_SERVICE = "/api/material/searchInService?codeOrName=%s&pageIndex=%d&pageSize=%d";
-  static String API_URL_UPLOAD_MATERIAL_PICTURE = "/api/file/uploadMaterialPicture?materialId=%d";
-  static String API_URL_GET_INITDATA = "/api/user/getInitData?userId=%d";
-
-  static String API_URL_SAVE_PRODUCTDETAIL= "/api/product/save";
-  static String API_URL_GET_QUOTATION_DETAIL = "/api/quotation/detail?id=%d";
-  String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
-  String API_URL_GET_ORDER_DETAIL = "/api/order/detail?os_no=%s";
-  String API_URL_GET_PRODUCT_DETAIL = "/api/product/detail?id=%d";
-  String API_URL_GET_PRODUCT_PROCESS_LIST = "api/process/search?name=%s&pageIndex=%d&pageSize=%d";
 
   /**
    * Retrieves an {@link rx.Observable} which will emit a List of {@link Quotation}.
@@ -106,4 +84,22 @@ public interface RestApi {
   Observable saveProductDetail(ProductDetail productDetail);
 
   Observable getProductProcessList(String name, int pageIndex, int pageSize);
+
+  Observable getUnHandleWorkFlowList();
+
+  Observable checkWorkFlowMessageCase(long workFlowMessageId);
+
+  Observable receiveWorkFlowMessageCase(long workFlowMessageId);
+
+  /**
+   * 获取可以传递流程的订单item
+   * @return
+     */
+  Observable getAvailableOrderItemForTransformCase();
+
+  Observable sendWorkFlowMessageCase(long orderItemId, int flowStep, int tranQty,String memo);
+
+  Observable mySendWorkFlowMessageCase();
+
+  Observable rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason);
 }

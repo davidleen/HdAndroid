@@ -40,7 +40,6 @@ import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.noEntity.BufferData;
@@ -154,7 +153,6 @@ public class MainActivity extends BaseActivity
         orderListFragment.setFragmentListener(orderOnFragmentInteractionListener);
         materialListFragment = MaterialListFragment.newInstance("", "");
         materialListFragment.setFragmentListener(materialListFragmentListener);
-
 
         showNewListFragment(EMPTY_LIST_FRAGMENT);
 
@@ -405,6 +403,10 @@ public class MainActivity extends BaseActivity
             showNewListFragment(materialListFragment);
             getSupportActionBar().setTitle("材料列表");
         } else if (id == R.id.nav_schedule) {
+
+            Intent intent=new Intent(this,WorkFlowMessageActivity.class);
+
+            startActivity(intent);
 
 
 

@@ -1,43 +1,51 @@
 package com.giants3.hd.android.ViewImpl;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.viewer.BaseViewer;
-import android.content.Context;
 
 import butterknife.ButterKnife;
 
 /**
  * Created by david on 2016/4/12.
  */
-public  abstract  class BaseViewerImpl implements BaseViewer{
+public abstract class BaseViewerImpl implements BaseViewer {
 
 
     protected Context context;
-    public BaseViewerImpl( Context context)
-    {
+    private View contentView;
 
-        this.context=context;
-
+    public BaseViewerImpl(Context context) {
+        this.context = context;
     }
 
-
-
-
-
-
-    @Override
-    public void onCreateView(View v)
-    {
-        ButterKnife.bind(this, v);
-
+    protected void setContentView(int layoutId) {
+        contentView = LayoutInflater.from(context).inflate(layoutId, null);
     }
 
     @Override
-    public void onDestroyView()
-    {
-        ButterKnife.unbind(this );
+    public View getContentView() {
+        return contentView;
+    }
+
+
+    protected void setContentView(View contentView) {
+        this.contentView = contentView;
+
+    }
+
+    @Override
+    public void onCreate() {
+        ButterKnife.bind(this, contentView);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        ButterKnife.unbind(this);
 
     }
 

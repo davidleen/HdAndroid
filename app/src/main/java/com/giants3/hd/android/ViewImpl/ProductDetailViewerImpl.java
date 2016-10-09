@@ -3,7 +3,6 @@ package com.giants3.hd.android.ViewImpl;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,8 @@ import com.giants3.hd.android.Utils;
 import com.giants3.hd.android.adapter.AbstractAdapter;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
-import com.giants3.hd.android.fragment.ValueEditDialogFragment;
 import com.giants3.hd.android.helper.AuthorityUtil;
 import com.giants3.hd.android.helper.ImageViewerHelper;
-import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.presenter.ProductDetailPresenter;
 import com.giants3.hd.android.viewer.ProductDetailViewer;
@@ -43,6 +40,8 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
     private static final int MAX_MEMO_ROW_LINE = 3;
+
+
     @Bind(R.id.photo)
     ImageView photo;
 
@@ -162,6 +161,8 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
     public ProductDetailViewerImpl(Context context, boolean editable) {
         super(context);
+        setContentView(R.layout.fragment_product_detail);
+
         this.editable = editable;
         productMaterialTableData = TableData.resolveData(context, R.array.table_head_product_material_item);
         productWageTableData = TableData.resolveData(context, R.array.table_head_product_wage_item);
@@ -171,12 +172,12 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
             @Override
             public Object getData(String field, Object object) {
 
-                ProductMaterial productMaterial=null;
+                ProductMaterial productMaterial = null;
                 if (object instanceof ProductMaterial) {
                     productMaterial = (ProductMaterial) object;
                 }
-                if (productDetail!=null&&productMaterial != null && "amount".equals(field) && productMaterial.flowId == Flow.FLOW_PACK) {
-                    return FloatHelper.scale(productMaterial.amount/Math.max(productDetail.product.packQuantity,1));
+                if (productDetail != null && productMaterial != null && "amount".equals(field) && productMaterial.flowId == Flow.FLOW_PACK) {
+                    return FloatHelper.scale(productMaterial.amount / Math.max(productDetail.product.packQuantity, 1));
                 } else
                     return super.getData(field, object);
             }
@@ -185,8 +186,8 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
     @Override
-    public void onCreateView(View v) {
-        super.onCreateView(v);
+    public void onCreate() {
+        super.onCreate();
 
 
         edit.setOnClickListener(this);
@@ -237,9 +238,9 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
     @Override
     public void bindData(ProductDetail productDetail) {
 
-        this.productDetail=productDetail;
+        this.productDetail = productDetail;
 
-        control.setVisibility(AuthorityUtil.getInstance().editProduct()?View.VISIBLE:View.GONE);
+        control.setVisibility(AuthorityUtil.getInstance().editProduct() ? View.VISIBLE : View.GONE);
         edit.setVisibility(!editable ? View.VISIBLE : View.GONE);
         save.setVisibility(editable ? View.VISIBLE : View.GONE);
 
@@ -454,6 +455,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
     }
 
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -562,31 +564,29 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
     /**
      * 对文本编辑框添加上编辑效果
+     *
      * @param v
      */
-    private void applyEditStateToView(TextView v)
-    {
+    private void applyEditStateToView(TextView v) {
 
-        if(!editable) return;
-        v.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_menu_edit,0);
+        if (!editable) return;
+        v.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_menu_edit, 0);
         v.setBackgroundResource(R.drawable.bg_gray_input_selector);
-        ViewGroup.LayoutParams lp=v.getLayoutParams();
-        lp.width=lp.width+ Utils.dp2px(50);
+        ViewGroup.LayoutParams lp = v.getLayoutParams();
+        lp.width = lp.width + Utils.dp2px(50);
         v.setLayoutParams(lp);
     }
 
 
     @OnClick(R.id.unit)
-    public void onUnitClick(View v)
-    {
+    public void onUnitClick(View v) {
 
         productDetailPresenter.onUnitClick();
 
     }
 
     @OnClick(R.id.pversion)
-    public void onPVersionClick(View v)
-    {
+    public void onPVersionClick(View v) {
 
 
         productDetailPresenter.onPVersionEdit();
@@ -595,8 +595,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
     @OnClick(R.id.name)
-    public void onProductNameClick(View v)
-    {
+    public void onProductNameClick(View v) {
 
 
         productDetailPresenter.onProductNameEdit();
@@ -605,8 +604,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
     @OnClick(R.id.weight)
-    public void onWeightClick(View v)
-    {
+    public void onWeightClick(View v) {
 
         productDetailPresenter.onWeightEdit();
 
@@ -614,8 +612,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
     @OnClick(R.id.specCm)
-    public void onSpecCmClick(View v)
-    {
+    public void onSpecCmClick(View v) {
 
         productDetailPresenter.onSpecCmEdit();
 
@@ -623,15 +620,13 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
     @OnClick(R.id.packSize)
-    public void onPackSizeClick(View v)
-    {
+    public void onPackSizeClick(View v) {
         productDetailPresenter.onPackQuantityEdit();
 
     }
 
     @OnClick(R.id.pack)
-    public void onPackClick(View v)
-    {
+    public void onPackClick(View v) {
         productDetailPresenter.onPackEdit();
 
     }

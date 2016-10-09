@@ -36,4 +36,9 @@ public class BufferData implements Serializable{
     public List<ProductDetail> demos;
 
     public List<Factory> factories;
+
+    /**
+     * 生产全流程
+     */
+    public List<WorkFlow> workFlows;
 }

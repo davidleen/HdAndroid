@@ -3,61 +3,88 @@ package com.giants3.hd.data.net;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
 
-import java.io.File;
 import java.net.URLEncoder;
 
 /**
- *  网络常量
+ * 网络常量
  */
 public class HttpUrl {
 
-    public static final String SHARE_FILE="url_file";
+    public static final String SHARE_FILE = "url_file";
 
-    public static final String CLIENT_TYPE="ANDROID";
+    public static final String CLIENT_TYPE = "ANDROID";
 
-    public static final  String DEFAULT_IPAddress="192.168.2.108";
-    public static final String DEFAULT_IPPort="8080";
-    public static final String DEFAULT_ServiceName="Service";
+    public static final String DEFAULT_IPAddress = "192.168.2.108";
+    public static final String DEFAULT_IPPort = "8080";
+    public static final String DEFAULT_ServiceName = "Service";
+    public static final String API_BASE_URL = "";
+    public static final String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
+    /**
+     * Api url for getting a user profile: Remember to concatenate id + 'json'
+     */
+    public static final String API_URL_GET_USER_DETAILS = API_BASE_URL + "user_";
+    public static final String API_URL_GET_PRODUCT_LIST = "/api/product/appSearch?name=%s&pageIndex=%d&pageSize=%d";
+    public static final String API_URL_GET_QUOTATION_LIST = "/api/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d";
+    public static final String API_URL_GET_MATERIAL_LIST = "/api/material/search?codeOrName=%s&pageIndex=%d&pageSize=%d";
+    public static final String API_URL_GET_MATERIAL_LIST_IN_SERVICE = "/api/material/searchInService?codeOrName=%s&pageIndex=%d&pageSize=%d";
+    public static final String API_URL_UPLOAD_MATERIAL_PICTURE = "/api/file/uploadMaterialPicture?materialId=%d";
+    public static final String API_URL_GET_INITDATA = "/api/user/getInitData?userId=%d";
+    public static final String API_URL_SAVE_PRODUCTDETAIL = "/api/product/save";
+    public static final String API_URL_GET_QUOTATION_DETAIL = "/api/quotation/detail?id=%d";
+    public static final String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
+    public static final String API_URL_GET_ORDER_DETAIL = "/api/order/detail?os_no=%s";
+    public static final String API_URL_GET_PRODUCT_DETAIL = "/api/product/detail?id=%d";
+    public static final String API_URL_GET_PRODUCT_PROCESS_LIST = "api/process/search?name=%s&pageIndex=%d&pageSize=%d";
+    public static final String API_URL_GET_UN_HANDLE_WORK_FLOW_LIST = "api/order/unHandleWorkFlowMessage";
 
-    public static   String IPAddress=DEFAULT_IPAddress;
-    public static String IPPort=DEFAULT_IPPort;
-    public static String ServiceName=DEFAULT_ServiceName;
+    public static final String API_URL_CHECK_WORK_FLOW_MESSAGE = "api/order/checkWorkFlowMessage?workFlowMsgId=%d";
+
+    public static final String API_URL_RECEIVE_WORK_FLOW_MESSAGE = "api/order/receiveWorkFlowMessage?workFlowMsgId=%d";
+    public static final String API_URL_GET_ORDER_ITEM_FOR_TRANSFORM = "api/order/getOrderItemForTransform";
+
+    public static final String API_URL_SEND_WORK_FLOW_MESSAGE = "api/order/sendWorkFlowMessage?orderItemId=%d&flowStep=%d&tranQty=%d&memo=%s";
+   public static final String API_URL_REJECT_WORK_FLOW_MESSAGE = "api/order/rejectWorkFlowMessage?workFlowMsgId=%d&toWorkFlowStep=%d&reason=%s";
+    public static final String API_URL_MY_SEND_WORK_FLOW_MESSAGE = "api/order/getSendWorkFlowMessageList";
 
 
-    public static   String KEY_IPAddress="_IPAddress";
-    public static String KEY_IPPort="_IPPort";
-    public static String KEY_ServiceName="_ServiceName";
+    public static String IPAddress = DEFAULT_IPAddress;
+    public static String IPPort = DEFAULT_IPPort;
+    public static String ServiceName = DEFAULT_ServiceName;
 
 
-    public static final String BASE_URL_FORMAT="http://%s:%s/%s/";
-    public static String BASE_URL="";
-    static final String API_LOGIN ="/api/authority/aLogin2" ;
-    public static String token="";
+    public static String KEY_IPAddress = "_IPAddress";
+    public static String KEY_IPPort = "_IPPort";
+    public static String KEY_ServiceName = "_ServiceName";
+
+
+    public static final String BASE_URL_FORMAT = "http://%s:%s/%s/";
+    public static String BASE_URL = "";
+    static final String API_LOGIN = "/api/authority/aLogin2";
+    public static String token = "";
 
     private static Context mContext;
-    private static String versionCode="111";
+    private static String versionCode = "111";
 
-    public static void init(Context context)
-    {
-        mContext=context;
-        SharedPreferences sf= context.getSharedPreferences(SHARE_FILE, Context.MODE_PRIVATE);
-        String ip=sf.getString(KEY_IPAddress,""  );
-        if(ip=="")
-        {
-            SharedPreferences.Editor text= sf.edit();
-            text.putString(KEY_IPAddress,DEFAULT_IPAddress);
-            text.putString(KEY_IPPort,DEFAULT_IPPort);
-            text.putString(KEY_ServiceName,DEFAULT_ServiceName);
+    public static void init(Context context) {
+        mContext = context;
+        SharedPreferences sf = context.getSharedPreferences(SHARE_FILE, Context.MODE_PRIVATE);
+        String ip = sf.getString(KEY_IPAddress, "");
+        if (ip == "") {
+            SharedPreferences.Editor text = sf.edit();
+            text.putString(KEY_IPAddress, DEFAULT_IPAddress);
+            text.putString(KEY_IPPort, DEFAULT_IPPort);
+            text.putString(KEY_ServiceName, DEFAULT_ServiceName);
             text.commit();
 
         }
 
 
-        IPAddress=sf.getString(KEY_IPAddress,DEFAULT_IPAddress);
-        IPPort=sf.getString(KEY_IPPort,DEFAULT_IPPort);
-        ServiceName=sf.getString(KEY_ServiceName,DEFAULT_ServiceName);
+        IPAddress = sf.getString(KEY_IPAddress, DEFAULT_IPAddress);
+        IPPort = sf.getString(KEY_IPPort, DEFAULT_IPPort);
+        ServiceName = sf.getString(KEY_ServiceName, DEFAULT_ServiceName);
         generateBaseUrl();
 
 
@@ -67,16 +94,16 @@ public class HttpUrl {
     public static void reset(String ip, String port, String service) {
 
 
-        IPAddress =ip;
-        IPPort=port;
-        ServiceName=service;
-        SharedPreferences sf= mContext.getSharedPreferences(SHARE_FILE, Context.MODE_PRIVATE);
+        IPAddress = ip;
+        IPPort = port;
+        ServiceName = service;
+        SharedPreferences sf = mContext.getSharedPreferences(SHARE_FILE, Context.MODE_PRIVATE);
 
 
-        SharedPreferences.Editor text= sf.edit();
-        text.putString(KEY_IPAddress,IPAddress);
-        text.putString(KEY_IPPort,IPPort);
-        text.putString(KEY_ServiceName,ServiceName);
+        SharedPreferences.Editor text = sf.edit();
+        text.putString(KEY_IPAddress, IPAddress);
+        text.putString(KEY_IPPort, IPPort);
+        text.putString(KEY_ServiceName, ServiceName);
         text.commit();
 
         generateBaseUrl();
@@ -84,62 +111,51 @@ public class HttpUrl {
 
     }
 
-    private static final  void  generateBaseUrl()
-    {
-        BASE_URL=String.format( BASE_URL_FORMAT,IPAddress,IPPort,ServiceName);
+    private static final void generateBaseUrl() {
+        BASE_URL = String.format(BASE_URL_FORMAT, IPAddress, IPPort, ServiceName);
     }
 
 
-    public static final String getBaseUrl()
-    {
+    public static final String getBaseUrl() {
 
-        return BASE_URL ;
+        return BASE_URL;
     }
 
     public static void setToken(String mToken) {
 
-        token=mToken;
+        token = mToken;
 
     }
 
 
-    public static String completeUrl(String url)
-    {
-        if(StringUtils.isEmpty(url))return "";
-        return additionInfo(BASE_URL+url );
+    public static String completeUrl(String url) {
+        if (StringUtils.isEmpty(url)) return "";
+        return additionInfo(BASE_URL + url);
     }
 
 
-    public static String additionInfo(String url)
-    {
+    public static String additionInfo(String url) {
 
 
-        if(StringUtils.isEmpty(token))
-        {
+        if (StringUtils.isEmpty(token)) {
             return url;
         }
 
-        if(url.contains("?"))
-        {
-            url+="&token="+token;
-        }else
-        {
-            url+="?token="+token;
+        if (url.contains("?")) {
+            url += "&token=" + token;
+        } else {
+            url += "?token=" + token;
         }
-        if(url.contains("?"))
-        {
-            url+="&appVersion="+versionCode;
-        }else
-        {
-            url+="?appVersion="+versionCode;
+        if (url.contains("?")) {
+            url += "&appVersion=" + versionCode;
+        } else {
+            url += "?appVersion=" + versionCode;
         }
 
-        if(url.contains("?"))
-        {
-            url+="&client="+CLIENT_TYPE;
-        }else
-        {
-            url+="?client="+CLIENT_TYPE;
+        if (url.contains("?")) {
+            url += "&client=" + CLIENT_TYPE;
+        } else {
+            url += "?client=" + CLIENT_TYPE;
         }
 
         return url;
@@ -149,60 +165,106 @@ public class HttpUrl {
         return completeUrl(API_LOGIN);
     }
 
-    public static String getProductList(String name,int pageIndex,int pageSize)
-    {
-      return completeUrl(String.format(RestApi.API_URL_GET_PRODUCT_LIST, name, pageIndex, pageSize));
+    public static String getProductList(String name, int pageIndex, int pageSize) {
+        return completeUrl(String.format(API_URL_GET_PRODUCT_LIST, name, pageIndex, pageSize));
     }
 
     public static String getOrderList(String name, int pageIndex, int pageSize) {
-        return completeUrl(String.format(RestApi.API_URL_GET_ORDER_LIST, name, pageIndex, pageSize));
+        return completeUrl(String.format(API_URL_GET_ORDER_LIST, name, pageIndex, pageSize));
     }
 
-    public static String getOrderDetail(String orderNo ) {
-        return completeUrl(String.format(RestApi.API_URL_GET_ORDER_DETAIL, orderNo ));
+    public static String getOrderDetail(String orderNo) {
+        return completeUrl(String.format(API_URL_GET_ORDER_DETAIL, orderNo));
     }
 
     public static String getProductDetail(long productId) {
-        return completeUrl(String.format(RestApi.API_URL_GET_PRODUCT_DETAIL, productId ));
+        return completeUrl(String.format(API_URL_GET_PRODUCT_DETAIL, productId));
     }
 
     public static String getQuotationList(String name, int pageIndex, int pageSize) {
-        return completeUrl(String.format(RestApi.API_URL_GET_QUOTATION_LIST, URLEncoder.encode( name), pageIndex, pageSize));
+        return completeUrl(String.format(API_URL_GET_QUOTATION_LIST, URLEncoder.encode(name), pageIndex, pageSize));
     }
 
     public static String getQuotationDetail(long quotationId) {
-        return completeUrl(String.format(RestApi.API_URL_GET_QUOTATION_DETAIL,  quotationId));
+        return completeUrl(String.format(API_URL_GET_QUOTATION_DETAIL, quotationId));
     }
 
     public static String getMaterialList(String name, int pageIndex, int pageSize) {
-        return completeUrl(String.format(RestApi.API_URL_GET_MATERIAL_LIST, URLEncoder.encode( name), pageIndex, pageSize));
+        return completeUrl(String.format(API_URL_GET_MATERIAL_LIST, URLEncoder.encode(name), pageIndex, pageSize));
     }
+
     public static String getMaterialListInService(String name, int pageIndex, int pageSize) {
-        return completeUrl(String.format(RestApi.API_URL_GET_MATERIAL_LIST_IN_SERVICE, URLEncoder.encode( name), pageIndex, pageSize));
+        return completeUrl(String.format(API_URL_GET_MATERIAL_LIST_IN_SERVICE, URLEncoder.encode(name), pageIndex, pageSize));
     }
 
     /**
      * 上传材料图片
+     *
      * @param materialId
      * @return
      */
-    public static String uploadMaterialPicture( long materialId) {
+    public static String uploadMaterialPicture(long materialId) {
 
 
-        return completeUrl( String.format(RestApi.API_URL_UPLOAD_MATERIAL_PICTURE, materialId  ));
+        return completeUrl(String.format(API_URL_UPLOAD_MATERIAL_PICTURE, materialId));
     }
 
     public static String loadInitData(long userId) {
-        return completeUrl( String.format(RestApi.API_URL_GET_INITDATA, userId  ));
+        return completeUrl(String.format(API_URL_GET_INITDATA, userId));
     }
 
     public static String saveProductDetail() {
 
-        return completeUrl( RestApi.API_URL_SAVE_PRODUCTDETAIL );
+        return completeUrl(API_URL_SAVE_PRODUCTDETAIL);
     }
 
     public static String getProductProcessList(String name, int pageIndex, int pageSize) {
-        return completeUrl(String.format(RestApi.API_URL_GET_PRODUCT_PROCESS_LIST, URLEncoder.encode( name), pageIndex, pageSize));
+        return completeUrl(String.format(API_URL_GET_PRODUCT_PROCESS_LIST, URLEncoder.encode(name), pageIndex, pageSize));
 
+    }
+
+    /**
+     * 获取未处理的流程信息
+     *
+     * @return
+     * @throws HdException
+     */
+    public static String getUnHandleWorkFlowList() {
+        return completeUrl(API_URL_GET_UN_HANDLE_WORK_FLOW_LIST);
+
+    }
+
+    /**
+     * 审核流程传递
+     */
+    public static String checkWorkFlowMessage(long workFlowMessageId) {
+
+        return completeUrl(String.format(API_URL_CHECK_WORK_FLOW_MESSAGE, workFlowMessageId));
+    }
+
+    /**
+     * 接受流程传递
+     */
+    public static String receiveWorkFlowMessage(long workFlowMessageId) {
+
+        return completeUrl(String.format(API_URL_RECEIVE_WORK_FLOW_MESSAGE, workFlowMessageId));
+    }
+
+    public static String getAvailableOrderItemForTransform() {
+
+        return completeUrl( API_URL_GET_ORDER_ITEM_FOR_TRANSFORM );
+    }
+
+    public static String sendWorkFlowMessage(long orderItemId, int flowStep, int tranQty,String memo) {
+        return completeUrl( String.format(API_URL_SEND_WORK_FLOW_MESSAGE ,orderItemId,flowStep,tranQty,memo));
+    }
+
+    public static String mySendWorkFlowMessage() {
+
+        return completeUrl(  API_URL_MY_SEND_WORK_FLOW_MESSAGE  );
+    }
+
+    public static String rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason) {
+        return completeUrl( String.format(API_URL_REJECT_WORK_FLOW_MESSAGE ,workFlowMessageId,toWorkFlowStep,reason));
     }
 }

@@ -32,7 +32,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ProductDetailActivity"
-            android:parentActivityName=".activity.ProductListActivity"
+
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activity.WorkFlowMessageActivity"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SettingActivity"
@@ -48,8 +53,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.MainActivity"
-            android:parentActivityName=".activity.BaseActivity"
             android:configChanges="orientation"
+            android:parentActivityName=".activity.BaseActivity"
 
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -69,37 +74,30 @@
         <activity
             android:name=".activity.LongTextActivity"
             android:label="@string/title_activity_long_text"
-            android:theme="@style/AppTheme.NoActionBarDialog"
-         ></activity>
+            android:theme="@style/AppTheme.NoActionBarDialog"></activity>
 
 
         <activity
             android:name="com.sigseg.android.map.ImageViewerActivity"
             android:label="@string/title_activity_long_text"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.ProductMaterialActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.MaterialSelectActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.ProductWageActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name=".activity.ProductProcessSelectActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name=".activity.ProductPaintActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -11,4 +11,5 @@
     <color name="transparent">#00000000</color>
     <color name="title_color">#aa99a7</color>
     <color name="value_color">#333333</color>
+    <color name="white">#ffffff</color>
 </resources>

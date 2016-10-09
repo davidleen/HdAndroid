@@ -9,7 +9,7 @@ package com.giants3.hd.utils.entity;
 
 public class ErpOrderItem {
 
-
+    public long id;
     /**
      * 订单的编号
      */
@@ -101,5 +101,27 @@ public class ErpOrderItem {
      * 当前生产流程
      */
     public String currentWorkFlow;
+    /**
+     * 当前生产流程
+     */
+    public int currentWorkStep;
 
+
+    /**
+     * 当前生产状态  0 正常  1 已发送  2 已接收 3 已审核=0进入下一个流程
+     */
+    public int currentWorkState;
+
+    /**
+     * 订单当前数量    订单递交下流程 可能没有全部提交下去（特殊需求）
+     */
+    public int tranQty;
+
+
+    @Override
+    public String toString() {
+
+
+        return os_no +"  "+ prd_name;
+    }
 }

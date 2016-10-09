@@ -15,17 +15,17 @@ public  interface    BaseViewer  {
 
 
 
-    public void onCreateView(View v);
 
 
 
-    public void onDestroyView();
 
+    public void onDestroy();
+    public void onCreate();
 
     public void showWaiting();
 
     public void hideWaiting();
 
     public void showMessage(String message);
-
+    public View getContentView();
 }

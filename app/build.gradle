@@ -46,7 +46,8 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.1'
     compile 'de.greenrobot:java-common:2.3.1'
     compile "com.wefika:flowlayout:0.4.1"
-    compile project(':data')
+    compile "common:TestLibrary:1.0.0"
+   // compile project(':data')
     compile project(':library')
 
 

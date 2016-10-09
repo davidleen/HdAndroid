@@ -12,6 +12,7 @@ import com.giants3.hd.utils.entity.ProductProcess;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.entity.WorkFlowMessage;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 import com.google.gson.reflect.TypeToken;
@@ -20,6 +21,8 @@ import com.google.inject.Inject;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+
+import rx.Observable;
 
 /**
  * Created by david on 2016/2/13.
@@ -67,6 +70,8 @@ public class ApiManager {
         tokenMaps.put(ProductProcess.class, new TypeToken<RemoteData<ProductProcess>>() {
         }.getType());
         tokenMaps.put(ErpOrderDetail.class, new TypeToken<RemoteData<ErpOrderDetail>>() {
+        }.getType());
+        tokenMaps.put(WorkFlowMessage.class, new TypeToken<RemoteData<WorkFlowMessage>>() {
         }.getType());
 
     }
@@ -192,15 +197,14 @@ public class ApiManager {
         String result = apiConnection.getString(url);
         RemoteData<Material> remoteData = invokeByReflect(result, Material.class);
         //移动端不需要photo
-        if(remoteData.isSuccess())
-        {
-            for (Material  material:remoteData.datas)
-            {
-                material.photo=null;
+        if (remoteData.isSuccess()) {
+            for (Material material : remoteData.datas) {
+                material.photo = null;
             }
         }
         return remoteData;
     }
+
     /**
      * 读取未停用的材料列表
      *
@@ -216,11 +220,9 @@ public class ApiManager {
         String result = apiConnection.getString(url);
         RemoteData<Material> remoteData = invokeByReflect(result, Material.class);
         //移动端不需要photo
-        if(remoteData.isSuccess())
-        {
-            for (Material  material:remoteData.datas)
-            {
-                material.photo=null;
+        if (remoteData.isSuccess()) {
+            for (Material material : remoteData.datas) {
+                material.photo = null;
             }
         }
         return remoteData;
@@ -249,7 +251,7 @@ public class ApiManager {
     public RemoteData<BufferData> getInitData(long userId) throws HdException {
 
         String url = HttpUrl.loadInitData(userId);
-        String result = apiConnection.getString(url );
+        String result = apiConnection.getString(url);
 
         RemoteData<BufferData> remoteData = invokeByReflect(result, BufferData.class);
 
@@ -268,6 +270,85 @@ public class ApiManager {
         String result = apiConnection.getString(url);
         RemoteData<ProductProcess> remoteData = invokeByReflect(result, ProductProcess.class);
         //移动端不需要photo
+        return remoteData;
+    }
+
+    /**
+     * 获取未处理的流程信息
+     * @return
+     * @throws HdException
+     */
+    public RemoteData<WorkFlowMessage> getUnHandleWorkFlowList() throws HdException {
+
+        String url = HttpUrl.getUnHandleWorkFlowList();
+        String result = apiConnection.getString(url);
+        RemoteData<WorkFlowMessage> remoteData = invokeByReflect(result, WorkFlowMessage.class);
+        //移动端不需要photo
+        return remoteData;
+    }
+    /**
+     * 审核流程传递
+     *
+     *
+     */
+    public RemoteData<Void> checkWorkFlowMessage(long workFlowMessageId) throws HdException {
+
+        String url = HttpUrl.checkWorkFlowMessage(workFlowMessageId);
+        String result = apiConnection.getString(url);
+        RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
+
+        return remoteData;
+    }
+    /**
+     * 接受流程传递
+     *
+     *
+     */
+    public RemoteData<Void> receiveWorkFlowMessage(long workFlowMessageId) throws HdException {
+        String url = HttpUrl.receiveWorkFlowMessage(workFlowMessageId);
+        String result = apiConnection.getString(url);
+        RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
+
+        return remoteData;
+    }
+
+    /**
+     * 获取可以传递流程的订单item
+     * @return
+     */
+    public RemoteData<ErpOrderItem> getAvailableOrderItemForTransform() throws HdException {
+
+        String url = HttpUrl.getAvailableOrderItemForTransform();
+        String result = apiConnection.getString(url);
+        RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
+        //移动端不需要photo
+        return remoteData;
+
+    }
+
+    public RemoteData<Void> sendWorkFlowMessage(long orderItemId, int flowStep, int tranQty,String memo) throws HdException {
+        String url = HttpUrl.sendWorkFlowMessage(orderItemId,flowStep,tranQty,  memo);
+        String result = apiConnection.getString(url);
+        RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
+
+        return remoteData;
+    }
+
+    public RemoteData<WorkFlowMessage> mySendWorkFlowMessage() throws HdException {
+
+        String url = HttpUrl.mySendWorkFlowMessage();
+        String result = apiConnection.getString(url);
+        RemoteData<WorkFlowMessage> remoteData = invokeByReflect(result, WorkFlowMessage.class);
+
+        return remoteData;
+
+    }
+
+    public RemoteData<Void> rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason) throws HdException {
+        String url = HttpUrl.rejectWorkFlowMessage(workFlowMessageId,toWorkFlowStep,reason);
+        String result = apiConnection.getString(url);
+        RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
+
         return remoteData;
     }
 }

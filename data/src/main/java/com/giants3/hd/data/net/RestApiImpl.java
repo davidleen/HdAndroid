@@ -28,6 +28,7 @@ import com.giants3.hd.utils.entity.ProductProcess;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.entity.WorkFlowMessage;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 import com.google.inject.Inject;
@@ -290,6 +291,92 @@ public class RestApiImpl implements RestApi {
 
 
                 return apiManager.getProductProcessList(name, pageIndex, pageSize);
+            }
+        });
+    }
+
+    @Override
+    public Observable getUnHandleWorkFlowList() {
+        return create(new ApiInvoker<WorkFlowMessage>() {
+            @Override
+            public RemoteData<WorkFlowMessage> invoker() throws HdException {
+
+
+                return apiManager.getUnHandleWorkFlowList( );
+            }
+        });
+    }
+
+    @Override
+    public Observable checkWorkFlowMessageCase(final long workFlowMessageId) {
+          return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.checkWorkFlowMessage( workFlowMessageId);
+            }
+        });
+    }
+
+    @Override
+    public Observable receiveWorkFlowMessageCase(final long workFlowMessageId) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.receiveWorkFlowMessage(workFlowMessageId );
+            }
+        });
+    }
+
+    @Override
+    public Observable getAvailableOrderItemForTransformCase() {
+        return create(new ApiInvoker<ErpOrderItem>() {
+            @Override
+            public RemoteData<ErpOrderItem> invoker() throws HdException {
+
+
+                return apiManager.getAvailableOrderItemForTransform(  );
+            }
+        });
+
+    }
+
+    @Override
+    public Observable sendWorkFlowMessageCase(final long orderItemId, final int flowStep, final int tranQty,final String memo) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.sendWorkFlowMessage(   orderItemId,   flowStep,   tranQty,memo );
+            }
+        });
+    }
+
+
+    @Override
+    public Observable mySendWorkFlowMessageCase() {
+        return create(new ApiInvoker<WorkFlowMessage>() {
+            @Override
+            public RemoteData<WorkFlowMessage> invoker() throws HdException {
+
+
+                return apiManager.mySendWorkFlowMessage(    );
+            }
+        });
+    }
+
+    @Override
+    public Observable rejectWorkFlowMessage(final long workFlowMessageId, final int toWorkFlowStep, final String reason) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.rejectWorkFlowMessage( workFlowMessageId,   toWorkFlowStep,   reason);
             }
         });
     }

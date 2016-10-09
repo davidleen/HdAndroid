@@ -114,13 +114,7 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_product_detail, container, false);
 
-        return rootView;
-    }
 
 
     @Override

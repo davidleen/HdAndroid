@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?><!--发送流程传递请求的-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:clickable="true"
+    android:divider="@color/bg_gray"
+
+    android:dividerPadding="0.5dp"
+    android:gravity="center"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+
+    android:showDividers="middle"
+
+    >
+
+    <LinearLayout
+
+        android:id="@+id/panel_select_item"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/list_item_bg_selector"
+        android:gravity="center">
+
+        <TextView
+             android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
+            android:text="货款选择" />
+
+
+        <TextView
+            android:id="@+id/order_item_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/icon_search_selector"
+            android:gravity="left|center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center">
+
+        <TextView
+             android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="订单数量" />
+
+
+        <TextView
+            android:id="@+id/orderItemQty"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center">
+
+        <TextView
+             android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="当前流程" />
+
+
+        <TextView
+            android:id="@+id/currentWorkFlow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center">
+
+        <TextView
+             android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="当前数量" />
+
+
+        <TextView
+            android:id="@+id/orderItemTranQty"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/panel_dest_work"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/list_item_bg_selector"
+
+        android:gravity="center">
+
+        <TextView
+             android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="目标流程" />
+
+
+        <TextView
+            android:id="@+id/destWorkFlow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/icon_search_selector"
+            android:gravity="left|center"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+
+        >
+
+        <TextView
+             android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="发送数量" />
+
+
+        <EditText
+            android:id="@+id/sendQty"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/panel_memo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center">
+
+        <TextView
+             android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="备注" />
+
+
+        <EditText
+            android:id="@+id/memo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center"
+            android:hint="发送数量不足，这里输入备注"
+            android:textColorHint="#ffaaaa"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/submitFlow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_white_round_selector"
+            android:paddingBottom="5dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingTop="5dp"
+            android:text="发送"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
