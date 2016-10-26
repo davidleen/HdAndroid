@@ -3,6 +3,7 @@ package com.giants3.hd.android.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class ItemPickDialogFragment<T> extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final ListView listView= (ListView) view.findViewById(R.id.listView);
+
 //        oldValueTextView.setText(oldValue);
 //        final TextView newValueTextView= (TextView) view.findViewById(R.id.newValue);
 
@@ -57,6 +59,7 @@ public class ItemPickDialogFragment<T> extends DialogFragment {
             protected Bindable<T> createViewHolder(int itemViewType) {
                 TextView tv=     new TextView(getContext());
                 tv.setMinHeight(Utils.dp2px(36));
+                tv.setGravity(Gravity.CENTER);
                 return new ViewHolder(tv);
             }
         };

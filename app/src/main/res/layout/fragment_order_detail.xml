@@ -265,8 +265,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:divider="@drawable/icon_divider"
-                android:footerDividersEnabled="true"
-                android:headerDividersEnabled="true"
+                android:background="@drawable/background_gray_border"
+
 
 
                 android:fillViewport="false" />

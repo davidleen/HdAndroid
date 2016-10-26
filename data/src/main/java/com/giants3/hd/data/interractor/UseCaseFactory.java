@@ -182,4 +182,20 @@ public class UseCaseFactory {
 
         return new MySendWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread() ,restApi);
     }
+
+    public UseCase createUnCompleteOrderWorkFlowReportUseCase() {
+        return new UnCompleteOrderWorkFlowReportUseCase( Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
+    }
+
+    public UseCase loadOrderWorkFlowReportUseCase(String key, int pageIndex, int pageSize) {
+        return new LoadOrderWorkFlowReportUseCase(   key,   pageIndex,   pageSize,Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
+    }
+
+    /**
+     * 读取最新apk包路径
+     * @return
+     */
+    public UseCase createLoadAppUpgradeInfoUseCase() {
+        return new LoadAppUpgradeInfoUseCase(   Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
+    }
 }

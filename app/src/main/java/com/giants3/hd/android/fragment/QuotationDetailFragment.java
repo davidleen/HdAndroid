@@ -54,18 +54,16 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
     ExpandableHeightListView listView;
 
 
-    @Bind(R.id.order_no)
-    TextView order_no;
+
     @Bind(R.id.cus_no)
     TextView cus_no;
-    @Bind(R.id.cus_os_no)
-    TextView cus_os_no;
-    @Bind(R.id.os_dd)
-    TextView os_dd;
-    @Bind(R.id.est_dd)
-    TextView est_dd;
-    @Bind(R.id.so_data)
-    TextView so_data;
+
+    @Bind(R.id.qDate)
+    TextView qDate;
+    @Bind(R.id.validDate)
+    TextView validDate;
+    @Bind(R.id.moneyType)
+    TextView moneyType;
     @Bind(R.id.sal)
     TextView sal;
     @Bind(R.id.memo)
@@ -74,6 +72,8 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
     View showMore;
     @Bind(R.id.more_text)
     View more_text;
+    @Bind(R.id.qNumber)
+    TextView qNumber;
     @Bind(R.id.scrollIndicatorDown)
     HorizontalScrollView horizontalScrollView1;
 
@@ -145,15 +145,14 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
         horizontalScrollView1.setFocusable(true);
         listView.setExpanded(true);
 
+        qNumber.setText(quotation.qNumber);
+        qDate.setText(quotation.qDate);
+      cus_no.setText(quotation.customerCode+quotation.customerName);
+        sal.setText(quotation.salesman);
+       validDate.setText(quotation.vDate);
+       moneyType.setText(quotation.currency);
 
-//        order_no.setText(erpOrder.os_no);
-//        cus_no.setText(erpOrder.cus_no);
-//        cus_os_no.setText(erpOrder.cus_os_no);
-//        os_dd.setText(erpOrder.os_dd);
-//        est_dd.setText(erpOrder.est_dd);
-//        so_data.setText(erpOrder.so_data);
-//        sal.setText(erpOrder.sal_name);
-//        memo.setText(erpOrder.rem);
+        memo.setText(quotation.memo);
         memo.setMaxLines(MAX_MEMO_ROW_LINE);
         memo.post(new Runnable() {
             @Override
@@ -164,11 +163,9 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
                 boolean more = false;
 
 
-                if (memo.getLineCount() > MAX_MEMO_ROW_LINE) {
+                if (memo.getLineCount()== MAX_MEMO_ROW_LINE) {
 
-                    int width = memo.getLayout().getLineEnd(count - 1);
 
-                    //more = erpOrder.rem.length() > width;
 
 
                 }

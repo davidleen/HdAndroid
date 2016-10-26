@@ -2,6 +2,8 @@ package com.giants3.hd.data.net;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
@@ -46,7 +48,7 @@ public class HttpUrl {
     public static final String API_URL_GET_ORDER_ITEM_FOR_TRANSFORM = "api/order/getOrderItemForTransform";
 
     public static final String API_URL_SEND_WORK_FLOW_MESSAGE = "api/order/sendWorkFlowMessage?orderItemId=%d&flowStep=%d&tranQty=%d&memo=%s";
-   public static final String API_URL_REJECT_WORK_FLOW_MESSAGE = "api/order/rejectWorkFlowMessage?workFlowMsgId=%d&toWorkFlowStep=%d&reason=%s";
+    public static final String API_URL_REJECT_WORK_FLOW_MESSAGE = "api/order/rejectWorkFlowMessage?workFlowMsgId=%d&toWorkFlowStep=%d&reason=%s";
     public static final String API_URL_MY_SEND_WORK_FLOW_MESSAGE = "api/order/getSendWorkFlowMessageList";
 
 
@@ -86,6 +88,16 @@ public class HttpUrl {
         IPPort = sf.getString(KEY_IPPort, DEFAULT_IPPort);
         ServiceName = sf.getString(KEY_ServiceName, DEFAULT_ServiceName);
         generateBaseUrl();
+        PackageManager pm = context.getPackageManager();//context为当前Activity上下文
+        PackageInfo pi = null;
+        try {
+            pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versionCode=String.valueOf(pi.versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
 
 
     }
@@ -130,7 +142,7 @@ public class HttpUrl {
 
     public static String completeUrl(String url) {
         if (StringUtils.isEmpty(url)) return "";
-        return additionInfo(BASE_URL + url);
+        return additionInfo(BASE_URL +  url);
     }
 
 
@@ -252,19 +264,47 @@ public class HttpUrl {
 
     public static String getAvailableOrderItemForTransform() {
 
-        return completeUrl( API_URL_GET_ORDER_ITEM_FOR_TRANSFORM );
+        return completeUrl(API_URL_GET_ORDER_ITEM_FOR_TRANSFORM);
     }
 
-    public static String sendWorkFlowMessage(long orderItemId, int flowStep, int tranQty,String memo) {
-        return completeUrl( String.format(API_URL_SEND_WORK_FLOW_MESSAGE ,orderItemId,flowStep,tranQty,memo));
+    public static String sendWorkFlowMessage(long orderItemId, int flowStep, int tranQty, String memo) {
+        return completeUrl(String.format(API_URL_SEND_WORK_FLOW_MESSAGE, orderItemId, flowStep, tranQty, memo));
     }
 
     public static String mySendWorkFlowMessage() {
 
-        return completeUrl(  API_URL_MY_SEND_WORK_FLOW_MESSAGE  );
+        return completeUrl(API_URL_MY_SEND_WORK_FLOW_MESSAGE);
     }
 
     public static String rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason) {
-        return completeUrl( String.format(API_URL_REJECT_WORK_FLOW_MESSAGE ,workFlowMessageId,toWorkFlowStep,reason));
+        return completeUrl(String.format(API_URL_REJECT_WORK_FLOW_MESSAGE, workFlowMessageId, toWorkFlowStep, reason));
+    }
+
+    /**
+     * 读取未出库订单货款列表
+     *
+     * @return
+     */
+    public static String loadUnCompleteOrderItemWorkFlowReport() {
+        return completeUrl("api/order/unCompleteOrderItem");
+
+    }
+
+    /**
+     * 根据关键字查询生产进度报表
+     *
+     * @param key
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    public static String loadOrderWorkFlowReport(String key, int pageIndex, int pageSize) {
+
+        return completeUrl(String.format("api/order/getWorkFlowOrderItem?key=%s&pageIndex=%d&pageSize=%d", key, pageIndex, pageSize));
+    }
+
+    public static String loadAppUpgradeInfo() {
+
+        return completeUrl(String.format("api/update/getNewAndroidApk"));
     }
 }

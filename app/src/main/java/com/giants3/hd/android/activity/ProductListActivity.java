@@ -179,7 +179,7 @@ public class ProductListActivity extends BaseActivity {
             holder.mContentView.setText(aProduct.pVersion);
 
 
-            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(aProduct.url),holder.image);
+            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(aProduct.thumbnail),holder.image);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

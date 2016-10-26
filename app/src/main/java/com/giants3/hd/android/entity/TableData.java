@@ -33,6 +33,13 @@ public class TableData {
      */
     public int[] type;
 
+    /**
+     * 当前要显示的字段的关联字段
+     *
+     * 为图片字段时候  这个字段可以配置大图路径
+     */
+    public String  relateField[];
+
 
     /**
      * 从系统资源中解析出相应数据
@@ -48,15 +55,17 @@ public class TableData {
         tableData.headNames=new String[size];
         tableData.type=new int[size];
         tableData.width=new int[size];
+        tableData.relateField=new String[size];
         for(int i=0;i<size;i++)
         {
             String[] temp=data[i].split(DIVIDER);
             tableData.headNames[i]=temp[0];
             tableData.fields[i]=temp[1];
+
             tableData.type[i]=Integer.valueOf(temp[2]);
             tableData.width[i]= Utils.dp2px(Integer.valueOf(temp[3])) ;
-
-
+            if(temp.length>4)
+               tableData.relateField[i]=temp[4];
         }
 
 

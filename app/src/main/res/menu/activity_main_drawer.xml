@@ -20,9 +20,13 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/material_list" />
         <item
-            android:id="@+id/nav_schedule"
+            android:id="@+id/nav_workFlow"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/work_list" />
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/schedule" />
     </group>
 
     <item android:title="Communicate">
@@ -39,6 +43,11 @@
     </item>
     <item android:title="功能">
         <menu>
+
+            <item
+                android:id="@+id/checkUpdate"
+                android:icon="@android:drawable/stat_sys_upload"
+                android:title="檢查更新" />
             <item
                 android:id="@+id/reLogin"
                 android:icon="@drawable/ic_menu_share"

@@ -17,8 +17,10 @@ package com.giants3.hd.data.net;
 
 
 import android.util.Base64;
+import android.util.Log;
 
 import com.giants3.hd.crypt.CryptUtils;
+import com.giants3.hd.data.BuildConfig;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.google.inject.Inject;
@@ -52,6 +54,7 @@ public class ApiConnection {
  private static final MediaType mediaType_image = MediaType.parse("multipart/form-data");
 
     public static final String DEFAULT_CHAR_ENCODE = "UTF-8";
+    private static final String TAG ="ApiConnection" ;
     private static boolean IS_CRYPT_JSON = false;
     public static final String DES_KEY = "d5b417051ca087f5a068f93b4769f654";
     private OkHttpClient okHttpClient = createClient();
@@ -138,39 +141,7 @@ public class ApiConnection {
         return null;
     }
 
-//    public String postFile(String url, byte[] data) throws HdException {
-//
-//
-//        RequestBody body = RequestBody.create(mediaType, data);
-//        Request request = null;
-//        try {
-//            request = new Request.Builder()
-//                    .url(new URL(url))
-//                    .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_VALUE_JSON).post(new RequestBody() {
-//                        @Override
-//                        public MediaType contentType() {
-//                            return null;
-//                        }
-//
-//                        @Override
-//                        public void writeTo(BufferedSink sink) throws IOException {
-//
-//                        }
-//                    })
-//                    .post(body).build();
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//            throw HdException.create("url:" + url + ",is not a valid url");
-//        }
-//        try {
-//            return okHttpClient.newCall(request).execute().body().bytes();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            throw HdException.create(e);
-//        }
-//
-//
-//    }
+
 
     public String post(String url, String data) throws HdException {
 
@@ -185,7 +156,17 @@ public class ApiConnection {
             if (IS_CRYPT_JSON) {
                 result = CryptUtils.decryptDES(result, DES_KEY);
             }
-            return new String(result, DEFAULT_CHAR_ENCODE);
+            String remoteString= new String(result, DEFAULT_CHAR_ENCODE);
+
+            if(BuildConfig.DEBUG)
+            {
+                Log.i(TAG,"url:"+url);
+                Log.i(TAG,"data:"+remoteString);
+            }
+
+
+
+            return remoteString;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             throw HdException.create(e);
@@ -215,6 +196,12 @@ public class ApiConnection {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @return
+     * @throws HdException
+     */
     public String getString(String url) throws HdException {
 
 
@@ -224,7 +211,17 @@ public class ApiConnection {
             if (IS_CRYPT_JSON) {
                 result = CryptUtils.decryptDES(result, DES_KEY);
             }
-            return new String(result, DEFAULT_CHAR_ENCODE);
+            String remoteString= new String(result, DEFAULT_CHAR_ENCODE);
+
+
+            if(BuildConfig.DEBUG_)
+            {
+                Log.i(TAG,"url:"+url);
+                Log.i(TAG,"data:"+remoteString);
+            }
+
+
+            return remoteString;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             throw HdException.create(e);

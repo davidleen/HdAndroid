@@ -4,13 +4,12 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:clickable="true"
-    android:divider="@color/bg_gray"
-
-    android:dividerPadding="0.5dp"
+    android:divider="@drawable/icon_divider"
+    android:dividerPadding="1dp"
     android:gravity="center"
     android:minWidth="300dp"
-    android:orientation="vertical"
 
+    android:orientation="vertical"
     android:showDividers="middle"
 
     >

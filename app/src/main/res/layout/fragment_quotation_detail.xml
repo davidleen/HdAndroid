@@ -27,15 +27,15 @@
                     android:layout_width="81dp"
                     android:layout_height="wrap_content"
 
-                    android:text="订单号" />
+                    android:text="报价单号" />
 
                 <TextView
-                    android:id="@+id/order_no"
+                    android:id="@+id/qNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
 
-                    android:text="order_no" />
+                    android:text="qNumber" />
 
             </LinearLayout>
 
@@ -50,10 +50,10 @@
                     android:layout_height="wrap_content"
 
 
-                    android:text="合同日期" />
+                    android:text="报价日期" />
 
                 <TextView
-                    android:id="@+id/os_dd"
+                    android:id="@+id/qDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -79,7 +79,7 @@
                     android:layout_width="81dp"
                     android:layout_height="wrap_content"
 
-                    android:text="客号" />
+                    android:text="客户" />
 
                 <TextView
                     android:id="@+id/cus_no"
@@ -102,10 +102,10 @@
                     android:layout_height="wrap_content"
 
 
-                    android:text="预交日期" />
+                    android:text="有效日期" />
 
                 <TextView
-                    android:id="@+id/est_dd"
+                    android:id="@+id/validDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -132,15 +132,15 @@
                     android:layout_width="81dp"
                     android:layout_height="wrap_content"
 
-                    android:text="客单号" />
+                    android:text="币别" />
 
                 <TextView
-                    android:id="@+id/cus_os_no"
+                    android:id="@+id/moneyType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
 
-                    android:text="order_no" />
+                    android:text=" " />
 
             </LinearLayout>
 
@@ -155,7 +155,7 @@
                     android:layout_height="wrap_content"
 
 
-                    android:text="生产交期" />
+                    android:text=" " />
 
                 <TextView
                     android:id="@+id/so_data"
@@ -262,9 +262,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:divider="@drawable/icon_divider"
+                android:background="@drawable/background_gray_border"
                 android:fillViewport="false"
-                android:footerDividersEnabled="true"
-                android:headerDividersEnabled="true"
 
 
                 android:orientation="vertical" />

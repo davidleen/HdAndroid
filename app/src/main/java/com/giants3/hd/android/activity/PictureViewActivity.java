@@ -21,6 +21,9 @@ import java.io.File;
 
 import butterknife.Bind;
 
+/**
+ * 图片展示act   接收的url 为全路径。
+ */
 public class PictureViewActivity extends BaseActivity {
 
 
@@ -49,7 +52,7 @@ public class PictureViewActivity extends BaseActivity {
         final ProgressDialog dialog=new ProgressDialog(this);
         dialog.setIndeterminate(true);
 
-        File file= ImageLoader.getInstance().getDiskCache().get(HttpUrl.completeUrl(url));
+        File file= ImageLoader.getInstance().getDiskCache().get(url);
 
         if(file!=null&&file.exists()){
             bitmapRef=BitmapFactory.decodeFile(file.getPath());

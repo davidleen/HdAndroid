@@ -15,14 +15,13 @@ import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.ErpOrderDetail;
+import com.giants3.hd.utils.noEntity.FileInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
-
-import rx.Observable;
 
 /**
  * Created by david on 2016/2/13.
@@ -72,6 +71,8 @@ public class ApiManager {
         tokenMaps.put(ErpOrderDetail.class, new TypeToken<RemoteData<ErpOrderDetail>>() {
         }.getType());
         tokenMaps.put(WorkFlowMessage.class, new TypeToken<RemoteData<WorkFlowMessage>>() {
+        }.getType());
+        tokenMaps.put(FileInfo.class, new TypeToken<RemoteData<FileInfo>>() {
         }.getType());
 
     }
@@ -275,6 +276,7 @@ public class ApiManager {
 
     /**
      * 获取未处理的流程信息
+     *
      * @return
      * @throws HdException
      */
@@ -286,10 +288,9 @@ public class ApiManager {
         //移动端不需要photo
         return remoteData;
     }
+
     /**
      * 审核流程传递
-     *
-     *
      */
     public RemoteData<Void> checkWorkFlowMessage(long workFlowMessageId) throws HdException {
 
@@ -299,10 +300,9 @@ public class ApiManager {
 
         return remoteData;
     }
+
     /**
      * 接受流程传递
-     *
-     *
      */
     public RemoteData<Void> receiveWorkFlowMessage(long workFlowMessageId) throws HdException {
         String url = HttpUrl.receiveWorkFlowMessage(workFlowMessageId);
@@ -314,6 +314,7 @@ public class ApiManager {
 
     /**
      * 获取可以传递流程的订单item
+     *
      * @return
      */
     public RemoteData<ErpOrderItem> getAvailableOrderItemForTransform() throws HdException {
@@ -326,8 +327,8 @@ public class ApiManager {
 
     }
 
-    public RemoteData<Void> sendWorkFlowMessage(long orderItemId, int flowStep, int tranQty,String memo) throws HdException {
-        String url = HttpUrl.sendWorkFlowMessage(orderItemId,flowStep,tranQty,  memo);
+    public RemoteData<Void> sendWorkFlowMessage(long orderItemId, int flowStep, int tranQty, String memo) throws HdException {
+        String url = HttpUrl.sendWorkFlowMessage(orderItemId, flowStep, tranQty, memo);
         String result = apiConnection.getString(url);
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
 
@@ -345,9 +346,40 @@ public class ApiManager {
     }
 
     public RemoteData<Void> rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason) throws HdException {
-        String url = HttpUrl.rejectWorkFlowMessage(workFlowMessageId,toWorkFlowStep,reason);
+        String url = HttpUrl.rejectWorkFlowMessage(workFlowMessageId, toWorkFlowStep, reason);
         String result = apiConnection.getString(url);
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
+
+        return remoteData;
+    }
+
+    /**
+     * 读取未出库订单货款列表
+     *
+     * @return
+     */
+    public RemoteData<ErpOrderItem> loadUnCompleteOrderItemWorkFlowReport() throws HdException {
+
+        String url = HttpUrl.loadUnCompleteOrderItemWorkFlowReport();
+        String result = apiConnection.getString(url);
+        RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
+
+        return remoteData;
+    }
+
+    public RemoteData<ErpOrderItem> loadOrderWorkFlowReport(String key, int pageIndex, int pageSize) throws HdException {
+        String url = HttpUrl.loadOrderWorkFlowReport(key, pageIndex, pageSize);
+        String result = apiConnection.getString(url);
+        RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
+
+        return remoteData;
+    }
+
+    public RemoteData<FileInfo> loadAppUpgradeInfo() throws HdException {
+
+        String url = HttpUrl.loadAppUpgradeInfo();
+        String result = apiConnection.getString(url);
+        RemoteData<FileInfo> remoteData = invokeByReflect(result, FileInfo.class);
 
         return remoteData;
     }

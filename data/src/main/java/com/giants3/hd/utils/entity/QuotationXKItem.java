@@ -141,7 +141,7 @@ public class QuotationXKItem implements Serializable,Valuable {
     public String productName2;
 
 
-    public byte[]  productPhoto2;
+
 
 
 
@@ -256,11 +256,12 @@ public class QuotationXKItem implements Serializable,Valuable {
     public int iIndex;
 
 
-
+    public String thumbnail;
 
     public String photoUrl;
 
 
+    public String thumbnail2;
     public String photo2Url;
 
 
@@ -273,7 +274,7 @@ public class QuotationXKItem implements Serializable,Valuable {
 
 
         productId=product.id;
-        productPhoto=product.photo;
+
         photoUrl=product.url;
         productName=product.name;
         pVersion=product.pVersion;
@@ -306,7 +307,7 @@ public class QuotationXKItem implements Serializable,Valuable {
 
 
         productId2=product==null?0:product.id;
-        productPhoto2=product==null?null:product.photo;
+
         photo2Url=product==null?"":product.url;
 
         productName2=product==null?"":product.name;
@@ -372,7 +373,7 @@ public class QuotationXKItem implements Serializable,Valuable {
         if (mirrorSize != null ? !mirrorSize.equals(item.mirrorSize) : item.mirrorSize != null) return false;
         if (memo != null ? !memo.equals(item.memo) : item.memo != null) return false;
         if (productName2 != null ? !productName2.equals(item.productName2) : item.productName2 != null) return false;
-        if (!Arrays.equals(productPhoto2, item.productPhoto2)) return false;
+
         if (pVersion2 != null ? !pVersion2.equals(item.pVersion2) : item.pVersion2 != null) return false;
         if (packageSize2 != null ? !packageSize2.equals(item.packageSize2) : item.packageSize2 != null) return false;
         if (unit2 != null ? !unit2.equals(item.unit2) : item.unit2 != null) return false;
@@ -404,8 +405,7 @@ public class QuotationXKItem implements Serializable,Valuable {
         result = 31 * result + (memo != null ? memo.hashCode() : 0);
         result = 31 * result + (int) (productId2 ^ (productId2 >>> 32));
         result = 31 * result + (productName2 != null ? productName2.hashCode() : 0);
-        result = 31 * result + (productPhoto2 != null ? Arrays.hashCode(productPhoto2) : 0);
-        result = 31 * result + (pVersion2 != null ? pVersion2.hashCode() : 0);
+         result = 31 * result + (pVersion2 != null ? pVersion2.hashCode() : 0);
         result = 31 * result + inBoxCount2;
         result = 31 * result + packQuantity2;
         result = 31 * result + (packageSize2 != null ? packageSize2.hashCode() : 0);

@@ -1,13 +1,12 @@
 package com.giants3.hd.android.presenterImpl;
 
-import com.giants3.hd.android.BasePresenterImpl;
 import com.giants3.hd.android.presenter.BasePresenter;
 import com.giants3.hd.android.presenter.ProductDetailPresenter;
 
 /**
  * Created by david on 2016/4/13.
  */
-public abstract  class ProductDetailPresenterImpl extends BasePresenterImpl implements ProductDetailPresenter{
+public abstract  class ProductDetailPresenterImpl implements ProductDetailPresenter, BasePresenter {
     @Override
     public void onPanelForClick(int index) {
 

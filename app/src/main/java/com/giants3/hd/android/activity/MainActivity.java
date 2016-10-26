@@ -33,6 +33,9 @@ import com.giants3.hd.android.helper.AuthorityUtil;
 
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.giants3.hd.android.helper.UpgradeUtil;
+import com.giants3.hd.android.mvp.MainAct.MainActMvp;
+import com.giants3.hd.android.mvp.MainAct.MainActPresenter;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.interractor.UseCaseFactory;
@@ -43,6 +46,9 @@ import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.noEntity.BufferData;
+import com.giants3.hd.utils.noEntity.FileInfo;
+
+import java.net.URLEncoder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,8 +59,8 @@ import static com.giants3.hd.android.fragment.ProductListFragment.OnFragmentInte
 /**
  * 主界面
  */
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
+        implements MainActMvp.Viewer, NavigationView.OnNavigationItemSelectedListener,
 
         OrderDetailFragment.OnFragmentInteractionListener,
         MaterialDetailFragment.OnFragmentInteractionListener,
@@ -159,10 +165,25 @@ public class MainActivity extends BaseActivity
 
     }
 
+    @Override
+    protected MainActMvp.Presenter onLoadPresenter() {
+        return new MainActPresenter();
+    }
+
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initEventAndData() {
+
+    }
+
     private void bindData()
     {
 
-        navigationView.getMenu().getItem(0).setVisible(AuthorityUtil.getInstance().viewProductDelete());
+        navigationView.getMenu().getItem(0).setVisible(AuthorityUtil.getInstance().viewProductModule());
         navigationView.getMenu().getItem(1).setVisible(AuthorityUtil.getInstance().viewQuotationList());
         navigationView.getMenu().getItem(2).setVisible(AuthorityUtil.getInstance().viewOrderMenu());
         navigationView.getMenu().getItem(3).setVisible(AuthorityUtil.getInstance().viewMaterialList());
@@ -257,6 +278,13 @@ public class MainActivity extends BaseActivity
 
     }
 
+    @Override
+    public void startDownLoadApk(FileInfo newApkFileInfo) {
+
+        UpgradeUtil.startUpgrade2(this,1,"云飞家居", HttpUrl.completeUrl(newApkFileInfo.url),newApkFileInfo.length);
+
+    }
+
 
     public static class NavigationViewHelper {
 
@@ -303,7 +331,18 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+         if(   getPresenter().checkBack())
+         {
+             super.onBackPressed();
+
+         }else
+         {
+             ToastHelper.show("再次点击返回键退出应用");
+         }
+
+
+
         }
     }
 
@@ -389,30 +428,57 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_product) {
-            showNewListFragment(productListFragment);
-            getSupportActionBar().setTitle("产品列表");
-            // Handle the camera action
-        } else if (id == R.id.nav_quotate) {
-            showNewListFragment(quotationListFragment);
-            getSupportActionBar().setTitle("报价列表");
-        } else if (id == R.id.nav_order) {
-            showNewListFragment(orderListFragment);
-            getSupportActionBar().setTitle("订单列表");
-        } else if (id == R.id.nav_material) {
-            showNewListFragment(materialListFragment);
-            getSupportActionBar().setTitle("材料列表");
-        } else if (id == R.id.nav_schedule) {
 
-            Intent intent=new Intent(this,WorkFlowMessageActivity.class);
+        switch (id) {
+            case R.id.nav_product:
+                showNewListFragment(productListFragment);
+                getSupportActionBar().setTitle("产品列表");
+                // Handle the camera action
+                break;
+            case R.id.nav_quotate:
+                showNewListFragment(quotationListFragment);
+                getSupportActionBar().setTitle("报价列表");
+                break;
+            case R.id.nav_order:
+                showNewListFragment(orderListFragment);
+                getSupportActionBar().setTitle("订单列表");
+                break;
+            case R.id.nav_material:
+                showNewListFragment(materialListFragment);
+                getSupportActionBar().setTitle("材料列表");
+                break;
+            case R.id.nav_schedule: {
+                Intent intent = new Intent(this, WorkFlowMessageActivity.class);
 
-            startActivity(intent);
+                startActivity(intent);
+
+            }
+                break;
+
+            case R.id.nav_workFlow:
+
+            {
+                Intent intent = new Intent(this, WorkFlowActivity.class);
+
+                startActivity(intent);
+            }
+
+                break;
+            case R.id.nav_send:
+                break;
 
 
 
-        } else if (id == R.id.nav_send) {
-        } else if (id == R.id.reLogin) {
-            startLoginActivity();
+            case R.id.checkUpdate:
+
+                getPresenter().checkAppUpdateInfo();
+
+
+                break;
+
+            case R.id.reLogin:
+                startLoginActivity();
+                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -434,6 +500,8 @@ public class MainActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, EMPTYP_FRAGMENT).commit();
         }
     }
+
+
 
 
 }

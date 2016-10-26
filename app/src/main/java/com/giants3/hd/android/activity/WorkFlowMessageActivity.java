@@ -26,9 +26,6 @@ public class WorkFlowMessageActivity extends BaseActivity  {
 
 
 
-
-
-    ErpOrder erpOrder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

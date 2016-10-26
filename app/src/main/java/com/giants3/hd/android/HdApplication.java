@@ -88,6 +88,7 @@ public class HdApplication extends Application {
                 .threadPriority(Thread.NORM_PRIORITY - 2) // default 线程优先级别
                 .tasksProcessingOrder(QueueProcessingType.FIFO) // default 线程执行顺序
                 .denyCacheImageMultipleSizesInMemory()
+                .discCacheExtraOptions(Integer.MAX_VALUE,Integer.MAX_VALUE,null)
                         // .memoryCache(new LruMemoryCache(2 * 1024 * 1024))  //内存缓存数  2M
                         //   .memoryCacheSize(10 * 1024 * 1024)
                 .memoryCacheSizePercentage(13) // default
@@ -98,7 +99,7 @@ public class HdApplication extends Application {
                 .imageDownloader(new BaseImageDownloader(this)) // default
                 .imageDecoder(new BaseImageDecoder(true)) // default
                 .defaultDisplayImageOptions(options) // default
-                        // .writeDebugLogs()
+                        .writeDebugLogs()
 
 
                 .build();

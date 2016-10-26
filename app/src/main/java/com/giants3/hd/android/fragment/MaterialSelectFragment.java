@@ -1,10 +1,7 @@
 package com.giants3.hd.android.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,22 +12,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.adapter.AbstractAdapter;
 import com.giants3.hd.android.adapter.ItemListAdapter;
-import com.giants3.hd.android.adapter.MaterialListAdapter;
-import com.giants3.hd.android.adapter.OrderItemListAdapter;
-import com.giants3.hd.android.adapter.TableHeadAdapter;
 import com.giants3.hd.android.entity.TableData;
-import com.giants3.hd.android.events.MaterialUpdateEvent;
 import com.giants3.hd.android.helper.ToastHelper;
-import com.giants3.hd.data.interractor.UseCase;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.utils.StringUtils;
 import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.QuotationItem;
 import com.giants3.hd.utils.entity.RemoteData;
-
-import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.OnItemClick;
@@ -38,15 +26,13 @@ import rx.Subscriber;
 
 
 /**
- *
- *
  * 材料选择
  */
-public class MaterialSelectFragment extends BaseFragment  {
+public class MaterialSelectFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    public static final String ARG_PARAM_CODE= "ARG_PARAM_CODE";
-    public static final String ARG_PARAM_NAME= "ARG_PARAM_NAME";
+    public static final String ARG_PARAM_CODE = "ARG_PARAM_CODE";
+    public static final String ARG_PARAM_NAME = "ARG_PARAM_NAME";
 
 
     ItemListAdapter<Material> materialItemListAdapter;
@@ -89,10 +75,10 @@ public class MaterialSelectFragment extends BaseFragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            materialCode = getArguments().getString(ARG_PARAM_CODE,"");
-            materialName = getArguments().getString(ARG_PARAM_NAME,"");
+            materialCode = getArguments().getString(ARG_PARAM_CODE, "");
+            materialName = getArguments().getString(ARG_PARAM_NAME, "");
         }
-       // materialItemListAdapter=new
+        // materialItemListAdapter=new
         TableData tableData = TableData.resolveData(getContext(), R.array.table_head_material_item);
         materialItemListAdapter = new ItemListAdapter<>(getActivity());
         materialItemListAdapter.setTableData(tableData);
@@ -103,31 +89,27 @@ public class MaterialSelectFragment extends BaseFragment  {
     public interface
     OnFragmentInteractionListener {
 
-        public void onFragmentInteraction(Material material) ;
+        public void onFragmentInteraction(Material material);
     }
 
 
-
     @OnItemClick(R.id.item_list)
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    {
-        Material material= materialItemListAdapter.getItem(position);
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Material material = materialItemListAdapter.getItem(position);
 
-        if(material==null) return;
-        if(material.outOfService)
-        {
+        if (material == null) return;
+        if (material.outOfService) {
 
             ToastHelper.show("该材料已经停用");
-            return ;
+            return;
         }
 
 
-        if(mListener!=null)
+        if (mListener != null)
             mListener.onFragmentInteraction(material);
 
 
     }
-
 
 
     @Override
@@ -135,6 +117,7 @@ public class MaterialSelectFragment extends BaseFragment  {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_material_select, container, false);
     }
+
     /**
      *
      */
@@ -143,7 +126,7 @@ public class MaterialSelectFragment extends BaseFragment  {
         public void run() {
 
             String key = search_text.getText().toString().trim();
-            loadData(key );
+            loadData(key);
         }
     };
 
@@ -173,36 +156,32 @@ public class MaterialSelectFragment extends BaseFragment  {
             }
         });
 
-        if(!StringUtils.isEmpty(materialCode))
-        {
+        if (!StringUtils.isEmpty(materialCode)) {
             search_text.setText(materialCode);
             search_text.setSelection(materialCode.length());
-        }else
-        if (!StringUtils.isEmpty(materialName))
-        {
+        } else if (!StringUtils.isEmpty(materialName)) {
             search_text.setText(materialName);
             search_text.setSelection(materialName.length());
-        }else
-             runnable.run();
+        } else
+            runnable.run();
 
     }
 
 
-    private void loadData(String key)
-    {
+    private void loadData(String key) {
 
-        UseCaseFactory.getInstance().createMaterialListInServiceCase(key,0,100).execute(new Subscriber<RemoteData<Material>>() {
+        UseCaseFactory.getInstance().createMaterialListInServiceCase(key, 0, 100).execute(new Subscriber<RemoteData<Material>>() {
             @Override
             public void onCompleted() {
 //                showProgress(false);
-                if(progressBar!=null)
+                if (progressBar != null)
                     progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onError(Throwable e) {
 //                showProgress(false);
-                if(progressBar!=null)
+                if (progressBar != null)
                     progressBar.setVisibility(View.GONE);
                 ToastHelper.show(e.getMessage());
             }

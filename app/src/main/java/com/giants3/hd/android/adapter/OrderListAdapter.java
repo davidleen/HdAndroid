@@ -18,27 +18,11 @@ public class OrderListAdapter
 
 
 
-//    private View.OnClickListener itemClickListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//
-//
-//            ViewHolder viewHolder = (ViewHolder) v.getTag();
-//
-//            Context context = v.getContext();
-//            if (context instanceof OrderListFragment.OnFragmentInteractionListener) {
-//                ((OrderListFragment.OnFragmentInteractionListener) context).onFragmentInteraction(viewHolder.mItem);
-//            }
-//
-//
-//        }
-//    };
-    ;
 
 
     public OrderListAdapter(Context context) {
         super(context);
-        this.context = context;
+
 
     }
 
@@ -57,6 +41,7 @@ public class OrderListAdapter
     public class ViewHolder  implements Bindable<ErpOrder> {
         public final View mView;
         public final TextView os_no;
+        public final TextView os_dd;
         public final TextView cus_no;
         public final TextView cus_os_no;
         public final TextView sal;
@@ -68,6 +53,7 @@ public class OrderListAdapter
 
             mView = view;
             os_no = (TextView) view.findViewById(R.id.os_no);
+            os_dd = (TextView) view.findViewById(R.id.os_dd);
             cus_os_no = (TextView) view.findViewById(R.id.cus_os_no);
             cus_no = (TextView) view.findViewById(R.id.cus_no);
             sal = (TextView) view.findViewById(R.id.sal);
@@ -82,6 +68,7 @@ public class OrderListAdapter
             mItem = order;
             cus_no.setText(order.cus_no);
             os_no.setText(order.os_no);
+            os_dd.setText(order.os_dd);
             cus_os_no.setText(order.cus_os_no);
             sal.setText(order.sal_name==null?"":order.sal_name );
 

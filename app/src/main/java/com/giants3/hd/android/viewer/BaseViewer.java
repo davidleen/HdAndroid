@@ -19,13 +19,13 @@ public  interface    BaseViewer  {
 
 
 
-    public void onDestroy();
-    public void onCreate();
+      void onDestroy();
+      void onCreate();
 
-    public void showWaiting();
+      void showWaiting();
 
-    public void hideWaiting();
+      void hideWaiting();
 
-    public void showMessage(String message);
-    public View getContentView();
+      void showMessage(String message);
+      View getContentView();
 }

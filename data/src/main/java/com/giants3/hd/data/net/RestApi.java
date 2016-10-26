@@ -102,4 +102,10 @@ public interface RestApi {
   Observable mySendWorkFlowMessageCase();
 
   Observable rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason);
+
+  Observable loadUnCompleteOrderItemWorkFlowReport();
+
+  Observable loadOrderWorkFlowReport(String key, int pageIndex, int pageSize);
+
+  Observable loadAppUpgradeInfo();
 }

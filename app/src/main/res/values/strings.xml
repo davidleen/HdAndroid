@@ -31,10 +31,11 @@
     <string name="order_list">订单列表</string>
     <string name="material_list">材料列表</string>
     <string name="work_list">生产流程管理</string>
+    <string name="schedule">我的流程</string>
     <!--订单表结构-->
     <string-array name="table_head_order_item">
         <item>序号||itm||1||60</item>
-        <item>图片||url||2||91</item>
+        <item>图片||thumbnail||2||91||url</item>
         <!--2表示图片类型-->
         <item>产品名称||prd_name||1||91</item>
         <item>配方号||id_no||1||91</item>
@@ -145,8 +146,6 @@
     <!--报价表 表格-->
     <string-array name="table_head_quotation_list">
         <item>报价日期||qDate||1||120</item>
-
-
         <item>报价单号||qNumber||1||100</item>
         <item>客户||customerName||1||100</item>
         <item>有效日期||vDate||1||120</item>
@@ -161,43 +160,69 @@
 
     <!--咸康报价细项表 表格-->
     <string-array name="table_head_xkquotation_item">
-        <item>报价日期||qDate||1||120</item>
+        <item>序号||iIndex||1||40</item>
 
-
-        <item>报价单号||qNumber||1||100</item>
-        <item>客户||customerName||1||100</item>
-        <item>有效日期||vDate||1||120</item>
-        <item>币别||currency||1||80</item>
-        <item>业务员||salesman||1||100</item>
-        <item>报价类型||quotationTypeName||1||100</item>
-        <item>审核||isVerified||1||60</item>
+        <item>图片||thumbnail||2||91||photoUrl</item>
+        <item>货号||productName||1||120</item>
+        <item>配方号||pVersion||1||100</item>
+        <item>*内盒*||inBoxCount||1||60</item>
+        <item>*每箱数*||packQuantity||1||70</item>
+        <item>客户箱规||packageSize||1||120</item>
+        <item>单位||unit||1||40</item>
+        <item>成本价||cost||1||50</item>
+        <item>FOB||price||1||60</item>
+        <item>立方数||volumeSize||1||60</item>
+        <item>货品规格||spec||1||100</item>
+        <item>净重||weight||1||60</item>
+        <item>材质||constitute||1||120</item>
+        <item>镜面尺寸||mirrorSize||1||80</item>
         <item>备注||memo||1||200</item>
+
+        <!---->
+        <item>图片||thumbnail2||2||91||photoUrl</item>
+        <item>配方号||pVersion2||1||100</item>
+        <item>*内盒*||inBoxCount2||1||60</item>
+        <item>*每箱数*||packQuantity2||1||70</item>
+        <item>客户箱规||packageSize2||1||120</item>
+        <item>单位||unit2||1||40</item>
+        <item>成本价||cost2||1||50</item>
+        <item>FOB||price2||1||60</item>
+        <item>立方数||volumeSize2||1||60</item>
+        <item>货品规格||spec2||1||100</item>
+        <item>净重||weight2||1||60</item>
+        <item>材质||constitute2||1||120</item>
+        <item>镜面尺寸||mirrorSize2||1||80</item>
+        <item>备注||memo2||1||200</item>
     </string-array>
     <!--普通报价细项表 表格-->
     <string-array name="table_head_quotation_item">
-        <item>序号||iIndex||1||120</item>
+        <item>序号||iIndex||1||40</item>
+        <item>图片||thumbnail||2||91||photoUrl</item>
+        <item>货号||productName||1||120</item>
+        <item>配方号||pVersion||1||100</item>
 
-        <item>品名||productName||1||100</item>
-        <item>配方号||pVersion||1||120</item>
         <item>*内盒*||inBoxCount||1||60</item>
-        <item>*每箱数*||packQuantity||1||60</item>
-        <item>客户箱规||packageSize||1||100</item>
-        <item>单位||unit||1||60</item>
-        <item>成本价||cost||1||60</item>
+        <item>*每箱数*||packQuantity||1||70</item>
+        <item>客户箱规||packageSize||1||120</item>
+        <item>单位||unit||1||40</item>
+        <item>成本价||cost||1||50</item>
         <item>FOB||price||1||60</item>
         <item>立方数||volumeSize||1||60</item>
+        <item>货品规格||spec||1||100</item>
         <item>净重||weight||1||60</item>
-        <item>货品规格||spec||1||60</item>
-        <item>材质||constitute||1||60</item>
-        <item>镜面尺寸||mirrorSize||1||60</item>
+        <item>材质||constitute||1||120</item>
+        <item>镜面尺寸||mirrorSize||1||80</item>
         <item>备注||memo||1||200</item>
     </string-array>
     <string name="title_activity_picture_view">PictureViewActivity</string>
     <string name="title_activity_long_text">LongText</string>
+    <string name="search">查询</string>
+    <string name="download_in_progress">正在下载</string>
+    <string name="download_end">下载完成</string>
 
     <!--材料细项表 表格-->
     <string-array name="table_head_material_item">
-        <item>图片||url||2||91</item>
+        <item>图片||thumbnail||2||91||url</item>
         <item>材料代码||code||1||120</item>
         <item>材料名称||name||1||100</item>
         <item>毛长||pVersion||1||120</item>
@@ -222,5 +247,35 @@
         <item>工序编码||code||1||120</item>
         <item>工序名称||code||1||120</item>
         <item>备注||name||1||200</item>
+    </string-array>
+
+
+
+
+
+    <!--订单进度表结构-->
+    <string-array name="table_order_item_work_flow">
+       <!-- <item>序号||itm||1||40</item>-->
+        <item>图片||thumbnail||2||91||url</item>
+        <!--2表示图片类型-->
+
+        <item>订单号||os_no||1||120</item>
+        <item>产品名称||prd_name||1||120</item>
+        <item>客号||bat_no||1||91</item>
+        <item>订单数量||qty||1||60</item>
+        <item>单位||ut||1||60</item>
+        <item>箱数||htxs||1||40</item>
+
+        <item>生产进度||currentWorkFlow||1||120</item>
+        <item>当前数量||tranQty||1||80</item>
+        <item>出柜日期||sendDate||1||100</item>
+
+
+        <!--<item>每箱数||so_zxs||1||40</item>
+        <item>箱规||khxg||1||91</item>
+        <item>立方数||xgtj||1||60</item>
+        <item>总立方数||zxgtj||1||60</item>-->
+        <item>产品尺寸||hpgg||1||120</item>
+
     </string-array>
 </resources>

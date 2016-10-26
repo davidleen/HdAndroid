@@ -1,28 +1,28 @@
 package com.giants3.hd.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.Utils;
+import com.giants3.hd.android.activity.LongTextActivity;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.Quotation;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.util.List;
 
 /**
  * 表格item adapter
+ * <p>
+ * 根据配置好的结构数据  自动构建adapteritem
  * Created by david on 2016/2/14.
  */
 
@@ -30,20 +30,21 @@ import java.util.List;
  *
  */
 public class ItemListAdapter<T>
-        extends AbstractAdapter< T> {
+        extends AbstractAdapter<T> {
 
 
     private static final int DEFAULT_ROW_HEIGHT = Utils.dp2px(91);
+    public static final int MAXLINES = 5;
 
     public TableData tableData;
 
     private Context context;
 
 
-    private int selectedPosition=-1;
+    private int selectedPosition = -1;
 
 
-    private int rowHeight=DEFAULT_ROW_HEIGHT;
+    private int rowHeight = DEFAULT_ROW_HEIGHT;
 
     public ItemListAdapter(Context context) {
         super(context);
@@ -57,10 +58,9 @@ public class ItemListAdapter<T>
      * 设置行高
      * @param valueInDp
      */
-    public void setRowHeight(int valueInDp)
-    {
+    public void setRowHeight(int valueInDp) {
 
-        rowHeight=Utils.dp2px(valueInDp);
+        rowHeight = Utils.dp2px(valueInDp);
     }
 
     @Override
@@ -98,55 +98,49 @@ public class ItemListAdapter<T>
     public ViewHolder onCreateViewHolder() {
 
 
-
-        LinearLayout convertView=new LinearLayout(context);
+        LinearLayout convertView = new LinearLayout(context);
         convertView.setBackgroundResource(R.drawable.list_item_bg_selector);
         LinearLayout linearLayout = new LinearLayout(getContext());
         convertView.addView(linearLayout);
         ViewHolder viewHolder = new ViewHolder(convertView, tableData);
         linearLayout.setGravity(Gravity.CENTER);
-        viewHolder.contentView=linearLayout;
+        viewHolder.contentView = linearLayout;
 
         if (tableData != null)
             viewHolder.views = new View[tableData.size];
 
-            for (int i = 0; i < tableData.size; i++) {
+        for (int i = 0; i < tableData.size; i++) {
 
 
-                View v;
-                if (TableData.TYPE_IMAGE == tableData.type[i]) {
+            View v;
+            if (TableData.TYPE_IMAGE == tableData.type[i]) {
 
-                    ImageView imageView = new ImageView(getContext());
-                    imageView.setImageResource(R.mipmap.icon_photo);
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    v = imageView;
-                } else {
-                    TextView textView = new TextView(getContext());
-
-                    textView.setGravity(Gravity.CENTER);
-
-                    v = textView;
-                }
-
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width[i], rowHeight);
-
-
-                viewHolder.views[i] = v;
-
-
-                linearLayout.addView(v, layoutParams);
+                ImageView imageView = new ImageView(getContext());
+                imageView.setImageResource(R.mipmap.icon_photo);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                v = imageView;
+            } else {
+                TextView textView = new TextView(getContext());
+                textView.setGravity(Gravity.CENTER);
+                textView.setMaxLines(MAXLINES);
+                textView.setEllipsize(TextUtils.TruncateAt.END);
+                v = textView;
             }
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width[i], rowHeight);
+
+
+            viewHolder.views[i] = v;
+
+
+            linearLayout.addView(v, layoutParams);
+        }
         linearLayout.setDividerDrawable(context.getResources().getDrawable(R.drawable.icon_divider));
         linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
 
 
         return viewHolder;
     }
-
-
-
-
-
 
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
@@ -177,8 +171,6 @@ public class ItemListAdapter<T>
         notifyDataSetInvalidated();
 
     }
-
-
 
 
     public class HeadViewHolder implements Bindable<T> {
@@ -212,6 +204,7 @@ public class ItemListAdapter<T>
         private Object mItem;
 
         public View contentView;
+
         public ViewHolder(View view, TableData tableData) {
 
 
@@ -224,7 +217,7 @@ public class ItemListAdapter<T>
 
 
             for (int i = 0; i < tableData.size; i++) {
-                Object o = getData(tableData.fields[i],orderItem);
+                Object o = getData(tableData.fields[i], orderItem);
 //                try {
 //                    o = orderItem.getClass().getField(tableData.fields[i]).get(orderItem);
 //                } catch (IllegalAccessException e) {
@@ -236,31 +229,49 @@ public class ItemListAdapter<T>
 
                     ImageView imageView = (ImageView) views[i];
                     imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    String url =o==null?"": String.valueOf(o);
+                    String url = o == null ? "" : String.valueOf(o);
                     ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(url), imageView);
-                    imageView.setTag(url);
-                    imageView.setOnClickListener(listener);
+                    String viewPictureUrl = url;
+                    if (!StringUtils.isEmpty(tableData.relateField[i])) {
+                        Object relateValue = getData(tableData.relateField[i], orderItem);
+                        if (relateValue != null && !StringUtils.isEmpty(relateValue.toString())) {
+                            viewPictureUrl = relateValue.toString();
+                        }
+
+                    }
+                    imageView.setTag(viewPictureUrl);
+                    imageView.setOnClickListener(imageViewClickListener);
 
                 } else {
                     TextView textView = (TextView) views[i];
-                    textView.setText(o==null?"":String.valueOf(o));
+                    String stringValue = "";
+                    if (o != null) {
+                        if (o instanceof Number) {
+                            Number d = (Number) o;
+                            if (Math.abs(d.doubleValue()) < 0.001)
+                                stringValue = "";
+                            else
+                                stringValue = d.toString();
+                        } else {
+                            stringValue = String.valueOf(o);
+                        }
+                    }
+                    textView.setText(stringValue);
+                    textView.setTag(tableData.headNames[i]);
+                    textView.setOnClickListener(textViewClickListener);
                 }
 
 
             }
 
 
-
         }
-
-
-
 
 
         @Override
         public void bindData(final AbstractAdapter<T> adapter, T data, final int position) {
             bind(data);
-            contentView.setBackgroundColor(adapter.getSelectedPosition()==position? Color.GRAY:Color.TRANSPARENT);
+            contentView.setBackgroundColor(adapter.getSelectedPosition() == position ? Color.GRAY : Color.TRANSPARENT);
 
         }
 
@@ -271,17 +282,17 @@ public class ItemListAdapter<T>
 
 
     }
+
     /**
      * 通过反射获取数据
      * @param field
      * @param object
      * @return
      */
-    public Object   getData(String field, T object)
-    {
+    public Object getData(String field, T object) {
 
         try {
-            return  object.getClass().getField(field).get(object);
+            return object.getClass().getField(field).get(object);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
@@ -291,7 +302,7 @@ public class ItemListAdapter<T>
         return null;
     }
 
-    private View.OnClickListener listener = new View.OnClickListener() {
+    private View.OnClickListener imageViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
@@ -300,6 +311,33 @@ public class ItemListAdapter<T>
             if (!TextUtils.isEmpty(url)) {
                 ImageViewerHelper.view(v.getContext(), url);
             }
+
+
+        }
+    };private View.OnClickListener textViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            if(v instanceof  TextView)
+            {
+
+                TextView textView=(TextView)v;
+
+
+
+                if(textView.getLineCount()>=MAXLINES)
+                {
+
+                    String name= (String) v.getTag();
+                    Intent intent = new Intent(v.getContext(), LongTextActivity.class);
+                    intent.putExtra(LongTextActivity.PARAM_TITLE, name);
+                    intent.putExtra(LongTextActivity.PARAM_CONTENT, textView.getText().toString());
+                   v.getContext().startActivity(intent);
+
+
+                }
+            }
+
 
 
         }
@@ -316,6 +354,8 @@ public class ItemListAdapter<T>
             for (int i = 0; i < tableData.size; i++) {
                 TextView textView = new TextView(context);
                 textView.setGravity(Gravity.CENTER);
+
+               // textView.setScrollContainer(true);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width[i], Utils.dp2px(40));
                 textView.setText(tableData.headNames[i]);
                 linearLayout.addView(textView, layoutParams);
@@ -331,10 +371,6 @@ public class ItemListAdapter<T>
         return linearLayout;
 
     }
-
-
-
-
 
 
 }

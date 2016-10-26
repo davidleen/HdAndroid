@@ -17,31 +17,26 @@ package com.giants3.hd.android.activity;
  */
 
 import android.annotation.TargetApi;
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.Window;
 
-import com.google.inject.Inject;
-import com.google.inject.Key;
-import com.google.inject.internal.util.Stopwatch;
+import com.giants3.hd.android.helper.ToastHelper;
 import com.umeng.analytics.MobclickAgent;
-
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 
 
-public class BaseActivity extends AppCompatActivity implements  View.OnClickListener {
-    public static final  int REQUEST_LOGIN=1009;
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final int REQUEST_LOGIN = 1009;
+    ProgressDialog progressDialog;
 
     /**
      * 当前act 是否在最前面
@@ -50,7 +45,7 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(savedInstanceState);
 
@@ -77,7 +72,7 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
-        isTop=true;
+        isTop = true;
         MobclickAgent.onResume(this);
 
     }
@@ -85,18 +80,18 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
     @Override
     protected void onPause() {
         super.onPause();
-        isTop=false;
+        isTop = false;
         MobclickAgent.onPause(this);
 
     }
 
 
-    public boolean isTop()
-    {
+    public boolean isTop() {
         return isTop;
     }
+
     @Override
-    protected void onNewIntent( Intent intent ) {
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
     }
@@ -104,19 +99,20 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
     @Override
     protected void onStop() {
 
-            super.onStop();
+        super.onStop();
 
     }
 
     @Override
     protected void onDestroy() {
 
-                super.onDestroy();
+        super.onDestroy();
+        hideWaiting();
 
     }
 
     protected void startLoginActivity() {
-        Intent intent=new Intent(this,LoginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, REQUEST_LOGIN);
 
     }
@@ -140,10 +136,9 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(resultCode!=RESULT_OK) return ;
+        if (resultCode != RESULT_OK) return;
 
-        switch (requestCode)
-        {
+        switch (requestCode) {
 
             case REQUEST_LOGIN:
                 onLoginRefresh();
@@ -152,8 +147,8 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
 
     }
 
-    protected void onLoginRefresh()
-    {}
+    protected void onLoginRefresh() {
+    }
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
@@ -170,23 +165,53 @@ public class BaseActivity extends AppCompatActivity implements  View.OnClickList
     }
 
 
-
     @Override
     public void onClick(View v) {
 
 
-        onViewClick(v.getId(),v);
+        onViewClick(v.getId(), v);
     }
 
 
-    protected void onViewClick(int id,View v){}
+    protected void onViewClick(int id, View v) {
+    }
 
 
-    public static final  void start(Context context,Bundle data,int  requestCode)
-    {
-
+    public static final void start(Context context, Bundle data, int requestCode) {
 
 
     }
+
+    public void hideWaiting() {
+
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+
+
+    }
+
+    public void showMessage(String message) {
+
+        ToastHelper.show(message);
+
+    }
+
+    public void showWaiting() {
+        hideWaiting();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("loading");
+        progressDialog.show();
+
+    }
+    public void showWaiting(String message) {
+        hideWaiting();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+
+    }
+
 
 }

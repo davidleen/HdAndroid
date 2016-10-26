@@ -11,10 +11,14 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import com.sigseg.android.io.RandomAccessFileInputStream;
+import com.sigseg.android.map.ImageSurfaceView;
 import com.sigseg.android.map.lib.R;
 
 
-public class ImageViewerActivity extends Activity {
+/**
+ *  图片展示界面
+ */
+public class DemoViewerActivity extends Activity {
     private static final String TAG = "ImageViewerActivity";
     private static final String KEY_X = "X";
     private static final String KEY_Y = "Y";
@@ -28,9 +32,14 @@ public class ImageViewerActivity extends Activity {
         super.onCreate(savedInstanceState);
         // Hide the window title.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.main);
+
+
+
+
+
+
+        setContentView(R.layout.demo_viewer);
         imageSurfaceView = (ImageSurfaceView) findViewById(R.id.worldview);
 
         // Setup/restore state
@@ -82,7 +91,6 @@ public class ImageViewerActivity extends Activity {
      @Override
 	protected void onResume() {
 		super.onResume();
-		
 		imageSurfaceView.setViewport(new Point(imageSurfaceView.getWidth()/2, imageSurfaceView.getHeight()/2));
 	}
 

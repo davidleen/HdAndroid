@@ -248,10 +248,8 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
         final Product product = productDetail.product;
-        String url = product.url;
-        ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(url), photo);
-        photo.setTag(url);
-
+        ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(product.thumbnail), photo);
+        photo.setTag(product.url);
         name.setText(product.name);
 
 

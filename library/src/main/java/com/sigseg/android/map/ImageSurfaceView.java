@@ -134,6 +134,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         drawThread.start();
         scene.start();
         touch.start();
+
     }
 
     @Override

@@ -48,6 +48,13 @@ public class QuotationListAdapter
         public TextView saleman;
         @Bind(R.id.qDate)
         public TextView qDate;
+        @Bind(R.id.type)
+        public TextView type;
+
+        @Bind(R.id.check)
+        public View check;
+        @Bind(R.id.overdue)
+        public View overdue;
 
         public AQuotation mItem;
 
@@ -62,6 +69,11 @@ public class QuotationListAdapter
             qDate.setText(data.qDate);
             saleman.setText(data.salesman);
             customer.setText(data.customerName);
+            type.setText(data.quotationTypeName);
+            check.setSelected(data.isVerified);
+           boolean isOverdueAndNotCheck=!data.isVerified &&data.isOverdue();
+            check.setVisibility(  isOverdueAndNotCheck?View.GONE:View.VISIBLE);
+            overdue.setVisibility(  isOverdueAndNotCheck?View.VISIBLE:View.GONE);
         }
 
 

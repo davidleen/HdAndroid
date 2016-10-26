@@ -25,6 +25,7 @@ public class AuthorityUtil {
     public  void setLoginUser(AUser aUser)
     {
         loginUser=aUser;
+
     }
 
 

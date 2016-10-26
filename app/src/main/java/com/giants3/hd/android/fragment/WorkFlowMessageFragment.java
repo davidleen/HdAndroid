@@ -260,6 +260,9 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
 
                     viewer.showMessage("接收成功");
                     loadData();
+                }else
+                {
+                    viewer.showMessage(remoteData.message);
                 }
 
             }

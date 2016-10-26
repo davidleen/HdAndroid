@@ -75,11 +75,10 @@ public class ProductListAdapter
             mItem = aProduct;
             mIdView.setText(aProduct.name);
             mContentView.setText(aProduct.pVersion);
-            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(aProduct.url), image);
+            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(aProduct.thumbnail), image);
             image.setTag(aProduct.url);
             image.setOnClickListener(imageClickListener);
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
-//            mView.setOnClickListener(itemClickListener);
         }
 
         @Override

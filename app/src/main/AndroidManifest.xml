@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="1" android:versionName="v_1.0.0"
     package="com.giants3.hd.android">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -29,6 +30,7 @@
         <activity android:name=".activity.QRCaptureActivity" />
         <activity
             android:name=".activity.ProductListActivity"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ProductDetailActivity"
@@ -68,8 +70,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PictureViewActivity"
-            android:label="@string/title_activity_picture_view"
+            android:name=".activity.ImageViewerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.LongTextActivity"
@@ -77,10 +78,7 @@
             android:theme="@style/AppTheme.NoActionBarDialog"></activity>
 
 
-        <activity
-            android:name="com.sigseg.android.map.ImageViewerActivity"
-            android:label="@string/title_activity_long_text"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity
             android:name=".activity.ProductMaterialActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -98,6 +96,13 @@
         <activity
             android:name=".activity.ProductPaintActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activity.WorkFlowActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            />
+
+
+        <service android:name=".helper.AppDownloadService"/>
     </application>
 
 </manifest>

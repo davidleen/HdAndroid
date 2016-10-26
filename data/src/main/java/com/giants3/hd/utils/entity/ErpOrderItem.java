@@ -30,7 +30,7 @@ public class ErpOrderItem {
     public String prd_no;
 
     /**
-     * 货号
+     * 货号全程
      */
     public String prd_name            ;
     /**
@@ -91,6 +91,10 @@ public class ErpOrderItem {
      */
     public String hpgg;
     /**
+     * 缩略图路径
+     */
+    public String thumbnail;
+    /**
      * 图片路径
      */
     public String url;
@@ -108,15 +112,19 @@ public class ErpOrderItem {
 
 
     /**
-     * 当前生产状态  0 正常  1 已发送  2 已接收 3 已审核=0进入下一个流程
-     */
-    public int currentWorkState;
-
-    /**
      * 订单当前数量    订单递交下流程 可能没有全部提交下去（特殊需求）
      */
     public int tranQty;
 
+    /**
+     * 验货日期
+     */
+    public String verifyDate;
+
+    /**
+     *  出柜日期
+     */
+    public String sendDate;
 
     @Override
     public String toString() {
