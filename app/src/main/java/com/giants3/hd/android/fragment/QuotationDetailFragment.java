@@ -14,16 +14,20 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
+import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.widget.ExpandableHeightListView;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
+import com.giants3.hd.utils.entity.GlobalData;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.QuotationItem;
 import com.giants3.hd.utils.entity.QuotationXKItem;
+import com.giants3.hd.utils.entity.QuoteAuth;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.noEntity.BufferData;
 
 import butterknife.Bind;
 import rx.Subscriber;
@@ -74,6 +78,13 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
     View more_text;
     @Bind(R.id.qNumber)
     TextView qNumber;
+
+    @Bind(R.id.check)
+    public View check;
+    @Bind(R.id.overdue)
+    public View overdue;
+
+
     @Bind(R.id.scrollIndicatorDown)
     HorizontalScrollView horizontalScrollView1;
 
@@ -119,6 +130,27 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
 
             xkQuotationTable = TableData.resolveData(getActivity(), R.array.table_head_xkquotation_item);
             quotationTable = TableData.resolveData(getActivity(), R.array.table_head_quotation_item);
+
+
+            QuoteAuth quoteAuth= SharedPreferencesHelper.getInitData().quoteAuth;
+
+            if(quoteAuth!=null) {
+
+                //根据权限 移除部分字段显示
+                if (!quoteAuth.costVisible) {
+                    quotationTable.removeField("cost");
+                    xkQuotationTable.removeField("cost");
+                    xkQuotationTable.removeField("cost2");
+                }
+                if (!quoteAuth.fobVisible) {
+                    quotationTable.removeField("price");
+                    xkQuotationTable.removeField("price");
+                    xkQuotationTable.removeField("price2");
+                }
+            }
+
+
+
 
             quotationItemItemListAdapter = new ItemListAdapter<>(getActivity());
             xkquotationItemItemListAdapter = new ItemListAdapter<>(getActivity());
@@ -187,6 +219,13 @@ public class QuotationDetailFragment extends BaseFragment implements View.OnClic
         } else {
             listView.setAdapter(quotationItemItemListAdapter);
         }
+
+
+        check.setSelected(quotation.isVerified);
+        boolean isOverdueAndNotCheck=!quotation.isVerified &&quotation.isOverdue();
+        check.setVisibility(  isOverdueAndNotCheck?View.GONE:View.VISIBLE);
+        overdue.setVisibility(  isOverdueAndNotCheck?View.VISIBLE:View.GONE);
+
 
         attemptLoad(quotation.id);
 

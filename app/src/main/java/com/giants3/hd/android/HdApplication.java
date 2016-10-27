@@ -52,6 +52,7 @@ public class HdApplication extends Application {
         initImageLoader();
 
 
+
         //与微社区存在UMENG_APP_KEY上不一致的冲突
         //统计sdk 采用代码注入方式。
         MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this,BuildConfig.UMENG_APP_KEY,BuildConfig.UMENG_CHANNEL, MobclickAgent.EScenarioType.E_UM_NORMAL);

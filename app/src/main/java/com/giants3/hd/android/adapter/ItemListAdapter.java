@@ -113,7 +113,7 @@ public class ItemListAdapter<T>
 
 
             View v;
-            if (TableData.TYPE_IMAGE == tableData.type[i]) {
+            if (TableData.TYPE_IMAGE == tableData.type.get(i)) {
 
                 ImageView imageView = new ImageView(getContext());
                 imageView.setImageResource(R.mipmap.icon_photo);
@@ -127,7 +127,7 @@ public class ItemListAdapter<T>
                 v = textView;
             }
 
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width[i], rowHeight);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width.get(i), rowHeight);
 
 
             viewHolder.views[i] = v;
@@ -217,7 +217,7 @@ public class ItemListAdapter<T>
 
 
             for (int i = 0; i < tableData.size; i++) {
-                Object o = getData(tableData.fields[i], orderItem);
+                Object o = getData(tableData.fields.get(i), orderItem);
 //                try {
 //                    o = orderItem.getClass().getField(tableData.fields[i]).get(orderItem);
 //                } catch (IllegalAccessException e) {
@@ -225,15 +225,15 @@ public class ItemListAdapter<T>
 //                } catch (NoSuchFieldException e) {
 //                    e.printStackTrace();
 //                }
-                if (tableData.type[i] == TableData.TYPE_IMAGE) {
+                if (tableData.type.get(i) == TableData.TYPE_IMAGE) {
 
                     ImageView imageView = (ImageView) views[i];
                     imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     String url = o == null ? "" : String.valueOf(o);
                     ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(url), imageView);
                     String viewPictureUrl = url;
-                    if (!StringUtils.isEmpty(tableData.relateField[i])) {
-                        Object relateValue = getData(tableData.relateField[i], orderItem);
+                    if (!StringUtils.isEmpty(tableData.relateField.get(i))) {
+                        Object relateValue = getData(tableData.relateField.get(i), orderItem);
                         if (relateValue != null && !StringUtils.isEmpty(relateValue.toString())) {
                             viewPictureUrl = relateValue.toString();
                         }
@@ -257,7 +257,7 @@ public class ItemListAdapter<T>
                         }
                     }
                     textView.setText(stringValue);
-                    textView.setTag(tableData.headNames[i]);
+                    textView.setTag(tableData.headNames.get(i));
                     textView.setOnClickListener(textViewClickListener);
                 }
 
@@ -356,10 +356,10 @@ public class ItemListAdapter<T>
                 textView.setGravity(Gravity.CENTER);
 
                // textView.setScrollContainer(true);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width[i], Utils.dp2px(40));
-                textView.setText(tableData.headNames[i]);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width.get(i), Utils.dp2px(40));
+                textView.setText(tableData.headNames.get(i));
                 linearLayout.addView(textView, layoutParams);
-                totalWidth += tableData.width[i];
+                totalWidth += tableData.width.get(i);
             }
         }
         linearLayout.setDividerDrawable(context.getResources().getDrawable(R.drawable.icon_divider));

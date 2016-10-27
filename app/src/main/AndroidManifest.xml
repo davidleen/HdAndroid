@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="1" android:versionName="v_1.0.0"
+    android:versionCode="2" android:versionName="v_1.0.1"
     package="com.giants3.hd.android">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

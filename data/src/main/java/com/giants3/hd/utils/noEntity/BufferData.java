@@ -41,4 +41,12 @@ public class BufferData implements Serializable{
      * 生产全流程
      */
     public List<WorkFlow> workFlows;
+
+
+    public QuoteAuth quoteAuth;
+
+//    /**
+//     * 出库单权限
+//     */
+//    public StockOutAuth stockOutAuth;
 }

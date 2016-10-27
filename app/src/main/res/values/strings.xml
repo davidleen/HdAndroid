@@ -179,7 +179,7 @@
         <item>备注||memo||1||200</item>
 
         <!---->
-        <item>图片||thumbnail2||2||91||photoUrl</item>
+        <item>图片||thumbnail2||2||91||photoUrl2</item>
         <item>配方号||pVersion2||1||100</item>
         <item>*内盒*||inBoxCount2||1||60</item>
         <item>*每箱数*||packQuantity2||1||70</item>
