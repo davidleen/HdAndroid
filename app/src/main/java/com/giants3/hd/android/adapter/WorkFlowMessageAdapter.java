@@ -8,11 +8,11 @@ import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.fragment.WorkFlowMessageFragment;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.utils.StringUtils;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.Bind;
 
@@ -123,7 +123,7 @@ public class WorkFlowMessageAdapter
             fromFlow.setText(data.fromFlowName);
             tranQty.setText(String.valueOf(data.transportQty));
 
-            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
+            ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
             picture.setTag(data);
             unitName.setText(data.unit);
             check.setVisibility(data.state == WorkFlowMessage.STATE_RECEIVE ? View.VISIBLE : View.GONE);

@@ -15,6 +15,11 @@ public class TableData {
 
 
     public static final int TYPE_IMAGE = 2;
+    public static final int TYPE_LONG_TEXT = 6;
+    /**
+     * 列类型 为序号类型
+     */
+    public static final int TYPE_INDEX = 7;
     private static final String DIVIDER = "\\|\\|";
     public int size;
 

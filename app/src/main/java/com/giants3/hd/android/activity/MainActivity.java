@@ -279,9 +279,11 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
     }
 
     @Override
-    public void startDownLoadApk(FileInfo newApkFileInfo) {
+    public void startDownLoadApk(final FileInfo newApkFileInfo) {
 
-        UpgradeUtil.startUpgrade2(this,1,"云飞家居", HttpUrl.completeUrl(newApkFileInfo.url),newApkFileInfo.length);
+
+                UpgradeUtil.startUpgrade2(MainActivity.this,1,"云飞家居", HttpUrl.completeUrl(newApkFileInfo.url),newApkFileInfo.length);
+
 
     }
 

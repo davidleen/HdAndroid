@@ -4,24 +4,19 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.widget.ZoomImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sigseg.android.io.RandomAccessFileInputStream;
 import com.sigseg.android.map.ImageSurfaceView;
 
@@ -67,7 +62,7 @@ public class ImageViewerActivity extends BaseActivity {
 
 
         final String url = getIntent().getStringExtra(EXTRA_URL);
-        final File file = ImageLoader.getInstance().getDiskCache().get(url);
+        final File file = ImageLoaderFactory.getInstance().getDiskCache().get(url);
         final WeakReference<Context> weakReference = new WeakReference<Context>(this);
         if (file == null || !file.exists()) {
             showWaiting("正在加载大图，请稍候。。。");
@@ -83,7 +78,7 @@ public class ImageViewerActivity extends BaseActivity {
                         try {
                             URL newUrl = new URL(url);
                             InputStream inputStream = newUrl.openStream();
-                            result |= ImageLoader.getInstance().getDiskCache().save(url, inputStream, null);
+                            result |= ImageLoaderFactory.getInstance().getDiskCache().save(url, inputStream, null);
                             inputStream.close();
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -103,7 +98,7 @@ public class ImageViewerActivity extends BaseActivity {
                     if (o) {
 
 
-                        file = ImageLoader.getInstance().getDiskCache().get(url);
+                        file = ImageLoaderFactory.getInstance().getDiskCache().get(url);
                     }
                     if (file == null || !file.exists()) {
 
@@ -122,10 +117,9 @@ public class ImageViewerActivity extends BaseActivity {
             asyncTask.execute(url);
 
 
-
             return;
-        }else
-        handleOnPictureFile(this, file);
+        } else
+            handleOnPictureFile(this, file);
 
     }
 
@@ -156,7 +150,7 @@ public class ImageViewerActivity extends BaseActivity {
                     public void run() {
                         imageSurfaceView.setViewportCenter();
                     }
-                },10);
+                }, 10);
 
 
             } catch (FileNotFoundException e) {
@@ -190,13 +184,13 @@ public class ImageViewerActivity extends BaseActivity {
         }
 
 
-       FrameLayout frameLayout= (FrameLayout) findViewById(android.R.id.content);
-        TextView textView=new TextView(this);
+        FrameLayout frameLayout = (FrameLayout) findViewById(android.R.id.content);
+        TextView textView = new TextView(this);
         textView.setTextColor(Color.BLUE);
-        textView.setText(  tmpOptions.outWidth+"X"+tmpOptions.outHeight );
-        FrameLayout.LayoutParams lp=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.gravity= Gravity.RIGHT|Gravity.BOTTOM;
-        frameLayout.addView(textView,lp);
+        textView.setText(tmpOptions.outWidth + "X" + tmpOptions.outHeight);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+        frameLayout.addView(textView, lp);
 
     }
 

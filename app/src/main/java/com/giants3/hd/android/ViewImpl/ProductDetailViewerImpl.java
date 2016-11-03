@@ -16,6 +16,7 @@ import com.giants3.hd.android.adapter.AbstractAdapter;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.AuthorityUtil;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.presenter.ProductDetailPresenter;
@@ -28,7 +29,6 @@ import com.giants3.hd.utils.entity.Flow;
 import com.giants3.hd.utils.entity.Product;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.ProductMaterial;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -228,11 +228,8 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
         applyEditStateToView(factory);
         applyEditStateToView(specCm);
         applyEditStateToView(packSize);
-
-
         adapter.setRowHeight(40);
         photo.setOnClickListener(this);
-
     }
 
     @Override
@@ -248,7 +245,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
 
         final Product product = productDetail.product;
-        ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(product.thumbnail), photo);
+        ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(product.thumbnail), photo);
         photo.setTag(product.url);
         name.setText(product.name);
 

@@ -7,11 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.fragment.MaterialListFragment;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.utils.entity.Material;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.Bind;
 
@@ -80,7 +79,7 @@ public class MaterialListAdapter
             materialName.setText(data.name);
             materialType.setText(data.className);
             unit.setText(data.unitName);
-            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
+            ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
 //            v.setOnClickListener(itemClickListener);
         }
 

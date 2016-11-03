@@ -28,8 +28,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.Window;
 
+import com.giants3.hd.android.helper.AnalysisFactory;
 import com.giants3.hd.android.helper.ToastHelper;
-import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 
@@ -73,7 +73,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         isTop = true;
-        MobclickAgent.onResume(this);
+        AnalysisFactory.getInstance().onResume(this);
 
     }
 
@@ -81,7 +81,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
         isTop = false;
-        MobclickAgent.onPause(this);
+        AnalysisFactory.getInstance().onPause(this);
 
     }
 
@@ -205,6 +205,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.show();
 
     }
+
     public void showWaiting(String message) {
         hideWaiting();
         progressDialog = new ProgressDialog(this);

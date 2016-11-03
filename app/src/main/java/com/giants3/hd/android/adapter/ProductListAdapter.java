@@ -7,11 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.fragment.ProductListFragment;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.data.net.HttpUrl;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by david on 2016/2/14.
@@ -75,7 +74,7 @@ public class ProductListAdapter
             mItem = aProduct;
             mIdView.setText(aProduct.name);
             mContentView.setText(aProduct.pVersion);
-            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(aProduct.thumbnail), image);
+            ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(aProduct.thumbnail), image);
             image.setTag(aProduct.url);
             image.setOnClickListener(imageClickListener);
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
@@ -88,12 +87,12 @@ public class ProductListAdapter
     }
 
 
-    private View.OnClickListener imageClickListener =new View.OnClickListener() {
+    private View.OnClickListener imageClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
-            String url= (String) v.getTag();
-            ImageViewerHelper.view(v.getContext(),url);
+            String url = (String) v.getTag();
+            ImageViewerHelper.view(v.getContext(), url);
 
         }
     };

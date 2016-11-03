@@ -8,13 +8,7 @@ import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.entity.CustomFieldData;
-import com.giants3.hd.android.fragment.ProductListFragment;
 import com.giants3.hd.android.helper.ImageViewerHelper;
-import com.giants3.hd.appdata.AProduct;
-import com.giants3.hd.data.net.HttpUrl;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.lang.reflect.Field;
 
 /**
  * Created by david on 2016/2/14.

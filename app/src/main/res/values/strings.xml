@@ -34,7 +34,7 @@
     <string name="schedule">我的流程</string>
     <!--订单表结构-->
     <string-array name="table_head_order_item">
-        <item>序号||itm||1||60</item>
+        <item>序号||itm||7||60</item>
         <item>图片||thumbnail||2||91||url</item>
         <!--2表示图片类型-->
         <item>产品名称||prd_name||1||91</item>
@@ -57,7 +57,7 @@
 
     <!--产品材料清单（白培 组装） 表格-->
     <string-array name="table_head_product_material_item">
-        <item>序号||itemIndex||1||60</item>
+        <item>序号||itemIndex||7||60</item>
 
         <!--2表示图片类型-->
         <item>材料编码||materialCode||1||91</item>
@@ -75,14 +75,14 @@
         <item>类型||type||1||40</item>
         <item>单价||price||1||60</item>
         <item>金额||amount||1||80</item>
-        <item>分件备注||memo||1||120</item>
+        <item>分件备注||memo||6||120</item>
     </string-array>
 
 
 
     <!--产品材料清单（包装） 表格-->
     <string-array name="table_head_product_pack_material_item">
-        <item>序号||itemIndex||1||60</item>
+        <item>序号||itemIndex||7||60</item>
 
         <!-- 比白培组装 多三列 -->
         <item>材料类别||packMaterialClass||1||80</item>
@@ -106,13 +106,13 @@
         <item>类型||type||1||40</item>
         <item>单价||price||1||60</item>
         <item>金额||amount||1||80</item>
-        <item>分件备注||memo||1||120</item>
+        <item>分件备注||memo||6||120</item>
     </string-array>
 
 
     <!--产品油漆清单 表格-->
     <string-array name="table_head_product_paint_item">
-        <item>序号||itemIndex||1||60</item>
+        <item>序号||itemIndex||7||60</item>
 
         <!--2表示图片类型-->
         <item>工序代码||processCode||1||80</item>
@@ -127,20 +127,20 @@
         <item>物料费用||cost||1||60</item>
         <item>配料量||materialQuantity||1||60</item>
         <item>稀释剂||ingredientQuantity||1||60</item>
-        <item>备注||memo||1||120</item>
+        <item>备注||memo||6||120</item>
 
     </string-array>
 
     <!--产品工资表 表格-->
     <string-array name="table_head_product_wage_item">
-        <item>序号||itemIndex||1||60</item>
+        <item>序号||itemIndex||7||60</item>
 
         <!--2表示图片类型-->
         <item>工序编码||processCode||1||100</item>
         <item>工序名称||processName||1||100</item>
         <item>工价||price||1||80</item>
         <item>金额||amount||1||80</item>
-        <item>备注||memo||1||150</item>
+        <item>备注||memo||6||150</item>
     </string-array>
 
     <!--报价表 表格-->
@@ -153,14 +153,14 @@
         <item>业务员||salesman||1||100</item>
         <item>报价类型||quotationTypeName||1||100</item>
         <item>审核||isVerified||1||60</item>
-        <item>备注||memo||1||200</item>
+        <item>备注||memo||6||200</item>
     </string-array>
 
 
 
     <!--咸康报价细项表 表格-->
     <string-array name="table_head_xkquotation_item">
-        <item>序号||iIndex||1||40</item>
+        <item>序号||iIndex||7||40</item>
 
         <item>图片||thumbnail||2||91||photoUrl</item>
         <item>货号||productName||1||120</item>
@@ -176,7 +176,7 @@
         <item>净重||weight||1||60</item>
         <item>材质||constitute||1||120</item>
         <item>镜面尺寸||mirrorSize||1||80</item>
-        <item>备注||memo||1||200</item>
+        <item>备注||memo||6||200</item>
 
         <!---->
         <item>图片||thumbnail2||2||91||photoUrl2</item>
@@ -192,11 +192,11 @@
         <item>净重||weight2||1||60</item>
         <item>材质||constitute2||1||120</item>
         <item>镜面尺寸||mirrorSize2||1||80</item>
-        <item>备注||memo2||1||200</item>
+        <item>备注||memo2||6||200</item>
     </string-array>
     <!--普通报价细项表 表格-->
     <string-array name="table_head_quotation_item">
-        <item>序号||iIndex||1||40</item>
+        <item>序号||iIndex||7||40</item>
         <item>图片||thumbnail||2||91||photoUrl</item>
         <item>货号||productName||1||120</item>
         <item>配方号||pVersion||1||100</item>
@@ -212,7 +212,7 @@
         <item>净重||weight||1||60</item>
         <item>材质||constitute||1||120</item>
         <item>镜面尺寸||mirrorSize||1||80</item>
-        <item>备注||memo||1||200</item>
+        <item>备注||memo||6||200</item>
     </string-array>
     <string name="title_activity_picture_view">PictureViewActivity</string>
     <string name="title_activity_long_text">LongText</string>
@@ -237,7 +237,7 @@
         <item>单位||unitName||1||60</item>
         <item>类别||className||1||60</item>
         <item>是否停用||outOfService||1||60</item>
-        <item>备注||memo||1||200</item>
+        <item>备注||memo||6||200</item>
     </string-array>
 
 
@@ -246,7 +246,7 @@
 
         <item>工序编码||code||1||120</item>
         <item>工序名称||code||1||120</item>
-        <item>备注||name||1||200</item>
+        <item>备注||name||6||200</item>
     </string-array>
 
 

@@ -19,13 +19,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.giants3.hd.android.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ContentLengthInputStream;
 import com.nostra13.universalimageloader.utils.IoUtils;
 
@@ -68,7 +66,7 @@ public class AppDownloadService extends Service {
     private MyHandler myHandler;
     private RemoteViews mRemoteViews;
     private static SparseIntArray download = new SparseIntArray();
-    public static SparseArray<AsyncTask<Void, Integer, Boolean>> downloadTasks = new SparseArray<AsyncTask<Void, Integer, Boolean>>();
+    //public static SparseArray<AsyncTask<Void, Integer, Boolean>> downloadTasks = new SparseArray<AsyncTask<Void, Integer, Boolean>>();
 
 
     public static String strPath = Environment.getExternalStorageDirectory().getAbsolutePath() + Environment.getDownloadCacheDirectory() + "/";
@@ -139,14 +137,14 @@ public class AppDownloadService extends Service {
             final String softUrl = url;
 
 
-            final File file = ImageLoader.getInstance().getDiskCache().get(softUrl);
+           // ImageLoaderFactory.getInstance().getDiskCache().remove(softUrl);
+
+            final File file = ImageLoaderFactory.getInstance().getDiskCache().get(softUrl);
 
 
             if (!(file != null && file.exists() && file.length() > 0)) {
 
-                if (downloadTasks.get(id) != null) {
-                    return START_STICKY_COMPATIBILITY;
-                }
+
 
                 AsyncTask<Void, Integer, Boolean> task = new AsyncTask<Void, Integer, Boolean>() {
 
@@ -192,22 +190,23 @@ public class AppDownloadService extends Service {
 
                             contentLengthInputStream = new ContentLengthInputStream(inputStream, (int) fileLength);
 
-                            ImageLoader.getInstance().getDiskCache().save(softUrl, contentLengthInputStream, new IoUtils.CopyListener() {
+                            ImageLoaderFactory.getInstance().getDiskCache().save(softUrl, contentLengthInputStream,
+                            new IoUtils.CopyListener() {
                                 @Override
                                 public boolean onBytesCopied(int current, int total) {
 
 
-//                                    try {
-//                                        Thread.sleep(100);
-//                                    } catch (InterruptedException e) {
-//                                        e.printStackTrace();
-//                                    }
+                                    try {
+                                        Thread.sleep(100);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
 
                                     onProgressUpdate(new Integer[]{current, total});
                                     return true;
                                 }
-                            });
-
+                            }
+                            );
 
                             result = true;
                         } catch (MalformedURLException e) {
@@ -241,9 +240,10 @@ public class AppDownloadService extends Service {
 
                         if (result) {
 
-                            downloadSuccess2(file.getPath(), id, name, softUrl);
-                            installSoftware(file.getPath(), ImageLoader.getInstance().getDiskCache().get(softUrl).getAbsolutePath());
-                            //  downloadSuccess(ImageLoader.getInstance().getDiskCache().get(softUrl).getPath(),id,name,softUrl);
+                            downloadSuccess(file.getPath(), id, name, softUrl);
+                             //ToastHelper.show("下载成功， 准备安装");
+                            installSoftware(file.getPath(), ImageLoaderFactory.getInstance().getDiskCache().get(softUrl).getAbsolutePath());
+                            //  downloadSuccess(ImageLoaderFactory.getInstance().getDiskCache().get(softUrl).getPath(),id,name,softUrl);
                         } else {
                             downloadFail(id, name, null);
                         }
@@ -254,10 +254,10 @@ public class AppDownloadService extends Service {
                     ;
                 };
                 task.execute();
-                downloadTasks.put(id, task);
+                //downloadTasks.put(id, task);
 
             } else {
-                installSoftware(file.getPath(), ImageLoader.getInstance().getDiskCache().get(softUrl).getAbsolutePath());
+                installSoftware(file.getPath(), ImageLoaderFactory.getInstance().getDiskCache().get(softUrl).getAbsolutePath());
             }
         }
         return START_STICKY;
@@ -375,9 +375,12 @@ public class AppDownloadService extends Service {
                         mNotifiManager.notify(msg.arg1, mNotification);
                         mNotifiManager.cancel(msg.arg1);
 
+//                        msg.arg1=2;
+//                        myHandler.sendMessageDelayed(msg,300);
+
                     case 2:
 
-                        downloadTasks.remove(msg.arg1);
+                     //   downloadTasks.remove(msg.arg1);
 
                         // 下载完成后清除所有下载信息，执行安装提示
                         download.delete(msg.arg1);
@@ -406,7 +409,7 @@ public class AppDownloadService extends Service {
                         mNotifiManager.notify(msg.arg1, mNotification);
                         break;
                     case 4:
-                        downloadTasks.remove(msg.arg1);
+                       // downloadTasks.remove(msg.arg1);
 
                         Toast.makeText(context, msg.obj.toString(), Toast.LENGTH_SHORT).show();
                         download.delete(msg.arg1);
@@ -418,19 +421,7 @@ public class AppDownloadService extends Service {
     }
 
 
-    public static void stopDownloadTask(int id) {
-        if (downloadTasks != null && downloadTasks.indexOfKey(id) > 0) {
-            ((AsyncTask<Void, Integer, Boolean>) downloadTasks.get(id)).cancel(true);
-            downloadTasks.remove(id);
 
-
-            if (download != null) {
-                download.delete(id);
-            }
-
-            mNotifiManager.cancel(id);
-        }
-    }
 
     /**
      * 系统通知处理

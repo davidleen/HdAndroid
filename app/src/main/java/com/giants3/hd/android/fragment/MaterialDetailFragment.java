@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.events.MaterialUpdateEvent;
 import com.giants3.hd.android.helper.CapturePictureHelper;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
@@ -22,7 +23,6 @@ import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.utils.entity.RemoteData;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.ByteArrayOutputStream;
 
@@ -209,7 +209,7 @@ public class MaterialDetailFragment extends BaseFragment implements View.OnClick
         unitRatio.setText(String.valueOf(material.unitRatio));
         ingredientRatio.setText(String.valueOf(material.ingredientRatio));
         outOfService.setText(material.outOfService ? "停用" : "使用中");
-        ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(material.url), image);
+        ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(material.url), image);
         upload.setVisibility(newPicture == null ? View.GONE : View.VISIBLE);
     }
 

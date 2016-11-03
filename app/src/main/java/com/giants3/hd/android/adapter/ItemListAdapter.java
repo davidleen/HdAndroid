@@ -14,10 +14,10 @@ import com.giants3.hd.android.R;
 import com.giants3.hd.android.Utils;
 import com.giants3.hd.android.activity.LongTextActivity;
 import com.giants3.hd.android.entity.TableData;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.utils.StringUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * 表格item adapter
@@ -56,6 +56,7 @@ public class ItemListAdapter<T>
 
     /**
      * 设置行高
+     *
      * @param valueInDp
      */
     public void setRowHeight(int valueInDp) {
@@ -125,13 +126,15 @@ public class ItemListAdapter<T>
                 textView.setMaxLines(MAXLINES);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 v = textView;
+
+                if (TableData.TYPE_LONG_TEXT == tableData.type.get(i)) {
+                    textView.setOnClickListener(longTextViewClickListener);
+                }
             }
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width.get(i), rowHeight);
 
-
             viewHolder.views[i] = v;
-
 
             linearLayout.addView(v, layoutParams);
         }
@@ -230,7 +233,7 @@ public class ItemListAdapter<T>
                     ImageView imageView = (ImageView) views[i];
                     imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     String url = o == null ? "" : String.valueOf(o);
-                    ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(url), imageView);
+                    ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(url), imageView);
                     String viewPictureUrl = url;
                     if (!StringUtils.isEmpty(tableData.relateField.get(i))) {
                         Object relateValue = getData(tableData.relateField.get(i), orderItem);
@@ -242,24 +245,34 @@ public class ItemListAdapter<T>
                     imageView.setTag(viewPictureUrl);
                     imageView.setOnClickListener(imageViewClickListener);
 
-                } else {
-                    TextView textView = (TextView) views[i];
-                    String stringValue = "";
-                    if (o != null) {
-                        if (o instanceof Number) {
-                            Number d = (Number) o;
-                            if (Math.abs(d.doubleValue()) < 0.001)
-                                stringValue = "";
-                            else
-                                stringValue = d.toString();
-                        } else {
-                            stringValue = String.valueOf(o);
+                } else
+                    //序号列 处理
+                    if (tableData.type.get(i) == TableData.TYPE_INDEX) {
+                        TextView textView = (TextView) views[i];
+                        if (o instanceof Integer) {
+                            int index = ((Integer) o).intValue();
+                            textView.setText("" + (index + 1));
                         }
+                    } else {
+                        TextView textView = (TextView) views[i];
+                        String stringValue = "";
+                        if (o != null) {
+                            if (o instanceof Number) {
+                                Number d = (Number) o;
+
+
+                                if (Math.abs(d.doubleValue()) < 0.001)
+                                    stringValue = "";
+                                else
+                                    stringValue = d.toString();
+                            } else {
+                                stringValue = String.valueOf(o);
+                            }
+                        }
+                        textView.setText(stringValue);
+                        textView.setTag(tableData.headNames.get(i));
+
                     }
-                    textView.setText(stringValue);
-                    textView.setTag(tableData.headNames.get(i));
-                    textView.setOnClickListener(textViewClickListener);
-                }
 
 
             }
@@ -285,6 +298,7 @@ public class ItemListAdapter<T>
 
     /**
      * 通过反射获取数据
+     *
      * @param field
      * @param object
      * @return
@@ -314,30 +328,32 @@ public class ItemListAdapter<T>
 
 
         }
-    };private View.OnClickListener textViewClickListener = new View.OnClickListener() {
+    };
+
+
+    /**
+     * 长文本型的字段点击事件处理。
+     */
+    private View.OnClickListener longTextViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
-            if(v instanceof  TextView)
-            {
+            if (v instanceof TextView) {
 
-                TextView textView=(TextView)v;
-
+                TextView textView = (TextView) v;
 
 
-                if(textView.getLineCount()>=MAXLINES)
-                {
+                if (textView.getLineCount() >= MAXLINES) {
 
-                    String name= (String) v.getTag();
+                    String name = (String) v.getTag();
                     Intent intent = new Intent(v.getContext(), LongTextActivity.class);
                     intent.putExtra(LongTextActivity.PARAM_TITLE, name);
                     intent.putExtra(LongTextActivity.PARAM_CONTENT, textView.getText().toString());
-                   v.getContext().startActivity(intent);
+                    v.getContext().startActivity(intent);
 
 
                 }
             }
-
 
 
         }
@@ -355,7 +371,7 @@ public class ItemListAdapter<T>
                 TextView textView = new TextView(context);
                 textView.setGravity(Gravity.CENTER);
 
-               // textView.setScrollContainer(true);
+                // textView.setScrollContainer(true);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tableData.width.get(i), Utils.dp2px(40));
                 textView.setText(tableData.headNames.get(i));
                 linearLayout.addView(textView, layoutParams);

@@ -4,26 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.fragment.ProductDetailFragment;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AProduct;
-import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-
 import com.giants3.hd.data.net.HttpUrl;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.giants3.hd.utils.entity.RemoteData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,22 +43,23 @@ public class ProductListActivity extends BaseActivity {
     private boolean mTwoPane;
 
 
-    private List<AProduct> products=new ArrayList<>();
+    private List<AProduct> products = new ArrayList<>();
 
     @Bind(R.id.productlistactivity_list)
-     RecyclerView recyclerView;
+    RecyclerView recyclerView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.fab)
-    FloatingActionButton fab ;
+    FloatingActionButton fab;
 
     SimpleItemRecyclerViewAdapter
-     adapter;
+            adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productlistactivity_list);
-       // setSupportActionBar(toolbar);
+        // setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
 
@@ -78,7 +77,7 @@ public class ProductListActivity extends BaseActivity {
 //        }
 
 
-        UseCaseFactory.getInstance().createProductListCase("",0,100).execute(new Subscriber<RemoteData<AProduct>>() {
+        UseCaseFactory.getInstance().createProductListCase("", 0, 100).execute(new Subscriber<RemoteData<AProduct>>() {
             @Override
             public void onCompleted() {
                 showProgress(false);
@@ -118,7 +117,7 @@ public class ProductListActivity extends BaseActivity {
 
 
         assert recyclerView != null;
-        setupRecyclerView(  recyclerView);
+        setupRecyclerView(recyclerView);
 
         if (findViewById(R.id.productlistactivity_detail_container) != null) {
             // The detail container view will be present only in the
@@ -132,10 +131,10 @@ public class ProductListActivity extends BaseActivity {
 
     /**
      * 显示加载
+     *
      * @param b
      */
     private void showProgress(boolean b) {
-
 
 
     }
@@ -143,21 +142,20 @@ public class ProductListActivity extends BaseActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 
-        adapter=new SimpleItemRecyclerViewAdapter(this,products);
+        adapter = new SimpleItemRecyclerViewAdapter(this, products);
         recyclerView.setAdapter(adapter);
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private   List<AProduct> mValues;
+        private List<AProduct> mValues;
 
         private Context context;
 
 
-
-        public SimpleItemRecyclerViewAdapter(Context context,List<AProduct> items) {
-            this.context=context;
+        public SimpleItemRecyclerViewAdapter(Context context, List<AProduct> items) {
+            this.context = context;
             mValues = items;
 
         }
@@ -179,7 +177,7 @@ public class ProductListActivity extends BaseActivity {
             holder.mContentView.setText(aProduct.pVersion);
 
 
-            ImageLoader.getInstance().displayImage(HttpUrl.completeUrl(aProduct.thumbnail),holder.image);
+            ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(aProduct.thumbnail), holder.image);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -222,7 +220,7 @@ public class ProductListActivity extends BaseActivity {
 
             public ViewHolder(View view) {
                 super(view);
-               // ButterKnife.bind(this, view);
+                // ButterKnife.bind(this, view);
                 mView = view;
                 mIdView = (TextView) view.findViewById(R.id.id);
                 mContentView = (TextView) view.findViewById(R.id.content);
