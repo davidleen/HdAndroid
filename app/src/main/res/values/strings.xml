@@ -30,7 +30,8 @@
     <string name="quotate_list">报价列表</string>
     <string name="order_list">订单列表</string>
     <string name="material_list">材料列表</string>
-    <string name="work_list">生产流程管理</string>
+    <string name="work_report">生产流程报表</string>
+    <string name="work_flow_list">生产流程管理</string>
     <string name="schedule">我的流程</string>
     <!--订单表结构-->
     <string-array name="table_head_order_item">
@@ -52,7 +53,6 @@
         <item>产品尺寸||hpgg||1||120</item>
         <item>生产进度||currentWorkFlow||1||120</item>
     </string-array>
-
 
 
     <!--产品材料清单（白培 组装） 表格-->
@@ -77,7 +77,6 @@
         <item>金额||amount||1||80</item>
         <item>分件备注||memo||6||120</item>
     </string-array>
-
 
 
     <!--产品材料清单（包装） 表格-->
@@ -155,7 +154,6 @@
         <item>审核||isVerified||1||60</item>
         <item>备注||memo||6||200</item>
     </string-array>
-
 
 
     <!--咸康报价细项表 表格-->
@@ -250,32 +248,29 @@
     </string-array>
 
 
-
-
-
     <!--订单进度表结构-->
     <string-array name="table_order_item_work_flow">
-       <!-- <item>序号||itm||1||40</item>-->
-        <item>图片||thumbnail||2||91||url</item>
+        <!-- <item_work_flow_report>序号||itm||1||40</item_work_flow_report>-->
+        <item>图片||pictureUrl||2||91||url</item>
         <!--2表示图片类型-->
 
-        <item>订单号||os_no||1||120</item>
-        <item>产品名称||prd_name||1||120</item>
-        <item>客号||bat_no||1||91</item>
-        <item>订单数量||qty||1||60</item>
-        <item>单位||ut||1||60</item>
-        <item>箱数||htxs||1||40</item>
+        <item>订单号||orderName||1||120</item>
+        <item>产品名称||productFullName||1||120</item>
+        <!-- <item_work_flow_report>客号||bat_no||1||91</item_work_flow_report>-->
+        <item>订单数量||orderQty||1||60</item>
+        <!--  <item_work_flow_report>单位||ut||1||60</item_work_flow_report> -->
+        <!-- <item_work_flow_report>箱数||htxs||1||40</item_work_flow_report>-->
 
-        <item>生产进度||currentWorkFlow||1||120</item>
-        <item>当前数量||tranQty||1||80</item>
-        <item>出柜日期||sendDate||1||100</item>
+        <item>生产进度||workFlowName||1||120</item>
+        <item>当前数量||qty||1||80</item>
+        <!--<item_work_flow_report>出柜日期||sendDate||1||100</item_work_flow_report>-->
 
 
-        <!--<item>每箱数||so_zxs||1||40</item>
-        <item>箱规||khxg||1||91</item>
-        <item>立方数||xgtj||1||60</item>
-        <item>总立方数||zxgtj||1||60</item>-->
-        <item>产品尺寸||hpgg||1||120</item>
+        <!--<item_work_flow_report>每箱数||so_zxs||1||40</item_work_flow_report>
+        <item_work_flow_report>箱规||khxg||1||91</item_work_flow_report>
+        <item_work_flow_report>立方数||xgtj||1||60</item_work_flow_report>
+        <item_work_flow_report>总立方数||zxgtj||1||60</item_work_flow_report>-->
+        <!-- <item_work_flow_report>产品尺寸||hpgg||1||120</item_work_flow_report>-->
 
     </string-array>
 </resources>

@@ -9,9 +9,9 @@ import android.widget.EditText;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
-import com.giants3.hd.android.mvp.workFlow.WorkFlowMvp;
+import com.giants3.hd.android.mvp.workFlow.WorkFlowReportMvp;
 import com.giants3.hd.android.widget.ExpandableHeightListView;
-import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import butterknife.Bind;
 /**
  * An activity representing a single ProductListActivity detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link WorkFlowActivity}.
+ * item_work_flow_report details are presented side-by-side with a list of items
+ * in a {@link WorkFlowReportActivity}.
  */
-public class WorkFlowActivity extends BaseViewerActivity<WorkFlowMvp.Presenter> implements WorkFlowMvp.Viewer {
+public class WorkFlowReportActivity extends BaseViewerActivity<WorkFlowReportMvp.Presenter> implements WorkFlowReportMvp.Viewer {
 
 
     @Bind(R.id.detail_toolbar)
@@ -50,14 +50,14 @@ public class WorkFlowActivity extends BaseViewerActivity<WorkFlowMvp.Presenter> 
 
 
     //未出库订单adapter
-    ItemListAdapter<ErpOrderItem> adapter;
+    ItemListAdapter<OrderItemWorkFlowState> adapter;
 
     //查询结果adapter
-    ItemListAdapter<ErpOrderItem> searchAdapter;
+    ItemListAdapter<OrderItemWorkFlowState> searchAdapter;
 
 
     @Override
-    protected WorkFlowMvp.Presenter onLoadPresenter() {
+    protected WorkFlowReportMvp.Presenter onLoadPresenter() {
         return new com.giants3.hd.android.mvp.workFlow.WorkFlowPresenter();
     }
 
@@ -82,13 +82,13 @@ public class WorkFlowActivity extends BaseViewerActivity<WorkFlowMvp.Presenter> 
 
         adapter = new ItemListAdapter<>(this);
         adapter.setTableData(tableData);
-        list_unComplete.setExpanded(true);
+        //list_unComplete.setExpanded(true);
         list_unComplete.setAdapter(adapter);
 
 
         searchAdapter = new ItemListAdapter<>(this);
         searchAdapter.setTableData(tableData);
-        list_progress.setExpanded(true);
+        //list_progress.setExpanded(true);
         list_progress.setAdapter(searchAdapter);
 
         search_text.setOnClickListener(this);
@@ -96,7 +96,7 @@ public class WorkFlowActivity extends BaseViewerActivity<WorkFlowMvp.Presenter> 
 
 
     @Override
-    public void bindUnCompleteOrderItem(List<ErpOrderItem> datas) {
+    public void bindUnCompleteOrderItem(List<OrderItemWorkFlowState> datas) {
         adapter.setDataArray(datas);
     }
 
@@ -117,7 +117,7 @@ public class WorkFlowActivity extends BaseViewerActivity<WorkFlowMvp.Presenter> 
      * @param datas
      */
     @Override
-    public void bindSearchOrderItemResult(List<ErpOrderItem> datas) {
+    public void bindSearchOrderItemResult(List<OrderItemWorkFlowState> datas) {
 
         searchAdapter.setDataArray(datas);
     }

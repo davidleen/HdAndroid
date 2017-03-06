@@ -80,6 +80,17 @@ public class WorkFlowMessage {
     public String url;
     public String memo;
 
+    /**
+     * 订单项目流程状态id
+     */
+    public long orderItemWorkFlowStateId;
+
+    //冗余字段
+    public String productTypeName;
+
+
+    //冗余字段
+    public String factoryName;
 
     /**
      * 返工

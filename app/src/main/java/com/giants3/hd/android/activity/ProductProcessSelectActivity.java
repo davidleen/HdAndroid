@@ -19,7 +19,7 @@ import butterknife.Bind;
 /**产品工序选择界面
  * An activity representing a single ProductListActivity detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
+ * item_work_flow_report details are presented side-by-side with a list of items
  * in a {@link ProductListActivity}.
  */
 public class ProductProcessSelectActivity extends BaseActivity implements ProcessSelectFragment.OnFragmentInteractionListener<ProductProcess> {

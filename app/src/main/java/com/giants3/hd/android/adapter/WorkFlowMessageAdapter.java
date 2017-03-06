@@ -102,6 +102,17 @@ public class WorkFlowMessageAdapter
         @Bind(R.id.reason)
         public TextView reason;
 
+
+
+        @Bind(R.id.panel_subtype)
+        public View panel_subtype;
+        @Bind(R.id.subType)
+        public TextView subType;
+  @Bind(R.id.panel_factory)
+        public View panel_factory;
+        @Bind(R.id.factory)
+        public TextView factory;
+
         public ViewHolder(View view, View.OnClickListener listener) {
             super(view);
             picture.setOnClickListener(listener);
@@ -122,6 +133,12 @@ public class WorkFlowMessageAdapter
             toFlow.setText(data.toFlowName);
             fromFlow.setText(data.fromFlowName);
             tranQty.setText(String.valueOf(data.transportQty));
+            factory.setText(String.valueOf(data.factoryName));
+            subType.setText(String.valueOf(data.productTypeName));
+
+            panel_subtype.setVisibility(StringUtils.isEmpty(data.productTypeName)?View.GONE:View.VISIBLE);
+            panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName)?View.GONE:View.VISIBLE);
+
 
             ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
             picture.setTag(data);

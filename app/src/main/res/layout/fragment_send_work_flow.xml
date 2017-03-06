@@ -1,0 +1,21 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sendPanel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#aa444444"
+    tools:context="com.giants3.hd.android.fragment.SendWorkFlowFragment">
+
+    <include
+
+        android:id="@+id/workPanel"
+
+        layout="@layout/layout_send_work_flow"
+
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        />
+
+</FrameLayout>

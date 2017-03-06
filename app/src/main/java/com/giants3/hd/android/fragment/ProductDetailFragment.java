@@ -50,10 +50,10 @@ import rx.Subscriber;
  */
 public class ProductDetailFragment extends BaseFragment implements ProductDetailPresenter {
     /**
-     * The fragment argument representing the item ID that this fragment
+     * The fragment argument representing the item_work_flow_report ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM = "item";
+    public static final String ARG_ITEM = "item_work_flow_report";
     public static final String EXTRA_EDITABLE = "EXTRA_EDITABLE";
     private static final int REQUEST_PRODUCT_MATERIAL = 113;
     private static final int REQUEST_PRODUCT_WAGE = 114;

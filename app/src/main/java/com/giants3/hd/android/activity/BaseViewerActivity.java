@@ -18,9 +18,11 @@ public  abstract  class BaseViewerActivity<P extends NewPresenter> extends BaseA
 
     protected P mPresenter;
 
+    protected static   String TAG="BaseViewerActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TAG=getClass().getName();
         mPresenter = onLoadPresenter();
         getPresenter().attachView(this);
         initViews(savedInstanceState);

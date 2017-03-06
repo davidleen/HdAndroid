@@ -97,7 +97,7 @@ public interface RestApi {
      */
   Observable getAvailableOrderItemForTransformCase();
 
-  Observable sendWorkFlowMessageCase(long orderItemId, int flowStep, int tranQty,String memo);
+  Observable sendWorkFlowMessageCase(long orderItemId,   int tranQty,String memo);
 
   Observable mySendWorkFlowMessageCase();
 
@@ -108,4 +108,15 @@ public interface RestApi {
   Observable loadOrderWorkFlowReport(String key, int pageIndex, int pageSize);
 
   Observable loadAppUpgradeInfo();
+
+  /**
+   * 订单的生产进度报表
+   * @param orderItemId
+   * @return
+     */
+  Observable getOrderItemWorkFlowReport(long orderItemId);
+
+  Observable searchOrderItem(String key);
+
+  Observable getOrderItemWorkFlowState(long orderItemId, int workFlowStep);
 }

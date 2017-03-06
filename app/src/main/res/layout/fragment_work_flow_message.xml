@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-
+        android:visibility="gone"
         android:gravity="center"
         android:padding="5dp">
 
@@ -64,6 +64,7 @@
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:paddingTop="10dp"
+
             android:text="发起流程"
             android:textSize="18sp" />
 
@@ -84,6 +85,7 @@
         android:id="@+id/sendPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:background="#aa444444">
 
         <include

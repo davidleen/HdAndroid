@@ -1,7 +1,7 @@
 package com.giants3.hd.android.mvp.workFlow;
 
 import com.giants3.hd.android.mvp.BasePresenter;
-import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.RemoteData;
 
 import rx.Subscriber;
@@ -10,7 +10,7 @@ import rx.Subscriber;
  * Created by davidleen29 on 2016/10/10.
  */
 
-public class WorkFlowPresenter extends BasePresenter<WorkFlowMvp.Viewer, WorkFlowMvp.Model> implements WorkFlowMvp.Presenter {
+public class WorkFlowPresenter extends BasePresenter<WorkFlowReportMvp.Viewer, WorkFlowReportMvp.Model> implements WorkFlowReportMvp.Presenter {
 
 
     @Override
@@ -36,7 +36,7 @@ public class WorkFlowPresenter extends BasePresenter<WorkFlowMvp.Viewer, WorkFlo
      */
     public void loadUnDeliveryWorkItemReport() {
 
-        getModel().loadUnCompleteOrderItemWorkFlowReport(new Subscriber<RemoteData<ErpOrderItem>>() {
+        getModel().loadUnCompleteOrderItemWorkFlowReport(new Subscriber<RemoteData<OrderItemWorkFlowState>>() {
             @Override
             public void onCompleted() {
 
@@ -54,7 +54,7 @@ public class WorkFlowPresenter extends BasePresenter<WorkFlowMvp.Viewer, WorkFlo
             }
 
             @Override
-            public void onNext(RemoteData<ErpOrderItem> remoteData) {
+            public void onNext(RemoteData<OrderItemWorkFlowState> remoteData) {
                 if (remoteData.isSuccess()) {
                     getView().bindUnCompleteOrderItem(remoteData.datas);
                 } else {
@@ -74,7 +74,7 @@ public class WorkFlowPresenter extends BasePresenter<WorkFlowMvp.Viewer, WorkFlo
 
     @Override
     public void searchOrderItemWorkFlow(String value) {
-        getModel().loadOrderWorkFlowReport(value,0,100,new Subscriber<RemoteData<ErpOrderItem>>() {
+        getModel().loadOrderWorkFlowReport(value,0,100,new Subscriber<RemoteData<OrderItemWorkFlowState>>() {
             @Override
             public void onCompleted() {
 
@@ -92,7 +92,7 @@ public class WorkFlowPresenter extends BasePresenter<WorkFlowMvp.Viewer, WorkFlo
             }
 
             @Override
-            public void onNext(RemoteData<ErpOrderItem> remoteData) {
+            public void onNext(RemoteData<OrderItemWorkFlowState> remoteData) {
                 if (remoteData.isSuccess()) {
                     getView().bindSearchOrderItemResult(remoteData.datas);
                 } else {

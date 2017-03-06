@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -19,14 +20,19 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFlowMessageAdapter;
 import com.giants3.hd.android.fragment.WorkFlowMessageFragment;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.presenter.WorkFlowMessagePresenter;
 import com.giants3.hd.android.viewer.WorkFlowMessageViewer;
+import com.giants3.hd.data.net.HttpUrl;
+import com.giants3.hd.utils.StringUtils;
 import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlow;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,8 +75,31 @@ public class WorkFlowMessageViewerImpl extends BaseViewerImpl implements WorkFlo
     TextView destWorkFlow;
     @Bind(R.id.sendQty)
     EditText sendQty;
+
+
+
+
     @Bind(R.id.panel_dest_work)
     View panel_dest_work;
+
+
+    @Bind(R.id.panel_factory)
+    View panel_factory;
+
+    @Bind(R.id.factory)
+    TextView factory;
+
+
+    @Bind(R.id.panel_subtype)
+    View panel_subtype;
+
+    @Bind(R.id.subtype)
+    TextView subType;
+    @Bind(R.id.panel_picture)
+    View panel_picture;
+
+    @Bind(R.id.picture)
+    ImageView picture;
 
     @Bind(R.id.submitFlow)
     View submitFlow;
@@ -259,15 +288,15 @@ public class WorkFlowMessageViewerImpl extends BaseViewerImpl implements WorkFlo
             }
         });
 
-        panel_dest_work.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                presenter.pickNextWorkFlow();
-
-
-            }
-        });
+//        panel_dest_work.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                presenter.pickNextWorkFlow();
+//
+//
+//            }
+//        });
 
         submitFlow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -462,22 +491,38 @@ public class WorkFlowMessageViewerImpl extends BaseViewerImpl implements WorkFlo
     }
 
     @Override
-    public void setOrderItemRelate(ErpOrderItem erpOrderItem) {
-        order_item_name.setText(erpOrderItem.os_no + "    " + erpOrderItem.prd_name);
-        orderItemQty.setText(String.valueOf(erpOrderItem.qty));
-        orderItemTranQty.setText(String.valueOf(erpOrderItem.tranQty));
-        currentWorkFlow.setText(String.valueOf(erpOrderItem.currentWorkFlow));
+    public void setOrderItemRelate(OrderItemWorkFlowState erpOrderItem) {
+        order_item_name.setText(erpOrderItem.orderName + "    " + erpOrderItem.productFullName);
+        orderItemQty.setText(String.valueOf(erpOrderItem.orderQty));
+        orderItemTranQty.setText(String.valueOf(erpOrderItem.unSendQty));
+        currentWorkFlow.setText(String.valueOf(erpOrderItem.workFlowName));
 
-        updateSendQty(erpOrderItem.tranQty);
+
+            destWorkFlow.setText(erpOrderItem.nextWorkFlowName);
+
+        panel_factory.setVisibility(StringUtils.isEmpty(erpOrderItem.factoryName)?View.GONE:View.VISIBLE);
+        panel_subtype.setVisibility(StringUtils.isEmpty(erpOrderItem.productTypeName)?View.GONE:View.VISIBLE);
+
+        factory.setText(erpOrderItem.factoryName);
+        subType.setText(erpOrderItem.productTypeName);
+
+        String
+                uri=   StringUtils.isEmpty(erpOrderItem.photoThumb)?HttpUrl.completeUrl(erpOrderItem.pictureUrl):HttpUrl.completeUrl(erpOrderItem.photoThumb);
+        ImageLoaderFactory.getInstance().displayImage(uri, picture);
+        updateSendQty(erpOrderItem.unSendQty);
     }
 
-    @Override
-    public void setNextWorkFlow(WorkFlow workFlow) {
-        destWorkFlow.setText(workFlow.name);
-    }
+//    @Override
+//    public void setNextWorkFlow(WorkFlow workFlow) {
+//        destWorkFlow.setText(workFlow.name);
+//    }
 
     @Override
     public void showSenPanel() {
+
+
+        panel_factory.setVisibility(View.GONE);
+        panel_subtype.setVisibility(View.GONE);
 
 
         sendPanel.setVisibility(View.VISIBLE);

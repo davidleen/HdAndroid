@@ -21,7 +21,7 @@ import butterknife.Bind;
 /**材料挑选界面
  * An activity representing a single ProductListActivity detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
+ * item_work_flow_report details are presented side-by-side with a list of items
  * in a {@link ProductListActivity}.
  */
 public class MaterialSelectActivity extends BaseActivity implements MaterialSelectFragment.OnFragmentInteractionListener {

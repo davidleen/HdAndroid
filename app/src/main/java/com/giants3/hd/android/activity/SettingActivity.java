@@ -54,7 +54,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                etIp.setText("59.56.182.132");
+                etIp.setText("fzyunfei.f3322.net");
                 etPort.setText("8079");
                 etService.setText("Server");
             }

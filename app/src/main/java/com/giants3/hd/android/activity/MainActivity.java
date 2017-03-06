@@ -30,7 +30,6 @@ import com.giants3.hd.android.fragment.ProductListFragment;
 import com.giants3.hd.android.fragment.QuotationDetailFragment;
 import com.giants3.hd.android.fragment.QuotationListFragment;
 import com.giants3.hd.android.helper.AuthorityUtil;
-
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.helper.UpgradeUtil;
@@ -47,8 +46,6 @@ import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.FileInfo;
-
-import java.net.URLEncoder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -108,9 +105,6 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
         setSupportActionBar(toolbar);
 
 
-
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,8 +130,6 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
 
 
         navigationView.setNavigationItemSelectedListener(this);
-
-
 
 
         helper = new NavigationViewHelper(navigationView.getHeaderView(0));
@@ -180,8 +172,7 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
 
     }
 
-    private void bindData()
-    {
+    private void bindData() {
 
         navigationView.getMenu().getItem(0).setVisible(AuthorityUtil.getInstance().viewProductModule());
         navigationView.getMenu().getItem(1).setVisible(AuthorityUtil.getInstance().viewQuotationList());
@@ -282,7 +273,7 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
     public void startDownLoadApk(final FileInfo newApkFileInfo) {
 
 
-                UpgradeUtil.startUpgrade2(MainActivity.this,1,"云飞家居", HttpUrl.completeUrl(newApkFileInfo.url),newApkFileInfo.length);
+        UpgradeUtil.startUpgrade2(MainActivity.this, 1, "云飞家居", HttpUrl.completeUrl(newApkFileInfo.url), newApkFileInfo.length);
 
 
     }
@@ -298,14 +289,13 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
         TextView name;
 
 
-
         public NavigationViewHelper(View view) {
             ButterKnife.bind(this, view);
         }
 
         public void bind() {
             AUser user = SharedPreferencesHelper.getLoginUser();
-            if(user==null ) return ;
+            if (user == null) return;
             code.setText(user.code);
             name.setText(user.name + "(" + user.chineseName + ")");
             HttpUrl.setToken(user.token);
@@ -334,15 +324,12 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
             drawer.closeDrawer(GravityCompat.START);
         } else {
 
-         if(   getPresenter().checkBack())
-         {
-             super.onBackPressed();
+            if (getPresenter().checkBack()) {
+                super.onBackPressed();
 
-         }else
-         {
-             ToastHelper.show("再次点击返回键退出应用");
-         }
-
+            } else {
+                ToastHelper.show("再次点击返回键退出应用");
+            }
 
 
         }
@@ -357,13 +344,12 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar item_work_flow_report clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch (id)
-        {
+        switch (id) {
             case R.id.action_settings:
                 SettingActivity.startActivity(this, 100);
                 return true;
@@ -376,20 +362,16 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
         }
 
 
-
-
         return super.onOptionsItemSelected(item);
     }
 
 
     /**
-     *重新读取缓存数据
+     * 重新读取缓存数据
      */
-    private  void reLoadBufferData()
-    {
+    private void reLoadBufferData() {
 
-        if(SharedPreferencesHelper.getLoginUser()!=null)
-        {
+        if (SharedPreferencesHelper.getLoginUser() != null) {
             UseCaseFactory.getInstance().createGetInitDataCase(SharedPreferencesHelper.getLoginUser().id).execute(new Subscriber<RemoteData<BufferData>>() {
                 @Override
                 public void onCompleted() {
@@ -419,15 +401,12 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
         }
 
 
-
-
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle navigation view item_work_flow_report clicks here.
         int id = item.getItemId();
 
 
@@ -455,20 +434,28 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
                 startActivity(intent);
 
             }
-                break;
+            break;
 
-            case R.id.nav_workFlow:
+            case R.id.nav_workFlowReport:
 
             {
-                Intent intent = new Intent(this, WorkFlowActivity.class);
+                Intent intent = new Intent(this, WorkFlowReportActivity.class);
+
+                startActivity(intent);
+
+                break;
+            }
+            case R.id.nav_work_flow_list:
+
+            {
+                Intent intent = new Intent(this, WorkFlowListActivity.class);
 
                 startActivity(intent);
             }
 
-                break;
+            break;
             case R.id.nav_send:
                 break;
-
 
 
             case R.id.checkUpdate:
@@ -502,8 +489,6 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
             getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, EMPTYP_FRAGMENT).commit();
         }
     }
-
-
 
 
 }

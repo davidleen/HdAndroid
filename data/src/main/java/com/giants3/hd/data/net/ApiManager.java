@@ -7,12 +7,15 @@ import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.Material;
+import com.giants3.hd.utils.entity.OrderItem;
+import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.ProductProcess;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.utils.entity.WorkFlowReport;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 import com.giants3.hd.utils.noEntity.FileInfo;
@@ -72,7 +75,14 @@ public class ApiManager {
         }.getType());
         tokenMaps.put(WorkFlowMessage.class, new TypeToken<RemoteData<WorkFlowMessage>>() {
         }.getType());
+        tokenMaps.put(OrderItemWorkFlowState.class, new TypeToken<RemoteData<OrderItemWorkFlowState>>() {
+        }.getType());
         tokenMaps.put(FileInfo.class, new TypeToken<RemoteData<FileInfo>>() {
+        }.getType());
+        tokenMaps.put(WorkFlowReport.class, new TypeToken<RemoteData<WorkFlowReport>>() {
+        }.getType());
+
+        tokenMaps.put(OrderItem.class, new TypeToken<RemoteData<OrderItem>>() {
         }.getType());
 
     }
@@ -317,18 +327,18 @@ public class ApiManager {
      *
      * @return
      */
-    public RemoteData<ErpOrderItem> getAvailableOrderItemForTransform() throws HdException {
+    public RemoteData<OrderItemWorkFlowState> getAvailableOrderItemForTransform() throws HdException {
 
         String url = HttpUrl.getAvailableOrderItemForTransform();
         String result = apiConnection.getString(url);
-        RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
+        RemoteData<OrderItemWorkFlowState> remoteData = invokeByReflect(result, OrderItemWorkFlowState.class);
         //移动端不需要photo
         return remoteData;
 
     }
 
-    public RemoteData<Void> sendWorkFlowMessage(long orderItemId, int flowStep, int tranQty, String memo) throws HdException {
-        String url = HttpUrl.sendWorkFlowMessage(orderItemId, flowStep, tranQty, memo);
+    public RemoteData<Void> sendWorkFlowMessage(long orderItemId, int tranQty, String memo) throws HdException {
+        String url = HttpUrl.sendWorkFlowMessage(orderItemId, tranQty, memo);
         String result = apiConnection.getString(url);
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
 
@@ -358,19 +368,19 @@ public class ApiManager {
      *
      * @return
      */
-    public RemoteData<ErpOrderItem> loadUnCompleteOrderItemWorkFlowReport() throws HdException {
+    public RemoteData<OrderItemWorkFlowState> loadUnCompleteOrderItemWorkFlowReport() throws HdException {
 
         String url = HttpUrl.loadUnCompleteOrderItemWorkFlowReport();
         String result = apiConnection.getString(url);
-        RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
+        RemoteData<OrderItemWorkFlowState> remoteData = invokeByReflect(result, OrderItemWorkFlowState.class);
 
         return remoteData;
     }
 
-    public RemoteData<ErpOrderItem> loadOrderWorkFlowReport(String key, int pageIndex, int pageSize) throws HdException {
+    public RemoteData<OrderItemWorkFlowState> loadOrderWorkFlowReport(String key, int pageIndex, int pageSize) throws HdException {
         String url = HttpUrl.loadOrderWorkFlowReport(key, pageIndex, pageSize);
         String result = apiConnection.getString(url);
-        RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
+        RemoteData<OrderItemWorkFlowState> remoteData = invokeByReflect(result, OrderItemWorkFlowState.class);
 
         return remoteData;
     }
@@ -382,5 +392,46 @@ public class ApiManager {
         RemoteData<FileInfo> remoteData = invokeByReflect(result, FileInfo.class);
 
         return remoteData;
+    }
+
+    /**
+     * 查询订单的报表
+     *
+     * @param orderItemId
+     * @return
+     */
+
+    public RemoteData<WorkFlowReport> getOrderItemWorkFlowReport(long orderItemId) throws HdException {
+
+        String url = HttpUrl.getOrderItemWorkFlowReport(orderItemId);
+        String result = apiConnection.getString(url);
+        RemoteData<WorkFlowReport> remoteData = invokeByReflect(result, WorkFlowReport.class);
+
+        return remoteData;
+    }
+
+    /**
+     * 查询订单
+     * @param key
+     * @return
+     */
+    public RemoteData<OrderItem> searchOrderItem(String key) throws HdException {
+        String url = HttpUrl.searchOrderItem(key);
+        String result = apiConnection.getString(url);
+        RemoteData<OrderItem> remoteData = invokeByReflect(result, OrderItem.class);
+
+        return remoteData;
+    }
+
+    public RemoteData<OrderItemWorkFlowState> getOrderItemWorkFlowState(long orderItemId, int workFlowStep) throws HdException {
+
+
+        String url = HttpUrl.getOrderItemWorkFlowState(orderItemId,workFlowStep);
+        String result = apiConnection.getString(url);
+        RemoteData<OrderItemWorkFlowState> remoteData = invokeByReflect(result, OrderItemWorkFlowState.class);
+
+        return remoteData;
+
+
     }
 }

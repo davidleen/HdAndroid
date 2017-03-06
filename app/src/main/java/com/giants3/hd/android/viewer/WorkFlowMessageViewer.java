@@ -1,6 +1,7 @@
 package com.giants3.hd.android.viewer;
 
 import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlow;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
@@ -16,9 +17,9 @@ public interface WorkFlowMessageViewer  extends  BaseViewer{
 
     void clearData();
 
-    void setOrderItemRelate(ErpOrderItem erpOrderItem);
+    void setOrderItemRelate(OrderItemWorkFlowState erpOrderItem);
 
-    void setNextWorkFlow(WorkFlow workFlow);
+//    void setNextWorkFlow(WorkFlow workFlow);
 
     void showSenPanel();
 

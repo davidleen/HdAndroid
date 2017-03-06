@@ -27,7 +27,7 @@ public interface WorkFlowMessagePresenter extends  BasePresenter {
 
     void loadData();
 
-    void pickNextWorkFlow();
+//    void pickNextWorkFlow();
 
     void loadMySendMessage();
 

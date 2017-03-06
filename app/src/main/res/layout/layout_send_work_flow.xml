@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!--发送流程传递请求的-->
+
+
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
@@ -37,6 +44,33 @@
             android:layout_weight="1"
             android:drawableRight="@drawable/icon_search_selector"
             android:gravity="left|center" />
+    </LinearLayout>
+
+
+    <LinearLayout
+
+        android:id="@+id/panel_picture"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="left|center">
+
+        <TextView
+             android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
+            android:text="图片" />
+
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="80dp"
+
+              />
     </LinearLayout>
 
     <LinearLayout
@@ -103,7 +137,6 @@
         android:id="@+id/panel_dest_work"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/list_item_bg_selector"
 
         android:gravity="center">
 
@@ -116,6 +149,55 @@
 
         <TextView
             android:id="@+id/destWorkFlow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/icon_search_selector"
+            android:gravity="left|center"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/panel_subtype"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:gravity="center">
+
+        <TextView
+             android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="排厂类型" />
+
+
+        <TextView
+            android:id="@+id/subtype"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/icon_search_selector"
+            android:gravity="left|center"
+
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/panel_factory"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:gravity="center">
+
+        <TextView
+             android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="生产厂家" />
+
+
+        <TextView
+            android:id="@+id/factory"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -144,6 +226,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:inputType="number"
             android:gravity="left|center" />
     </LinearLayout>
 
@@ -193,3 +276,4 @@
 
 </LinearLayout>
 
+</ScrollView>

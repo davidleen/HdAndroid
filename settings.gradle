@@ -1,2 +1,2 @@
-include ':app', ':data', ':net'
+include ':app', ':data', ':net', ':umengshare'
 include ':library'

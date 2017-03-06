@@ -4,6 +4,7 @@ import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
 import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.RemoteData;
 
 import java.util.List;
@@ -14,13 +15,13 @@ import rx.Subscriber;
  * Created by davidleen29 on 2016/10/10.
  */
 
-public interface WorkFlowMvp {
+public interface WorkFlowReportMvp {
 
     interface Model extends NewModel {
 
-        void loadUnCompleteOrderItemWorkFlowReport(Subscriber<RemoteData<ErpOrderItem>> subscriber);
+        void loadUnCompleteOrderItemWorkFlowReport(Subscriber<RemoteData<OrderItemWorkFlowState>> subscriber);
 
-        void loadOrderWorkFlowReport(String key, int pageIndex, int pageSize, Subscriber<RemoteData<ErpOrderItem>> subscriber);
+        void loadOrderWorkFlowReport(String key, int pageIndex, int pageSize, Subscriber<RemoteData<OrderItemWorkFlowState>> subscriber);
 
     }
 
@@ -29,11 +30,11 @@ public interface WorkFlowMvp {
     }
 
     interface Viewer extends NewViewer {
-        void bindUnCompleteOrderItem(List<ErpOrderItem> datas);
+        void bindUnCompleteOrderItem(List<OrderItemWorkFlowState> datas);
 
         void showUnCompletePanel();
 
-        void bindSearchOrderItemResult(List<ErpOrderItem> datas);
+        void bindSearchOrderItemResult(List<OrderItemWorkFlowState> datas);
     }
 
 }

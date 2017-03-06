@@ -3,12 +3,8 @@ package com.giants3.hd.android.mvp.MainAct;
 import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
-import com.giants3.hd.android.mvp.workFlow.WorkFlowMvp;
-import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.noEntity.FileInfo;
-
-import java.util.List;
 
 import rx.Subscriber;
 

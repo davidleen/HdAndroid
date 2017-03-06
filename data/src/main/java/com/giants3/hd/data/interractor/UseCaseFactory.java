@@ -165,16 +165,24 @@ public class UseCaseFactory {
         return new GetAvailableOrderItemForTransformCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
 
     }
+    /**
+     *  订单查询
+     * @return
+     */
+    public UseCase createSearchOrderItemUseCase( String key) {
+
+        return new SearchOrderItemUseCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),   key ,restApi);
+
+    }
 
     /**
      * 提交订单至目标流程
      * @param orderItemId
-     * @param flowStep
      * @param tranQty
      * @return
      */
-    public UseCase createSendWorkFlowMessageCase(long orderItemId, int flowStep, int tranQty,String memo) {
-        return new SendWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),  orderItemId,   flowStep,   tranQty ,  memo,restApi);
+    public UseCase createSendWorkFlowMessageCase(long orderItemId,   int tranQty,String memo) {
+        return new SendWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),  orderItemId,      tranQty ,  memo,restApi);
 
     }
 
@@ -187,6 +195,15 @@ public class UseCaseFactory {
         return new UnCompleteOrderWorkFlowReportUseCase( Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
     }
 
+
+    /**
+     * 订单的生产进度报表
+     * @return
+     */
+    public UseCase createGetOrderItemWorkFlowReportUseCase(long  orderItemId) {
+        return new GetOrderItemWorkFlowReportUseCase( Schedulers.newThread(), AndroidSchedulers.mainThread(),orderItemId, restApi);
+    }
+
     public UseCase loadOrderWorkFlowReportUseCase(String key, int pageIndex, int pageSize) {
         return new LoadOrderWorkFlowReportUseCase(   key,   pageIndex,   pageSize,Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
     }
@@ -197,5 +214,18 @@ public class UseCaseFactory {
      */
     public UseCase createLoadAppUpgradeInfoUseCase() {
         return new LoadAppUpgradeInfoUseCase(   Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
+    }
+
+    /**
+     * //获取关联的流程信息
+     * @param orderItemId
+     * @param workFlowStep
+     * @return
+     */
+    public UseCase createGetOrderItemWorkFlowStateUseCase(long orderItemId, int workFlowStep) {
+
+
+        return new GetOrderItemWorkFlowStateUseCase(   Schedulers.newThread(), AndroidSchedulers.mainThread(),  orderItemId,   workFlowStep, restApi);
+
     }
 }

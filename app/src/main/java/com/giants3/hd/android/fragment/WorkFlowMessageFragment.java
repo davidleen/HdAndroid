@@ -14,6 +14,7 @@ import com.giants3.hd.android.viewer.BaseViewer;
 import com.giants3.hd.android.viewer.WorkFlowMessageViewer;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlow;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
@@ -30,10 +31,10 @@ import rx.Subscriber;
 public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMessagePresenter {
 
 
-    private ErpOrderItem erpOrderItem;
-    private List<ErpOrderItem> orderItems;
+    private OrderItemWorkFlowState erpOrderItem;
+    private List<OrderItemWorkFlowState> orderItems;
     private WorkFlowMessageViewer viewer;
-    private WorkFlow workFlow;
+
     private int sendQty;
     private String memo;
 
@@ -61,13 +62,12 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
     /**
      * 发送提交下一流程的请求
      *
-     * @param orderItem
-     * @param next
+     * @param orderItemWorkFlowState
      */
 
-    public void sendFlow(ErpOrderItem orderItem, WorkFlow next, int tranQty, String memo) {
+    public void sendFlow(OrderItemWorkFlowState orderItemWorkFlowState,   int tranQty, String memo) {
 
-        UseCaseFactory.getInstance().createSendWorkFlowMessageCase(orderItem.id, next.flowStep, tranQty, memo).execute(new Subscriber<RemoteData<Void>>() {
+        UseCaseFactory.getInstance().createSendWorkFlowMessageCase(orderItemWorkFlowState.id,   tranQty, memo).execute(new Subscriber<RemoteData<Void>>() {
             @Override
             public void onCompleted() {
 
@@ -110,7 +110,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
     public void clearData() {
 
         erpOrderItem = null;
-        workFlow = null;
+
         sendQty = 0;
         memo = "";
         viewer.clearData();
@@ -121,14 +121,14 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
 
     @Override
     public void pickOrderItem() {
-        ItemPickDialogFragment<ErpOrderItem> dialogFragment = new ItemPickDialogFragment<ErpOrderItem>();
-        dialogFragment.set("订单货款选择", orderItems, erpOrderItem, new ItemPickDialogFragment.ValueChangeListener<ErpOrderItem>() {
+        ItemPickDialogFragment<OrderItemWorkFlowState> dialogFragment = new ItemPickDialogFragment<OrderItemWorkFlowState>();
+        dialogFragment.set("订单货款选择", orderItems, erpOrderItem, new ItemPickDialogFragment.ValueChangeListener<OrderItemWorkFlowState>() {
             @Override
-            public void onValueChange(String title, ErpOrderItem oldValue, ErpOrderItem newValue) {
+            public void onValueChange(String title, OrderItemWorkFlowState oldValue, OrderItemWorkFlowState newValue) {
 
 
                 erpOrderItem = newValue;
-                sendQty = erpOrderItem.tranQty;
+                sendQty = erpOrderItem.unSendQty;
                 viewer.setOrderItemRelate(erpOrderItem);
 
 
@@ -163,11 +163,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
             return;
         }
 
-        if (workFlow == null) {
 
-            viewer.showMessage("请先选择下一个流程");
-            return;
-        }
 
 
         if (sendQty <= 0) {
@@ -178,19 +174,16 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
         }
 
 
-        if (sendQty > erpOrderItem.tranQty) {
-            viewer.warnQtyInput(sendQty + "超过当前可发送的数量" + erpOrderItem.tranQty);
+        if (sendQty > erpOrderItem.unSendQty) {
+            viewer.warnQtyInput(sendQty + "超过当前可发送的数量" + erpOrderItem.unSendQty);
 
             return;
         }
 
-        if (sendQty < erpOrderItem.tranQty) {
 
 
-        }
 
-
-        sendFlow(erpOrderItem, workFlow, sendQty, memo);
+        sendFlow(erpOrderItem, sendQty, memo);
     }
 
     /**
@@ -198,7 +191,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
      */
     @Override
     public void loadAvailableOrderItemForTransform() {
-        UseCaseFactory.getInstance().createGetAvailableOrderItemForTransformCase().execute(new Subscriber<RemoteData<ErpOrderItem>>() {
+        UseCaseFactory.getInstance().createGetAvailableOrderItemForTransformCase().execute(new Subscriber<RemoteData<OrderItemWorkFlowState>>() {
             @Override
             public void onCompleted() {
                 viewer.hideWaiting();
@@ -212,7 +205,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
             }
 
             @Override
-            public void onNext(RemoteData<ErpOrderItem> remoteData) {
+            public void onNext(RemoteData<OrderItemWorkFlowState> remoteData) {
                 if (remoteData.isSuccess()) {
 
                     orderItems = remoteData.datas;
@@ -335,37 +328,37 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
     }
 
 
-    @Override
-    public void pickNextWorkFlow() {
-
-        if (erpOrderItem == null) {
-            viewer.showMessage("请先选择货款");
-            return;
-        }
-        List<WorkFlow> workFlows = SharedPreferencesHelper.getInitData().workFlows;
-        List<WorkFlow> nextWorkFlows = new ArrayList<WorkFlow>();
-        for (WorkFlow workFlow : workFlows) {
-            if (workFlow.flowStep > erpOrderItem.currentWorkStep) {
-                nextWorkFlows.add(workFlow);
-            }
-        }
-
-        ItemPickDialogFragment<WorkFlow> dialogFragment = new ItemPickDialogFragment<WorkFlow>();
-        dialogFragment.set("目标流程选择", nextWorkFlows, workFlow, new ItemPickDialogFragment.ValueChangeListener<WorkFlow>() {
-            @Override
-            public void onValueChange(String title, WorkFlow oldValue, WorkFlow newValue) {
-
-
-                workFlow = newValue;
-
-                viewer.setNextWorkFlow(workFlow);
-
-
-            }
-        });
-        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
-
-    }
+//    @Override
+//    public void pickNextWorkFlow() {
+//
+//        if (erpOrderItem == null) {
+//            viewer.showMessage("请先选择货款");
+//            return;
+//        }
+//        List<WorkFlow> workFlows = SharedPreferencesHelper.getInitData().workFlows;
+//        List<WorkFlow> nextWorkFlows = new ArrayList<WorkFlow>();
+//        for (WorkFlow workFlow : workFlows) {
+//            if (workFlow.flowStep > erpOrderItem.currentWorkStep) {
+//                nextWorkFlows.add(workFlow);
+//            }
+//        }
+//
+//        ItemPickDialogFragment<WorkFlow> dialogFragment = new ItemPickDialogFragment<WorkFlow>();
+//        dialogFragment.set("目标流程选择", nextWorkFlows, workFlow, new ItemPickDialogFragment.ValueChangeListener<WorkFlow>() {
+//            @Override
+//            public void onValueChange(String title, WorkFlow oldValue, WorkFlow newValue) {
+//
+//
+//                workFlow = newValue;
+//
+//                viewer.setNextWorkFlow(workFlow);
+//
+//
+//            }
+//        });
+//        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+//
+//    }
 
     @Override
     public void loadMySendMessage() {
@@ -403,14 +396,14 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
         }
 
 
-        if (qty > erpOrderItem.tranQty) {
-            viewer.warnQtyInput(qty + "超过当前可发送的数量" + erpOrderItem.tranQty);
+        if (qty > erpOrderItem.unSendQty) {
+            viewer.warnQtyInput(qty + "超过当前可发送的数量" + erpOrderItem.unSendQty);
             return;
         }
 
 
         sendQty = qty;
-        viewer.updateNotTotalSend(sendQty < erpOrderItem.tranQty);
+        viewer.updateNotTotalSend(sendQty < erpOrderItem.unSendQty);
 
 
         viewer.updateSendQty(qty);

@@ -26,12 +26,15 @@ import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.Material;
+import com.giants3.hd.utils.entity.OrderItem;
+import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.ProductProcess;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.utils.entity.WorkFlowReport;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 import com.giants3.hd.utils.noEntity.FileInfo;
@@ -344,9 +347,9 @@ public class RestApiImpl implements RestApi {
 
     @Override
     public Observable getAvailableOrderItemForTransformCase() {
-        return create(new ApiInvoker<ErpOrderItem>() {
+        return create(new ApiInvoker<OrderItemWorkFlowState>() {
             @Override
-            public RemoteData<ErpOrderItem> invoker() throws HdException {
+            public RemoteData<OrderItemWorkFlowState> invoker() throws HdException {
 
 
                 return apiManager.getAvailableOrderItemForTransform(  );
@@ -356,13 +359,13 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable sendWorkFlowMessageCase(final long orderItemId, final int flowStep, final int tranQty,final String memo) {
+    public Observable sendWorkFlowMessageCase(final long orderItemId,  final int tranQty,final String memo) {
         return create(new ApiInvoker<Void>() {
             @Override
             public RemoteData<Void> invoker() throws HdException {
 
 
-                return apiManager.sendWorkFlowMessage(   orderItemId,   flowStep,   tranQty,memo );
+                return apiManager.sendWorkFlowMessage(   orderItemId,     tranQty,memo );
             }
         });
     }
@@ -395,9 +398,9 @@ public class RestApiImpl implements RestApi {
 
     @Override
     public Observable loadUnCompleteOrderItemWorkFlowReport() {
-        return create(new ApiInvoker<ErpOrderItem>() {
+        return create(new ApiInvoker<OrderItemWorkFlowState>() {
             @Override
-            public RemoteData<ErpOrderItem> invoker() throws HdException {
+            public RemoteData<OrderItemWorkFlowState> invoker() throws HdException {
 
 
                 return apiManager.loadUnCompleteOrderItemWorkFlowReport( );
@@ -408,9 +411,9 @@ public class RestApiImpl implements RestApi {
 
     @Override
     public Observable loadOrderWorkFlowReport(final String key, final int pageIndex, final int pageSize) {
-        return create(new ApiInvoker<ErpOrderItem>() {
+        return create(new ApiInvoker<OrderItemWorkFlowState>() {
             @Override
-            public RemoteData<ErpOrderItem> invoker() throws HdException {
+            public RemoteData<OrderItemWorkFlowState> invoker() throws HdException {
 
 
                 return apiManager.loadOrderWorkFlowReport(   key,   pageIndex,   pageSize);
@@ -426,6 +429,45 @@ public class RestApiImpl implements RestApi {
 
 
                 return apiManager.loadAppUpgradeInfo(   );
+            }
+        });
+    }
+
+
+    @Override
+    public Observable getOrderItemWorkFlowReport(final long orderItemId) {
+        return create(new ApiInvoker<WorkFlowReport>() {
+            @Override
+            public RemoteData<WorkFlowReport> invoker() throws HdException {
+
+
+                return apiManager.getOrderItemWorkFlowReport(   orderItemId);
+            }
+        });
+    }
+
+
+    @Override
+    public Observable searchOrderItem(final String key) {
+        return create(new ApiInvoker<OrderItem>() {
+            @Override
+            public RemoteData<OrderItem> invoker() throws HdException {
+
+
+                return apiManager.searchOrderItem(   key);
+            }
+        });
+    }
+
+
+    @Override
+    public Observable getOrderItemWorkFlowState(final long orderItemId, final int workFlowStep) {
+        return create(new ApiInvoker<OrderItemWorkFlowState>() {
+            @Override
+            public RemoteData<OrderItemWorkFlowState> invoker() throws HdException {
+
+
+                return apiManager.getOrderItemWorkFlowState(   orderItemId,workFlowStep);
             }
         });
     }

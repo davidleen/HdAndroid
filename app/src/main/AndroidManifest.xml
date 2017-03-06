@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="3" android:versionName="v_1.0.3"
-    package="com.giants3.hd.android">
+    package="com.giants3.hd.android"
+    android:versionCode="3"
+    android:versionName="v_1.0.3">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
 
@@ -30,8 +31,8 @@
         <activity android:name=".activity.QRCaptureActivity" />
         <activity
             android:name=".activity.ProductListActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.ProductDetailActivity"
 
@@ -78,7 +79,6 @@
             android:theme="@style/AppTheme.NoActionBarDialog"></activity>
 
 
-
         <activity
             android:name=".activity.ProductMaterialActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -96,13 +96,20 @@
         <activity
             android:name=".activity.ProductPaintActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.WorkFlowActivity"
+        <activity
+            android:name=".activity.WorkFlowReportActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            />
+
+        <activity
+            android:name=".activity.WorkFlowListActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
             />
 
 
-        <service android:name=".helper.AppDownloadService"/>
+        <service android:name=".helper.AppDownloadService" />
     </application>
 
 </manifest>

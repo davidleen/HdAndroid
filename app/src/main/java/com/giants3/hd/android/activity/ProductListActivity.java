@@ -34,8 +34,8 @@ import rx.Subscriber;
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
  * lead to a {@link ProductDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
+ * item_work_flow_report details. On tablets, the activity presents the list of items and
+ * item_work_flow_report details side-by-side using two vertical panes.
  */
 public class ProductListActivity extends BaseActivity {
 

@@ -20,9 +20,13 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/material_list" />
         <item
-            android:id="@+id/nav_workFlow"
+            android:id="@+id/nav_workFlowReport"
             android:icon="@drawable/ic_menu_manage"
-            android:title="@string/work_list" />
+            android:title="@string/work_report" />
+        <item
+            android:id="@+id/nav_work_flow_list"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/work_flow_list" />
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_menu_manage"

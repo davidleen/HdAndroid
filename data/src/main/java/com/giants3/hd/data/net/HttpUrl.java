@@ -47,7 +47,7 @@ public class HttpUrl {
     public static final String API_URL_RECEIVE_WORK_FLOW_MESSAGE = "api/order/receiveWorkFlowMessage?workFlowMsgId=%d";
     public static final String API_URL_GET_ORDER_ITEM_FOR_TRANSFORM = "api/order/getOrderItemForTransform";
 
-    public static final String API_URL_SEND_WORK_FLOW_MESSAGE = "api/order/sendWorkFlowMessage?orderItemId=%d&flowStep=%d&tranQty=%d&memo=%s";
+    public static final String API_URL_SEND_WORK_FLOW_MESSAGE = "api/order/sendWorkFlowMessage?orderItemWorkFlowStateId=%d&tranQty=%d&memo=%s";
     public static final String API_URL_REJECT_WORK_FLOW_MESSAGE = "api/order/rejectWorkFlowMessage?workFlowMsgId=%d&toWorkFlowStep=%d&reason=%s";
     public static final String API_URL_MY_SEND_WORK_FLOW_MESSAGE = "api/order/getSendWorkFlowMessageList";
 
@@ -267,8 +267,8 @@ public class HttpUrl {
         return completeUrl(API_URL_GET_ORDER_ITEM_FOR_TRANSFORM);
     }
 
-    public static String sendWorkFlowMessage(long orderItemId, int flowStep, int tranQty, String memo) {
-        return completeUrl(String.format(API_URL_SEND_WORK_FLOW_MESSAGE, orderItemId, flowStep, tranQty, memo));
+    public static String sendWorkFlowMessage(long orderItemId,  int tranQty, String memo) {
+        return completeUrl(String.format(API_URL_SEND_WORK_FLOW_MESSAGE, orderItemId,   tranQty, memo));
     }
 
     public static String mySendWorkFlowMessage() {
@@ -306,5 +306,28 @@ public class HttpUrl {
     public static String loadAppUpgradeInfo() {
 
         return completeUrl(String.format("api/update/getNewAndroidApk"));
+    }
+
+
+    /**
+     * 查询订单的报表
+     * @param orderItemId
+     * @return
+     */
+    public static String getOrderItemWorkFlowReport(long orderItemId) {
+        return completeUrl(String.format("api/order/getOrderItemWorkState?orderItemId="+orderItemId));
+    }
+
+    /**
+     * 查询订单款项项目
+     * @param key
+     * @return
+     */
+    public static String searchOrderItem(String key) {
+        return completeUrl(String.format("api/order/searchOrderItem?key="+key));
+    }
+
+    public static String getOrderItemWorkFlowState(long orderItemId, int workFlowStep) {
+        return completeUrl(String.format("api/order/getOrderItemWorkFlowState?orderItemId="+orderItemId+"&workFlowStep="+workFlowStep));
     }
 }
