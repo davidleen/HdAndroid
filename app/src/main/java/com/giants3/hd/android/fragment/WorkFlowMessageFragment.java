@@ -1,5 +1,6 @@
 package com.giants3.hd.android.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -89,6 +90,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
 
 
                     ToastHelper.show("提交成功");
+                    setResult();
                     clearData();
                     viewer.hideWaiting();
                     loadData();
@@ -102,6 +104,12 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
 
         viewer.showWaiting();
 
+    }
+
+    private void setResult() {
+
+
+        getActivity().setResult(Activity.RESULT_OK);
     }
 
     /**
@@ -250,7 +258,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
             public void onNext(RemoteData<Void> remoteData) {
                 if (remoteData.isSuccess()) {
 
-
+                    setResult();
                     viewer.showMessage("接收成功");
                     loadData();
                 }else

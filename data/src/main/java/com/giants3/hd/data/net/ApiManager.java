@@ -412,6 +412,7 @@ public class ApiManager {
 
     /**
      * 查询订单
+     *
      * @param key
      * @return
      */
@@ -426,9 +427,27 @@ public class ApiManager {
     public RemoteData<OrderItemWorkFlowState> getOrderItemWorkFlowState(long orderItemId, int workFlowStep) throws HdException {
 
 
-        String url = HttpUrl.getOrderItemWorkFlowState(orderItemId,workFlowStep);
+        String url = HttpUrl.getOrderItemWorkFlowState(orderItemId, workFlowStep);
         String result = apiConnection.getString(url);
         RemoteData<OrderItemWorkFlowState> remoteData = invokeByReflect(result, OrderItemWorkFlowState.class);
+
+        return remoteData;
+
+
+    }
+
+    /**
+     * 读取指定订单，流程的消息列表
+     *
+     * @param orderItemWorkFlowId
+     * @param workFlowStep
+     * @return
+     */
+    public RemoteData<WorkFlowMessage> getOrderItemWorkFlowMessage(long orderItemWorkFlowId, int workFlowStep) throws HdException {
+
+        String url = HttpUrl.getOrderItemWorkFlowMessage(orderItemWorkFlowId, workFlowStep);
+        String result = apiConnection.getString(url);
+        RemoteData<WorkFlowMessage> remoteData = invokeByReflect(result, WorkFlowMessage.class);
 
         return remoteData;
 

@@ -27,8 +27,19 @@ public class BufferData implements Serializable{
     public   List<MaterialType> materialTypes;
     //public    List<MaterialEquation> materialEquations=new ArrayList<>();
     public   List<User> salesmans;
+    public List<Authority> authorities;
+    public QuoteAuth quoteAuth;
 
-    public  GlobalData globalData;
+    /**
+     * 生产全流程
+     */
+    public List<WorkFlow> workFlows;
+
+
+
+    public  User loginUser;
+
+    public GlobalData globalData;
 
     /**
      * 产品录入的模板数据
@@ -37,16 +48,15 @@ public class BufferData implements Serializable{
 
     public List<Factory> factories;
 
+
+
     /**
-     * 生产全流程
+     * 流程相关权限（登录用户的）
      */
-    public List<WorkFlow> workFlows;
+    public  WorkFlowArranger workFlowArranger;
 
-
-    public QuoteAuth quoteAuth;
-
-//    /**
-//     * 出库单权限
-//     */
-//    public StockOutAuth stockOutAuth;
+    /**
+     * 流程相关权限（登录用户的）
+     */
+    public  List<WorkFlowWorker> workFlowWorkers;
 }

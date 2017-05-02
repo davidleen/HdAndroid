@@ -471,4 +471,17 @@ public class RestApiImpl implements RestApi {
             }
         });
     }
+
+
+    @Override
+    public Observable getOrderItemWorkFlowMessage(final long orderItemWorkFlowId, final int workFlowStep) {
+        return create(new ApiInvoker<WorkFlowMessage>() {
+            @Override
+            public RemoteData<WorkFlowMessage> invoker() throws HdException {
+
+
+                return apiManager.getOrderItemWorkFlowMessage(   orderItemWorkFlowId,workFlowStep);
+            }
+        });
+    }
 }

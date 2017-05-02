@@ -228,4 +228,8 @@ public class UseCaseFactory {
         return new GetOrderItemWorkFlowStateUseCase(   Schedulers.newThread(), AndroidSchedulers.mainThread(),  orderItemId,   workFlowStep, restApi);
 
     }
+
+    public UseCase createGetWorkFlowMessageCase(long orderItemWorkFlowId, int workFlowStep) {
+        return new GetOrderItemWorkFlowMessageUseCase(  orderItemWorkFlowId,   workFlowStep, restApi);
+    }
 }

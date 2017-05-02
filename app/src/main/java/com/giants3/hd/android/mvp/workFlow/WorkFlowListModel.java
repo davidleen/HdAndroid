@@ -5,6 +5,7 @@ import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.OrderItem;
 import com.giants3.hd.utils.entity.WorkFlow;
+import com.giants3.hd.utils.entity.WorkFlowWorker;
 
 import java.util.List;
 
@@ -14,16 +15,15 @@ import java.util.List;
 
 public class WorkFlowListModel implements WorkFlowListMvp.Model {
 
+
     @Override
     public boolean canSendWorkFlow(int workFlowStep) {
 
 
-        AUser user = SharedPreferencesHelper.getLoginUser();
+        List<WorkFlowWorker> workFlowWorkers = SharedPreferencesHelper.getInitData().workFlowWorkers;
 
-        List<WorkFlow> workFlows = SharedPreferencesHelper.getInitData().workFlows;
-
-        for (WorkFlow workFlow : workFlows) {
-            if (workFlow.flowStep == workFlowStep && workFlow.userId == user.id)
+        for (WorkFlowWorker workFlow : workFlowWorkers) {
+            if (workFlow.workFlowStep == workFlowStep && workFlow.send)
 
                 return true;
 
@@ -32,6 +32,24 @@ public class WorkFlowListModel implements WorkFlowListMvp.Model {
 
         return false;
     }
+
+
+    @Override
+    public boolean canReceiveWorkFlow(int workFlowStep) {
+        List<WorkFlowWorker> workFlowWorkers = SharedPreferencesHelper.getInitData().workFlowWorkers;
+
+        for (WorkFlowWorker workFlow : workFlowWorkers) {
+            if (workFlow.workFlowStep == workFlowStep && workFlow.receive)
+
+                return true;
+
+        }
+
+
+        return false;
+    }
+
+
 
 
     @Override
@@ -45,4 +63,6 @@ public class WorkFlowListModel implements WorkFlowListMvp.Model {
     public OrderItem getSelectOrderItem() {
         return orderItem;
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.giants3.hd.android.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -25,8 +26,10 @@ import com.giants3.hd.android.mvp.workFlow.WorkFlowListMvp;
 import com.giants3.hd.utils.StringUtils;
 import com.giants3.hd.utils.entity.OrderItem;
 import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
+import com.giants3.hd.utils.entity.WorkFlowMessage;
 import com.giants3.hd.utils.entity.WorkFlowReport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -38,6 +41,7 @@ import butterknife.Bind;
 public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Presenter> implements WorkFlowListMvp.Viewer, SendWorkFlowFragment.OnFragmentInteractionListener {
 
 
+    public static final int REQUEST_CODE = 33;
     @Bind(R.id.detail_toolbar)
     Toolbar toolbar;
 
@@ -134,6 +138,10 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         workFlowReport.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                WorkFlowReport workFlowReport = (WorkFlowReport) parent.getItemAtPosition(position);
+
+                showSendWorkFlowDialog(workFlowReport);
+
 
             }
         });
@@ -143,21 +151,20 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-
                 WorkFlowReport workFlowReport = (WorkFlowReport) parent.getItemAtPosition(position);
 
 
-                if (getPresenter().canSendWorkFlow(workFlowReport.workFlowStep)) {
 
-
+//                //读取当前节点， 当前订单的流程消息
+//
+//                if (getPresenter().canSendWorkFlow(workFlowReport.workFlowStep)) {
                     showSendWorkFlowDialog(workFlowReport);
-
-                    return true;
-                } else {
-
-                    Log.d(TAG, "canSendWorkFlow：" + false);
-                }
+//
+//                    return true;
+//                } else {
+//
+//                    Log.d(TAG, "canSendWorkFlow：" + false);
+//                }false
 
 
                 return false;
@@ -175,16 +182,55 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
             }
         });
+
+        searchRunnable.run();
     }
 
 
     private void showSendWorkFlowDialog(final WorkFlowReport workFlowReport) {
 
-        final String[] strings = new String[]{"           发起流程  "};
+
+        boolean  canSend=getPresenter().canSendWorkFlow(workFlowReport.workFlowStep);
+        boolean  canReceive=getPresenter().canReceiveWorkFlow(workFlowReport.workFlowStep);
+
+        List<String> titles=new ArrayList<>();
+        if (canSend)
+        {
+            titles.add("           发起流程  ");
+        }if (canReceive)
+        {
+            titles.add("           接收流程  ");
+        }
+
+        int size=titles.size();
+        if(size==0) return ;
+        final String[] strings =new String[size];
+        titles.toArray(strings);
         final AlertDialog alertDialog = new AlertDialog.Builder(this).setItems(strings, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                getPresenter().sendWorkFlow(workFlowReport.orderItemId, workFlowReport.workFlowStep);
+
+
+                String title=strings[which];
+
+                switch ( title.trim())
+                {
+
+                    case "发起流程":
+                        getPresenter().sendWorkFlow(workFlowReport.orderItemId, workFlowReport.workFlowStep);
+
+
+
+                        break;
+                    case "接收流程":
+
+                        getPresenter().receiveWorkFlow(workFlowReport.orderItemWorkFlowId,workFlowReport.workFlowStep);
+
+
+                        break;
+
+                }
+
                 dialog.dismiss();
             }
         }).create();
@@ -197,6 +243,21 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
 
         orderItemInfo.setText("订单号:" + orderItem.osNo + ",货号:" + orderItem.prdNo + (StringUtils.isEmpty(orderItem.pVersion) ? "" : ("-" + orderItem.pVersion)));
+
+
+    }
+
+
+    @Override
+    public void showSendReceiveDialog(List<WorkFlowMessage> messageList) {
+
+
+        Intent intent=new Intent(this,WorkFlowMessageActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+
+
+
+
 
 
     }
@@ -262,5 +323,16 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
         getPresenter().getOrderItemWorkFlowReport();
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==RESULT_OK && requestCode==REQUEST_CODE)
+        {
+            searchRunnable.run();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

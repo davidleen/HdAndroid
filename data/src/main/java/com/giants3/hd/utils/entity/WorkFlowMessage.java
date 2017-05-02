@@ -28,6 +28,11 @@ public class WorkFlowMessage {
     public long orderItemId;
 
     /**
+     * 订单流程id
+     */
+    public long orderItemWorkFLowId;
+
+    /**
      * 订单数量
      */
     public int orderItemQty;

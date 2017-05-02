@@ -330,4 +330,8 @@ public class HttpUrl {
     public static String getOrderItemWorkFlowState(long orderItemId, int workFlowStep) {
         return completeUrl(String.format("api/order/getOrderItemWorkFlowState?orderItemId="+orderItemId+"&workFlowStep="+workFlowStep));
     }
+
+    public static String getOrderItemWorkFlowMessage(long orderItemWorkFlowId, int workFlowStep) {
+        return completeUrl(String.format("api/workFlow/workFlowMessage?orderItemWorkFlowId="+orderItemWorkFlowId+"&workFlowStep="+workFlowStep));
+    }
 }

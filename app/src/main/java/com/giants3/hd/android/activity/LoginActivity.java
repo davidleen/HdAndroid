@@ -63,10 +63,7 @@ public class LoginActivity extends BaseActivity {
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
+
 
     @Bind(R.id.login_progress)
     ProgressBar loginProgress;
@@ -154,7 +151,7 @@ public class LoginActivity extends BaseActivity {
         if(BuildConfig.DEBUG)
         {
             mEmailView.setText("admin");
-            mPasswordView.setText("xinsui");
+            mPasswordView.setText("xin2975");
         }
     }
 

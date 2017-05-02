@@ -119,4 +119,12 @@ public interface RestApi {
   Observable searchOrderItem(String key);
 
   Observable getOrderItemWorkFlowState(long orderItemId, int workFlowStep);
+
+  /**
+   * 读取指定订单，流程的消息列表
+   * @param orderItemWorkFlowId
+   * @param workFlowStep
+   * @return
+   */
+  Observable getOrderItemWorkFlowMessage(long orderItemWorkFlowId, int workFlowStep);
 }

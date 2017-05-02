@@ -371,7 +371,7 @@ public class WorkFlowMessageViewerImpl extends BaseViewerImpl implements WorkFlo
         final List<WorkFlow> canRejectToWorkFlows = new ArrayList<>();
         for (int i = size - 1; i >= 0; i--) {
             WorkFlow flow = workFlows.get(i);
-            if (flow.flowStep < message.toFlowStep && flow.flowStep > WorkFlow.FIRST_STEP) {
+            if (flow.flowStep < message.toFlowStep  ) {
                 canRejectToWorkFlows.add(flow);
             }
         }
@@ -383,21 +383,6 @@ public class WorkFlowMessageViewerImpl extends BaseViewerImpl implements WorkFlo
         ArrayAdapter<WorkFlow> adapter = new ArrayAdapter<WorkFlow>(context, android.R.layout.simple_list_item_1, workFlowArray);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         holder.workflows.setAdapter(adapter);
-//        holder.workflows.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> arg0, View arg1,
-//                                       int arg2, long arg3) {
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> arg0) {
-//
-//
-//            }
-//        });
-
 
         if (checkConfirmDialog != null) checkConfirmDialog.dismiss();
         checkConfirmDialog = new AlertDialog.Builder(context).setView(contentView).setPositiveButton("确定", new DialogInterface.OnClickListener() {

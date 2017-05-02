@@ -11,6 +11,7 @@ public class OrderItemWorkFlowState {
 
 
     public long orderItemId;
+    public long orderItemWorkFLowId;
     public long orderId;
     public String orderName;
     public String productFullName;

@@ -23,4 +23,5 @@ public class WorkFlowReport {
 
     public long orderItemId;
     public int workFlowStep;
+    public long orderItemWorkFlowId;
 }

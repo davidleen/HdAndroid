@@ -7,6 +7,8 @@ import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.OrderItem;
 import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.entity.WorkFlow;
+import com.giants3.hd.utils.entity.WorkFlowMessage;
 import com.giants3.hd.utils.entity.WorkFlowReport;
 
 import java.util.List;
@@ -28,6 +30,8 @@ public interface WorkFlowListMvp {
         void setSelectOrderItem(OrderItem orderItem);
 
         OrderItem getSelectOrderItem();
+
+        boolean canReceiveWorkFlow(int workFlowStep);
     }
 
     interface Presenter extends NewPresenter<Viewer> {
@@ -41,6 +45,12 @@ public interface WorkFlowListMvp {
         void sendWorkFlow(long orderItemId, int workFlowStep);
 
         void setSelectOrderItem(OrderItem erpOrderItem);
+
+        void prepareData(long orderItemWorkFlowId, int workFlowStep);
+
+        boolean canReceiveWorkFlow(int workFlowStep);
+
+        void receiveWorkFlow(long orderItemWorkFlowId, int workFlowStep);
     }
 
     interface Viewer extends NewViewer {
@@ -52,6 +62,8 @@ public interface WorkFlowListMvp {
         void sendWorkFlowMessage(List<OrderItemWorkFlowState> datas);
 
         void showSelectOrderItem(OrderItem orderItem);
+
+        void showSendReceiveDialog(List<WorkFlowMessage> messageList);
     }
 
 }
