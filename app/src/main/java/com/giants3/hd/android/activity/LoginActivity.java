@@ -151,7 +151,8 @@ public class LoginActivity extends BaseActivity {
         if(BuildConfig.DEBUG)
         {
             mEmailView.setText("admin");
-            mPasswordView.setText("xin2975");
+            mPasswordView.setText("xin2975.");
+            attemptLogin();
         }
     }
 

@@ -23,12 +23,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.Window;
 
 import com.giants3.hd.android.helper.AnalysisFactory;
+import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 
 import butterknife.ButterKnife;
@@ -111,7 +113,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    protected void startLoginActivity() {
+    public void startLoginActivity() {
+
+        if(getClass().getName().equals(LoginActivity.class.getName())) return ;
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, REQUEST_LOGIN);
 
@@ -177,10 +181,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public static final void start(Context context, Bundle data, int requestCode) {
 
-
-    }
 
     public void hideWaiting() {
 

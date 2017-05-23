@@ -19,7 +19,12 @@ public class MainActPresenter extends BasePresenter<MainActMvp.Viewer, MainActMv
     }
 
     public MainActPresenter() {
-        mModel = new MainActModel();
+
+    }
+
+    @Override
+    public MainActMvp.Model createModel() {
+        return new MainActModel();
     }
 
     @Override

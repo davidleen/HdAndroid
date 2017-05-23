@@ -10,4 +10,6 @@ public interface NewViewer {
     void showMessage(String message);
 
     void showWaiting();
+
+    void startLoginActivity();
 }

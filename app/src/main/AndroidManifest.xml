@@ -35,12 +35,9 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.ProductDetailActivity"
-
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".activity.WorkFlowMessageActivity"
-
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SettingActivity"
@@ -58,7 +55,6 @@
             android:name=".activity.MainActivity"
             android:configChanges="orientation"
             android:parentActivityName=".activity.BaseActivity"
-
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -76,40 +72,35 @@
         <activity
             android:name=".activity.LongTextActivity"
             android:label="@string/title_activity_long_text"
-            android:theme="@style/AppTheme.NoActionBarDialog"></activity>
-
-
+            android:theme="@style/AppTheme.NoActionBarDialog" />
         <activity
             android:name=".activity.ProductMaterialActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.MaterialSelectActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ProductWageActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ProductProcessSelectActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ProductPaintActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.WorkFlowReportActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-
-            />
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.WorkFlowListActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-
-            />
-
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".helper.AppDownloadService" />
+
+        <activity
+            android:name=".activity.WorkFlowMessageReceiveActivity"
+            android:label="@string/title_activity_work_flow_message_receive"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

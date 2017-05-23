@@ -3,7 +3,7 @@ package com.giants3.hd.android.mvp.workFlow;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.giants3.hd.utils.entity.RemoteData;
 
 import java.util.List;
@@ -17,44 +17,32 @@ import rx.Subscriber;
 public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer, WorkFlowSendMvp.Model> implements WorkFlowSendMvp.Presenter {
 
 
-
-
     @Override
     public void start() {
 
 
-
-
     }
 
+    @Override
+    public WorkFlowSendMvp.Model createModel() {
+        return new WorkFlowSendModel();
+    }
 
-    public void setInitDta(List<OrderItemWorkFlowState> stateList)
-    {
+    @Override
+    public void setInitDta(List<ErpOrderItemProcess> stateList) {
 
         mModel.setAvailableItems(stateList);
-    }
-
-
-    public WorkFlowSendPresenter() {
-
-
-        mModel=new WorkFlowSendModel();
-
-
     }
 
 
     @Override
     public void pickOrderItem() {
 
-            OrderItemWorkFlowState lastPickItem=getModel().getLastPickItem();
-            List<OrderItemWorkFlowState> availableItems=mModel.getStateList();
+        ErpOrderItemProcess lastPickItem = getModel().getLastPickItem();
+        List<ErpOrderItemProcess> availableItems = mModel.getStateList();
 
 
-        getView().doPickItem(lastPickItem,availableItems);
-
-
-
+        getView().doPickItem(lastPickItem, availableItems);
 
 
     }
@@ -70,9 +58,8 @@ public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer,
     @Override
     public void sendWorkFlow() {
 
-        OrderItemWorkFlowState lastPickItem = mModel.getLastPickItem();
-        if(lastPickItem ==null)
-        {
+        ErpOrderItemProcess lastPickItem = mModel.getLastPickItem();
+        if (lastPickItem == null) {
 
             getView().showMessage("请先选择货款");
             return;
@@ -84,7 +71,7 @@ public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer,
 
             return;
         }
-        int sendQty=mModel.getSendQty();
+        int sendQty = mModel.getSendQty();
 
         if (sendQty > lastPickItem.unSendQty) {
             getView().warnQtyInput(sendQty + "超过当前可发送的数量" + lastPickItem.unSendQty);
@@ -97,7 +84,7 @@ public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer,
     }
 
     @Override
-    public void setPickItem(OrderItemWorkFlowState newValue) {
+    public void setPickItem(ErpOrderItemProcess newValue) {
         getModel().setLastPickItem(newValue);
 
         getView().bindPickItem(newValue);
@@ -105,15 +92,21 @@ public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer,
     }
 
 
+    @Override
+    public void updateMemo(String memo) {
+        getModel().setMemo(memo);
+    }
+
     /**
      * 发送提交下一流程的请求
      *
-     * @param orderItemWorkFlowState
+     * @param orderItemProcess
      */
 
-    public void sendFlow(OrderItemWorkFlowState orderItemWorkFlowState,   int tranQty, String memo) {
+    public void sendFlow(ErpOrderItemProcess orderItemProcess, int tranQty, String memo) {
 
-        UseCaseFactory.getInstance().createSendWorkFlowMessageCase(orderItemWorkFlowState.id, tranQty, memo).execute(new Subscriber<RemoteData<Void>>() {
+
+        UseCaseFactory.getInstance().createSendWorkFlowMessageCase(orderItemProcess, tranQty, memo).execute(new Subscriber<RemoteData<Void>>() {
             @Override
             public void onCompleted() {
 

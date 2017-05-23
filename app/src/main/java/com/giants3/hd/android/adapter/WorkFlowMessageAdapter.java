@@ -82,6 +82,8 @@ public class WorkFlowMessageAdapter
         public TextView orderName;
         @Bind(R.id.productName)
         public TextView productName;
+        @Bind(R.id.mrpNo)
+        public TextView mrpNo;
         @Bind(R.id.qty)
         public TextView qty;
 
@@ -104,11 +106,7 @@ public class WorkFlowMessageAdapter
 
 
 
-        @Bind(R.id.panel_subtype)
-        public View panel_subtype;
-        @Bind(R.id.subType)
-        public TextView subType;
-  @Bind(R.id.panel_factory)
+        @Bind(R.id.panel_factory)
         public View panel_factory;
         @Bind(R.id.factory)
         public TextView factory;
@@ -134,15 +132,14 @@ public class WorkFlowMessageAdapter
             fromFlow.setText(data.fromFlowName);
             tranQty.setText(String.valueOf(data.transportQty));
             factory.setText(String.valueOf(data.factoryName));
-            subType.setText(String.valueOf(data.productTypeName));
+            mrpNo.setText( data.mrpNo ==null?"":data.mrpNo);
 
-            panel_subtype.setVisibility(StringUtils.isEmpty(data.productTypeName)?View.GONE:View.VISIBLE);
             panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName)?View.GONE:View.VISIBLE);
 
 
             ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
             picture.setTag(data);
-            unitName.setText(data.unit);
+            unitName.setText("");
             check.setVisibility(data.state == WorkFlowMessage.STATE_RECEIVE ? View.VISIBLE : View.GONE);
             receive.setVisibility(data.state == WorkFlowMessage.STATE_REWORK || data.state == WorkFlowMessage.STATE_SEND ? View.VISIBLE : View.GONE);
 

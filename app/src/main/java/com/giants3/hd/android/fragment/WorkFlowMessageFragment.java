@@ -2,12 +2,14 @@ package com.giants3.hd.android.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.ViewImpl.WorkFlowMessageViewerImpl;
+import com.giants3.hd.android.activity.WorkFlowMessageReceiveActivity;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.presenter.WorkFlowMessagePresenter;
@@ -15,7 +17,8 @@ import com.giants3.hd.android.viewer.BaseViewer;
 import com.giants3.hd.android.viewer.WorkFlowMessageViewer;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
+
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlow;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
@@ -32,8 +35,8 @@ import rx.Subscriber;
 public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMessagePresenter {
 
 
-    private OrderItemWorkFlowState erpOrderItem;
-    private List<OrderItemWorkFlowState> orderItems;
+    private ErpOrderItemProcess erpOrderItem;
+    private List<ErpOrderItemProcess> orderItems;
     private WorkFlowMessageViewer viewer;
 
     private int sendQty;
@@ -63,12 +66,12 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
     /**
      * 发送提交下一流程的请求
      *
-     * @param orderItemWorkFlowState
+     * @param erpOrderItemProcess
      */
 
-    public void sendFlow(OrderItemWorkFlowState orderItemWorkFlowState,   int tranQty, String memo) {
+    public void sendFlow(ErpOrderItemProcess erpOrderItemProcess, int tranQty, String memo) {
 
-        UseCaseFactory.getInstance().createSendWorkFlowMessageCase(orderItemWorkFlowState.id,   tranQty, memo).execute(new Subscriber<RemoteData<Void>>() {
+        UseCaseFactory.getInstance().createSendWorkFlowMessageCase(erpOrderItemProcess,   tranQty, memo).execute(new Subscriber<RemoteData<Void>>() {
             @Override
             public void onCompleted() {
 
@@ -113,7 +116,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
     }
 
     /**
-     * 清除数据
+     * 清除数据set
      */
     public void clearData() {
 
@@ -129,10 +132,10 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
 
     @Override
     public void pickOrderItem() {
-        ItemPickDialogFragment<OrderItemWorkFlowState> dialogFragment = new ItemPickDialogFragment<OrderItemWorkFlowState>();
-        dialogFragment.set("订单货款选择", orderItems, erpOrderItem, new ItemPickDialogFragment.ValueChangeListener<OrderItemWorkFlowState>() {
+        ItemPickDialogFragment<ErpOrderItemProcess> dialogFragment = new ItemPickDialogFragment<ErpOrderItemProcess>();
+        dialogFragment.set("订单货款选择", orderItems, erpOrderItem, new ItemPickDialogFragment.ValueChangeListener<ErpOrderItemProcess>() {
             @Override
-            public void onValueChange(String title, OrderItemWorkFlowState oldValue, OrderItemWorkFlowState newValue) {
+            public void onValueChange(String title, ErpOrderItemProcess oldValue, ErpOrderItemProcess newValue) {
 
 
                 erpOrderItem = newValue;
@@ -199,7 +202,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
      */
     @Override
     public void loadAvailableOrderItemForTransform() {
-        UseCaseFactory.getInstance().createGetAvailableOrderItemForTransformCase().execute(new Subscriber<RemoteData<OrderItemWorkFlowState>>() {
+        UseCaseFactory.getInstance().createGetAvailableOrderItemForTransformCase().execute(new Subscriber<RemoteData<ErpOrderItemProcess>>() {
             @Override
             public void onCompleted() {
                 viewer.hideWaiting();
@@ -213,7 +216,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
             }
 
             @Override
-            public void onNext(RemoteData<OrderItemWorkFlowState> remoteData) {
+            public void onNext(RemoteData<ErpOrderItemProcess> remoteData) {
                 if (remoteData.isSuccess()) {
 
                     orderItems = remoteData.datas;
@@ -240,6 +243,9 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
     @Override
     public void receiveWorkFlow(WorkFlowMessage message) {
 
+
+//        Intent intent=new Intent(this.getActivity(),WorkFlowMessageReceiveActivity.class);
+//        startActivity(intent);
 
         UseCaseFactory.getInstance().createReceiveWorkFlow(message.id).execute(new Subscriber<RemoteData<Void>>() {
             @Override

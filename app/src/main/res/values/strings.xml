@@ -273,4 +273,5 @@
         <!-- <item_work_flow_report>产品尺寸||hpgg||1||120</item_work_flow_report>-->
 
     </string-array>
+    <string name="title_activity_work_flow_message_receive">WorkFlowMessageReceiveActivity</string>
 </resources>

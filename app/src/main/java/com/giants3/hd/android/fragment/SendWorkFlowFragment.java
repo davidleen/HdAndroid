@@ -18,12 +18,11 @@ import com.giants3.hd.android.helper.AndroidUtils;
 import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.mvp.workFlow.WorkFlowSendMvp;
-import com.giants3.hd.android.mvp.workFlow.WorkFlowSendPresenter;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -75,8 +74,7 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
     View submitFlow;
 
 
-
-    List<OrderItemWorkFlowState> workFlowStates;
+    List<ErpOrderItemProcess> orderItemProcesses;
 
     private OnFragmentInteractionListener mListener;
 
@@ -85,7 +83,7 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
     }
 
 
-    public static SendWorkFlowFragment newInstance(List<OrderItemWorkFlowState> workFlowStates) {
+    public static SendWorkFlowFragment newInstance(List<ErpOrderItemProcess> workFlowStates) {
         SendWorkFlowFragment fragment = new SendWorkFlowFragment();
         Bundle args = new Bundle();
         args.putString(ARG_AVAILABLE_ITEMS, GsonUtils.toJson(workFlowStates));
@@ -111,22 +109,15 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
             public void onClick(View v) {
 
 
-
-
-
                 getPresenter().pickOrderItem();
 
             }
         });
 
 
-
         submitFlow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
 
 
                 getPresenter().sendWorkFlow();
@@ -149,17 +140,15 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
         if (getArguments() != null) {
 
 
-
-
-            Type typeToken = new TypeToken<List<OrderItemWorkFlowState>>() {
+            Type typeToken = new TypeToken<List<ErpOrderItemProcess>>() {
             }.getType();
             try {
-                workFlowStates = GsonUtils.fromJson(getArguments().getString(ARG_AVAILABLE_ITEMS, ""), typeToken);
+                orderItemProcesses = GsonUtils.fromJson(getArguments().getString(ARG_AVAILABLE_ITEMS, ""), typeToken);
             } catch (HdException e) {
                 e.printStackTrace();
             }
 
-            getPresenter().setInitDta(workFlowStates);
+            getPresenter().setInitDta(orderItemProcesses);
 
         }
 
@@ -207,19 +196,16 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
 
 
     @Override
-    public void doPickItem(OrderItemWorkFlowState lastPickItem, List<OrderItemWorkFlowState> availableItems) {
+    public void doPickItem(ErpOrderItemProcess lastPickItem, List<ErpOrderItemProcess> availableItems) {
 
 
-
-        ItemPickDialogFragment<OrderItemWorkFlowState> dialogFragment = new ItemPickDialogFragment<OrderItemWorkFlowState>();
-        dialogFragment.set("订单货款选择", availableItems, lastPickItem, new ItemPickDialogFragment.ValueChangeListener<OrderItemWorkFlowState>() {
+        ItemPickDialogFragment<ErpOrderItemProcess> dialogFragment = new ItemPickDialogFragment<ErpOrderItemProcess>();
+        dialogFragment.set("订单货款选择", availableItems, lastPickItem, new ItemPickDialogFragment.ValueChangeListener<ErpOrderItemProcess>() {
             @Override
-            public void onValueChange(String title, OrderItemWorkFlowState oldValue, OrderItemWorkFlowState newValue) {
-
+            public void onValueChange(String title, ErpOrderItemProcess oldValue, ErpOrderItemProcess newValue) {
 
 
                 getPresenter().setPickItem(newValue);
-
 
 
             }
@@ -230,32 +216,29 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
 
 
     @Override
-    public void bindPickItem(OrderItemWorkFlowState erpOrderItemWorkFlowState) {
+    public void bindPickItem(ErpOrderItemProcess erpOrderItemWorkFlowState) {
 
-        order_item_name.setText(erpOrderItemWorkFlowState.orderName + "    " + erpOrderItemWorkFlowState.productFullName);
-        orderItemQty.setText(String.valueOf(erpOrderItemWorkFlowState.orderQty));
+        order_item_name.setText(erpOrderItemWorkFlowState.mrpNo );
+        orderItemQty.setText(String.valueOf(erpOrderItemWorkFlowState.qty));
         orderItemTranQty.setText(String.valueOf(erpOrderItemWorkFlowState.unSendQty));
-        currentWorkFlow.setText(String.valueOf(erpOrderItemWorkFlowState.workFlowName));
+        currentWorkFlow.setText( erpOrderItemWorkFlowState.currentWorkFlowCode+erpOrderItemWorkFlowState.currentWorkFlowName );
 
 
-        destWorkFlow.setText(erpOrderItemWorkFlowState.nextWorkFlowName);
+        destWorkFlow.setText(erpOrderItemWorkFlowState.nextWorkFlowCode+erpOrderItemWorkFlowState.nextWorkFlowName);
 
-        panel_factory.setVisibility(StringUtils.isEmpty(erpOrderItemWorkFlowState.factoryName)?View.GONE:View.VISIBLE);
-        panel_subtype.setVisibility(StringUtils.isEmpty(erpOrderItemWorkFlowState.productTypeName)?View.GONE:View.VISIBLE);
 
-        factory.setText(erpOrderItemWorkFlowState.factoryName);
-        subType.setText(erpOrderItemWorkFlowState.productTypeName);
+        factory.setText(erpOrderItemWorkFlowState.jgh);
+
+
 
         String
-                uri=   StringUtils.isEmpty(erpOrderItemWorkFlowState.photoThumb)? HttpUrl.completeUrl(erpOrderItemWorkFlowState.pictureUrl):HttpUrl.completeUrl(erpOrderItemWorkFlowState.photoThumb);
+                uri=   StringUtils.isEmpty(erpOrderItemWorkFlowState.photoThumb)? HttpUrl.completeUrl(erpOrderItemWorkFlowState.photoUrl): HttpUrl.completeUrl(erpOrderItemWorkFlowState.photoThumb);
         ImageLoaderFactory.getInstance().displayImage(uri, picture);
         getPresenter().updateQty(erpOrderItemWorkFlowState.unSendQty);
 
 
-
-
-
     }
+
     /**
      * 数量输入改变监听
      */
@@ -289,6 +272,29 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
         public void afterTextChanged(Editable s) {
 
         }
+    };/**
+     * 数量输入改变监听
+     */
+    private TextWatcher memoTExtWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+
+
+            getPresenter().updateMemo(s.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
     };
 
 
@@ -315,7 +321,7 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
     public void doOnSuccessSend() {
 
         dismiss();
-        if(mListener!=null)
+        if (mListener != null)
             mListener.onWorkFlowSend();
 
     }

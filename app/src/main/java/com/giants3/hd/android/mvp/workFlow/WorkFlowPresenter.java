@@ -22,14 +22,12 @@ public class WorkFlowPresenter extends BasePresenter<WorkFlowReportMvp.Viewer, W
 
     }
 
-
-    public WorkFlowPresenter() {
-
-
-        mModel = new WorkFlowModel();
-
-
+    @Override
+    public WorkFlowReportMvp.Model createModel() {
+        return new WorkFlowModel();
     }
+
+
 
     /**
      * 读取所有未出货的订单出货记录

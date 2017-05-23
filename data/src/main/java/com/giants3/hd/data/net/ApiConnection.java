@@ -214,6 +214,7 @@ public class ApiConnection {
             String remoteString= new String(result, DEFAULT_CHAR_ENCODE);
 
 
+
             if(BuildConfig.DEBUG_)
             {
                 Log.i(TAG,"url:"+url);

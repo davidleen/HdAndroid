@@ -1,12 +1,8 @@
 package com.giants3.hd.android.mvp.workFlow;
 
-import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
-import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 
 import java.util.List;
-
-import rx.Subscriber;
 
 /**
  * Created by davidleen29 on 2016/10/10.
@@ -14,32 +10,35 @@ import rx.Subscriber;
 
 public class WorkFlowSendModel implements WorkFlowSendMvp.Model {
 
-    private List<OrderItemWorkFlowState> stateList;
-    private OrderItemWorkFlowState lastPickItem;
+    private List<ErpOrderItemProcess> stateList;
+    private ErpOrderItemProcess lastPickItem;
     private int qty;
     private String memo;
 
     @Override
-    public void setAvailableItems(List<OrderItemWorkFlowState> stateList) {
+    public void setAvailableItems(List<ErpOrderItemProcess> stateList) {
 
 
         this.stateList = stateList;
     }
 
     @Override
-    public List<OrderItemWorkFlowState> getStateList() {
+    public List<ErpOrderItemProcess> getStateList() {
         return stateList;
     }
+
     @Override
-    public void setStateList(List<OrderItemWorkFlowState> stateList) {
+    public void setStateList(List<ErpOrderItemProcess> stateList) {
         this.stateList = stateList;
     }
+
     @Override
-    public OrderItemWorkFlowState getLastPickItem() {
+    public ErpOrderItemProcess getLastPickItem() {
         return lastPickItem;
     }
+
     @Override
-    public void setLastPickItem(OrderItemWorkFlowState lastPickItem) {
+    public void setLastPickItem(ErpOrderItemProcess lastPickItem) {
         this.lastPickItem = lastPickItem;
     }
 
@@ -57,5 +56,10 @@ public class WorkFlowSendModel implements WorkFlowSendMvp.Model {
     @Override
     public String getMemo() {
         return memo;
+    }
+
+    @Override
+    public void setMemo(String memo) {
+        this.memo=memo;
     }
 }

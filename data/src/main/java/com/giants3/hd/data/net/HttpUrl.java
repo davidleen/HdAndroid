@@ -44,11 +44,11 @@ public class HttpUrl {
 
     public static final String API_URL_CHECK_WORK_FLOW_MESSAGE = "api/order/checkWorkFlowMessage?workFlowMsgId=%d";
 
-    public static final String API_URL_RECEIVE_WORK_FLOW_MESSAGE = "api/order/receiveWorkFlowMessage?workFlowMsgId=%d";
-    public static final String API_URL_GET_ORDER_ITEM_FOR_TRANSFORM = "api/order/getOrderItemForTransform";
+    public static final String API_URL_RECEIVE_WORK_FLOW_MESSAGE = "api/erpWork/receiveWorkFlowMessage?workFlowMsgId=%d";
+    public static final String API_URL_GET_ORDER_ITEM_FOR_TRANSFORM = "api/erpWork/getOrderItemForTransform";
 
-    public static final String API_URL_SEND_WORK_FLOW_MESSAGE = "api/order/sendWorkFlowMessage?orderItemWorkFlowStateId=%d&tranQty=%d&memo=%s";
-    public static final String API_URL_REJECT_WORK_FLOW_MESSAGE = "api/order/rejectWorkFlowMessage?workFlowMsgId=%d&toWorkFlowStep=%d&reason=%s";
+    public static final String API_URL_SEND_WORK_FLOW_MESSAGE = "api/erpWork/sendWorkFlowMessage?&tranQty=%d&memo=%s";
+    public static final String API_URL_REJECT_WORK_FLOW_MESSAGE = "api/erpWork/rejectWorkFlowMessage?workFlowMsgId=%d&toWorkFlowStep=%d&reason=%s";
     public static final String API_URL_MY_SEND_WORK_FLOW_MESSAGE = "api/order/getSendWorkFlowMessageList";
 
 
@@ -92,12 +92,10 @@ public class HttpUrl {
         PackageInfo pi = null;
         try {
             pi = pm.getPackageInfo(context.getPackageName(), 0);
-            versionCode=String.valueOf(pi.versionCode);
+            versionCode = String.valueOf(pi.versionCode);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
-
 
 
     }
@@ -142,7 +140,7 @@ public class HttpUrl {
 
     public static String completeUrl(String url) {
         if (StringUtils.isEmpty(url)) return "";
-        return additionInfo(BASE_URL +  url);
+        return additionInfo(BASE_URL + url);
     }
 
 
@@ -267,8 +265,8 @@ public class HttpUrl {
         return completeUrl(API_URL_GET_ORDER_ITEM_FOR_TRANSFORM);
     }
 
-    public static String sendWorkFlowMessage(long orderItemId,  int tranQty, String memo) {
-        return completeUrl(String.format(API_URL_SEND_WORK_FLOW_MESSAGE, orderItemId,   tranQty, memo));
+    public static String sendWorkFlowMessage(int tranQty, String memo) {
+        return completeUrl(String.format(API_URL_SEND_WORK_FLOW_MESSAGE, tranQty, memo==null?"":memo));
     }
 
     public static String mySendWorkFlowMessage() {
@@ -311,27 +309,33 @@ public class HttpUrl {
 
     /**
      * 查询订单的报表
-     * @param orderItemId
+     *
+     * @param os_no
+     * @param itm
+
      * @return
      */
-    public static String getOrderItemWorkFlowReport(long orderItemId) {
-        return completeUrl(String.format("api/order/getOrderItemWorkState?orderItemId="+orderItemId));
+    public static String getOrderItemWorkFlowReport(final String os_no, int itm) {
+        return completeUrl("api/erpWork/findOrderItemReport?os_no=" + os_no + "&itm=" + itm);
     }
 
     /**
      * 查询订单款项项目
+     *
      * @param key
      * @return
      */
-    public static String searchOrderItem(String key) {
-        return completeUrl(String.format("api/order/searchOrderItem?key="+key));
+    public static String searchErpOrderItem(String key) {
+        return completeUrl(String.format("api/order/searchOrderItems?key=" + key));
     }
 
-    public static String getOrderItemWorkFlowState(long orderItemId, int workFlowStep) {
-        return completeUrl(String.format("api/order/getOrderItemWorkFlowState?orderItemId="+orderItemId+"&workFlowStep="+workFlowStep));
+    public static String getOrderItemProcesses(final String osNo, final int itm, int workFlowStep) {
+        return completeUrl("api/erpWork/getOrderItemProcess?os_no=" + osNo + "&itm=" + itm + "&flowStep=" + workFlowStep);
     }
 
-    public static String getOrderItemWorkFlowMessage(long orderItemWorkFlowId, int workFlowStep) {
-        return completeUrl(String.format("api/workFlow/workFlowMessage?orderItemWorkFlowId="+orderItemWorkFlowId+"&workFlowStep="+workFlowStep));
+    public static String getOrderItemWorkFlowMessage(String os_no, int itm, int workFlowStep) {
+        return completeUrl(String.format("api/workFlow/workFlowMessage?os_no=" + os_no + "&itm=" + itm + "&workFlowStep=" + workFlowStep));
     }
+
+
 }

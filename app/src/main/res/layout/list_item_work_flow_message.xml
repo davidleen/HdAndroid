@@ -204,7 +204,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/panel_subtype"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
@@ -214,10 +214,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="产品类型" />
+                android:text="排厂单号" />
 
             <TextView
-                android:id="@+id/subType"
+                android:id="@+id/mrpNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"

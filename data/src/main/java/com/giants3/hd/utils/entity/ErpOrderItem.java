@@ -8,12 +8,10 @@ package com.giants3.hd.utils.entity;
  */
 
 public class ErpOrderItem {
-
     public long id;
     /**
      * 订单的编号
      */
-
     public String os_no;
     /**
      * 序号
@@ -23,7 +21,6 @@ public class ErpOrderItem {
      * 客号
      */
     public String bat_no;
-
     /**
      * 货号
      */
@@ -128,8 +125,6 @@ public class ErpOrderItem {
 
     @Override
     public String toString() {
-
-
         return os_no +"  "+ prd_name;
     }
 }

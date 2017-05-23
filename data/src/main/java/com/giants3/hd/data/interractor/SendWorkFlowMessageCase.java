@@ -1,6 +1,7 @@
 package com.giants3.hd.data.interractor;
 
 import com.giants3.hd.data.net.RestApi;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 
 import rx.Observable;
 import rx.Scheduler;
@@ -11,17 +12,17 @@ import rx.Scheduler;
  *
  *
  */
-public class SendWorkFlowMessageCase extends UseCase {
+public class SendWorkFlowMessageCase extends DefaultUseCase {
 
 
-    private final long orderItemId;
+    private final ErpOrderItemProcess orderItemProcess;
 
     private final int tranQty;
     private final String memo;
     RestApi restApi;
-    public SendWorkFlowMessageCase(Scheduler threadExecutor, Scheduler postExecutionThread,long orderItemId,   int tranQty,String memo, RestApi restApi) {
-        super(threadExecutor, postExecutionThread);
-        this.orderItemId = orderItemId;
+    public SendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty, String memo, RestApi restApi) {
+
+        this.orderItemProcess = orderItemProcess;
 
         this.tranQty = tranQty;
         this.memo = memo;
@@ -36,7 +37,7 @@ public class SendWorkFlowMessageCase extends UseCase {
 
 
 
-       return restApi.sendWorkFlowMessageCase( orderItemId,      tranQty,memo);
+       return restApi.sendWorkFlowMessageCase( orderItemProcess,      tranQty,memo);
 
 
     }

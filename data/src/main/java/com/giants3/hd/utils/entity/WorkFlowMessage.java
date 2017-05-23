@@ -1,18 +1,23 @@
+
 package com.giants3.hd.utils.entity;
 
+
+
 /**
- * 流程跳转确认信
- * <p/>
+ *  流程跳转确认信
+ *
  * Created by davidleen29 on 2016/9/3.
  */
 
-public class WorkFlowMessage {
+public class WorkFlowMessage
+{
 
     public long id;
 
 
     public int fromFlowStep;
     public String  fromFlowName;
+    public String  fromFlowCode;
 
 
     /**
@@ -20,44 +25,36 @@ public class WorkFlowMessage {
      */
     public int toFlowStep;
     public  String  toFlowName;
+    public  String  toFlowCode;
 
 
-    /**
-     * 订单项id
-     */
-    public long orderItemId;
 
-    /**
-     * 订单流程id
-     */
-    public long orderItemWorkFLowId;
+
+
+
 
     /**
      * 订单数量
      */
     public int orderItemQty;
 
-    /**
-     * 消息内容
-     */
-    public String name;
 
 
-    /**
-     * 订单id
-     */
-    public long orderId;
+
     public String orderName;
 
     /**
-     * 产品信息
+     * 产品在订单中序号
      */
-    public long productId;
+    public int itm;
     public String productName;
+    public String pVersion;
     /**
-     * 单位
+     * 排厂单号
      */
-    public String unit;
+    public String mrpNo;
+
+
 
 
     /**
@@ -67,35 +64,51 @@ public class WorkFlowMessage {
 
 
     /**
-     * 当前状态  0 未处理  1 已处理
+     * 消息内容
      */
-    public int state;
+    public String name;
+
+
+
+
+    /**
+     * 当前状态  0 未处理  1 已经接受  2 审核通过 3  审核拒绝  4 返工
+     */
+    public int  state;
+
+
 
 
     public String createTimeString;
     public long createTime;
 
-    public long receiveTime;
+    public   long receiveTime;
     public String receiveTimeString;
 
 
     public long checkTime;
     public String checkTimeString;
-    public String thumbnail;
+    public String  thumbnail;
     public String url;
-    public String memo;
+
+
+
+
+    public  String memo;
+
+
 
     /**
      * 订单项目流程状态id
      */
-    public long orderItemWorkFlowStateId;
+    public long orderItemProcessId;
+    ;
 
-    //冗余字段
-    public String productTypeName;
 
 
     //冗余字段
     public String factoryName;
+
 
     /**
      * 返工
@@ -124,5 +137,6 @@ public class WorkFlowMessage {
 
     public static  final  String NAME_SUBMIT="提交";
     public static  final  String NAME_REWORK="返工";
+
 
 }

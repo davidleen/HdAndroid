@@ -14,7 +14,7 @@ import com.giants3.hd.utils.entity.OrderItem;
  * Created by david on 2016/2/14.
  */
 public class OrderItemListAdapter
-        extends AbstractAdapter<OrderItem> {
+        extends AbstractAdapter<ErpOrderItem> {
 
 
 
@@ -28,7 +28,7 @@ public class OrderItemListAdapter
     }
 
     @Override
-    protected Bindable<OrderItem> createViewHolder(int itemViewType) {
+    protected Bindable<ErpOrderItem> createViewHolder(int itemViewType) {
         View view = LayoutInflater.from(getContext())
                 .inflate(R.layout.list_item_order_item, null, false);
         return new ViewHolder(view);
@@ -39,14 +39,13 @@ public class OrderItemListAdapter
 
 
 
-    public class ViewHolder  implements Bindable<OrderItem> {
+    public class ViewHolder  implements Bindable<ErpOrderItem> {
         public final View mView;
         public final TextView os_no;
 
         public final TextView productName;
-        public final TextView pVersion;
 
-        public OrderItem mItem;
+        public ErpOrderItem mItem;
 
         public ViewHolder(View view) {
 
@@ -54,21 +53,18 @@ public class OrderItemListAdapter
             mView = view;
             os_no = (TextView) view.findViewById(R.id.os_no);
             productName = (TextView) view.findViewById(R.id.productName);
-            pVersion = (TextView) view.findViewById(R.id.pVersion);
 
 
         }
 
         @Override
-        public void bindData(AbstractAdapter<OrderItem> adapter, OrderItem data, int position) {
+        public void bindData(AbstractAdapter<ErpOrderItem> adapter, ErpOrderItem data, int position) {
 
 
             mItem = data;
 
-            os_no.setText(data.osNo);
-            productName.setText(data.prdNo);
-            pVersion.setText(data.pVersion);
-
+            os_no.setText(data.os_no);
+            productName.setText(data.prd_name);
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
         }
 

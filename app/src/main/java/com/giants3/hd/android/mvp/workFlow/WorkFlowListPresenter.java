@@ -2,12 +2,13 @@ package com.giants3.hd.android.mvp.workFlow;
 
 import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.data.interractor.UseCaseFactory;
+import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.giants3.hd.utils.entity.OrderItem;
 import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
 import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity.WorkFlow;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
-import com.giants3.hd.utils.entity.WorkFlowReport;
+import com.giants3.hd.utils.entity.ErpWorkFlowReport;
 
 import java.util.List;
 
@@ -20,9 +21,10 @@ import rx.Subscriber;
 public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer, WorkFlowListMvp.Model> implements WorkFlowListMvp.Presenter  {
 
 
-    public WorkFlowListPresenter() {
 
-        mModel=new WorkFlowListModel();
+    @Override
+    public WorkFlowListMvp.Model createModel() {
+        return new WorkFlowListModel();
     }
 
     @Override
@@ -35,11 +37,11 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
 
 
     @Override
-    public void searchOrder(String key) {
+    public void searchErpOrderItems(String key) {
 
 
 //        getView().showWaiting();
-        UseCaseFactory.getInstance().createSearchOrderItemUseCase(key ).execute(new Subscriber<RemoteData<OrderItem>>() {
+        UseCaseFactory.getInstance().createSearchOrderItemUseCase(key ).execute(new Subscriber<RemoteData<ErpOrderItem>>() {
             @Override
             public void onCompleted() {
 
@@ -57,11 +59,17 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
             }
 
             @Override
-            public void onNext(RemoteData<OrderItem> remoteData) {
+            public void onNext(RemoteData<ErpOrderItem> remoteData) {
                 if (remoteData.isSuccess()) {
                     getView().bindOrderItems(remoteData.datas);
                 } else {
+
+
                     getView().showMessage(remoteData.message);
+
+                    if (remoteData.code == RemoteData.CODE_UNLOGIN) {
+                        getView().startLoginActivity();
+                    }
                 }
 
             }
@@ -74,33 +82,30 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
     @Override
     public void getOrderItemWorkFlowReport( ) {
 
-        long orderItemId=getModel().getSelectOrderItem().id;
 
-        UseCaseFactory.getInstance().createGetOrderItemWorkFlowReportUseCase(orderItemId ).execute(new Subscriber<RemoteData<WorkFlowReport>>() {
+
+        String os_no=getModel().getSelectOrderItem().os_no;
+        int itm=getModel().getSelectOrderItem().itm;
+
+        UseCaseFactory.getInstance().createGetOrderItemWorkFlowReportUseCase(os_no,itm).execute(new Subscriber<RemoteData<ErpWorkFlowReport>>() {
             @Override
             public void onCompleted() {
-
-
                 getView().hideWaiting();
-
-
             }
 
             @Override
             public void onError(Throwable e) {
                 getView().hideWaiting();
-
                 getView().showMessage(e.getMessage());
             }
 
             @Override
-            public void onNext(RemoteData<WorkFlowReport> remoteData) {
+            public void onNext(RemoteData<ErpWorkFlowReport> remoteData) {
                 if (remoteData.isSuccess()) {
                     getView().bindOrderIteWorkFlowReport(remoteData.datas);
                 } else {
                     getView().showMessage(remoteData.message);
                 }
-
             }
         });
 
@@ -170,7 +175,7 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
     }
 
     @Override
-    public void setSelectOrderItem(OrderItem orderItem) {
+    public void setSelectOrderItem(ErpOrderItem orderItem) {
         getView().showSelectOrderItem(orderItem);
         getModel().setSelectOrderItem(orderItem);
     }
@@ -206,17 +211,18 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
 
     /**
      * 接受流程 查询当前流程下是否有未处理消息
-     * @param orderItemWorkFlowId
+     * @param os_no
+     * @param itm
      * @param workFlowStep
      */
     @Override
-    public void receiveWorkFlow(long orderItemWorkFlowId, int workFlowStep) {
+    public void receiveWorkFlow(String os_no,int itm , int workFlowStep) {
 
 
 
         getView().showWaiting();
 
-        UseCaseFactory.getInstance().createGetWorkFlowMessageCase(orderItemWorkFlowId,workFlowStep).execute(new Subscriber<RemoteData<WorkFlowMessage>>() {
+        UseCaseFactory.getInstance().createGetWorkFlowMessageCase(  os_no,  itm,workFlowStep).execute(new Subscriber<RemoteData<WorkFlowMessage>>() {
             @Override
             public void onCompleted() {
                 getView().hideWaiting();
@@ -243,12 +249,52 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
 
     }
 
+//    @Override
+//    public void sendWorkFlow(String osNo,String prdNo, int workFlowStep) {
+//
+//
+//        //获取关联的流程信息
+//        UseCaseFactory.getInstance().createGetOrderItemProcessUseCase(osNo,  prdNo ,workFlowStep ).execute(new Subscriber<RemoteData<ErpOrderItemProcess>>() {
+//            @Override
+//            public void onCompleted() {
+//                getView().hideWaiting();
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                getView().hideWaiting();
+//
+//                getView().showMessage(e.getMessage());
+//            }
+//
+//            @Override
+//            public void onNext(RemoteData<ErpOrderItemProcess> remoteData) {
+//                if (remoteData.isSuccess()) {
+//
+//                    if(remoteData.datas.size()<=0)
+//                    {
+//
+//                        getView().showMessage("当前流程已经无可发送的订单");
+//                    }else
+//
+//
+//                    getView().sendWorkFlowMessage(remoteData.datas);
+//                } else {
+//                    getView().showMessage("获取订单流程相关信息失败");
+//                }
+//
+//            }
+//        });
+//
+//    }
+
+
     @Override
-    public void sendWorkFlow(long orderItemId, int workFlowStep) {
+    public void sendWorkFlow(String os_no, int itm  , int workFlowStep) {
 
-
-        //获取关联的流程信息
-        UseCaseFactory.getInstance().createGetOrderItemWorkFlowStateUseCase(orderItemId,workFlowStep ).execute(new Subscriber<RemoteData<OrderItemWorkFlowState>>() {
+//        //获取关联的流程信息
+        UseCaseFactory.getInstance().createGetOrderItemProcessUseCase(os_no,  itm ,workFlowStep ).execute(new Subscriber<RemoteData<ErpOrderItemProcess>>() {
             @Override
             public void onCompleted() {
                 getView().hideWaiting();
@@ -263,12 +309,11 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
             }
 
             @Override
-            public void onNext(RemoteData<OrderItemWorkFlowState> remoteData) {
+            public void onNext(RemoteData<ErpOrderItemProcess> remoteData) {
                 if (remoteData.isSuccess()) {
 
                     if(remoteData.datas.size()<=0)
                     {
-
 
                         getView().showMessage("当前流程已经无可发送的订单");
                     }else
@@ -281,6 +326,5 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
 
             }
         });
-
     }
 }

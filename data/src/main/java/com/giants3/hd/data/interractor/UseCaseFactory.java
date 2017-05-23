@@ -2,12 +2,12 @@ package com.giants3.hd.data.interractor;
 
 import com.giants3.hd.data.module.AppModule;
 import com.giants3.hd.data.net.RestApi;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -171,18 +171,18 @@ public class UseCaseFactory {
      */
     public UseCase createSearchOrderItemUseCase( String key) {
 
-        return new SearchOrderItemUseCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),   key ,restApi);
+        return new SearchOrderItemUseCase(    key ,restApi);
 
     }
 
     /**
      * 提交订单至目标流程
-     * @param orderItemId
+     * @param orderItemProcess
      * @param tranQty
      * @return
      */
-    public UseCase createSendWorkFlowMessageCase(long orderItemId,   int tranQty,String memo) {
-        return new SendWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),  orderItemId,      tranQty ,  memo,restApi);
+    public UseCase createSendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty, String memo) {
+        return new SendWorkFlowMessageCase(   orderItemProcess,      tranQty ,  memo,restApi);
 
     }
 
@@ -200,8 +200,8 @@ public class UseCaseFactory {
      * 订单的生产进度报表
      * @return
      */
-    public UseCase createGetOrderItemWorkFlowReportUseCase(long  orderItemId) {
-        return new GetOrderItemWorkFlowReportUseCase( Schedulers.newThread(), AndroidSchedulers.mainThread(),orderItemId, restApi);
+    public UseCase createGetOrderItemWorkFlowReportUseCase(String os_no, int itm ) {
+        return new GetOrderItemWorkFlowReportUseCase(  os_no,   itm , restApi);
     }
 
     public UseCase loadOrderWorkFlowReportUseCase(String key, int pageIndex, int pageSize) {
@@ -218,18 +218,19 @@ public class UseCaseFactory {
 
     /**
      * //获取关联的流程信息
-     * @param orderItemId
+     * @param osNo
+     * @param prdNo
      * @param workFlowStep
      * @return
      */
-    public UseCase createGetOrderItemWorkFlowStateUseCase(long orderItemId, int workFlowStep) {
+    public UseCase createGetOrderItemProcessUseCase(String osNo,  int itm  , int workFlowStep) {
 
 
-        return new GetOrderItemWorkFlowStateUseCase(   Schedulers.newThread(), AndroidSchedulers.mainThread(),  orderItemId,   workFlowStep, restApi);
+        return new GetOrderItemWorkProcessUseCase(   osNo,     itm  ,   workFlowStep, restApi);
 
     }
 
-    public UseCase createGetWorkFlowMessageCase(long orderItemWorkFlowId, int workFlowStep) {
-        return new GetOrderItemWorkFlowMessageUseCase(  orderItemWorkFlowId,   workFlowStep, restApi);
+    public UseCase createGetWorkFlowMessageCase(String os_no,int itm  , int workFlowStep) {
+        return new GetOrderItemWorkFlowMessageUseCase(   os_no,  itm,     workFlowStep, restApi);
     }
 }

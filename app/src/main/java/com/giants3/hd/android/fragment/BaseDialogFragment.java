@@ -80,7 +80,7 @@ public abstract class BaseDialogFragment<P extends NewPresenter> extends DialogF
         super.onDestroy();
     }
 
-    protected void startLoginActivity() {
+    public void startLoginActivity() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivityForResult(intent, BaseActivity.REQUEST_LOGIN);
 

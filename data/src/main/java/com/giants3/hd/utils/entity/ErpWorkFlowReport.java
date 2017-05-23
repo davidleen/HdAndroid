@@ -1,19 +1,21 @@
 package com.giants3.hd.utils.entity;
 
+
 /**流程报告数据
  * Created by davidleen29 on 2017/2/28.
  */
-public class WorkFlowReport {
+
+public class ErpWorkFlowReport {
 
 
-
-
-
+    public long id;
+    public String workFlowCode;
+    public int workFlowStep;
     public String workFlowName;
-    public String orderName;
-    public String productName;
+    public String osNo;
+    public String prdNo;
+    public int itm;
     public String pVersion;
-
     /**
      * 完成百分比。
      */
@@ -21,7 +23,4 @@ public class WorkFlowReport {
 
 
 
-    public long orderItemId;
-    public int workFlowStep;
-    public long orderItemWorkFlowId;
 }

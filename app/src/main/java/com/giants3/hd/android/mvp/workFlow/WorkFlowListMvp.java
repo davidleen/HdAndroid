@@ -4,16 +4,11 @@ import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
 import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.OrderItem;
-import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity.WorkFlow;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
+import com.giants3.hd.utils.entity.ErpWorkFlowReport;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
-import com.giants3.hd.utils.entity.WorkFlowReport;
 
 import java.util.List;
-
-import rx.Subscriber;
 
 /**
  * 生产流程管理界面mvp 构造
@@ -27,41 +22,41 @@ public interface WorkFlowListMvp {
 
         boolean canSendWorkFlow(int workFlowStep);
 
-        void setSelectOrderItem(OrderItem orderItem);
+        void setSelectOrderItem(ErpOrderItem orderItem);
 
-        OrderItem getSelectOrderItem();
+        ErpOrderItem getSelectOrderItem();
 
         boolean canReceiveWorkFlow(int workFlowStep);
     }
 
     interface Presenter extends NewPresenter<Viewer> {
 
-           void searchOrder(String key);
+        void searchErpOrderItems(String key);
 
-        void   getOrderItemWorkFlowReport( );
+        void getOrderItemWorkFlowReport();
 
         boolean canSendWorkFlow(int workFLowStep);
 
-        void sendWorkFlow(long orderItemId, int workFlowStep);
+        void sendWorkFlow(String os_no, int itm, int workFlowStep);
 
-        void setSelectOrderItem(OrderItem erpOrderItem);
+        void setSelectOrderItem(ErpOrderItem erpOrderItem);
 
         void prepareData(long orderItemWorkFlowId, int workFlowStep);
 
         boolean canReceiveWorkFlow(int workFlowStep);
 
-        void receiveWorkFlow(long orderItemWorkFlowId, int workFlowStep);
+        void receiveWorkFlow(String os_no, int itm, int workFlowStep);
     }
 
     interface Viewer extends NewViewer {
 
-        void bindOrderIteWorkFlowReport(List<WorkFlowReport> datas);
+        void bindOrderIteWorkFlowReport(List<ErpWorkFlowReport> datas);
 
-        void bindOrderItems(List<OrderItem> datas);
+        void bindOrderItems(List<ErpOrderItem> datas);
 
-        void sendWorkFlowMessage(List<OrderItemWorkFlowState> datas);
+        void sendWorkFlowMessage(List<ErpOrderItemProcess> datas);
 
-        void showSelectOrderItem(OrderItem orderItem);
+        void showSelectOrderItem(ErpOrderItem orderItem);
 
         void showSendReceiveDialog(List<WorkFlowMessage> messageList);
     }

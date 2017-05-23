@@ -49,6 +49,7 @@ public class GsonUtils {
         {
 
 
+            e.printStackTrace();
             throw HdException.create("error Json String：\n "+json);
 
         }

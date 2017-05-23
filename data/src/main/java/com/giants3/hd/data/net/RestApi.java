@@ -18,6 +18,8 @@ package com.giants3.hd.data.net;
 
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
+import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.Quotation;
@@ -97,7 +99,7 @@ public interface RestApi {
      */
   Observable getAvailableOrderItemForTransformCase();
 
-  Observable sendWorkFlowMessageCase(long orderItemId,   int tranQty,String memo);
+  Observable sendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty, String memo);
 
   Observable mySendWorkFlowMessageCase();
 
@@ -114,17 +116,17 @@ public interface RestApi {
    * @param orderItemId
    * @return
      */
-  Observable getOrderItemWorkFlowReport(long orderItemId);
+  Observable getOrderItemWorkFlowReport(String os_no,int itm);
 
-  Observable searchOrderItem(String key);
+  Observable searchErpOrderItems(String key);
 
-  Observable getOrderItemWorkFlowState(long orderItemId, int workFlowStep);
+  Observable getOrderItemProcesses(  String osNo,int  itm, int workFlowStep);
 
   /**
    * 读取指定订单，流程的消息列表
-   * @param orderItemWorkFlowId
+   * @param os_no
    * @param workFlowStep
    * @return
    */
-  Observable getOrderItemWorkFlowMessage(long orderItemWorkFlowId, int workFlowStep);
+  Observable getOrderItemWorkFlowMessage(String os_no,int  itm,  int workFlowStep);
 }

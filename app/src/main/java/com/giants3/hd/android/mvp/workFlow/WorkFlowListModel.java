@@ -53,14 +53,14 @@ public class WorkFlowListModel implements WorkFlowListMvp.Model {
 
 
     @Override
-    public void setSelectOrderItem(OrderItem orderItem) {
+    public void setSelectOrderItem(ErpOrderItem orderItem) {
         this.orderItem = orderItem;
     }
 
-    OrderItem orderItem;
+    ErpOrderItem orderItem;
 
     @Override
-    public OrderItem getSelectOrderItem() {
+    public ErpOrderItem getSelectOrderItem() {
         return orderItem;
     }
 

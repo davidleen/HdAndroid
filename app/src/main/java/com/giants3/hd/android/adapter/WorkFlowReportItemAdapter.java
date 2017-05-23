@@ -3,36 +3,32 @@ package com.giants3.hd.android.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.utils.entity.WorkFlowReport;
-
-import butterknife.ButterKnife;
+import com.giants3.hd.utils.entity.ErpWorkFlowReport;
 
 /**订单的生产进度列表 adapter
  * Created by davidleen29 on 2017/3/4.
  */
 
-public class WorkFlowReportItemAdapter extends AbstractAdapter<WorkFlowReport> {
+public class WorkFlowReportItemAdapter extends AbstractAdapter<ErpWorkFlowReport> {
 
     public WorkFlowReportItemAdapter(Context context) {
         super(context);
     }
 
     @Override
-    protected Bindable<WorkFlowReport> createViewHolder(int itemViewType) {
+    protected Bindable<ErpWorkFlowReport> createViewHolder(int itemViewType) {
         return new WorkFlowReportItemAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_work_flow_report, null));
     }
 
 
-    public class ViewHolder implements Bindable<WorkFlowReport> {
+    public class ViewHolder implements Bindable<ErpWorkFlowReport> {
         public final View mView;
 
-        public WorkFlowReport mItem;
+        public ErpWorkFlowReport mItem;
         public ProgressBar progress;
         public TextView workFlowName;
         public TextView percentage;
@@ -50,8 +46,8 @@ public class WorkFlowReportItemAdapter extends AbstractAdapter<WorkFlowReport> {
 
 
         @Override
-        public void bindData(AbstractAdapter<WorkFlowReport> adapter, WorkFlowReport data, int position) {
-            WorkFlowReport aProduct = data;
+        public void bindData(AbstractAdapter<ErpWorkFlowReport> adapter, ErpWorkFlowReport data, int position) {
+            ErpWorkFlowReport aProduct = data;
             mItem = aProduct;
             progress.setProgress((int) (data.percentage*100));
             workFlowName.setText(data.workFlowName);

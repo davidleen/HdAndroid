@@ -10,19 +10,24 @@ import rx.Scheduler;
  */
 
 class GetOrderItemWorkFlowMessageUseCase extends DefaultUseCase {
-    private final long orderItemWorkFlowId;
+
+    private final String os_no;
+    private int itm;
     private final int workFlowStep;
     private final RestApi restApi;
 
-    public GetOrderItemWorkFlowMessageUseCase(long orderItemWorkFlowId, int workFlowStep, RestApi restApi) {
+    public GetOrderItemWorkFlowMessageUseCase(String os_no,int itm , int workFlowStep, RestApi restApi) {
         super();
-        this.orderItemWorkFlowId = orderItemWorkFlowId;
+        this.os_no = os_no;
+        this.itm = itm;
+
+
         this.workFlowStep = workFlowStep;
         this.restApi = restApi;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return restApi.getOrderItemWorkFlowMessage(orderItemWorkFlowId,workFlowStep);
+        return restApi.getOrderItemWorkFlowMessage(  os_no,  itm,  workFlowStep);
     }
 }

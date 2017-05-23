@@ -10,18 +10,24 @@ import rx.Scheduler;
  *
  * @return Created by davidleen29 on 2017/3/4.
  */
-public class GetOrderItemWorkFlowReportUseCase extends UseCase {
-    private final long orderItemId;
-    private final RestApi restApi;
+public class GetOrderItemWorkFlowReportUseCase extends DefaultUseCase {
 
-    public GetOrderItemWorkFlowReportUseCase(Scheduler scheduler, Scheduler postExecutionThread, long orderItemId, RestApi restApi) {
-        super(scheduler,postExecutionThread);
-        this.orderItemId = orderItemId;
+    private int itm;
+    private final RestApi restApi;
+    private final String os_no;
+
+
+    public GetOrderItemWorkFlowReportUseCase(String os_no, int   itm ,  RestApi restApi) {
+        super();
+        this.os_no = os_no;
+        this.itm = itm;
+
+
         this.restApi = restApi;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return restApi.getOrderItemWorkFlowReport(orderItemId);
+        return restApi.getOrderItemWorkFlowReport(os_no,itm);
     }
 }

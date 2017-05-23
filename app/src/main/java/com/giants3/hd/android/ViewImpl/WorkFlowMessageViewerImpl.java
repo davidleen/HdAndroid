@@ -20,19 +20,14 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFlowMessageAdapter;
 import com.giants3.hd.android.fragment.WorkFlowMessageFragment;
-import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.presenter.WorkFlowMessagePresenter;
 import com.giants3.hd.android.viewer.WorkFlowMessageViewer;
-import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
+import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlow;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -476,24 +471,24 @@ public class WorkFlowMessageViewerImpl extends BaseViewerImpl implements WorkFlo
     }
 
     @Override
-    public void setOrderItemRelate(OrderItemWorkFlowState erpOrderItem) {
-        order_item_name.setText(erpOrderItem.orderName + "    " + erpOrderItem.productFullName);
-        orderItemQty.setText(String.valueOf(erpOrderItem.orderQty));
-        orderItemTranQty.setText(String.valueOf(erpOrderItem.unSendQty));
-        currentWorkFlow.setText(String.valueOf(erpOrderItem.workFlowName));
-
-
-            destWorkFlow.setText(erpOrderItem.nextWorkFlowName);
-
-        panel_factory.setVisibility(StringUtils.isEmpty(erpOrderItem.factoryName)?View.GONE:View.VISIBLE);
-        panel_subtype.setVisibility(StringUtils.isEmpty(erpOrderItem.productTypeName)?View.GONE:View.VISIBLE);
-
-        factory.setText(erpOrderItem.factoryName);
-        subType.setText(erpOrderItem.productTypeName);
-
-        String
-                uri=   StringUtils.isEmpty(erpOrderItem.photoThumb)?HttpUrl.completeUrl(erpOrderItem.pictureUrl):HttpUrl.completeUrl(erpOrderItem.photoThumb);
-        ImageLoaderFactory.getInstance().displayImage(uri, picture);
+    public void setOrderItemRelate(ErpOrderItemProcess erpOrderItem) {
+////        order_item_name.setText(erpOrderItem.orderName + "    " + erpOrderItem.productFullName);
+////        orderItemQty.setText(String.valueOf(erpOrderItem.orderQty));
+////        orderItemTranQty.setText(String.valueOf(erpOrderItem.unSendQty));
+////        currentWorkFlow.setText(String.valueOf(erpOrderItem.workFlowName));
+////
+////
+////            destWorkFlow.setText(erpOrderItem.nextWorkFlowName);
+////
+////        panel_factory.setVisibility(StringUtils.isEmpty(erpOrderItem.factoryName)?View.GONE:View.VISIBLE);
+////        panel_subtype.setVisibility(StringUtils.isEmpty(erpOrderItem.productTypeName)?View.GONE:View.VISIBLE);
+////
+////        factory.setText(erpOrderItem.factoryName);
+////        subType.setText(erpOrderItem.productTypeName);
+//
+//        String
+//                uri=   StringUtils.isEmpty(erpOrderItem.photoThumb)?HttpUrl.completeUrl(erpOrderItem.pictureUrl):HttpUrl.completeUrl(erpOrderItem.photoThumb);
+//        ImageLoaderFactory.getInstance().displayImage(uri, picture);
         updateSendQty(erpOrderItem.unSendQty);
     }
 

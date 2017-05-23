@@ -8,8 +8,8 @@ android {
         applicationId "com.giants3.hd.android"
         minSdkVersion 12
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 6
+        versionName "1.0.5"
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
 
@@ -65,5 +65,6 @@ dependencies {
     compile 'com.wefika:flowlayout:0.4.1'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
