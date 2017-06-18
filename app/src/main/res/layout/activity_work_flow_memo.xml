@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:gravity="top|center"
+
+
+    android:orientation="vertical"
+
+    tools:context=".activity.WorkFlowMessageActivity"
+    tools:ignore="MergeRootFrame">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:title="生产流程备注"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/conceptusManage"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:paddingLeft="15dp"
+                android:gravity="center"
+                android:background="@drawable/bg_tab_selector"
+                android:paddingRight="15dp"
+                android:text="白胚生产"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/colorManage"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:paddingLeft="15dp"
+                android:background="@drawable/bg_tab_selector"
+                android:gravity="center"
+                android:paddingRight="15dp"
+                android:text="颜色处理"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/packManage"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:background="@drawable/bg_tab_selector"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="组装包装"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:text="普通备注" />
+
+            <EditText
+                android:id="@+id/productWorkMemo"
+                android:layout_width="match_parent"
+                android:gravity="top|left"
+                android:minHeight="120dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:text="特殊备注" />
+
+
+            <EditText
+                android:id="@+id/orderItemWorkMemo"
+                android:gravity="top|left"
+                android:layout_width="match_parent"
+                android:minHeight="120dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/save"
+                android:text="保存"
+                />
+        </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

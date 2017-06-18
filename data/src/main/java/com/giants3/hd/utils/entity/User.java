@@ -38,6 +38,11 @@ public class User implements Serializable,Valuable {
 
     public String  tel;
 
+    //职位
+    public int position;
+    //职位名称
+    public String  positionName;
+
 
     @Override
     public boolean equals(Object o) {

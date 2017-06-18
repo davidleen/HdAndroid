@@ -11,94 +11,45 @@
         android:layout_height="50dp">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:background="@drawable/bg_tab_selector"
             android:id="@+id/myReceive"
-
-            android:text="我收到的"
-           />
-
-        <TextView
             android:layout_width="0dp"
-            android:id="@+id/mySend"
-            android:text="我发起的"
-            android:gravity="center"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/bg_tab_selector"
-              />
+            android:gravity="center"
 
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/list"
-        android:name="com.giants3.hd.android.ProductListActivityListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:layout_marginBottom="60dp"
-        android:layout_marginTop="50dp"
-        android:divider="@drawable/icon_divider"
-        android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
-        tools:listitem="@layout/product_list_content" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:visibility="gone"
-        android:gravity="center"
-        android:padding="5dp">
+            android:text="我收到的" />
 
         <TextView
-            android:id="@+id/sendMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_white_round_selector"
-            android:paddingBottom="10dp"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:paddingTop="10dp"
-
-            android:text="发起流程"
-            android:textSize="18sp" />
+            android:id="@+id/mySend"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_selector"
+            android:gravity="center"
+            android:text="我发起的" />
 
     </LinearLayout>
 
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleSmall"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content">
 
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:padding="5dp" />
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-    <FrameLayout
-        android:id="@+id/sendPanel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
 
-        android:background="#aa444444">
 
-        <include
+            android:divider="@drawable/icon_divider"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            tools:listitem="@layout/product_list_content" />
 
-            android:id="@+id/workPanel"
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-            layout="@layout/layout_send_work_flow"
 
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-
-            />
-
-    </FrameLayout>
 </FrameLayout>

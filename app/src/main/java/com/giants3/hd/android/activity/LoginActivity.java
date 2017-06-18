@@ -1,35 +1,23 @@
 package com.giants3.hd.android.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.events.LoginSuccessEvent;
-import com.giants3.hd.android.helper.AuthorityUtil;
+import com.giants3.hd.android.fragment.ItemPickDialogFragment;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AUser;
@@ -39,6 +27,7 @@ import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.entity.User;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -51,8 +40,6 @@ import butterknife.Bind;
 import de.greenrobot.event.EventBus;
 import rx.Subscriber;
 
-import static android.Manifest.permission.READ_CONTACTS;
-
 /**
  * A login screen that offers login via email/mPasswordView.
  */
@@ -64,11 +51,15 @@ public class LoginActivity extends BaseActivity {
     private static final int REQUEST_READ_CONTACTS = 0;
 
 
+    private List<User> users;
+    private User loginUser;
 
-    @Bind(R.id.login_progress)
-    ProgressBar loginProgress;
-    @Bind(R.id.email)
-    AutoCompleteTextView mEmailView;
+    public static final String KEY_LAST_LOGIN_USER = "KEY_LAST_LOGIN_USER";
+    private String lastLoginName;
+
+
+    @Bind(R.id.user)
+    TextView user;
     @Bind(R.id.password)
     EditText mPasswordView;
     @Bind(R.id.email_sign_in_button)
@@ -79,8 +70,7 @@ public class LoginActivity extends BaseActivity {
     Button act;
     @Bind(R.id.email_login_form)
     LinearLayout emailLoginForm;
-    @Bind(R.id.login_form)
-    ScrollView loginForm;
+
     @Bind(R.id.setUrl)
     Button setUrl;
 
@@ -89,10 +79,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        populateAutoComplete();
-
+        lastLoginName = getPreferences(Context.MODE_PRIVATE).getString(KEY_LAST_LOGIN_USER, "admin");
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -134,6 +121,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        user.setOnClickListener(this);
 
         act.setOnClickListener(new OnClickListener() {
             @Override
@@ -148,71 +136,24 @@ public class LoginActivity extends BaseActivity {
 
         setUrl.setOnClickListener(this);
 
-        if(BuildConfig.DEBUG)
-        {
-            mEmailView.setText("admin");
-            mPasswordView.setText("xin2975.");
-            attemptLogin();
-        }
-    }
 
-    private void populateAutoComplete() {
-        if (!mayRequestContacts()) {
-            return;
-        }
+        loadUsers();
 
     }
 
-    private boolean mayRequestContacts() {
-        if (VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
-            }
-        }
-    }
-
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
 
+        if (loginUser == null) {
+            ToastHelper.show("请选择人员登录");
+            return
+                    ;
+        }
         // Store values at the time of the login attempt.
-        String userName = mEmailView.getText().toString();
+        final String userName = loginUser.name;
         String password = mPasswordView.getText().toString();
 
 
-        // Reset errors.
-        mEmailView.setError(null);
         mPasswordView.setError(null);
 
 
@@ -226,16 +167,6 @@ public class LoginActivity extends BaseActivity {
             cancel = true;
         }
 
-        // Check for a valid userName address.
-        if (TextUtils.isEmpty(userName)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isUserNameValid(userName)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -255,7 +186,7 @@ public class LoginActivity extends BaseActivity {
             UseCaseFactory.getInstance().createLogin(map).execute(new Subscriber<RemoteData<AUser>>() {
                 @Override
                 public void onCompleted() {
-                     //showProgress(false);
+                    //showProgress(false);
 
                 }
 
@@ -269,11 +200,12 @@ public class LoginActivity extends BaseActivity {
                 public void onNext(RemoteData<AUser> aUser) {
                     if (aUser.isSuccess()) {
                         SharedPreferencesHelper.saveLoginUser(aUser.datas.get(0));
+                        getPreferences(Context.MODE_PRIVATE).edit().putString(KEY_LAST_LOGIN_USER, userName).commit();
                         HttpUrl.setToken(aUser.datas.get(0).token);
 
                         ToastHelper.show("登录成功");
 
-                      loadInitData(aUser.datas.get(0).id);
+                        loadInitData(aUser.datas.get(0).id);
 //                        EventBus.getDefault().post(new LoginSuccessEvent());
 //                        setResult(RESULT_OK);
 //                        finish();
@@ -291,8 +223,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * 初始数据加载
      */
-    private void loadInitData(long userId)
-    {
+    private void loadInitData(long userId) {
 
         UseCaseFactory.getInstance().createGetInitDataCase(userId).execute(new Subscriber<RemoteData<BufferData>>() {
             @Override
@@ -303,13 +234,12 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 showProgress(false);
-                ToastHelper.show("初始数据加载失败："+e.getMessage());
+                ToastHelper.show("初始数据加载失败：" + e.getMessage());
             }
 
             @Override
             public void onNext(RemoteData<BufferData> remoteData) {
                 if (remoteData.isSuccess()) {
-
 
 
                     SharedPreferencesHelper.saveInitData(remoteData.datas.get(0));
@@ -323,60 +253,21 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private boolean isUserNameValid(String email) {
-
-        return true;
-    }
-
     private boolean isPasswordValid(String password) {
 
         return true;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginForm.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        if (show) {
+            showWaiting();
 
-            loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginProgress.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            hideWaiting();
         }
-    }
 
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
     }
 
 
@@ -390,7 +281,7 @@ public class LoginActivity extends BaseActivity {
 
             try {
                 QRProduct product = GsonUtils.fromJson(result.getContents(), QRProduct.class);
-                mEmailView.setText(product.name + "----" + product.className);
+                user.setText(product.name + "----" + product.className);
                 Log.d("TEST", "result:" + product);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -401,29 +292,15 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            // navigateUpFromSameTask(this);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     protected void onViewClick(int id, View v) {
 
         switch (id) {
             case R.id.setUrl:
                 SettingActivity.startActivity(this, 100);
+
+            case R.id.user:
+
+                pickItem();
 
                 break;
 //            case  R.id.setUrl:break;
@@ -432,6 +309,82 @@ public class LoginActivity extends BaseActivity {
 
 
         }
+
+
+    }
+
+
+    /**
+     * 读取用户列表
+     */
+    private void loadUsers() {
+
+        UseCaseFactory.getInstance().createLoadUsersUseCase().execute(new Subscriber<RemoteData<User>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(RemoteData<User> remoteData) {
+
+                if (remoteData.isSuccess()) {
+                    users = remoteData.datas;
+
+                    //admin 默认显示admin
+
+                    for (User user : users) {
+                        if (user.name.equals(lastLoginName)) {
+                            bindUser(user);
+                            return;
+                        }
+                    }
+                    bindUser(users.get(0));
+
+                }
+
+
+            }
+        });
+    }
+
+    private void bindUser(User aUser) {
+        loginUser = aUser;
+        user.setText(loginUser.toString());
+
+
+        if(BuildConfig.DEBUG)
+        {
+
+            user.setText(  loginUser.name);
+            mPasswordView.setText("xin2975.");
+            attemptLogin();
+        }
+
+    }
+
+    private void pickItem() {
+
+
+        if (users == null || users.size() == 0) {
+            ToastHelper.show("目前无可登录用户");
+            return;
+        }
+        ItemPickDialogFragment<User> dialogFragment = new ItemPickDialogFragment<User>();
+        dialogFragment.set("登录用户选择", users, loginUser, new ItemPickDialogFragment.ValueChangeListener<User>() {
+            @Override
+            public void onValueChange(String title, User oldValue, User newValue) {
+
+                bindUser(newValue);
+
+            }
+        });
+        dialogFragment.show(getSupportFragmentManager(), null);
 
 
     }

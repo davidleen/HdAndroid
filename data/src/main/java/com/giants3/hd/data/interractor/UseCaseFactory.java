@@ -7,6 +7,7 @@ import com.giants3.hd.utils.entity.ProductDetail;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
+import java.io.File;
 import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -132,32 +133,47 @@ public class UseCaseFactory {
 
     /**
      * 审核流程传递
+     *
      * @param workFlowMessageId
      * @return
      */
     public UseCase createCheckWorkFlow(long workFlowMessageId) {
-        return new CheckWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),workFlowMessageId, restApi);
+        return new CheckWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), workFlowMessageId, restApi);
     }
 
     /**
      * 流程审核 返工
+     *
      * @param workFlowMessageId
      * @return
      */
-    public UseCase createRejectWorkFlowUseCase(long workFlowMessageId,int toWorkFlowStep,String reason) {
-        return new RejectWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),workFlowMessageId,toWorkFlowStep,  reason, restApi);
+    public UseCase createRejectWorkFlowUseCase(long workFlowMessageId, File[] file, String memo) {
+        return new RejectWorkFlowMessageCase(workFlowMessageId, file, memo, restApi);
     }
+
     /**
      * 接受流程传递
+     *
      * @param workFlowMessageId
      * @return
      */
     public UseCase createReceiveWorkFlow(long workFlowMessageId) {
-        return new ReceiveWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),workFlowMessageId, restApi);
+        return new ReceiveWorkFlowMessageCase(workFlowMessageId, null, "", restApi);
+    }
+
+    /**
+     * 接受流程传递
+     *
+     * @param workFlowMessageId
+     * @return
+     */
+    public UseCase createReceiveWorkFlow(long workFlowMessageId, File[] file, String memo) {
+        return new ReceiveWorkFlowMessageCase(workFlowMessageId, file, memo, restApi);
     }
 
     /**
      * 获取可以传递流程的订单item
+     *
      * @return
      */
     public UseCase createGetAvailableOrderItemForTransformCase() {
@@ -165,72 +181,108 @@ public class UseCaseFactory {
         return new GetAvailableOrderItemForTransformCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
 
     }
+
     /**
-     *  订单查询
+     * 订单查询
+     *
      * @return
      */
-    public UseCase createSearchOrderItemUseCase( String key) {
+    public UseCase createSearchOrderItemUseCase(String key, int pageIndex, int pageSize) {
 
-        return new SearchOrderItemUseCase(    key ,restApi);
+        return new SearchOrderItemUseCase(key, pageIndex, pageSize, restApi);
 
     }
 
     /**
      * 提交订单至目标流程
+     *
      * @param orderItemProcess
      * @param tranQty
      * @return
      */
-    public UseCase createSendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty, String memo) {
-        return new SendWorkFlowMessageCase(   orderItemProcess,      tranQty ,  memo,restApi);
+    public UseCase createSendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty, long area, String memo) {
+        return new SendWorkFlowMessageCase(orderItemProcess, tranQty, area, memo, restApi);
 
     }
 
     public UseCase createGetMySendWorkFlowMessageCase() {
 
-        return new MySendWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread() ,restApi);
+        return new MySendWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
     }
 
     public UseCase createUnCompleteOrderWorkFlowReportUseCase() {
-        return new UnCompleteOrderWorkFlowReportUseCase( Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
+        return new UnCompleteOrderWorkFlowReportUseCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
     }
 
 
     /**
      * 订单的生产进度报表
+     *
      * @return
      */
-    public UseCase createGetOrderItemWorkFlowReportUseCase(String os_no, int itm ) {
-        return new GetOrderItemWorkFlowReportUseCase(  os_no,   itm , restApi);
+    public UseCase createGetOrderItemWorkFlowReportUseCase(String os_no, int itm) {
+        return new GetOrderItemWorkFlowReportUseCase(os_no, itm, restApi);
     }
 
     public UseCase loadOrderWorkFlowReportUseCase(String key, int pageIndex, int pageSize) {
-        return new LoadOrderWorkFlowReportUseCase(   key,   pageIndex,   pageSize,Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
+        return new LoadOrderWorkFlowReportUseCase(key, pageIndex, pageSize, Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
     }
 
     /**
      * 读取最新apk包路径
+     *
      * @return
      */
     public UseCase createLoadAppUpgradeInfoUseCase() {
-        return new LoadAppUpgradeInfoUseCase(   Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
+        return new LoadAppUpgradeInfoUseCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
     }
 
     /**
      * //获取关联的流程信息
+     *
      * @param osNo
-     * @param prdNo
+     * @param itm
      * @param workFlowStep
      * @return
      */
-    public UseCase createGetOrderItemProcessUseCase(String osNo,  int itm  , int workFlowStep) {
+    public UseCase createGetAvailableOrderItemProcessUseCase(String osNo, int itm, int workFlowStep) {
 
 
-        return new GetOrderItemWorkProcessUseCase(   osNo,     itm  ,   workFlowStep, restApi);
+        return new GetAvailableOrderItemProcessUseCase(osNo, itm, workFlowStep, restApi);
 
     }
 
-    public UseCase createGetWorkFlowMessageCase(String os_no,int itm  , int workFlowStep) {
-        return new GetOrderItemWorkFlowMessageUseCase(   os_no,  itm,     workFlowStep, restApi);
+    public UseCase createGetWorkFlowMessageCase(String os_no, int itm, int workFlowStep) {
+        return new GetOrderItemWorkFlowMessageUseCase(os_no, itm, workFlowStep, restApi);
+    }
+
+    public UseCase createLoadUsersUseCase() {
+
+        return new LoadUsersUseCase(restApi);
+    }
+
+    public UseCase createGetUnCompleteWorkFlowOrderItemsUseCase(String key) {
+
+        return new GetUnCompleteWorkFlowOrderItemsUseCase(key, restApi);
+    }
+
+    public UseCase createGetProductWorkMemoUseCase(String prd_name, String pversion) {
+
+        return new GetProductWorkMemoUseCase(prd_name,pversion, restApi);
+
+    }
+
+    public UseCase createGetOrderItemWorkMemoUseCase(String os_no, int itm) {
+        return new  GetOrderItemWorkMemoUseCase(os_no,itm,restApi);
+    }
+
+    public UseCase createSaveWorkMemoUseCase(int workFlowStep,String os_no, int itm, String orderItemWorkMemo, String prd_name, String pversion, String productWorkMemo) {
+
+
+            return new SaveWorkMemoUseCase( workFlowStep, os_no,   itm,   orderItemWorkMemo,   prd_name,   pversion,   productWorkMemo,restApi);
+    }
+
+    public UseCase createGetWorkFlowAreaListUseCase() {
+        return new GetWorkFlowAreaListUseCase( restApi);
     }
 }

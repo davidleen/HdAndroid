@@ -27,6 +27,7 @@ import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.noEntity.BufferData;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -91,7 +92,7 @@ public interface RestApi {
 
   Observable checkWorkFlowMessageCase(long workFlowMessageId);
 
-  Observable receiveWorkFlowMessageCase(long workFlowMessageId);
+  Observable receiveWorkFlowMessageCase(long workFlowMessageId, File[] files, String area);
 
   /**
    * 获取可以传递流程的订单item
@@ -99,11 +100,11 @@ public interface RestApi {
      */
   Observable getAvailableOrderItemForTransformCase();
 
-  Observable sendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty, String memo);
+  Observable sendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty,long area, String memo);
 
   Observable mySendWorkFlowMessageCase();
 
-  Observable rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason);
+  Observable rejectWorkFlowMessage(long workFlowMessageId,File[] file, String memo);
 
   Observable loadUnCompleteOrderItemWorkFlowReport();
 
@@ -118,9 +119,9 @@ public interface RestApi {
      */
   Observable getOrderItemWorkFlowReport(String os_no,int itm);
 
-  Observable searchErpOrderItems(String key);
 
-  Observable getOrderItemProcesses(  String osNo,int  itm, int workFlowStep);
+
+  Observable getAvailableOrderItemProcess(String osNo, int  itm, int workFlowStep);
 
   /**
    * 读取指定订单，流程的消息列表
@@ -129,4 +130,24 @@ public interface RestApi {
    * @return
    */
   Observable getOrderItemWorkFlowMessage(String os_no,int  itm,  int workFlowStep);
+
+    Observable loadUsers();
+
+    Observable searchErpOrderItems(String key, int pageIndex, int pageSize);
+
+  /**
+   * 读取已排产未完工的订单
+   * @param key
+   * @return
+   */
+    Observable getUnCompleteWorkFlowOrderItems(String key);
+
+  Observable getOrderItemWorkMemoList(String os_no, int itm);
+
+  Observable getProductWorkMemoList(String prd_name, String pversion);
+
+  Observable saveWorkMemo(int workFlowStep,String os_no, int itm, String orderItemWorkMemo, String prd_name, String pversion, String productWorkMemo);
+
+  Observable getWorkFlowAreaList();
+
 }

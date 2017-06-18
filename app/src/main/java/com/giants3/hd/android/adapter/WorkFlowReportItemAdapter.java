@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.utils.entity.ErpWorkFlowReport;
 
+import butterknife.Bind;
+
 /**订单的生产进度列表 adapter
  * Created by davidleen29 on 2017/3/4.
  */
@@ -25,21 +27,19 @@ public class WorkFlowReportItemAdapter extends AbstractAdapter<ErpWorkFlowReport
     }
 
 
-    public class ViewHolder implements Bindable<ErpWorkFlowReport> {
-        public final View mView;
+    public class ViewHolder extends BaseBindable<ErpWorkFlowReport> {
 
         public ErpWorkFlowReport mItem;
+        @Bind(R.id.progress)
         public ProgressBar progress;
+        @Bind(R.id.workFlowName)
         public TextView workFlowName;
+        @Bind(R.id.percentage)
         public TextView percentage;
 
+
         public ViewHolder(View view) {
-
-
-            mView = view;
-            progress = (ProgressBar) view.findViewById(R.id.progress);
-            workFlowName = (TextView) view.findViewById(R.id.workFlowName);
-            percentage = (TextView) view.findViewById(R.id.percentage);
+            super(view);
             progress.setMax(100);
 
         }

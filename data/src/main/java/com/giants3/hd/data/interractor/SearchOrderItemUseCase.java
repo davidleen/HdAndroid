@@ -9,18 +9,22 @@ import rx.Observable;
  */
 public class SearchOrderItemUseCase extends DefaultUseCase {
     private final String key;
+    private final int pageIndex;
+    private final int pageSize;
     private final RestApi restApi;
 
-    public SearchOrderItemUseCase(  String key, RestApi restApi) {
+    public SearchOrderItemUseCase(  String key, int pageIndex,int pageSize,RestApi restApi) {
         super( );
         this.key = key;
+        this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
         this.restApi = restApi;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
 
-       return  restApi.searchErpOrderItems(key);
+       return  restApi.searchErpOrderItems(key,   pageIndex,  pageSize);
 
     }
 }

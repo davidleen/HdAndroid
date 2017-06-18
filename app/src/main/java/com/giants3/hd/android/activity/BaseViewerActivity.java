@@ -72,4 +72,5 @@ public  abstract  class BaseViewerActivity<P extends NewPresenter> extends BaseA
     }
 
 
+
 }

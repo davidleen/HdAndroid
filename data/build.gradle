@@ -44,7 +44,8 @@ dependencies {
     compile 'com.google.inject:guice:4.0:no_aop'
 
     provided 'com.google.inject:guice:4.0'
-    compile "com.squareup.okhttp:okhttp:${okHttpVersion}"
+    //compile "com.squareup.okhttp:okhttp:${okHttpVersion}"
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
 }
 
 uploadArchives {

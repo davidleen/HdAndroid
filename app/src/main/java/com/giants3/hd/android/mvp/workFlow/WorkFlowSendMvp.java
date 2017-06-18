@@ -4,6 +4,7 @@ import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
 import com.giants3.hd.utils.entity.ErpOrderItemProcess;
+import com.giants3.hd.utils.entity.WorkFlowArea;
 
 
 import java.util.List;
@@ -36,6 +37,13 @@ public interface WorkFlowSendMvp {
         String getMemo();
 
         void setMemo(String memo);
+
+        void setArea(WorkFlowArea area);
+
+        WorkFlowArea getArea();
+
+        List<WorkFlowArea> getAreas();
+        void  setAreas(List<WorkFlowArea> areas);
     }
 
     interface Presenter extends NewPresenter<Viewer> {
@@ -53,12 +61,19 @@ public interface WorkFlowSendMvp {
         void sendWorkFlow();
 
         void updateMemo(String memo);
+
+
+
+        void pickWorkFlowArea();
+
+        void setPickItem(WorkFlowArea newValue);
     }
 
     interface Viewer extends NewViewer {
 
 
         void doPickItem(ErpOrderItemProcess lastPickItem, List<ErpOrderItemProcess> availableItems);
+        void doPickItem(WorkFlowArea lastPickItem, List<WorkFlowArea> availableItems);
 
         void bindPickItem(ErpOrderItemProcess newValue);
 
@@ -67,6 +82,8 @@ public interface WorkFlowSendMvp {
         void warnQtyInput(String s);
 
         void doOnSuccessSend();
+
+        void bindPickItem(WorkFlowArea newValue);
     }
 
 }

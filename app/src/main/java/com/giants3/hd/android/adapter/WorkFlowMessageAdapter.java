@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.fragment.WorkFlowMessageFragment;
 import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
@@ -24,13 +23,9 @@ public class WorkFlowMessageAdapter
         extends AbstractAdapter<WorkFlowMessage> implements View.OnClickListener {
 
 
-    private final WorkFlowMessageFragment.MessageHandler messageHandler;
-
-    public WorkFlowMessageAdapter(Context context, WorkFlowMessageFragment.MessageHandler MessageHandler) {
+    public WorkFlowMessageAdapter(Context context) {
         super(context);
 
-
-        messageHandler = MessageHandler;
     }
 
     @Override
@@ -50,12 +45,10 @@ public class WorkFlowMessageAdapter
                 break;
             case R.id.check:
 
-                messageHandler.checkWorkFlow(message);
-
 
                 break;
             case R.id.receive:
-                messageHandler.receiveWorkFlow(message);
+
 
                 break;
         }
@@ -90,11 +83,7 @@ public class WorkFlowMessageAdapter
         @Bind(R.id.unitName)
         public TextView unitName;
 
-        @Bind(R.id.receive)
-        public TextView receive;
 
-        @Bind(R.id.check)
-        public TextView check;
         @Bind(R.id.createTime)
         public TextView createTime;
         @Bind(R.id.state)
@@ -105,7 +94,6 @@ public class WorkFlowMessageAdapter
         public TextView reason;
 
 
-
         @Bind(R.id.panel_factory)
         public View panel_factory;
         @Bind(R.id.factory)
@@ -114,8 +102,7 @@ public class WorkFlowMessageAdapter
         public ViewHolder(View view, View.OnClickListener listener) {
             super(view);
             picture.setOnClickListener(listener);
-            receive.setOnClickListener(listener);
-            check.setOnClickListener(listener);
+
 
         }
 
@@ -132,16 +119,15 @@ public class WorkFlowMessageAdapter
             fromFlow.setText(data.fromFlowName);
             tranQty.setText(String.valueOf(data.transportQty));
             factory.setText(String.valueOf(data.factoryName));
-            mrpNo.setText( data.mrpNo ==null?"":data.mrpNo);
+            mrpNo.setText(data.mrpNo == null ? "" : data.mrpNo);
 
-            panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName)?View.GONE:View.VISIBLE);
+            panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName) ? View.GONE : View.VISIBLE);
 
 
             ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
             picture.setTag(data);
             unitName.setText("");
-            check.setVisibility(data.state == WorkFlowMessage.STATE_RECEIVE ? View.VISIBLE : View.GONE);
-            receive.setVisibility(data.state == WorkFlowMessage.STATE_REWORK || data.state == WorkFlowMessage.STATE_SEND ? View.VISIBLE : View.GONE);
+
 
             String stateText = "";
             switch (data.state) {
@@ -162,16 +148,14 @@ public class WorkFlowMessageAdapter
                     break;
 
             }
-            boolean  showReason= !StringUtils.isEmpty(data.memo);
-            panel_reason.setVisibility(showReason?View.VISIBLE:View.GONE);
-            if(showReason)
-            {
-                reason.setText(data.memo);
+            boolean showReason = !StringUtils.isEmpty(data.sendMemo);
+            panel_reason.setVisibility(showReason ? View.VISIBLE : View.GONE);
+            if (showReason) {
+                reason.setText(data.sendMemo);
             }
             state.setText(stateText);
             createTime.setText(data.createTimeString.substring(0, 10));
-            check.setTag(data);
-            receive.setTag(data);
+
 
         }
 

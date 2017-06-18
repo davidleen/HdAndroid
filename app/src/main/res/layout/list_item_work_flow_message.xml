@@ -292,22 +292,6 @@
 
 
         <TextView
-            android:id="@+id/receive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_white_round_selector"
-            android:padding="5dp"
-            android:text="接收" />
-
-        <TextView
-            android:id="@+id/check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_white_round_selector"
-            android:padding="5dp"
-            android:text="审核" />
-
-        <TextView
             android:id="@+id/state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

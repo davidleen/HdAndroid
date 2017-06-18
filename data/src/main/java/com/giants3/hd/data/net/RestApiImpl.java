@@ -24,21 +24,25 @@ import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.OrderItem;
 import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
+import com.giants3.hd.utils.entity.OrderItemWorkMemo;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.ProductProcess;
+import com.giants3.hd.utils.entity.ProductWorkMemo;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.entity.User;
+import com.giants3.hd.utils.entity.WorkFlowArea;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
 import com.giants3.hd.utils.entity.ErpWorkFlowReport;
+import com.giants3.hd.utils.entity_erp.ErpWorkFlowOrderItem;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 import com.giants3.hd.utils.noEntity.FileInfo;
-import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -328,13 +332,13 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable receiveWorkFlowMessageCase(final long workFlowMessageId) {
+    public Observable receiveWorkFlowMessageCase(final long workFlowMessageId, final File[] files, final String area) {
         return create(new ApiInvoker<Void>() {
             @Override
             public RemoteData<Void> invoker() throws HdException {
 
 
-                return apiManager.receiveWorkFlowMessage(workFlowMessageId );
+                return apiManager.receiveWorkFlowMessage(workFlowMessageId ,   files,  area);
             }
         });
     }
@@ -353,13 +357,13 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable sendWorkFlowMessageCase(final ErpOrderItemProcess erpOrderItemProcess,  final int tranQty,final String memo) {
+    public Observable sendWorkFlowMessageCase(final ErpOrderItemProcess erpOrderItemProcess,  final int tranQty,final long area,final String memo) {
         return create(new ApiInvoker<Void>() {
             @Override
             public RemoteData<Void> invoker() throws HdException {
 
 
-                return apiManager.sendWorkFlowMessage(   erpOrderItemProcess,     tranQty,memo );
+                return apiManager.sendWorkFlowMessage(   erpOrderItemProcess,     tranQty,area,memo );
             }
         });
     }
@@ -378,13 +382,13 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable rejectWorkFlowMessage(final long workFlowMessageId, final int toWorkFlowStep, final String reason) {
+    public Observable rejectWorkFlowMessage(final long workFlowMessageId, final File[] file, final String memo) {
         return create(new ApiInvoker<Void>() {
             @Override
             public RemoteData<Void> invoker() throws HdException {
 
 
-                return apiManager.rejectWorkFlowMessage( workFlowMessageId,   toWorkFlowStep,   reason);
+                return apiManager.rejectWorkFlowMessage( workFlowMessageId,   file,   memo);
             }
         });
     }
@@ -442,26 +446,26 @@ public class RestApiImpl implements RestApi {
 
 
     @Override
-    public Observable searchErpOrderItems(final String key) {
+    public Observable searchErpOrderItems(final String key, final int pageIndex, final int pageSize) {
         return create(new ApiInvoker<ErpOrderItem>() {
             @Override
             public RemoteData<ErpOrderItem> invoker() throws HdException {
 
 
-                return apiManager.searchErpOrderItems(   key);
+                return apiManager.searchErpOrderItems(   key,pageIndex,pageSize);
             }
         });
     }
 
 
     @Override
-    public Observable getOrderItemProcesses(final String osNo, final int  itm, final int workFlowStep) {
+    public Observable getAvailableOrderItemProcess(final String osNo, final int  itm, final int workFlowStep) {
         return create(new ApiInvoker<ErpOrderItemProcess>() {
             @Override
             public RemoteData<ErpOrderItemProcess> invoker() throws HdException {
 
 
-                return apiManager.getOrderItemProcesses(       osNo,  itm,workFlowStep);
+                return apiManager.getAvailableOrderItemProcess(       osNo,  itm,workFlowStep);
             }
         });
     }
@@ -475,6 +479,82 @@ public class RestApiImpl implements RestApi {
 
 
                 return apiManager.getOrderItemWorkFlowMessage(     os_no,  itm,  workFlowStep);
+            }
+        });
+    }
+
+    @Override
+    public Observable loadUsers() {
+        return create(new ApiInvoker<User>() {
+            @Override
+            public RemoteData<User> invoker() throws HdException {
+
+
+                return apiManager.loadUsers(   );
+            }
+        });
+    }
+
+    @Override
+    public Observable getUnCompleteWorkFlowOrderItems(final String key) {
+        return create(new ApiInvoker<ErpWorkFlowOrderItem>() {
+            @Override
+            public RemoteData<ErpWorkFlowOrderItem> invoker() throws HdException {
+
+
+                return apiManager.getUnCompleteWorkFlowOrderItems(   key);
+            }
+        });
+    }
+
+
+    @Override
+    public Observable getOrderItemWorkMemoList(final String os_no, final int itm) {
+        return create(new ApiInvoker<OrderItemWorkMemo>() {
+            @Override
+            public RemoteData<OrderItemWorkMemo> invoker() throws HdException {
+
+
+                return apiManager.getOrderItemWorkMemoList(   os_no,itm);
+            }
+        });
+    }
+
+    @Override
+    public Observable getProductWorkMemoList(final String productName, final String pversion) {
+        return create(new ApiInvoker<ProductWorkMemo>() {
+            @Override
+            public RemoteData<ProductWorkMemo> invoker() throws HdException {
+
+
+                return apiManager.getProductWorkMemoList(   productName,pversion);
+            }
+        });
+    }
+
+
+
+    @Override
+    public Observable saveWorkMemo(final int workFlowStep, final String os_no, final int itm, final String orderItemWorkMemo, final String prd_name, final String pversion, final String productWorkMemo) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.saveWorkMemo(   workFlowStep, os_no,   itm,   orderItemWorkMemo,   prd_name,   pversion,   productWorkMemo);
+            }
+        });
+    }
+
+
+    @Override
+    public Observable getWorkFlowAreaList() {
+        return create(new ApiInvoker<WorkFlowArea>() {
+            @Override
+            public RemoteData<WorkFlowArea> invoker() throws HdException {
+
+
+                return apiManager.getWorkFlowAreaList(   );
             }
         });
     }

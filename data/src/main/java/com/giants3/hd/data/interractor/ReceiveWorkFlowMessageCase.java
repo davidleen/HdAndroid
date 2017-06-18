@@ -2,6 +2,8 @@ package com.giants3.hd.data.interractor;
 
 import com.giants3.hd.data.net.RestApi;
 
+import java.io.File;
+
 import rx.Observable;
 import rx.Scheduler;
 
@@ -10,17 +12,23 @@ import rx.Scheduler;
  *
  *
  */
-public class ReceiveWorkFlowMessageCase extends UseCase {
+public class ReceiveWorkFlowMessageCase extends DefaultUseCase {
 
 
     private final long workFlowMessageId;
+    private final File[] files;
+    private final String area;
+    private String memo;
     RestApi restApi;
 
 
 
-    public ReceiveWorkFlowMessageCase(Scheduler threadExecutor, Scheduler postExecutionThread,long workFlowMessageId, RestApi restApi) {
-        super(threadExecutor, postExecutionThread);
+    public ReceiveWorkFlowMessageCase(  long workFlowMessageId, File[] files,String area, RestApi restApi) {
+
         this.workFlowMessageId = workFlowMessageId;
+        this.files = files;
+        this.area = area;
+        this.memo = memo;
 
         this.restApi=restApi;
 
@@ -32,7 +40,7 @@ public class ReceiveWorkFlowMessageCase extends UseCase {
 
 
 
-       return  restApi.receiveWorkFlowMessageCase( workFlowMessageId);
+       return  restApi.receiveWorkFlowMessageCase( workFlowMessageId,files,area);
 
 
 

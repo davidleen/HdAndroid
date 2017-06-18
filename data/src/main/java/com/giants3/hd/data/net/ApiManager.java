@@ -11,18 +11,24 @@ import com.giants3.hd.utils.entity.ErpWorkFlowReport;
 import com.giants3.hd.utils.entity.Material;
 import com.giants3.hd.utils.entity.OrderItem;
 import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
+import com.giants3.hd.utils.entity.OrderItemWorkMemo;
 import com.giants3.hd.utils.entity.ProductDetail;
 import com.giants3.hd.utils.entity.ProductProcess;
+import com.giants3.hd.utils.entity.ProductWorkMemo;
 import com.giants3.hd.utils.entity.Quotation;
 import com.giants3.hd.utils.entity.QuotationDetail;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.entity.User;
+import com.giants3.hd.utils.entity.WorkFlowArea;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.utils.entity_erp.ErpWorkFlowOrderItem;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 import com.giants3.hd.utils.noEntity.FileInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +54,7 @@ public class ApiManager {
         }.getType());
 
         tokenMaps.put(AUser.class, new TypeToken<RemoteData<AUser>>() {
+        }.getType());  tokenMaps.put(User.class, new TypeToken<RemoteData<User>>() {
         }.getType());
 
         tokenMaps.put(AProduct.class, new TypeToken<RemoteData<AProduct>>() {
@@ -86,6 +93,17 @@ public class ApiManager {
         tokenMaps.put(OrderItem.class, new TypeToken<RemoteData<OrderItem>>() {
         }.getType());
         tokenMaps.put(ErpOrderItemProcess.class, new TypeToken<RemoteData<ErpOrderItemProcess>>() {
+        }.getType());
+ tokenMaps.put(ErpWorkFlowOrderItem.class, new TypeToken<RemoteData<ErpWorkFlowOrderItem>>() {
+        }.getType());
+
+ tokenMaps.put(ProductWorkMemo.class, new TypeToken<RemoteData<ProductWorkMemo>>() {
+        }.getType());
+
+ tokenMaps.put(OrderItemWorkMemo.class, new TypeToken<RemoteData<OrderItemWorkMemo>>() {
+        }.getType());
+
+ tokenMaps.put(WorkFlowArea.class, new TypeToken<RemoteData<WorkFlowArea>>() {
         }.getType());
 
 
@@ -321,9 +339,9 @@ public class ApiManager {
     /**
      * 接受流程传递
      */
-    public RemoteData<Void> receiveWorkFlowMessage(long workFlowMessageId) throws HdException {
+    public RemoteData<Void> receiveWorkFlowMessage(long workFlowMessageId, File[] files, String area) throws HdException {
         String url = HttpUrl.receiveWorkFlowMessage(workFlowMessageId);
-        String result = apiConnection.getString(url);
+        String result = apiConnection.updatePictures(url,files);
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
 
         return remoteData;
@@ -344,8 +362,8 @@ public class ApiManager {
 
     }
 
-    public RemoteData<Void> sendWorkFlowMessage(ErpOrderItemProcess erpOrderItemProcess, int tranQty, String memo) throws HdException {
-        String url = HttpUrl.sendWorkFlowMessage( tranQty, memo);
+    public RemoteData<Void> sendWorkFlowMessage(ErpOrderItemProcess erpOrderItemProcess, int tranQty, long area,String memo) throws HdException {
+        String url = HttpUrl.sendWorkFlowMessage( tranQty,area, memo);
         String result = apiConnection.post(url,GsonUtils.toJson(erpOrderItemProcess));
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
 
@@ -362,9 +380,9 @@ public class ApiManager {
 
     }
 
-    public RemoteData<Void> rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason) throws HdException {
-        String url = HttpUrl.rejectWorkFlowMessage(workFlowMessageId, toWorkFlowStep, reason);
-        String result = apiConnection.getString(url);
+    public RemoteData<Void> rejectWorkFlowMessage(long workFlowMessageId, final File[] file, final String memo) throws HdException {
+        String url = HttpUrl.rejectWorkFlowMessage(workFlowMessageId,   memo);
+        String result = apiConnection.updatePictures(url,file);
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
 
         return remoteData;
@@ -423,18 +441,18 @@ public class ApiManager {
      * @param key
      * @return
      */
-    public RemoteData<ErpOrderItem> searchErpOrderItems(String key) throws HdException {
-        String url = HttpUrl.searchErpOrderItem(key);
+    public RemoteData<ErpOrderItem> searchErpOrderItems(String key, final int pageIndex, final int pageSize) throws HdException {
+        String url = HttpUrl.searchErpOrderItem(key,    pageIndex,     pageSize);
         String result = apiConnection.getString(url);
         RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
 
         return remoteData;
     }
 
-    public RemoteData<ErpOrderItemProcess> getOrderItemProcesses(final String osNo, final int  itm, int workFlowStep) throws HdException {
+    public RemoteData<ErpOrderItemProcess> getAvailableOrderItemProcess(final String osNo, final int  itm, int workFlowStep) throws HdException {
 
 
-        String url = HttpUrl.getOrderItemProcesses(osNo, itm, workFlowStep);
+        String url = HttpUrl.getAvailableOrderItemProcess(osNo, itm, workFlowStep);
         String result = apiConnection.getString(url);
         RemoteData<ErpOrderItemProcess> remoteData = invokeByReflect(result, ErpOrderItemProcess.class);
 
@@ -446,7 +464,7 @@ public class ApiManager {
     /**
      * 读取指定订单，流程的消息列表
      *
-     * @param orderItemWorkFlowId
+     * @param os_no
      * @param workFlowStep
      * @return
      */
@@ -462,5 +480,68 @@ public class ApiManager {
     }
 
 
+    public RemoteData<User> loadUsers() throws HdException {
 
+
+        String url = HttpUrl.loadUsers(  );
+        String result = apiConnection.getString(url);
+        RemoteData<User> remoteData = invokeByReflect(result, User.class);
+
+        return remoteData;
+
+
+    }
+
+    public RemoteData<ErpWorkFlowOrderItem> getUnCompleteWorkFlowOrderItems(String key) throws HdException {
+        String url = HttpUrl.getUnCompleteWorkFlowOrderItems(key);
+        String result = apiConnection.getString(url);
+        RemoteData<ErpWorkFlowOrderItem> remoteData = invokeByReflect(result, ErpWorkFlowOrderItem.class);
+
+        return remoteData;
+    }
+
+    public RemoteData<OrderItemWorkMemo> getOrderItemWorkMemoList(String os_no, int itm) throws HdException {
+        String url = HttpUrl.getOrderItemWorkMemoList(  os_no,   itm);
+        String result = apiConnection.getString(url);
+        RemoteData<OrderItemWorkMemo> remoteData = invokeByReflect(result, OrderItemWorkMemo.class);
+        return remoteData;
+
+    }
+
+    public RemoteData<ProductWorkMemo> getProductWorkMemoList(String productName, String pversion) throws HdException {
+        String url = HttpUrl.getProductWorkMemoList(productName,pversion);
+        String result = apiConnection.getString(url);
+        RemoteData<ProductWorkMemo> remoteData = invokeByReflect(result, ProductWorkMemo.class);
+        return remoteData;
+
+    }
+
+    public RemoteData<Void> saveWorkMemo(int workFlowStep,String os_no, int itm, String orderItemWorkMemo, String prd_name, String pVersion, String productWorkMemo) throws HdException {
+
+        String url = HttpUrl.saveWorkMemo( )  ;
+
+
+        Map<String,Object> map=new HashMap<>();
+         map.put("workFlowStep",workFlowStep);
+         map.put("os_no",os_no);
+         map.put("itm",itm);
+         map.put("orderItemWorkMemo",orderItemWorkMemo);
+         map.put("prd_name",prd_name);
+         map.put("pVersion",pVersion);
+         map.put("productWorkMemo",productWorkMemo);
+        String result = apiConnection.post(url,GsonUtils.toJson(map));
+        RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
+        return remoteData;
+    }
+
+
+    public RemoteData<WorkFlowArea> getWorkFlowAreaList() throws HdException {
+
+
+        String url = HttpUrl.getWorkFlowAreaList( );
+        String result = apiConnection.getString(url);
+        RemoteData<WorkFlowArea> remoteData = invokeByReflect(result, WorkFlowArea.class);
+        return remoteData;
+
+    }
 }

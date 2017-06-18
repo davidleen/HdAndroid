@@ -27,5 +27,14 @@
 
 
 
+    <TextView
+        android:id="@+id/pVersion"
+        android:layout_width="100dp"
+        android:textSize="16sp"
+        android:gravity="right|center"
+        android:layout_height="wrap_content" />
+
+
+
 
 </LinearLayout>

@@ -20,36 +20,51 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.Window;
 
+import com.giants3.hd.android.events.BaseEvent;
+import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.helper.AnalysisFactory;
-import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     public static final int REQUEST_LOGIN = 1009;
+    public static final int REQUEST_CODE_PERMISSION = 200;
+
+
     ProgressDialog progressDialog;
 
     /**
      * 当前act 是否在最前面
      */
     private boolean isTop;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+
+
+        sharedPreferences = getSharedPreferences("PERMMISON", Context.MODE_PRIVATE);
+
 
     }
 
@@ -107,15 +122,17 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
-
-        super.onDestroy();
         hideWaiting();
+        sharedPreferences = null;
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+
 
     }
 
     public void startLoginActivity() {
 
-        if(getClass().getName().equals(LoginActivity.class.getName())) return ;
+        if (getClass().getName().equals(LoginActivity.class.getName())) return;
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, REQUEST_LOGIN);
 
@@ -127,6 +144,17 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.onConfigurationChanged(newConfig);
 
     }
+    /**
+     * 这个方法 适配 evenbus 必须实现一个这种方法 否则会报错。
+     * <p/>
+     * <br>Created 2016年4月19日 下午3:58:56
+     *
+     * @param event
+     * @author davidleen29
+     */
+    public void onEvent(BaseEvent event) {
+    }
+
 
     @Override
     public void onContentChanged() {
@@ -181,8 +209,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
     public void hideWaiting() {
 
         if (progressDialog != null) {
@@ -207,6 +233,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     public void showWaiting(String message) {
         hideWaiting();
         progressDialog = new ProgressDialog(this);
@@ -215,5 +242,104 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    protected boolean shouldAskPermission() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void requestPermission(String[] perms) {
+        int permsRequestCode = REQUEST_CODE_PERMISSION;
+        requestPermissions(perms, permsRequestCode);
+
+    }
+
+
+    /**
+     * 授权成功回调
+     *
+     * @param permission
+     */
+
+    public void onPermissionGranted(String permission) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
+
+        switch (permsRequestCode) {
+
+            case REQUEST_CODE_PERMISSION:
+                int size = grantResults.length;
+                for (int i = 0; i < size; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        markAsAsked(permissions[i]);
+                        onPermissionGranted(permissions[i]);
+                    }
+                }
+
+
+                break;
+
+        }
+
+    }
+
+    private List<String> findUnAskedPermissions(List<String> wanted) {
+
+        List<String> result = new ArrayList<>();
+
+        for (String perm : wanted) {
+
+            if (!hasPermission(perm) && shouldWeAsk(perm)) {
+
+                result.add(perm);
+
+            }
+
+        }
+
+        return result;
+
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public boolean hasPermission(String permission) {
+
+        if (shouldAskPermission()) {
+
+            return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+
+        }
+
+        return true;
+
+    }
+
+
+    private boolean shouldWeAsk(String permission) {
+
+        return (sharedPreferences.getBoolean(permission, true));
+
+    }
+
+
+    private void markAsAsked(String permission) {
+
+
+        sharedPreferences.edit().putBoolean(permission, false).apply();
+
+    }
+
+
+    /**
+     * 登录成功回调事件
+     *
+     * @param event
+     */
+    public void onEvent(LoginSuccessEvent event) {
+
+    }
 
 }

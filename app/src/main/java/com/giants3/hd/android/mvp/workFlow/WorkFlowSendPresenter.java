@@ -2,9 +2,11 @@ package com.giants3.hd.android.mvp.workFlow;
 
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.mvp.BasePresenter;
+import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.utils.entity.WorkFlowArea;
 
 import java.util.List;
 
@@ -19,6 +21,22 @@ public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer,
 
     @Override
     public void start() {
+
+
+        loadWorkFlowArea();
+
+    }
+
+    private void loadWorkFlowArea() {
+
+        UseCaseFactory.getInstance().createGetWorkFlowAreaListUseCase().execute(new RemoteDataSubscriber<WorkFlowArea>(this) {
+            @Override
+            protected void handleRemoteData(RemoteData<WorkFlowArea> data) {
+
+
+                getModel().setAreas(data.datas);
+            }
+        });
 
 
     }
@@ -79,7 +97,7 @@ public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer,
             return;
         }
 
-        sendFlow(lastPickItem, sendQty, mModel.getMemo());
+        sendFlow(lastPickItem, sendQty, mModel.getArea(), mModel.getMemo());
 
     }
 
@@ -97,16 +115,34 @@ public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer,
         getModel().setMemo(memo);
     }
 
+
+    @Override
+    public void pickWorkFlowArea() {
+        getView().doPickItem(getModel().getArea(), getModel().getAreas());
+
+    }
+
+
+    @Override
+    public void setPickItem(WorkFlowArea newValue) {
+        getModel().setArea(newValue);
+        getView().bindPickItem(newValue);
+    }
+
     /**
      * 发送提交下一流程的请求
      *
      * @param orderItemProcess
      */
 
-    public void sendFlow(ErpOrderItemProcess orderItemProcess, int tranQty, String memo) {
+    public void sendFlow(ErpOrderItemProcess orderItemProcess, int tranQty, WorkFlowArea area, String memo) {
 
+        if (tranQty > orderItemProcess.unSendQty) {
+            getView().showMessage("发送数量超过当前可发送数量");
+            return;
+        }
 
-        UseCaseFactory.getInstance().createSendWorkFlowMessageCase(orderItemProcess, tranQty, memo).execute(new Subscriber<RemoteData<Void>>() {
+        UseCaseFactory.getInstance().createSendWorkFlowMessageCase(orderItemProcess, tranQty, area.id, memo).execute(new Subscriber<RemoteData<Void>>() {
             @Override
             public void onCompleted() {
 

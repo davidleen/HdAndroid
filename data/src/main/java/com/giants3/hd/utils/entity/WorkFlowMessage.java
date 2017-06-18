@@ -92,7 +92,10 @@ public class WorkFlowMessage
     public String url;
 
 
-
+    /**
+     *发送备注
+     */
+    public  String sendMemo;
 
     public  String memo;
 
@@ -108,7 +111,16 @@ public class WorkFlowMessage
 
     //冗余字段
     public String factoryName;
+    /**
+     * 流程递交的图片信息， 三张图片， 由流程接收者拍摄
+     */
+    public String pictures;
 
+
+    /**
+     * 交接区域
+     */
+    public String area;
 
     /**
      * 返工

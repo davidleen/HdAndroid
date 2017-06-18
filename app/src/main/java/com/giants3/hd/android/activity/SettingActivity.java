@@ -47,6 +47,8 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 saveSetting();
+
+
             }
         });
 
@@ -85,5 +87,6 @@ public class SettingActivity extends BaseActivity {
     public static void startActivity(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, SettingActivity.class);
         activity.startActivityForResult(intent, requestCode);
+
     }
 }

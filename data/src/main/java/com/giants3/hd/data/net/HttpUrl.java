@@ -47,8 +47,8 @@ public class HttpUrl {
     public static final String API_URL_RECEIVE_WORK_FLOW_MESSAGE = "api/erpWork/receiveWorkFlowMessage?workFlowMsgId=%d";
     public static final String API_URL_GET_ORDER_ITEM_FOR_TRANSFORM = "api/erpWork/getOrderItemForTransform";
 
-    public static final String API_URL_SEND_WORK_FLOW_MESSAGE = "api/erpWork/sendWorkFlowMessage?&tranQty=%d&memo=%s";
-    public static final String API_URL_REJECT_WORK_FLOW_MESSAGE = "api/erpWork/rejectWorkFlowMessage?workFlowMsgId=%d&toWorkFlowStep=%d&reason=%s";
+    public static final String API_URL_SEND_WORK_FLOW_MESSAGE = "api/erpWork/sendWorkFlowMessage?&tranQty=%d&areaId=%d&memo=%s";
+    public static final String API_URL_REJECT_WORK_FLOW_MESSAGE = "api/erpWork/rejectWorkFlowMessage?workFlowMsgId=%d&&memo=%s";
     public static final String API_URL_MY_SEND_WORK_FLOW_MESSAGE = "api/order/getSendWorkFlowMessageList";
 
 
@@ -265,8 +265,8 @@ public class HttpUrl {
         return completeUrl(API_URL_GET_ORDER_ITEM_FOR_TRANSFORM);
     }
 
-    public static String sendWorkFlowMessage(int tranQty, String memo) {
-        return completeUrl(String.format(API_URL_SEND_WORK_FLOW_MESSAGE, tranQty, memo==null?"":memo));
+    public static String sendWorkFlowMessage(int tranQty, long area, String memo) {
+        return completeUrl(String.format(API_URL_SEND_WORK_FLOW_MESSAGE, tranQty, area, memo == null ? "" : memo));
     }
 
     public static String mySendWorkFlowMessage() {
@@ -274,8 +274,8 @@ public class HttpUrl {
         return completeUrl(API_URL_MY_SEND_WORK_FLOW_MESSAGE);
     }
 
-    public static String rejectWorkFlowMessage(long workFlowMessageId, int toWorkFlowStep, String reason) {
-        return completeUrl(String.format(API_URL_REJECT_WORK_FLOW_MESSAGE, workFlowMessageId, toWorkFlowStep, reason));
+    public static String rejectWorkFlowMessage(long workFlowMessageId, String reason) {
+        return completeUrl(String.format(API_URL_REJECT_WORK_FLOW_MESSAGE, workFlowMessageId, reason));
     }
 
     /**
@@ -312,7 +312,6 @@ public class HttpUrl {
      *
      * @param os_no
      * @param itm
-
      * @return
      */
     public static String getOrderItemWorkFlowReport(final String os_no, int itm) {
@@ -325,12 +324,12 @@ public class HttpUrl {
      * @param key
      * @return
      */
-    public static String searchErpOrderItem(String key) {
-        return completeUrl(String.format("api/order/searchOrderItems?key=" + key));
+    public static String searchErpOrderItem(String key,final int pageIndex, final int pageSize) {
+        return completeUrl(String.format("api/order/searchOrderItems?key=%s&pageIndex=%d&pageSize=%d", key ,pageIndex,pageSize));
     }
 
-    public static String getOrderItemProcesses(final String osNo, final int itm, int workFlowStep) {
-        return completeUrl("api/erpWork/getOrderItemProcess?os_no=" + osNo + "&itm=" + itm + "&flowStep=" + workFlowStep);
+    public static String getAvailableOrderItemProcess(final String osNo, final int itm, int workFlowStep) {
+        return completeUrl("api/erpWork/getAvailableOrderItemProcess?os_no=" + osNo + "&itm=" + itm + "&flowStep=" + workFlowStep);
     }
 
     public static String getOrderItemWorkFlowMessage(String os_no, int itm, int workFlowStep) {
@@ -338,4 +337,37 @@ public class HttpUrl {
     }
 
 
+    public static String loadUsers() {
+        return completeUrl("api/user/list");
+
+
+    }
+
+    public static String getUnCompleteWorkFlowOrderItems(String key) {
+        return completeUrl( "api/erpWork/searchUnCompleteOrderItems?key=" + key  );
+
+    }
+
+    public static String getOrderItemWorkMemoList(String os_no, int itm) {
+        return completeUrl( "api/erpWork/getOrderItemWorkMemos?os_no=" + os_no+ "&itm=" + itm   );
+    }
+
+    public static String getProductWorkMemoList(String productName, String pversion) {
+
+        return completeUrl( "api/erpWork/getProductWorkMemos?productName=" + productName+ "&pVersion=" + pversion  );
+    }
+
+    public static String saveWorkMemo( ){
+        return completeUrl( "api/erpWork/saveWorkMemo"
+
+        );
+    }
+
+
+    public static String getWorkFlowAreaList() {
+
+
+        return completeUrl( "api/workFlow/area");
+
+    }
 }

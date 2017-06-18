@@ -24,11 +24,12 @@ import com.giants3.hd.data.BuildConfig;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.google.inject.Inject;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
+import  okhttp3.MediaType;
+//import  okhttp3.MultipartBuilder;
+import okhttp3.MultipartBody;
+import  okhttp3.OkHttpClient;
+import  okhttp3.Request;
+import  okhttp3.RequestBody;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +47,7 @@ import okio.BufferedSink;
  */
 
 public class ApiConnection {
-
+    MediaType MEDIA_TYPE_IMG = MediaType.parse("image/*");
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_VALUE_JSON = "application/json; charset=utf-8";
 
@@ -118,27 +119,46 @@ public class ApiConnection {
 
     }
 
-    public byte[] uploadFile(String serverURL, File file) {
+    /**
+     * 上传文件
+     * @param serverURL
+     * @param files
+     * @return
+     * @throws HdException
+     */
+    public String  updatePictures(String serverURL, File[] files) throws HdException {
+
         try {
 
-            RequestBody requestBody = new MultipartBuilder()
-                    .type(MultipartBuilder.FORM)
-                    .addFormDataPart("file", file.getName(),
-                            RequestBody.create(MediaType.parse("text/csv"), file))
-                    .addFormDataPart("some-field", "some-value")
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM);
+
+            for(File file:files)
+            {
+                builder.addFormDataPart("image", file .getName(),
+                        RequestBody.create(MEDIA_TYPE_IMG,file ));
+            }
+
+            RequestBody requestBody = builder
                     .build();
+
+
+
 
             Request request = new Request.Builder()
                     .url(serverURL)
                     .post(requestBody)
                     .build();
 
-            return okHttpClient.newCall(request).execute().body().bytes();
-        } catch (Exception ex) {
-            // Handle the error
+            byte[] bytes = okHttpClient.newCall(request).execute().body().bytes();
+            String remoteString= new String(bytes, DEFAULT_CHAR_ENCODE);
+            return remoteString;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            throw HdException.create(e);
         }
 
-        return null;
+
     }
 
 
@@ -232,10 +252,26 @@ public class ApiConnection {
 
 
     private static OkHttpClient createClient() {
-        final OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setReadTimeout(10000, TimeUnit.MILLISECONDS);
-        okHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+        final OkHttpClient okHttpClient
 
+          = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+//        okHttpClient.(10000, TimeUnit.MILLISECONDS);
+//        okHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+//        try {
+//            // Copy to customize OkHttp for this request.
+//            OkHttpClient copy = okHttpClient.newBuilder()
+//                    .readTimeout(500, TimeUnit.MILLISECONDS)
+//                    .build();
+//
+//            Response response = copy.newCall(request).execute();
+//            System.out.println("Response 1 succeeded: " + response);
+//        } catch (IOException e) {
+//            System.out.println("Response 1 failed: " + e);
+//        }
         return okHttpClient;
     }
 

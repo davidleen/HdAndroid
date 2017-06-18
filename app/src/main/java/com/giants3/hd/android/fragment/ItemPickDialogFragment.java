@@ -59,6 +59,9 @@ public class ItemPickDialogFragment<T> extends DialogFragment {
             protected Bindable<T> createViewHolder(int itemViewType) {
                 TextView tv=     new TextView(getContext());
                 tv.setMinHeight(Utils.dp2px(36));
+                tv.setTextSize(18);
+                int pad = Utils.dp2px(5);
+                tv.setPadding(pad,pad,pad,pad);
                 tv.setGravity(Gravity.CENTER);
                 return new ViewHolder(tv);
             }

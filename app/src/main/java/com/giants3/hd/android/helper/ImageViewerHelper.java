@@ -24,7 +24,9 @@ public class ImageViewerHelper {
 
         if(StringUtils.isEmpty(url))
           return;
-        final String fullUrl = HttpUrl.completeUrl(url);
+          String fullUrl=url;
+        if( !url.startsWith("http://")&&!url.startsWith("file://"))
+         fullUrl =  HttpUrl.completeUrl(url);
 
         Intent intent = new Intent(context, ImageViewerActivity.class);
         intent.putExtra(ImageViewerActivity.EXTRA_URL, fullUrl);

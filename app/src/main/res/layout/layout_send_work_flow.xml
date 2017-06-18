@@ -133,6 +133,7 @@
             android:gravity="left|center" />
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/panel_dest_work"
         android:layout_width="match_parent"
@@ -230,6 +231,29 @@
             android:gravity="left|center" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/panel_area"
+        android:layout_width="match_parent"
+        android:background="@drawable/list_item_bg_selector"
+        android:layout_height="50dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="82dp" android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="交接区域" />
+
+
+        <TextView
+            android:id="@+id/area"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:drawableRight="@drawable/icon_arrow_right"
+
+            android:layout_weight="1"
+            android:gravity="left|center" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/panel_memo"

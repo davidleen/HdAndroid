@@ -23,6 +23,7 @@ import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
 import com.giants3.hd.utils.entity.ErpOrderItemProcess;
+import com.giants3.hd.utils.entity.WorkFlowArea;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -73,6 +74,14 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
     @Bind(R.id.submitFlow)
     View submitFlow;
 
+    @Bind(R.id.panel_area)
+    View panel_area;
+    @Bind(R.id.area)
+    TextView area;
+
+    @Bind(R.id.memo)
+    EditText memo;
+
 
     List<ErpOrderItemProcess> orderItemProcesses;
 
@@ -102,6 +111,8 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
 
     }
 
+
+
     @Override
     protected void initViews(Bundle savedInstanceState) {
         panel_select_item.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +134,17 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
                 getPresenter().sendWorkFlow();
             }
         });
+
+
+
+        panel_area.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPresenter().pickWorkFlowArea();
+            }
+        });
+        memo.addTextChangedListener(memoTExtWatcher);
+
         sendQty.post(new Runnable() {
             @Override
             public void run() {
@@ -152,13 +174,15 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
 
         }
 
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         return inflater.inflate(R.layout.fragment_send_work_flow, container, false);
     }
 
@@ -212,6 +236,24 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
         });
         dialogFragment.show(getActivity().getSupportFragmentManager(), null);
 
+    }
+
+
+    @Override
+    public void doPickItem(WorkFlowArea workFlowArea,List<WorkFlowArea> areas)
+    {
+        ItemPickDialogFragment<WorkFlowArea> dialogFragment = new ItemPickDialogFragment<WorkFlowArea>();
+        dialogFragment.set("交接区域选择",areas,workFlowArea, new ItemPickDialogFragment.ValueChangeListener<WorkFlowArea>() {
+            @Override
+            public void onValueChange(String title, WorkFlowArea oldValue, WorkFlowArea newValue) {
+
+
+                getPresenter().setPickItem(newValue);
+
+
+            }
+        });
+        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
     }
 
 
@@ -272,8 +314,10 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
         public void afterTextChanged(Editable s) {
 
         }
-    };/**
-     * 数量输入改变监听
+    };
+
+    /**
+     *备注输入改变监听
      */
     private TextWatcher memoTExtWatcher = new TextWatcher() {
         @Override
@@ -296,6 +340,30 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
 
         }
     };
+///**
+//     *备注输入改变监听
+//     */
+//    private TextWatcher areaTextWatcher = new TextWatcher() {
+//        @Override
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//
+//        }
+//
+//        @Override
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//
+//
+//
+//            getPresenter().updateArea(s.toString());
+//        }
+//
+//        @Override
+//        public void afterTextChanged(Editable s) {
+//
+//        }
+//    };
 
 
     public void warnQtyInput(String message
@@ -305,6 +373,9 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
 
 
     }
+
+
+
 
     @Override
     public void updateSendQty(int qty) {
@@ -324,5 +395,12 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
         if (mListener != null)
             mListener.onWorkFlowSend();
 
+    }
+
+    @Override
+    public void bindPickItem(WorkFlowArea newValue) {
+
+
+        area.setText(newValue.code+newValue.name);
     }
 }

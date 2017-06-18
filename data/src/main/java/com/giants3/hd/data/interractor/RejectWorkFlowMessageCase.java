@@ -2,6 +2,8 @@ package com.giants3.hd.data.interractor;
 
 import com.giants3.hd.data.net.RestApi;
 
+import java.io.File;
+
 import rx.Observable;
 import rx.Scheduler;
 
@@ -11,18 +13,19 @@ import rx.Scheduler;
  *
  *
  */
-public class RejectWorkFlowMessageCase extends UseCase {
+public class RejectWorkFlowMessageCase extends DefaultUseCase {
 
 
     private final long workFlowMessageId;
-    private final int toWorkFlowStep;
-    private final String reason;
+    private final File[] file;
+    private final String memo;
+
     RestApi restApi;
-    public RejectWorkFlowMessageCase(Scheduler threadExecutor, Scheduler postExecutionThread, long messageId, int toWorkFlowStep,String reason,RestApi restApi) {
-        super(threadExecutor, postExecutionThread);
+    public RejectWorkFlowMessageCase(long messageId, File[] file, String memo, RestApi restApi) {
+
         this.workFlowMessageId = messageId;
-        this.toWorkFlowStep = toWorkFlowStep;
-        this.reason = reason;
+        this.file = file;
+        this.memo = memo;
 
         this.restApi=restApi;
 
@@ -34,7 +37,7 @@ public class RejectWorkFlowMessageCase extends UseCase {
 
 
 
-       return restApi.rejectWorkFlowMessage ( workFlowMessageId,toWorkFlowStep,reason);
+       return restApi.rejectWorkFlowMessage ( workFlowMessageId,  file,   memo);
 
 
     }

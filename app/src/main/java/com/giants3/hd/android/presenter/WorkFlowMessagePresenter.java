@@ -9,37 +9,16 @@ import com.giants3.hd.utils.entity.WorkFlowMessage;
  */
 
 public interface WorkFlowMessagePresenter extends  BasePresenter {
-    void sendFlow( );
 
-    void loadAvailableOrderItemForTransform();
 
-    void receiveWorkFlow(WorkFlowMessage message);
-
-    /**
-     * 通过流程审核
-     * @param message
-     */
-    void passWorkFlow(WorkFlowMessage message);
-
-    void clearData();
-
-    void pickOrderItem();
 
     void loadData();
 
-//    void pickNextWorkFlow();
 
-    void loadMySendMessage();
 
-    void updateQty(int qty);
+    void showMessage(WorkFlowMessage itemAtPosition);
 
-    void updateMemo(String s);
+    void setMySendShow();
 
-    /**
-     * 审核被拒绝
-     * @param message
-     * @param rejectToWorkFlow 返工至指定流程
-     * @param reason    原因
-     */
-    void rejectWorkFlow(WorkFlowMessage message, WorkFlow rejectToWorkFlow, String reason);
+    void setMyReceiveShow();
 }

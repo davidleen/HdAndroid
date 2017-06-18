@@ -18,13 +18,15 @@ public class SendWorkFlowMessageCase extends DefaultUseCase {
     private final ErpOrderItemProcess orderItemProcess;
 
     private final int tranQty;
+    private long area;
     private final String memo;
     RestApi restApi;
-    public SendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty, String memo, RestApi restApi) {
+    public SendWorkFlowMessageCase(ErpOrderItemProcess orderItemProcess, int tranQty, long area, String memo, RestApi restApi) {
 
         this.orderItemProcess = orderItemProcess;
 
         this.tranQty = tranQty;
+        this.area = area;
         this.memo = memo;
 
         this.restApi=restApi;
@@ -37,7 +39,7 @@ public class SendWorkFlowMessageCase extends DefaultUseCase {
 
 
 
-       return restApi.sendWorkFlowMessageCase( orderItemProcess,      tranQty,memo);
+       return restApi.sendWorkFlowMessageCase( orderItemProcess,      tranQty,area,memo);
 
 
     }

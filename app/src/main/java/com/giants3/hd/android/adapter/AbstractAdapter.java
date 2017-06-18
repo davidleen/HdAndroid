@@ -167,6 +167,24 @@ public abstract class AbstractAdapter<D> extends BaseAdapter {
 
     }
 
+
+    public abstract class BaseBindable<D> implements  Bindable<D>
+    {
+        protected final View mView;
+
+        public BaseBindable(View view)
+        {
+            ButterKnife.bind(this, view);
+            mView=view;
+        }
+
+        @Override
+        public View getContentView() {
+            return mView;
+        }
+
+    }
+
     protected Context getContext() {
         return context;
     }

@@ -10,6 +10,8 @@ import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.OrderItem;
 
+import butterknife.Bind;
+
 /**
  * Created by david on 2016/2/14.
  */
@@ -39,21 +41,18 @@ public class OrderItemListAdapter
 
 
 
-    public class ViewHolder  implements Bindable<ErpOrderItem> {
-        public final View mView;
-        public final TextView os_no;
+    public class ViewHolder  extends BaseBindable<ErpOrderItem> {
 
-        public final TextView productName;
-
+        @Bind(R.id.os_no)
+        public   TextView os_no;
+        @Bind(R.id.productName)
+        public   TextView productName;
+        @Bind(R.id.pVersion)
+        public   TextView pVersion;
         public ErpOrderItem mItem;
 
         public ViewHolder(View view) {
-
-
-            mView = view;
-            os_no = (TextView) view.findViewById(R.id.os_no);
-            productName = (TextView) view.findViewById(R.id.productName);
-
+            super(view);
 
         }
 
@@ -65,13 +64,11 @@ public class OrderItemListAdapter
 
             os_no.setText(data.os_no);
             productName.setText(data.prd_name);
+            pVersion.setText(data.pVersion);
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
         }
 
-        @Override
-        public View getContentView() {
-            return mView;
-        }
+
 
     }
 }

@@ -6,6 +6,8 @@ import com.giants3.hd.android.mvp.NewViewer;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.ErpOrderItemProcess;
 import com.giants3.hd.utils.entity.ErpWorkFlowReport;
+import com.giants3.hd.utils.entity.OrderItemWorkMemo;
+import com.giants3.hd.utils.entity.ProductWorkMemo;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
 
 import java.util.List;
@@ -27,13 +29,23 @@ public interface WorkFlowListMvp {
         ErpOrderItem getSelectOrderItem();
 
         boolean canReceiveWorkFlow(int workFlowStep);
+
+        void setProductWorkMemo(List<ProductWorkMemo> datas);
+
+        void setOrderItemWorkMemos(List<OrderItemWorkMemo> datas);
+
+        ProductWorkMemo getSelectProductMemo(int workFlowStep);
+
+        OrderItemWorkMemo getSelectOrderItemMemo(int workFlowStep);
     }
 
     interface Presenter extends NewPresenter<Viewer> {
 
-        void searchErpOrderItems(String key);
 
-        void getOrderItemWorkFlowReport();
+        /**
+         * 加载数据
+         */
+        void searchData();
 
         boolean canSendWorkFlow(int workFLowStep);
 
@@ -46,19 +58,22 @@ public interface WorkFlowListMvp {
         boolean canReceiveWorkFlow(int workFlowStep);
 
         void receiveWorkFlow(String os_no, int itm, int workFlowStep);
+
+        void chooseWorkFlowReport(ErpWorkFlowReport workFlowReport);
     }
 
     interface Viewer extends NewViewer {
 
         void bindOrderIteWorkFlowReport(List<ErpWorkFlowReport> datas);
 
-        void bindOrderItems(List<ErpOrderItem> datas);
 
         void sendWorkFlowMessage(List<ErpOrderItemProcess> datas);
 
         void showSelectOrderItem(ErpOrderItem orderItem);
 
         void showSendReceiveDialog(List<WorkFlowMessage> messageList);
+
+        void showSendWorkFlowDialog(ErpWorkFlowReport workFlowReport, ProductWorkMemo productWorkMemo, OrderItemWorkMemo orderItemWorkMemo);
     }
 
 }

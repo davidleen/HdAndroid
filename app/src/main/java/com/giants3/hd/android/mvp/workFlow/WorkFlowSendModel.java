@@ -1,6 +1,7 @@
 package com.giants3.hd.android.mvp.workFlow;
 
 import com.giants3.hd.utils.entity.ErpOrderItemProcess;
+import com.giants3.hd.utils.entity.WorkFlowArea;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class WorkFlowSendModel implements WorkFlowSendMvp.Model {
     private ErpOrderItemProcess lastPickItem;
     private int qty;
     private String memo;
+    private WorkFlowArea area;
+    private List<WorkFlowArea> areas;
 
     @Override
     public void setAvailableItems(List<ErpOrderItemProcess> stateList) {
@@ -61,5 +64,27 @@ public class WorkFlowSendModel implements WorkFlowSendMvp.Model {
     @Override
     public void setMemo(String memo) {
         this.memo=memo;
+    }
+
+    @Override
+    public void setArea(WorkFlowArea area) {
+
+        this.area = area;
+    }
+
+    @Override
+    public WorkFlowArea getArea() {
+        return area;
+    }
+
+    @Override
+    public List<WorkFlowArea> getAreas() {
+        return areas;
+    }
+
+
+    @Override
+    public void setAreas(List<WorkFlowArea> areas) {
+        this.areas=areas;
     }
 }

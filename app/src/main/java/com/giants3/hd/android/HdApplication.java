@@ -3,6 +3,7 @@ package com.giants3.hd.android;
 import android.app.Application;
 import android.content.Context;
 
+import com.giants3.hd.android.helper.BitmapToolkit;
 import com.giants3.hd.android.helper.ConnectionHelper;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
@@ -31,6 +32,7 @@ public class HdApplication extends Application {
         super.onCreate();
         baseContext = this;
         ToastHelper.init(this);
+        BitmapToolkit.init(this);
         SharedPreferencesHelper.init(this);
         ConnectionHelper.init(this);
         HttpUrl.init(this);

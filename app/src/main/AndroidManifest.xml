@@ -5,7 +5,7 @@
     android:versionName="v_1.0.3">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -15,9 +15,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name=".HdApplication"
@@ -60,6 +64,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.giants3.hd.android.activity.BaseActivity" />
 
+
+        </activity>   <activity
+            android:name=".activity.WorkFlowMainActivity"
+            android:configChanges="orientation"
+            android:parentActivityName=".activity.BaseActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.giants3.hd.android.activity.BaseActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -93,6 +107,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.WorkFlowListActivity"
+            android:theme="@style/AppTheme.NoActionBar" /> <activity
+            android:name=".activity.WorkFlowOrderItemMemoActivity"
+        android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".helper.AppDownloadService" />
@@ -100,7 +117,12 @@
         <activity
             android:name=".activity.WorkFlowMessageReceiveActivity"
             android:label="@string/title_activity_work_flow_message_receive"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme.NoActionBar">
+
+
+
+        </activity>
     </application>
 
 </manifest>
