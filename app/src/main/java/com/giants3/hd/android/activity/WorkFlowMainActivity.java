@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.adapter.WorkFLowMainMenuAdapter;
 import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.fragment.MaterialDetailFragment;
 import com.giants3.hd.android.fragment.OrderDetailFragment;
@@ -24,6 +25,7 @@ import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.helper.UpgradeUtil;
 import com.giants3.hd.android.mvp.MainAct.WorkFlowMainActMvp;
 import com.giants3.hd.android.mvp.MainAct.WorkFlowMainActPresenter;
+import com.giants3.hd.android.mvp.workflowmemo.WorkFlowOrderItemMemoMVP;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
@@ -68,13 +70,15 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
 
     View view;
 
+    String[] menuTitles=null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_flow_main);
         setSupportActionBar(toolbar);
-
+        menuTitles=  getResources().getStringArray(R.array.menu_title);
 
         createListeners();
 
@@ -124,7 +128,10 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
 
             }
         });
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.menu_title, android.R.layout.simple_list_item_1);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.menu_title, android.R.layout.simple_list_item_1);
+        WorkFLowMainMenuAdapter adapter=new WorkFLowMainMenuAdapter(this);
+        adapter.setDataArray(menuTitles);
+
         menu.setAdapter(adapter);
 
 
@@ -200,6 +207,12 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
             case R.id.upgrade:
 
                 getPresenter().checkAppUpdateInfo();
+
+                return true;
+            case R.id.updatePassword:
+
+
+                getPresenter().updatePassword();
 
                 return true;
         }
@@ -293,6 +306,47 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
 
 
         getPresenter().setLoginUser(SharedPreferencesHelper.getLoginUser());
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //每次界面恢复
+        //读取一次新消息记录 后面改成推送
+        getPresenter().attemptUpdateNewMessageCount();
+
+
+
+
+
+    }
+
+    @Override
+    public void setNewWorkFlowMessageCount(int count) {
+
+
+
+        int childCount=menu.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+
+            View child=menu.getChildAt(i);
+            if(child.getTag() instanceof  WorkFLowMainMenuAdapter.ViewHolder)
+            {
+                WorkFLowMainMenuAdapter.ViewHolder tag = (WorkFLowMainMenuAdapter.ViewHolder) child.getTag();
+
+                if(i==0)
+                   tag.setMessageCount(count);
+                else
+                    tag.setMessageCount(0);
+
+            }
+        }
+
+
 
 
     }

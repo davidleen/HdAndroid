@@ -7,7 +7,8 @@ import com.giants3.hd.android.mvp.NewViewer;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.OrderItemWorkMemo;
 import com.giants3.hd.utils.entity.ProductWorkMemo;
-import com.giants3.hd.utils.entity_erp.ErpWorkFlowOrderItem;
+
+import com.giants3.hd.utils.noEntity.WorkFlowMemoAuth;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface WorkFlowOrderItemMemoMVP {
     interface Model extends NewModel {
 
 
-        void setOrderItem(ErpWorkFlowOrderItem orderItem);
+        void setOrderItem(ErpOrderItem orderItem);
 
         void setOrderItemWorkMemos(List<OrderItemWorkMemo> datas);
 
@@ -31,21 +32,38 @@ public interface WorkFlowOrderItemMemoMVP {
 
         OrderItemWorkMemo getSelectOrderItemWorkMemo();
 
-        ErpWorkFlowOrderItem getOrderItem();
+        ErpOrderItem getOrderItem();
 
         int getSelectStep();
 
         void setSelectWorkFlowStep(int workFlowStep);
+
+        String[] getNewMemoString();
+
+        void setNewWorkFlowMemo(String productWorkFlwoMemo, String orderItemWorkFlwoMemo);
+
+        boolean hasNewWorkFlowMemo();
+
+        void setWorkFlowMemoAuth(List<WorkFlowMemoAuth> datas);
+
+        WorkFlowMemoAuth getSelectWorkFlowMemoAuth();
     }
 
     interface Presenter extends NewPresenter<WorkFlowOrderItemMemoMVP.Viewer> {
 
 
-        void setOrderItem(ErpWorkFlowOrderItem orderItem);
+        void setOrderItem(ErpOrderItem orderItem);
 
-        void save(String productWorkMemo, String orderItemWorkMemo);
+        void save( );
 
-        void setSelectStep(int workFlowStep);
+        void setSelectStep(int workFlowStep,boolean checkSave);
+
+        void setWorkFlowMemo(String productWorkFlwoMemo, String orderItemWorkFlwoMemo);
+
+        boolean hasNewWorkFlowMemo();
+
+        void check();
+        void  unCheck();
     }
 
     interface Viewer extends NewViewer {
@@ -55,5 +73,9 @@ public interface WorkFlowOrderItemMemoMVP {
 
         void bindOrderItemWorkMemo(OrderItemWorkMemo orderItemWorkMemo);
         void bindSeleteWorkFlowStep(int workFlowStep);
+
+        void showUnSaveEditDialog(int nextStep );
+
+        void bindWorkFlowAuth(WorkFlowMemoAuth workFlowMemoAuth, OrderItemWorkMemo orderItem);
     }
 }

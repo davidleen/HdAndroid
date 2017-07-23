@@ -1,5 +1,7 @@
 package com.giants3.hd.utils.entity;
 
+import com.giants3.hd.utils.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,18 +15,27 @@ public class ErpWorkFlow {
     public static final String FIRST_STEP_CODE = "S";
     public static final String SECOND_STEP_CODE = "A";
     public static final String CODE_ZUZHUANG = "B";
+    //生产完成状态码
     public static final int STATE_COMPLETE = 99;
-    public static final int PICTURE_COUNT = 1;
+    //生产进行流程状态码
+    public static final int STATE_WORKING= 9;
+
+
+    public static final int PICTURE_COUNT = 3;
     public static final String CODE_CHENGPIN = "E";
     public static final String CODE_YANSE = "D";
     public static final String CODE_MU = "M";
     public static final String CODE_TIE = "T";
-    public static String[] CODES = new String[]{FIRST_STEP_CODE, SECOND_STEP_CODE, CODE_YANSE, "C", CODE_CHENGPIN};
+    public static final String CODE_BAOZHUANG = "C";
+    public static String[] CODES = new String[]{FIRST_STEP_CODE, SECOND_STEP_CODE, CODE_YANSE, CODE_BAOZHUANG, CODE_CHENGPIN};
 
-    public static String[] NAMES = new String[]{"胚体加工", "白胚", "颜色", "组装包装", "成品仓"};
+
+    public static String NAME_ZUZHUANG="组装";
+    public static String NAME_BAOZHUANG="包装";
+    public static String[] NAMES = new String[]{"胚体加工","白胚", "颜色",  NAME_ZUZHUANG+NAME_BAOZHUANG ,"成品仓"};
     public static final int FIRST_STEP = 1000;
     public static final int LAST_STEP = 6000;
-    public static int[] STEPS = new int[]{FIRST_STEP, 2000, 3000, 5000, LAST_STEP};
+    public static int[] STEPS = new int[]{FIRST_STEP,2000, 3000,   5000, LAST_STEP};
 
 
     public ErpWorkFlow() {
@@ -34,6 +45,7 @@ public class ErpWorkFlow {
     public String code;
     public String name;
     public int step;
+
 
 
     public static List<ErpWorkFlow> WorkFlows;
@@ -56,6 +68,8 @@ public class ErpWorkFlow {
 
     @Override
     public String toString() {
+
+        if(StringUtils.isEmpty(code)) return "";
         return code + "    " + name;
     }
 
@@ -66,9 +80,7 @@ public class ErpWorkFlow {
             if (workFLow.step == flowStep) return workFLow;
         }
         return null;
-    }
-
-    public static ErpWorkFlow findByCode(String flowCode) {
+    } public static ErpWorkFlow findByCode(String flowCode) {
 
         for (ErpWorkFlow workFLow :
                 WorkFlows) {
@@ -81,25 +93,25 @@ public class ErpWorkFlow {
     public static int findIndexByCode(String code) {
 
         final int length = CODES.length;
-        int index = length - 1;
+        int index= length -1;
 
         for (int i = 0; i < length; i++) {
-            if (CODES[i].equals(code))
+            if(CODES[i].equals(code))
                 return i;
         }
         return index;
     }
 
-    public static int findPrevious(int flowStep) {
+    public static int  findPrevious(int flowStep) {
 
         final int length = STEPS.length;
 
 
         for (int i = 0; i < length; i++) {
-            if (STEPS[i] == flowStep)
-                return STEPS[i - 1];
+            if(STEPS[i]==flowStep)
+                return STEPS[i-1];
         }
-        return -1;
+        return  -1;
 
     }
 }

@@ -1,9 +1,16 @@
 package com.giants3.hd.android.mvp.MainAct;
 
+import android.app.Activity;
+
+import com.giants3.hd.android.activity.UpdatePasswordActivity;
 import com.giants3.hd.android.mvp.BasePresenter;
+import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.appdata.AUser;
+import com.giants3.hd.data.interractor.UseCaseFactory;
+import com.giants3.hd.utils.entity.OrderItemWorkMemo;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.noEntity.FileInfo;
+import com.giants3.hd.utils.noEntity.MessageInfo;
 
 import java.util.Calendar;
 
@@ -99,5 +106,35 @@ public class WorkFlowMainActPresenter extends BasePresenter<WorkFlowMainActMvp.V
         getModel().setLoginUser(loginUser);
         getView().bindUser(loginUser);
 
+    }
+
+    @Override
+    public void attemptUpdateNewMessageCount() {
+        UseCaseFactory.getInstance().createGetNewMessageInfoUseCase().execute(new RemoteDataSubscriber<MessageInfo>(this)   {
+
+
+            @Override
+            protected void handleRemoteData(RemoteData<MessageInfo> data) {
+
+
+                int count=0;
+                if(data.isSuccess())
+                {
+                    count=data.datas.get(0).newWorkFlowMessageCount;
+                }
+
+                getView().setNewWorkFlowMessageCount(count);
+            }
+
+
+        });;
+
+    }
+
+    @Override
+    public void updatePassword() {
+
+
+        UpdatePasswordActivity.startActivity((Activity) getView(),0);
     }
 }

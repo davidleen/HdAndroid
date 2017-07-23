@@ -69,12 +69,9 @@ public class MyUndoWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
                 WorkFlowMessage workFlowMessage= (WorkFlowMessage) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(), WorkFlowMessageReceiveActivity.class);
-                intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
-                startActivityForResult(intent, REQUEST_MESSAGE_OPERATE);
+                WorkFlowMessageReceiveActivity.start(MyUndoWorkFlowMessageFragment.this,workFlowMessage,REQUEST_MESSAGE_OPERATE);
+
 
 
             }

@@ -1,6 +1,7 @@
 package com.giants3.hd.android.fragment;
 
 import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import com.giants3.hd.android.activity.BaseActivity;
 import com.giants3.hd.android.activity.LoginActivity;
 import com.giants3.hd.android.events.BaseEvent;
 import com.giants3.hd.android.events.LoginSuccessEvent;
+import com.giants3.hd.android.mvp.AndroidRouter;
 import com.giants3.hd.android.viewer.BaseViewer;
 
 import butterknife.ButterKnife;
@@ -20,7 +22,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by david on 2015/12/24.
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements AndroidRouter{
 
 
     @Override
@@ -94,6 +96,11 @@ public class BaseFragment extends Fragment {
 
         onLoginRefresh();
 
+    }
+
+    public Context getContext()
+    {
+        return getActivity();
     }
 
     /**

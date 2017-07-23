@@ -36,10 +36,13 @@ import com.giants3.hd.utils.entity.User;
 import com.giants3.hd.utils.entity.WorkFlowArea;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
 import com.giants3.hd.utils.entity.ErpWorkFlowReport;
-import com.giants3.hd.utils.entity_erp.ErpWorkFlowOrderItem;
+
+import com.giants3.hd.utils.entity_erp.WorkFlowMaterial;
 import com.giants3.hd.utils.noEntity.BufferData;
 import com.giants3.hd.utils.noEntity.ErpOrderDetail;
 import com.giants3.hd.utils.noEntity.FileInfo;
+import com.giants3.hd.utils.noEntity.MessageInfo;
+import com.giants3.hd.utils.noEntity.WorkFlowMemoAuth;
 import com.google.inject.Inject;
 
 import java.io.File;
@@ -497,9 +500,9 @@ public class RestApiImpl implements RestApi {
 
     @Override
     public Observable getUnCompleteWorkFlowOrderItems(final String key) {
-        return create(new ApiInvoker<ErpWorkFlowOrderItem>() {
+        return create(new ApiInvoker<ErpOrderItem>() {
             @Override
-            public RemoteData<ErpWorkFlowOrderItem> invoker() throws HdException {
+            public RemoteData<ErpOrderItem> invoker() throws HdException {
 
 
                 return apiManager.getUnCompleteWorkFlowOrderItems(   key);
@@ -555,6 +558,93 @@ public class RestApiImpl implements RestApi {
 
 
                 return apiManager.getWorkFlowAreaList(   );
+            }
+        });
+    }
+
+
+    @Override
+    public Observable getNewMessageInfo() {
+        return create(new ApiInvoker<MessageInfo>() {
+            @Override
+            public RemoteData<MessageInfo> invoker() throws HdException {
+
+
+                return apiManager.getNewMessageInfo(   );
+            }
+        });
+    }
+
+
+    @Override
+    public Observable getWorkFlowMaterials(final String osNo, final int itm, final String workFlowCode) {
+        return create(new ApiInvoker<WorkFlowMaterial>() {
+            @Override
+            public RemoteData<WorkFlowMaterial> invoker() throws HdException {
+
+
+                return apiManager.getWorkFlowMaterials(  osNo,   itm,     workFlowCode);
+            }
+        });
+    }
+
+    @Override
+    public Observable getWorkFLowMessageByOrderItem(final String osNO, final int itm) {
+        return create(new ApiInvoker<WorkFlowMessage>() {
+            @Override
+            public RemoteData<WorkFlowMessage> invoker() throws HdException {
+
+
+                return apiManager.getWorkFlowMessageByOrderItem(  osNO,   itm);
+            }
+        });
+    }
+    @Override
+    public Observable getMyWorkFlowMessage ( ) {
+        return create(new ApiInvoker<WorkFlowMessage>() {
+            @Override
+            public RemoteData<WorkFlowMessage> invoker() throws HdException {
+
+
+                return apiManager.getMyWorkFlowMessage(  )  ;
+            }
+        });
+    }
+
+
+    @Override
+    public Observable getWorkFlowMemoAuth() {
+        return create(new ApiInvoker<WorkFlowMemoAuth>() {
+            @Override
+            public RemoteData<WorkFlowMemoAuth> invoker() throws HdException {
+
+
+                return apiManager.getWorkFlowMemoAuth(  )  ;
+            }
+        });
+    }
+
+    @Override
+    public Observable checkWorkFlowMemoCase(final long orderItemWorkMemoId, final boolean check) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.checkWorkFlowMemo( orderItemWorkMemoId,check )  ;
+            }
+        });
+    }
+
+
+    @Override
+    public Observable updatePassword(final String oldPasswordMd5, final String newPasswordMd5) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.updatePassword( oldPasswordMd5,newPasswordMd5 )  ;
             }
         });
     }

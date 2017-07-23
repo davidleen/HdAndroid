@@ -1,6 +1,7 @@
 package com.giants3.hd.android.activity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,13 +10,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFlowReportItemAdapter;
 import com.giants3.hd.android.fragment.SendWorkFlowFragment;
 import com.giants3.hd.android.mvp.workFlow.WorkFlowListMvp;
+import com.giants3.hd.android.widget.ExpandableGridView;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
@@ -48,8 +49,10 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
     TextView orderItemInfo;
 
 
+
+
     @Bind(R.id.workFlowReport)
-    GridView workFlowReport;
+    ExpandableGridView workFlowReport;
 
     @Bind(R.id.swipeLayout)
     SwipeRefreshLayout swipeLayout;
@@ -57,6 +60,7 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
     // 进度显示adapter
     WorkFlowReportItemAdapter adapter;
+
 
     //Order adapter;
 
@@ -102,7 +106,6 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ErpWorkFlowReport workFlowReport = (ErpWorkFlowReport) parent.getItemAtPosition(position);
-
                 getPresenter().chooseWorkFlowReport(workFlowReport);
 
 
@@ -124,6 +127,8 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
             }
         });
 
+        workFlowReport.setExpanded(true);
+
         orderItemInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,6 +148,8 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         });
 
 
+
+
     }
 
 
@@ -152,6 +159,7 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
 
     }
+
 
     @Override
     public void showSendWorkFlowDialog(final ErpWorkFlowReport workFlowReport, ProductWorkMemo productWorkMemo, OrderItemWorkMemo orderItemWorkMemo) {
@@ -170,6 +178,7 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         TextView title_productMemoView = (TextView) inflate.findViewById(R.id.title_product_memo);
         productMemoView.setText(productWorkMemo == null ? "" : productWorkMemo.memo);
         TextView orderItemMemoView = (TextView) inflate.findViewById(R.id.orderItemMemo);
+        TextView viewMaterial = (TextView) inflate.findViewById(R.id.viewMaterial);
         TextView title_orderItemMemoView = (TextView) inflate.findViewById(R.id.title_order_item_memo);
         orderItemMemoView.setText(orderItemWorkMemo == null ? "" : orderItemWorkMemo.memo);
 
@@ -177,6 +186,11 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         title_productMemoView.setVisibility(unMemoStep ? View.GONE : View.VISIBLE);
         orderItemMemoView.setVisibility(unMemoStep ? View.GONE : View.VISIBLE);
         title_orderItemMemoView.setVisibility(unMemoStep ? View.GONE : View.VISIBLE);
+        viewMaterial.setVisibility(unMemoStep ? View.GONE : View.VISIBLE);
+
+
+
+
 
         TextView send = (TextView) inflate.findViewById(R.id.send);
         send.setVisibility(canSend ? View.VISIBLE : View.GONE);
@@ -201,6 +215,48 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
             @Override
             public void onClick(View v) {
                 getPresenter().receiveWorkFlow(workFlowReport.osNo, workFlowReport.itm, workFlowReport.workFlowStep);
+
+            }
+        });
+
+        viewMaterial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                // 包装流程，并且名称带有组装时候， 弹出选择查看组装的还是包装的
+                if(ErpWorkFlow.CODE_BAOZHUANG.equals(workFlowReport.workFlowCode)&&workFlowReport.workFlowName.startsWith(ErpWorkFlow.NAME_ZUZHUANG))
+                {
+
+
+                    final AlertDialog zhbzDialog = new AlertDialog.Builder(WorkFlowListActivity.this)
+                            .setItems(new String[]{ErpWorkFlow.NAME_ZUZHUANG+"材料", ErpWorkFlow.NAME_BAOZHUANG+"材料"}, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    switch(which)
+                                    {
+                                        case 0:
+                                            OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this,workFlowReport.osNo,workFlowReport.itm,ErpWorkFlow.CODE_ZUZHUANG,0);
+
+                                            break;
+                                        case 1:
+                                            OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this,workFlowReport.osNo,workFlowReport.itm,ErpWorkFlow.CODE_BAOZHUANG,0);
+                                            break;
+                                    }
+
+                                }
+                            }).create();
+                    zhbzDialog.setCanceledOnTouchOutside(true);
+                    zhbzDialog.show();
+
+
+                }else
+
+
+                OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this,workFlowReport.osNo,workFlowReport.itm,workFlowReport.workFlowCode,0);
+
 
             }
         });
@@ -238,6 +294,7 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         adapter.setDataArray(datas);
 
         swipeLayout.setRefreshing(false);
+
 
     }
 

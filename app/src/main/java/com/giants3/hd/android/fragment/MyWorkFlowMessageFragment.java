@@ -14,9 +14,8 @@ import android.widget.ListView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.activity.WorkFlowMessageReceiveActivity;
 import com.giants3.hd.android.adapter.WorkFlowMessageAdapter;
-import com.giants3.hd.android.mvp.MyUndoWorkFlowMessageMVP;
-import com.giants3.hd.android.mvp.myundoworkflowmessage.PresenterImpl;
-import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.android.mvp.myworkflowmessage.MVP;
+import com.giants3.hd.android.mvp.myworkflowmessage.PresenterImpl;
 import com.giants3.hd.utils.entity.RemoteData;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
 
@@ -27,7 +26,7 @@ import butterknife.Bind;
  * Created by davidleen29 on 2017/6/3.
  */
 
-public class MyWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlowMessageMVP.Presenter> implements MyUndoWorkFlowMessageMVP.Viewer {
+public class MyWorkFlowMessageFragment extends BaseMvpFragment<MVP.Presenter> implements MVP.Viewer {
 
     private static final int REQUEST_MESSAGE_OPERATE = 9999;
     WorkFlowMessageAdapter adapter;
@@ -38,7 +37,7 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlowMes
     ListView listView;
 
     @Override
-    protected MyUndoWorkFlowMessageMVP.Presenter createPresenter() {
+    protected MVP.Presenter createPresenter() {
         return new PresenterImpl();
     }
 
@@ -69,12 +68,8 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlowMes
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
-                WorkFlowMessage workFlowMessage= (WorkFlowMessage) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(), WorkFlowMessageReceiveActivity.class);
-                intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
-                startActivityForResult(intent, REQUEST_MESSAGE_OPERATE);
+                WorkFlowMessage workFlowMessage = (WorkFlowMessage) parent.getItemAtPosition(position);
+                WorkFlowMessageReceiveActivity.start(MyWorkFlowMessageFragment.this, workFlowMessage, REQUEST_MESSAGE_OPERATE);
 
 
             }
@@ -102,10 +97,9 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlowMes
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode!= Activity.RESULT_OK)return;
-        switch (requestCode)
-        {
-            case  REQUEST_MESSAGE_OPERATE:
+        if (resultCode != Activity.RESULT_OK) return;
+        switch (requestCode) {
+            case REQUEST_MESSAGE_OPERATE:
                 getPresenter().loadData();
                 break;
         }

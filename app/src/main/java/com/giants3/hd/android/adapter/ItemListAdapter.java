@@ -104,7 +104,7 @@ public class ItemListAdapter<T>
         LinearLayout linearLayout = new LinearLayout(getContext());
         convertView.addView(linearLayout);
         ViewHolder viewHolder = new ViewHolder(convertView, tableData);
-        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setGravity(Gravity.LEFT|Gravity.CENTER);
         viewHolder.contentView = linearLayout;
 
         if (tableData != null)
@@ -363,7 +363,7 @@ public class ItemListAdapter<T>
     private View generateListHead(TableData tableData) {
 
         LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setGravity(Gravity.LEFT|Gravity.CENTER);
         int totalWidth = 0;
         if (tableData != null) {
 

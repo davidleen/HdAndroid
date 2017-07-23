@@ -11,6 +11,13 @@
 
     >
 
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:id="@+id/photo"
+        />
+
     <TextView
         android:id="@+id/os_no"
         android:layout_width="100dp"
@@ -29,6 +36,12 @@
 
     <TextView
         android:id="@+id/pVersion"
+        android:layout_width="100dp"
+        android:textSize="16sp"
+        android:gravity="right|center"
+        android:layout_height="wrap_content" />
+ <TextView
+        android:id="@+id/batNo"
         android:layout_width="100dp"
         android:textSize="16sp"
         android:gravity="right|center"

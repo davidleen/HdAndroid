@@ -2,11 +2,13 @@ package com.giants3.hd.android.helper;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -14,6 +16,9 @@ import java.util.List;
  */
 
 public class AndroidUtils {
+
+
+    public static Application application;
     /**
      * 隐藏关闭输入法
      * @param v
@@ -53,6 +58,26 @@ public class AndroidUtils {
 //        Log.d("topActivity", "CURRENT Activity ::"
 //                + taskInfo.get(0).topActivity.getClassName());
         return taskInfo.get(0).topActivity.getClassName().equals(activity.getClass().getName());
+
+    }
+
+
+
+    public static File getCacheDir()
+    {
+
+
+        File cacheDir = application.getExternalCacheDir();
+        if(cacheDir==null||!cacheDir.exists())
+
+            cacheDir= application.getCacheDir();
+       return cacheDir;
+
+
+
+
+
+
 
     }
 }

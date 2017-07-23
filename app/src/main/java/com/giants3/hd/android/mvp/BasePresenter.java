@@ -12,6 +12,9 @@ public abstract class BasePresenter<T extends NewViewer,M extends NewModel> impl
     protected M mModel;
 
 
+
+
+
     public BasePresenter()
     {
         mModel=createModel();
@@ -19,6 +22,8 @@ public abstract class BasePresenter<T extends NewViewer,M extends NewModel> impl
     @Override
     public void attachView(T view) {
         mView = view;
+
+
     }
 
     @Override

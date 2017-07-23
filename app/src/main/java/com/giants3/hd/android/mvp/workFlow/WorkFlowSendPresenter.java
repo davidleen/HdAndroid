@@ -97,7 +97,15 @@ public class WorkFlowSendPresenter extends BasePresenter<WorkFlowSendMvp.Viewer,
             return;
         }
 
-        sendFlow(lastPickItem, sendQty, mModel.getArea(), mModel.getMemo());
+        WorkFlowArea area = mModel.getArea();
+        if (area==null ) {
+            getView().warnQtyInput("交接区域未选择");
+
+            return;
+        }
+
+
+        sendFlow(lastPickItem, sendQty, area, mModel.getMemo());
 
     }
 

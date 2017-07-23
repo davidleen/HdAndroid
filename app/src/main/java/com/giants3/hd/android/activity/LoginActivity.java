@@ -298,6 +298,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.setUrl:
                 SettingActivity.startActivity(this, 100);
 
+                break;
             case R.id.user:
 
                 pickItem();
@@ -363,7 +364,7 @@ public class LoginActivity extends BaseActivity {
 
             user.setText(  loginUser.name);
             mPasswordView.setText("xin2975.");
-            attemptLogin();
+           // attemptLogin();
         }
 
     }

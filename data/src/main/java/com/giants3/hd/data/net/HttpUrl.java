@@ -42,6 +42,7 @@ public class HttpUrl {
     public static final String API_URL_GET_PRODUCT_PROCESS_LIST = "api/process/search?name=%s&pageIndex=%d&pageSize=%d";
     public static final String API_URL_GET_UN_HANDLE_WORK_FLOW_LIST = "api/order/unHandleWorkFlowMessage";
 
+
     public static final String API_URL_CHECK_WORK_FLOW_MESSAGE = "api/order/checkWorkFlowMessage?workFlowMsgId=%d";
 
     public static final String API_URL_RECEIVE_WORK_FLOW_MESSAGE = "api/erpWork/receiveWorkFlowMessage?workFlowMsgId=%d";
@@ -369,5 +370,41 @@ public class HttpUrl {
 
         return completeUrl( "api/workFlow/area");
 
+    }
+
+    public static String getNewMessageInfo() {
+
+        return completeUrl( "/api/user/newMessage");
+    }
+
+    public static String getWorkFlowMaterials(String osNo, int itm, String workFlowCode) {
+
+        return completeUrl( "/api/erpWork/workFlowMaterials?osNo=" + osNo+ "&itm=" + itm+ "&workFlowCode=" + workFlowCode);
+    }
+
+    public static String getWorkFlowMessageByOrderItem(String osNo, int itm) {
+        return completeUrl("api/order/workFlowMessageByOrderItem?osNo=" + osNo+ "&itm=" + itm );
+
+
+    }
+
+    public static String getWorkFlowMemoAuth() {
+        return completeUrl("api/workFlow/memoAuth" );
+
+
+    }
+    public static String getMyWorkFlowMessage( ) {
+        return completeUrl("api/order/myWorkFlowMessage"  );
+
+
+    }
+
+    public static String checkWorkFlowMemo(long orderItemWorkMemoId, boolean check) {
+
+        return completeUrl("api/workFlow/checkMemo?orderItemWorkMemoId="+orderItemWorkMemoId+"&check="+check );
+    }
+
+    public static String updatePassword(String oldPasswordMd5, String newPasswordMd5) {
+        return completeUrl("api/user/updatePassword2?oldPassword="+oldPasswordMd5+"&newPassword="+newPasswordMd5 );
     }
 }

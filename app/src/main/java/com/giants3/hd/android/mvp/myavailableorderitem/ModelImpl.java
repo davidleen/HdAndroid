@@ -56,8 +56,6 @@ public class ModelImpl implements MyAvailableOrderItemMVP.Model {
 
     @Override
     public boolean canSearchMore() {
-
-
-        return datas!=null&&datas.size()>0&&pageIndex<pageCount;
+        return datas!=null&&datas.size()>0&&pageIndex<pageCount-1;
     }
 }

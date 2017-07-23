@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 public class ExpandableHeightListView extends ListView {
 
-    boolean expanded = false;
+    boolean expanded = true;
 
     public ExpandableHeightListView(Context context) {
         super(context);

@@ -60,6 +60,8 @@ public interface WorkFlowListMvp {
         void receiveWorkFlow(String os_no, int itm, int workFlowStep);
 
         void chooseWorkFlowReport(ErpWorkFlowReport workFlowReport);
+
+
     }
 
     interface Viewer extends NewViewer {
@@ -74,6 +76,7 @@ public interface WorkFlowListMvp {
         void showSendReceiveDialog(List<WorkFlowMessage> messageList);
 
         void showSendWorkFlowDialog(ErpWorkFlowReport workFlowReport, ProductWorkMemo productWorkMemo, OrderItemWorkMemo orderItemWorkMemo);
+
     }
 
 }

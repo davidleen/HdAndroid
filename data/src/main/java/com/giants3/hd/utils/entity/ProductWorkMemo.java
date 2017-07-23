@@ -18,4 +18,10 @@ public class ProductWorkMemo {
 
 
     public String memo;
+
+
+    public long lastModifierId;
+    public String lastModifierName;
+    public String lastModifyTimeString;
+    public  long  lastModifyTime;
 }

@@ -3,10 +3,12 @@ package com.giants3.hd.android.mvp.workflowmemo;
 import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.data.interractor.UseCaseFactory;
+import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.OrderItemWorkMemo;
 import com.giants3.hd.utils.entity.ProductWorkMemo;
 import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity_erp.ErpWorkFlowOrderItem;
+
+import com.giants3.hd.utils.noEntity.WorkFlowMemoAuth;
 
 import rx.Subscriber;
 
@@ -20,8 +22,29 @@ public class PresenterImpl extends BasePresenter<WorkFlowOrderItemMemoMVP.Viewer
     @Override
     public void start() {
 
+
+        //读取权限列表
+        loadMemoAuth();
+
+
     }
 
+    private void loadMemoAuth() {
+
+
+        UseCaseFactory.getInstance().createGetWorkFlowMemoAuthUseCase(  ).execute(new RemoteDataSubscriber<WorkFlowMemoAuth>(this)   {
+
+
+            @Override
+            protected void handleRemoteData(RemoteData<WorkFlowMemoAuth> data) {
+                getModel().setWorkFlowMemoAuth(data.datas);
+                bindData();
+            }
+
+        }); //读取产品的生产备注数据
+
+
+    }
 
 
     @Override
@@ -30,7 +53,7 @@ public class PresenterImpl extends BasePresenter<WorkFlowOrderItemMemoMVP.Viewer
     }
 
     @Override
-    public void setOrderItem(ErpWorkFlowOrderItem orderItem) {
+    public void setOrderItem(ErpOrderItem orderItem) {
 
 
 
@@ -46,7 +69,7 @@ public class PresenterImpl extends BasePresenter<WorkFlowOrderItemMemoMVP.Viewer
     {
 
 
-        ErpWorkFlowOrderItem orderItem=getModel().getOrderItem();
+        ErpOrderItem orderItem=getModel().getOrderItem();
         //读取订单生产备注数据
 
         UseCaseFactory.getInstance().createGetOrderItemWorkMemoUseCase( orderItem.os_no,orderItem.itm).execute(new RemoteDataSubscriber<OrderItemWorkMemo>(this)   {
@@ -63,7 +86,7 @@ public class PresenterImpl extends BasePresenter<WorkFlowOrderItemMemoMVP.Viewer
 
         }); //读取产品的生产备注数据
 
-        UseCaseFactory.getInstance().createGetProductWorkMemoUseCase( orderItem.prd_name,orderItem.pversion).execute(new RemoteDataSubscriber<ProductWorkMemo>(this)   {
+        UseCaseFactory.getInstance().createGetProductWorkMemoUseCase( orderItem.prd_name,orderItem.pVersion).execute(new RemoteDataSubscriber<ProductWorkMemo>(this)   {
 
 
             @Override
@@ -91,22 +114,32 @@ public class PresenterImpl extends BasePresenter<WorkFlowOrderItemMemoMVP.Viewer
         OrderItemWorkMemo orderItemWorkMemo=getModel().getSelectOrderItemWorkMemo();
         getView().bindOrderItemWorkMemo(orderItemWorkMemo);
 
+        WorkFlowMemoAuth workFlowMemoAuth=getModel().getSelectWorkFlowMemoAuth();
+        getView().bindWorkFlowAuth(workFlowMemoAuth,getModel().getSelectOrderItemWorkMemo());
+
+
         int workflowStep=getModel().getSelectStep();
         getView().bindSeleteWorkFlowStep(workflowStep);
+
+
+
+
     }
 
 
     @Override
-    public void save(String productWorkMemo, String orderItemWorkMemo) {
+    public void save() {
 
 
+        if(!getModel().hasNewWorkFlowMemo()) return;
 
 
-        ErpWorkFlowOrderItem  orderItem=getModel().getOrderItem();
+        String[] memos=getModel().getNewMemoString()
+        ;ErpOrderItem  orderItem=getModel().getOrderItem();
 
         int workFlowStep=getModel().getSelectStep();
 
-        UseCaseFactory.getInstance().createSaveWorkMemoUseCase(workFlowStep,orderItem.os_no,orderItem.itm,orderItemWorkMemo,orderItem.prd_name,orderItem.pversion,productWorkMemo).execute(new RemoteDataSubscriber<Void>(this)   {
+        UseCaseFactory.getInstance().createSaveWorkMemoUseCase(workFlowStep,orderItem.os_no,orderItem.itm,memos[1],orderItem.prd_name,orderItem.pVersion,memos[0]).execute(new RemoteDataSubscriber<Void>(this)   {
 
 
             @Override
@@ -125,8 +158,81 @@ public class PresenterImpl extends BasePresenter<WorkFlowOrderItemMemoMVP.Viewer
 
     }
 
+
     @Override
-    public void setSelectStep(int workFlowStep) {
+    public void check() {
+
+        final OrderItemWorkMemo workMemo=getModel().getSelectOrderItemWorkMemo();
+        if(workMemo==null) return ;
+
+        UseCaseFactory.getInstance().createCheckWorkFlowMemoUseCase(workMemo.id ,  true).execute(new RemoteDataSubscriber<Void>(this)   {
+
+
+            @Override
+            protected void handleRemoteData(RemoteData<Void> data) {
+
+               loadData();
+
+            }
+
+
+        });
+
+        getView().showWaiting();
+
+
+    }
+
+    @Override
+    public void unCheck() {
+
+        final OrderItemWorkMemo workMemo=getModel().getSelectOrderItemWorkMemo();
+        if(workMemo==null) return ;
+
+        UseCaseFactory.getInstance().createCheckWorkFlowMemoUseCase(workMemo.id ,  false).execute(new RemoteDataSubscriber<Void>(this)   {
+
+
+            @Override
+            protected void handleRemoteData(RemoteData<Void> data) {
+
+                workMemo.checked=false;
+                bindData();
+            }
+
+
+        });
+
+        getView().showWaiting();
+    }
+
+    @Override
+    public boolean hasNewWorkFlowMemo() {
+        return getModel().hasNewWorkFlowMemo();
+    }
+
+    @Override
+    public void setWorkFlowMemo(String productWorkFlwoMemo, String orderItemWorkFlwoMemo) {
+
+
+        getModel().setNewWorkFlowMemo(productWorkFlwoMemo,orderItemWorkFlwoMemo);
+    }
+
+    @Override
+    public void setSelectStep(int workFlowStep,boolean checkSave) {
+
+        //先检查当前输入是否改变
+        if(checkSave&& getModel().hasNewWorkFlowMemo())
+        {
+
+
+            getView().showUnSaveEditDialog(workFlowStep);
+            return ;
+
+        }
+
+
+
+
 
         getModel().setSelectWorkFlowStep(workFlowStep);
         bindData();

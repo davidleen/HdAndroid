@@ -1,32 +1,34 @@
 package com.giants3.hd.android.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.helper.AndroidUtils;
 import com.giants3.hd.android.helper.BitmapToolkit;
+import com.giants3.hd.android.helper.CapturePictureHelper;
 import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageLoaderHelper;
 import com.giants3.hd.android.helper.ImageViewerHelper;
-import com.giants3.hd.android.helper.PictureHelper;
+import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.mvp.workflowmessagereceive.PresenterImpl;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
 import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.utils.entity.WorkFlowWorker;
 
 import java.io.File;
 import java.util.Calendar;
@@ -36,6 +38,8 @@ import butterknife.Bind;
 
 import static com.giants3.hd.android.mvp.WorkFlowMessageReceive.Presenter;
 import static com.giants3.hd.android.mvp.WorkFlowMessageReceive.Viewer;
+
+//import com.giants3.hd.android.helper.PictureHelper;
 
 /**
  * 流程接受处理事件
@@ -107,7 +111,6 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
     public TextView sendMemo;
 
 
-
     @Bind(R.id.createTime)
     public TextView createTime;
     @Bind(R.id.state)
@@ -116,13 +119,14 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
 
     @Bind(R.id.memo)
     public EditText memo;
-
+    CapturePictureHelper capturePictureHelper;
 
 
     @Bind(R.id.panel_factory)
     public View panel_factory;
     @Bind(R.id.factory)
     public TextView factory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +139,7 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
             actionBar.setTitle("流程接收");
         }
 
-        WorkFlowMessage workFlowMessage=null;
+        WorkFlowMessage workFlowMessage = null;
         try {
             workFlowMessage = GsonUtils.fromJson(getIntent().getStringExtra(KEY_MESSAGE), WorkFlowMessage.class);
         } catch (HdException e) {
@@ -157,6 +161,21 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
     @Override
     protected void initViews(Bundle savedInstanceState) {
 
+        capturePictureHelper = new CapturePictureHelper(this, new CapturePictureHelper.OnPictureGetListener() {
+
+
+            @Override
+            public void onPictureFileGet(String filePath) {
+                // WorkFlowMessageReceiveActivity.this.getCacheDir()
+                File newPath = new File(AndroidUtils.getCacheDir(), Calendar.getInstance().getTimeInMillis() + "") ;
+
+                File tempFile=new File(filePath);
+                tempFile.renameTo(newPath);
+
+
+                getPresenter().onNewPictureFileSelected(newPath);
+            }
+        });
 
     }
 
@@ -175,6 +194,7 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         picture1.setOnClickListener(this);
         picture2.setOnClickListener(this);
         picture3.setOnClickListener(this);
+        picture.setOnClickListener(this);
 
     }
 
@@ -189,37 +209,8 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
 
 
         if (resultCode != RESULT_OK) return;
+        capturePictureHelper.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
-
-        }
-
-
-        PictureHelper.PickData pickData = PictureHelper.onResult(this, requestCode, resultCode, data);
-        if (pickData != null) {
-
-
-            File file = new File(pickData.localPath);
-            if(file.exists())
-            {
-
-                Bitmap bitmap = BitmapToolkit.loadLocalBitmapRoughScaled(pickData.localPath, 600);
-//            file.delete();
-
-                String newPath = pickData.localPath + "_" + Calendar.getInstance().getTimeInMillis();
-
-                if (bitmap != null) {
-                    BitmapToolkit.saveBitmapToFile(bitmap, newPath);
-                    bitmap.recycle();
-                } else
-                    newPath = pickData.localPath;
-                getPresenter().onNewPictureFileSelected(new File(newPath));
-            }else
-            {
-                showMessage("图片获取失败");
-            }
-
-        }
 
 
     }
@@ -231,7 +222,11 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         switch (id) {
             case R.id.addPicture:
 
-                openContextMenu(addPicture);
+                if (!hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
+                } else
+                    capturePictureHelper.pickFromCamera(true);
+
 
                 break;
 
@@ -260,12 +255,15 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
             case R.id.picture1:
             case R.id.picture2:
             case R.id.picture3:
-
+            case R.id.picture:
+            {
                 String url = (String) v.getTag();
                 ImageViewerHelper.view(this, url);
+            }
 
 
                 break;
+
 
 
         }
@@ -302,6 +300,8 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
             panel[i].setVisibility(i < size ? View.VISIBLE : View.GONE);
             deletes[i].setVisibility(i < size && canDelete ? View.VISIBLE : View.GONE);
         }
+
+        addPicture.setVisibility(size >= 3 ? View.GONE : View.VISIBLE);
     }
 
 
@@ -317,15 +317,15 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         fromFlow.setText(data.fromFlowName);
         tranQty.setText(String.valueOf(data.transportQty));
         factory.setText(String.valueOf(data.factoryName));
-        mrpNo.setText( data.mrpNo ==null?"":data.mrpNo);
-        area.setText( data.area );
-        sendMemo.setText( data.sendMemo  );
+        mrpNo.setText(data.mrpNo == null ? "" : data.mrpNo);
+        area.setText(data.area);
+        sendMemo.setText(data.sendMemo);
 
-        panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName)?View.GONE:View.VISIBLE);
+        panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName) ? View.GONE : View.VISIBLE);
 
 
         ImageLoaderFactory.getInstance().displayImage(HttpUrl.completeUrl(data.url), picture);
-        picture.setTag(data);
+        picture.setTag(HttpUrl.completeUrl(data.url));
         unitName.setText("");
 
         memo.setText(data.memo);
@@ -353,15 +353,6 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
 
         state.setText(stateText);
         createTime.setText(data.createTimeString.substring(0, 10));
-
-
-        boolean canReceiveOrReject = data.state == WorkFlowMessage.STATE_SEND;
-        receive.setVisibility(canReceiveOrReject ? View.VISIBLE : View.GONE);
-        reject.setVisibility(canReceiveOrReject ? View.VISIBLE : View.GONE);
-        addPicture.setVisibility(canReceiveOrReject ? View.VISIBLE : View.GONE);
-        memo.setEnabled(canReceiveOrReject );
-
-
         String[] pictures = StringUtils.split(data.pictures);
         int size = pictures.length;
         for (int i = 0; i < size; i++) {
@@ -369,55 +360,41 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         }
 
         showPictures(pictures, false);
-    }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        boolean canReceiveOrReject = false;
+        //当前用户在目标流程上有权限
+        List<WorkFlowWorker> workFlowWorkers = SharedPreferencesHelper.getInitData().workFlowWorkers;
 
-
-        menu.add(Menu.NONE, Menu.NONE, 0, "拍照");
-//        menu.add(Menu.NONE, Menu.NONE, 1, "从手机中选择");
-        menu.add(Menu.NONE, Menu.NONE, 2, "取消");
-
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-
-        switch (item.getOrder()) {
-            case 0:
-
-                if (!hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
-                } else
-                   PictureHelper.getPicFromCamera(this);
-
+        for (WorkFlowWorker workFlow : workFlowWorkers) {
+            if (workFlow.workFlowStep == data.toFlowStep && workFlow.receive)
+            {
+                canReceiveOrReject=true;
                 break;
-            case 1:
-
-//                if (hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//                    requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
-//                } else
-//
-//                    PictureHelper.getPicFromAlbum(this);
-//
-//                break;
+            }
 
 
-            case 2:
 
-                break;
         }
-        return super.onContextItemSelected(item);
+          canReceiveOrReject = canReceiveOrReject&&data.state == WorkFlowMessage.STATE_SEND;
+
+
+
+
+        receive.setVisibility(canReceiveOrReject ? View.VISIBLE : View.GONE);
+        reject.setVisibility(canReceiveOrReject ? View.VISIBLE : View.GONE);
+        addPicture.setVisibility(canReceiveOrReject ? View.VISIBLE : View.GONE);
+        memo.setEnabled(canReceiveOrReject);
+
+
 
     }
+
 
     @Override
     public void onPermissionGranted(String permission) {
         if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(permission))
-            PictureHelper.getPicFromCamera(this);
+
+            capturePictureHelper.pickFromCamera(true);
 
     }
 
@@ -426,5 +403,21 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
 
         setResult(RESULT_OK);
         finish();
+    }
+
+    public static void start(Activity activity, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
+
+
+        Intent intent = new Intent(activity, WorkFlowMessageReceiveActivity.class);
+        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
+        activity.startActivityForResult(intent, requestMessageOperate);
+    }
+
+    public static void start(Fragment fragment, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
+
+
+        Intent intent = new Intent(fragment.getActivity(), WorkFlowMessageReceiveActivity.class);
+        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
+        fragment.startActivityForResult(intent, requestMessageOperate);
     }
 }

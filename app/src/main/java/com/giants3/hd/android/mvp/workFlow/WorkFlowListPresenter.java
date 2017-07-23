@@ -31,6 +31,16 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
     public void start() {
 
 
+        loadWorkFlowWorker();
+
+    }
+
+    /**
+     * 读取当前用户的流程工作权限数据
+     */
+    private void loadWorkFlowWorker() {
+
+
     }
 
 
@@ -208,15 +218,19 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
 
 
 
+
         ProductWorkMemo productWorkMemo = getModel().getSelectProductMemo(workFlowReport.workFlowStep);
         OrderItemWorkMemo orderItemWorkMemo =  getModel().getSelectOrderItemMemo(workFlowReport.workFlowStep);
-
-
         getView().showSendWorkFlowDialog(workFlowReport,productWorkMemo,orderItemWorkMemo);
 
 
 
+
+
+
     }
+
+
 
     @Override
     public void sendWorkFlow(String os_no, int itm, int workFlowStep) {

@@ -73,6 +73,10 @@ public class ErpOrderItemProcess {
     public String scsx;
 
 
+    /**
+     * 装箱数， 在出库阶段需要数量处理
+     */
+    public int so_zxs;
 
     public String  currentWorkFlowCode;
     public String nextWorkFlowCode;

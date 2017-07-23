@@ -3,6 +3,7 @@ package com.giants3.hd.android.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -138,17 +139,19 @@ public class MaterialDetailFragment extends BaseFragment implements View.OnClick
         }
         capturePictureHelper = new CapturePictureHelper(this, new CapturePictureHelper.OnPictureGetListener() {
             @Override
-            public void onPictureGet(Bitmap bitmap) {
+            public void onPictureFileGet(String filePath) {
 
 
+                Bitmap bitmap= BitmapFactory.decodeFile(filePath);
                 if (newPicture != null && !newPicture.isRecycled()) {
                     newPicture.recycle();
                 }
                 newPicture = bitmap;
                 image.setImageBitmap(bitmap);
                 upload.setVisibility(View.VISIBLE);
-
             }
+
+
         });
 
     }

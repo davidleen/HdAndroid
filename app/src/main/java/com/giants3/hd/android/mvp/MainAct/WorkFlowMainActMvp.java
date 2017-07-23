@@ -39,6 +39,10 @@ public interface WorkFlowMainActMvp {
         boolean checkBack();
 
         void setLoginUser(AUser loginUser);
+
+        void attemptUpdateNewMessageCount();
+
+        void updatePassword();
     }
 
     interface Viewer extends NewViewer {
@@ -46,5 +50,7 @@ public interface WorkFlowMainActMvp {
         void startDownLoadApk(FileInfo newApkFileInfo);
 
         void bindUser(AUser loginUser);
+
+        void setNewWorkFlowMessageCount(int count);
     }
 }

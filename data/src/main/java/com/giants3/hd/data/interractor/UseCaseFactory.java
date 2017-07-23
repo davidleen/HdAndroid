@@ -131,6 +131,12 @@ public class UseCaseFactory {
         return new GetUnHandleWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
     }
 
+
+    public UseCase createGetMyWorkFlowMessageCase() {
+
+        return new GetMyWorkFlowMessageCase( restApi);
+    }
+
     /**
      * 审核流程传递
      *
@@ -284,5 +290,36 @@ public class UseCaseFactory {
 
     public UseCase createGetWorkFlowAreaListUseCase() {
         return new GetWorkFlowAreaListUseCase( restApi);
+    }
+
+    public UseCase createGetNewMessageInfoUseCase() {
+        return new GetNewMessageInfoUseCase( restApi);
+    }
+
+    public UseCase createGetWorkFlowMaterialsUseCase(String osNo, int itm, String workFlowCode) {
+        return new GetWorkFlowMaterialsUseCase(osNo,itm,workFlowCode, restApi);
+    }
+
+    public UseCase createGetWorkFlowMessageByOrderItemUseCase(String osNO, int itm) {
+
+
+        return new GetWorkFlowMessageByOrderItemUseCase(osNO,itm, restApi);
+    }
+
+
+    public UseCase createGetWorkFlowMemoAuthUseCase() {
+
+
+        return new GetWorkFlowMemoAuthUseCase( restApi);
+    }
+
+    public UseCase createCheckWorkFlowMemoUseCase(long orderItemWorkMemoId, boolean check) {
+
+        return new CheckWorkFlowMemoUseCase( orderItemWorkMemoId,check,restApi);
+    }
+
+    public UseCase createUpdatePasswordUseCase(String oldPasswordMd5,String newPasswordMd5) {
+
+        return new UpdatePasswordUseCase(  oldPasswordMd5,  newPasswordMd5, restApi);
     }
 }

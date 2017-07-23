@@ -19,7 +19,7 @@ import butterknife.Bind;
 /**
  * 设置界面
  */
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActionBarActivity {
 
 
     @Bind(R.id.et_ip)
@@ -40,8 +40,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-
+         setTitle("网络设置");
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +72,11 @@ public class SettingActivity extends BaseActivity {
         etIp.setText(HttpUrl.IPAddress);
         etPort.setText(HttpUrl.IPPort);
         etService.setText(HttpUrl.ServiceName);
+    }
+
+    @Override
+    protected View getContentView() {
+         return getLayoutInflater().inflate(R.layout.activity_setting,null);
     }
 
 

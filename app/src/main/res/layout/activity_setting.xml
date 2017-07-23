@@ -1,77 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:gravity="top|center"
-              android:padding="10dp"
-        >
-   <LinearLayout
-           android:layout_marginTop="10dip"
-           android:layout_width="fill_parent" android:layout_height="wrap_content">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="top|center"
+    android:orientation="vertical"
+    android:padding="10dp">
 
-       <TextView android:layout_width="100dp" android:layout_height="wrap_content"
-               android:text="IP地址："
-               />
-       <EditText
-               android:id="@+id/et_ip"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip">
 
-               android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="IP地址：" />
 
-   </LinearLayout>
+        <EditText
+            android:id="@+id/et_ip"
+
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+             />
+
+    </LinearLayout>
 
 
     <LinearLayout
-            android:layout_marginTop="10dip"
-            android:layout_width="fill_parent" android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip">
 
-        <TextView android:layout_width="100dp" android:layout_height="wrap_content"
-                  android:text="端口："
-                />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="端口：" />
+
         <EditText
-                android:id="@+id/et_port"
-                android:inputType="numberSigned"
-                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+            android:id="@+id/et_port"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+           />
 
     </LinearLayout>
 
     <LinearLayout
-            android:layout_marginTop="10dip"
-            android:layout_width="fill_parent" android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip">
 
-        <TextView android:layout_width="100dp" android:layout_height="wrap_content"
-                  android:text="服务名："
-                />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="服务名：" />
+
         <EditText
-                android:id="@+id/et_service"
-                android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+            android:id="@+id/et_service"
+              android:layout_width="300dp"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
 
 
     <Button
-            android:id="@+id/btn_save"
-            android:layout_marginTop="20dip"
-            android:layout_width="100dp" android:layout_height="wrap_content"
+        android:id="@+id/btn_save"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
 
-            android:text="保存"
-            />
-
+        android:text="保存" />
 
 
     <Button
         android:id="@+id/setOutUrl"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
-        android:layout_width="100dp" android:layout_height="wrap_content"
-        android:text="设置外网"
-        />
+        android:text="设置外网" />
 
     <Button
         android:id="@+id/setInUrl"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
-        android:layout_width="100dp" android:layout_height="wrap_content"
-        android:text="设置内网"
-        />
+        android:text="设置内网" />
 </LinearLayout>
 

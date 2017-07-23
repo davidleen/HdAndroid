@@ -25,4 +25,11 @@
         android:title="@string/action_relogin"
         android:icon="@mipmap/icon_login"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/updatePassword"
+        android:orderInCategory="100"
+        android:title="@string/action_update_password"
+        android:icon="@mipmap/icon_login"
+        app:showAsAction="never" />
 </menu>

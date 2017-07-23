@@ -14,6 +14,70 @@
         android:hint="请输入订单号，货号查询生产进度"
         android:textSize="16sp" />
 
+
+    <HorizontalScrollView
+        android:scrollbars="none"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="80dp"
+                android:id="@+id/all"
+                android:gravity="center"
+                android:background="@drawable/bg_tab_selector"
+                android:text="全部"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:id="@+id/step1"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_tab_selector"
+                android:gravity="center"
+                android:text="白胚未入库" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:id="@+id/step2"
+                android:gravity="center"
+                android:background="@drawable/bg_tab_selector"
+                android:text="白胚"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:id="@+id/step3"
+                android:gravity="center"
+                android:background="@drawable/bg_tab_selector"
+                android:text="颜色"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:id="@+id/step4"
+                android:gravity="center"
+                android:background="@drawable/bg_tab_selector"
+                android:text="包装"
+                android:layout_height="40dp" />
+            <TextView
+                android:layout_width="80dp"
+                android:id="@+id/step5"
+                android:gravity="center"
+                android:background="@drawable/bg_tab_selector"
+
+                android:text="成品仓"
+                android:layout_height="40dp" />
+
+
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
@@ -21,15 +85,21 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <ListView
             android:id="@+id/list"
 
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+
             android:divider="@drawable/icon_divider"
             android:footerDividersEnabled="true"
             android:headerDividersEnabled="true" />
+        </HorizontalScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

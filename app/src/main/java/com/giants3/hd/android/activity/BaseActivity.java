@@ -34,6 +34,7 @@ import com.giants3.hd.android.events.BaseEvent;
 import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.helper.AnalysisFactory;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.umeng.message.PushAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,8 @@ import de.greenrobot.event.EventBus;
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     public static final int REQUEST_LOGIN = 1009;
     public static final int REQUEST_CODE_PERMISSION = 200;
+
+
 
 
     ProgressDialog progressDialog;
@@ -61,7 +64,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-
+        PushAgent.getInstance(this).onAppStart();
 
         sharedPreferences = getSharedPreferences("PERMMISON", Context.MODE_PRIVATE);
 
@@ -118,6 +121,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onStop();
 
+    }
+
+    public Context getContext()
+    {
+        return this;
     }
 
     @Override

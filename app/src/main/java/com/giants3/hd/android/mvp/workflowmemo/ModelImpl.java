@@ -1,9 +1,10 @@
 package com.giants3.hd.android.mvp.workflowmemo;
 
+import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.ErpWorkFlow;
 import com.giants3.hd.utils.entity.OrderItemWorkMemo;
 import com.giants3.hd.utils.entity.ProductWorkMemo;
-import com.giants3.hd.utils.entity_erp.ErpWorkFlowOrderItem;
+import com.giants3.hd.utils.noEntity.WorkFlowMemoAuth;
 
 import java.util.List;
 
@@ -13,14 +14,17 @@ import java.util.List;
 
 public class ModelImpl implements WorkFlowOrderItemMemoMVP.Model {
 
-    private ErpWorkFlowOrderItem orderItem;
+    private ErpOrderItem orderItem;
     private List<OrderItemWorkMemo> datas;
     private List<ProductWorkMemo> productWorkMemos;
 
-    int selectStep= ErpWorkFlow.STEPS[1];
+    int selectStep = ErpWorkFlow.STEPS[1];
+    private String productWorkFlwoMemo = "";
+    private String orderItemWorkFlwoMemo = "";
+    private List<WorkFlowMemoAuth> workFlowMemoAuths;
 
     @Override
-    public void setOrderItem(ErpWorkFlowOrderItem orderItem) {
+    public void setOrderItem(ErpOrderItem orderItem) {
 
 
         this.orderItem = orderItem;
@@ -30,6 +34,7 @@ public class ModelImpl implements WorkFlowOrderItemMemoMVP.Model {
     public void setOrderItemWorkMemos(List<OrderItemWorkMemo> datas) {
 
         this.datas = datas;
+        setSelectWorkFlowStep(selectStep);
     }
 
 
@@ -37,17 +42,16 @@ public class ModelImpl implements WorkFlowOrderItemMemoMVP.Model {
     public void setProductWorkMemo(List<ProductWorkMemo> productWorkMemos) {
 
         this.productWorkMemos = productWorkMemos;
+        setSelectWorkFlowStep(selectStep);
     }
 
 
     @Override
     public ProductWorkMemo getSelectProductWorkMemo() {
-        if(productWorkMemos==null) return null;
+        if (productWorkMemos == null) return null;
 
-        for (ProductWorkMemo memo:productWorkMemos)
-        {
-            if(memo.workFlowStep==selectStep)
-            {
+        for (ProductWorkMemo memo : productWorkMemos) {
+            if (memo.workFlowStep == selectStep) {
                 return memo;
             }
         }
@@ -57,12 +61,10 @@ public class ModelImpl implements WorkFlowOrderItemMemoMVP.Model {
     @Override
     public OrderItemWorkMemo getSelectOrderItemWorkMemo() {
 
-        if(datas==null) return null;
+        if (datas == null) return null;
 
-        for (OrderItemWorkMemo memo:datas)
-        {
-            if(memo.workFlowStep==selectStep)
-            {
+        for (OrderItemWorkMemo memo : datas) {
+            if (memo.workFlowStep == selectStep) {
                 return memo;
             }
         }
@@ -70,7 +72,7 @@ public class ModelImpl implements WorkFlowOrderItemMemoMVP.Model {
     }
 
     @Override
-    public ErpWorkFlowOrderItem getOrderItem() {
+    public ErpOrderItem getOrderItem() {
         return orderItem;
     }
 
@@ -81,6 +83,65 @@ public class ModelImpl implements WorkFlowOrderItemMemoMVP.Model {
 
     @Override
     public void setSelectWorkFlowStep(int workFlowStep) {
-        selectStep=workFlowStep;
+
+
+        selectStep = workFlowStep;
+        ProductWorkMemo productWorkMemo = getSelectProductWorkMemo();
+        OrderItemWorkMemo orderItemWorkMemo = getSelectOrderItemWorkMemo();
+
+
+        productWorkFlwoMemo = productWorkMemo == null ? "" : productWorkMemo.memo;
+        orderItemWorkFlwoMemo = orderItemWorkMemo == null ? "" : orderItemWorkMemo.memo;
+    }
+
+    @Override
+    public void setNewWorkFlowMemo(String productWorkFlwoMemo, String orderItemWorkFlwoMemo) {
+
+        this.productWorkFlwoMemo = productWorkFlwoMemo;
+        this.orderItemWorkFlwoMemo = orderItemWorkFlwoMemo;
+    }
+
+    @Override
+    public boolean hasNewWorkFlowMemo() {
+
+
+        ProductWorkMemo productWorkMemo = getSelectProductWorkMemo();
+        OrderItemWorkMemo orderItemWorkMemo = getSelectOrderItemWorkMemo();
+
+        String oldProductWorkFlwoMemo = productWorkMemo == null ? "" : productWorkMemo.memo;
+        String oldOrderItemWorkMemo = orderItemWorkMemo == null ? "" : orderItemWorkMemo.memo;
+        if (oldProductWorkFlwoMemo.equals(productWorkFlwoMemo) && oldOrderItemWorkMemo.equals(orderItemWorkFlwoMemo)) {
+            return false;
+
+        }
+
+        return true;
+
+
+    }
+
+    @Override
+    public void setWorkFlowMemoAuth(List<WorkFlowMemoAuth> workFlowMemoAuths) {
+
+        this.workFlowMemoAuths = workFlowMemoAuths;
+    }
+
+    @Override
+    public String[] getNewMemoString() {
+        return new String[]{productWorkFlwoMemo, orderItemWorkFlwoMemo};
+    }
+
+    @Override
+    public WorkFlowMemoAuth getSelectWorkFlowMemoAuth() {
+
+        if (workFlowMemoAuths == null) return null;
+
+        for (WorkFlowMemoAuth auth : workFlowMemoAuths) {
+            if (auth.workFlowStep == selectStep) {
+                return auth;
+            }
+        }
+        return null;
+
     }
 }

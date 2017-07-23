@@ -46,7 +46,7 @@ public class ErpOrderItem {
     public String id_no;
 
     /**
-     * 单位 这个属性从报价系统读取。
+     * 单位
      */
     public String ut;
 
@@ -105,6 +105,9 @@ public class ErpOrderItem {
      * 图片路径
      */
     public String url;
+
+
+    public long  photoUpdateTime;
     /**
      * 产品配方号
      */
@@ -119,6 +122,47 @@ public class ErpOrderItem {
      * 设定好的产品生产类型 0 未设定 1 自制  2 外购
      */
     public int produceType;
+
+
+    /**
+     * 生产交期
+     */
+    public String so_data;
+
+    /**
+     * 合同日期
+     */
+    public String os_dd;
+
+
+
+    /**
+     * 訂單狀態碼
+     */
+    public int workFlowState;
+    /**
+     * 货款流程步骤
+     */
+    public String maxWorkFlowCode;
+    /**
+     * 货款流程步骤
+     */
+    public String maxWorkFlowName;
+    /**
+     * 货款流程步骤
+     */
+    public int maxWorkFlowStep;
+
+    /**
+     * 訂單狀態值
+     */
+    public String workFlowDescribe;
+
+    /**
+     *
+     * 客户代号
+     */
+    public String cus_no;
 
 
     public String getOs_no() {
@@ -287,52 +331,9 @@ public class ErpOrderItem {
 
 
 
-    /**
-     * 当前生产流程
-     */
-    public String currentWorkFlow;
-    /**
-     * 当前生产流程
-     */
-    public int currentWorkStep;
-
-
-    /**
-     * 当前生产状态  0 正常  1 已发送  2 已接收 3 已审核=0进入下一个流程
-     */
-    public int currentWorkState;
-
-
-    /**
-     * 订单当前数量    订单递交下流程 可能没有全部提交下去（特殊需求）
-     */
-    public int tranQty;
-
-
-    /**
-     *产品进度描述
-     */
-    public String workFlowDescribe;
-
-
-    /**
-     *  关联订单生产流程id
-     */
-
-    public long orderWorkFlowId;
-
-
-    /**
-     * 产品是否已经配置流程
-     */
-    public boolean hasProductWorkFlowSet;
 
 
 
 
 
-    /**
-     * 是否可以排厂
-     */
-    public boolean canArrange;
 }

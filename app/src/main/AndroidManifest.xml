@@ -47,6 +47,9 @@
             android:name=".activity.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activity.UpdatePasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.OrderDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -65,7 +68,8 @@
                 android:value="com.giants3.hd.android.activity.BaseActivity" />
 
 
-        </activity>   <activity
+        </activity>
+        <activity
             android:name=".activity.WorkFlowMainActivity"
             android:configChanges="orientation"
             android:parentActivityName=".activity.BaseActivity"
@@ -107,22 +111,46 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.WorkFlowListActivity"
-            android:theme="@style/AppTheme.NoActionBar" /> <activity
-            android:name=".activity.WorkFlowOrderItemMemoActivity"
-        android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar" />
+
+
+        <activity
+            android:name=".activity.WorkFlowOrderItemMemoActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+
+        <activity
+            android:name=".activity.OrderItemWorkFlowMessageActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activity.OrderItemWorkFlowMaterialActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
 
         <service android:name=".helper.AppDownloadService" />
 
         <activity
             android:name=".activity.WorkFlowMessageReceiveActivity"
             android:label="@string/title_activity_work_flow_message_receive"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.NoActionBar">
-
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
 
 
         </activity>
+
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57a1e715e0f55a37b8004434" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="032395580934503e36334cf10bff7b84" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" />
     </application>
 
 </manifest>

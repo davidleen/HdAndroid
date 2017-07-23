@@ -17,7 +17,9 @@ import android.widget.ListView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.activity.WorkFlowListActivity;
+import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.adapter.OrderItemListAdapter;
+import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.mvp.MyAvailableOrderItemMVP;
 import com.giants3.hd.android.mvp.myavailableorderitem.PresenterImpl;
 import com.giants3.hd.data.utils.GsonUtils;
@@ -35,7 +37,7 @@ import butterknife.Bind;
 public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrderItemMVP.Presenter> implements MyAvailableOrderItemMVP.Viewer {
 
     private static final int REQUEST_MESSAGE_OPERATE = 9999;
-    OrderItemListAdapter adapter;
+    ItemListAdapter<ErpOrderItem> adapter;
     @Bind(R.id.swipeLayout)
     SwipeRefreshLayout swipeLayout;
 
@@ -70,7 +72,10 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
             }
         });
 
-        adapter = new OrderItemListAdapter(getActivity());
+       swipeLayout.setEnabled(false);
+
+        adapter = new ItemListAdapter(getActivity());
+        adapter.setTableData(TableData.resolveData(getActivity(),R.array.table_erp_order_item));
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,7 +102,7 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
 
 
                 search_text.removeCallbacks(searchRunnable);
-                search_text.postDelayed(searchRunnable, 500);
+                search_text.postDelayed(searchRunnable, 1500);
 
 
             }
@@ -145,6 +150,8 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
         }
     };
 
+
+
     private void searchErpOrderItems() {
         if (search_text != null && getPresenter() != null) {
             String text = search_text.getText().toString().trim();
@@ -152,15 +159,18 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
         }
     }
 
-    @Override
-    public void showWaiting() {
-        swipeLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideWaiting() {
-        swipeLayout.setRefreshing(false);
-    }
+//    @Override
+//    public void showWaiting() {
+//
+//        swipeLayout.setEnabled(true);
+//        swipeLayout.setRefreshing(true);
+//    }
+//
+//    @Override
+//    public void hideWaiting() {
+//        swipeLayout.setEnabled(false);
+//        swipeLayout.setRefreshing(false);
+//    }
 
 
     @Override

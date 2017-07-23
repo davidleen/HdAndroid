@@ -11,9 +11,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.mvp.AndroidRouter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,14 +30,23 @@ public class CapturePictureHelper implements View.OnClickListener {
     public static final int DEFAULT_OUT_HEIGHT = 600;
     public int outWidth = DEFAULT_OUT_WIDTH;
     public int outHeight = DEFAULT_OUT_HEIGHT;
-    Fragment activity;
+    AndroidRouter activity;
+
+
     private View ly_from_album;
     private View ly_from_camera;
     private AlertDialog mAlertDialog;
 
     OnPictureGetListener listener;
 
-    public CapturePictureHelper(Fragment activity, OnPictureGetListener listener) {
+    //是否裁剪
+    private boolean clip=false;
+    //是否相机获取
+    private boolean fromCamera=false;
+    //是否相册获取
+    private boolean fromAlbum=false;
+
+    public CapturePictureHelper(AndroidRouter activity, OnPictureGetListener listener) {
         this.activity = activity;
         this.listener = listener;
     }
@@ -43,7 +54,7 @@ public class CapturePictureHelper implements View.OnClickListener {
     public final static int FROM_ALBUM = 9911;
     public final static int START_CAMERA = 9912;
     public final static int SET_PIC = 9913;
-    private Bitmap upLoadBitmap;
+
     private File tempFilePath;
 
 
@@ -53,8 +64,15 @@ public class CapturePictureHelper implements View.OnClickListener {
         switch (requestCode) {
             case FROM_ALBUM:
                 if (data != null) {
-                    initTempFile();
-                    startPhotoZoom(data.getData(),Uri.fromFile(tempFilePath));
+
+                    if(clip) {
+
+                        initTempFile();
+                        startPhotoZoom(data.getData(), Uri.fromFile(tempFilePath));
+                    }else
+                    {
+                        setPicToView(data);
+                    }
                 }
                 break;
 
@@ -63,8 +81,12 @@ public class CapturePictureHelper implements View.OnClickListener {
 
                 if (tempFilePath.exists()) {
 
-
-                    startPhotoZoom(Uri.fromFile(tempFilePath),Uri.fromFile(tempFilePath));
+                    if(clip) {
+                        startPhotoZoom(Uri.fromFile(tempFilePath), Uri.fromFile(tempFilePath));
+                    }else
+                    {
+                        setPicToView(data);
+                    }
                 }
 
                 break;
@@ -86,26 +108,24 @@ public class CapturePictureHelper implements View.OnClickListener {
      */
 
     private void setPicToView(Intent data) {
-        Bundle extras = data.getExtras();
 
-//            if(upLoadBitmap!=null&&!upLoadBitmap.isRecycled())
+
+
 
         if(tempFilePath.exists())
         {
 
-                  upLoadBitmap=  BitmapFactory.decodeFile(tempFilePath.getPath());
-            if (upLoadBitmap != null) {
+
+
 
                 if (listener != null) {
-                    listener.onPictureGet(upLoadBitmap);
-                } else {
-                    upLoadBitmap.recycle();
+                    listener.onPictureFileGet(tempFilePath.toString());
                 }
                 if (tempFilePath != null && tempFilePath.exists()) {
                     tempFilePath.delete();
                 }
 
-            }
+
 
         }
 
@@ -138,36 +158,71 @@ public class CapturePictureHelper implements View.OnClickListener {
     }
 
 
-    public void pickPhoto() {
-
-        if (mAlertDialog == null) {
-            final View pickPanel = activity.getActivity().getLayoutInflater().inflate(
-                    R.layout.dialog_pick_photo, null);
-            ly_from_album = pickPanel
-                    .findViewById(R.id.ly_from_gallery);
-            ly_from_camera = pickPanel
-                    .findViewById(R.id.ly_from_camera);
-
-            ly_from_album.setOnClickListener(this);
-            ly_from_camera.setOnClickListener(this);
-            mAlertDialog = new AlertDialog.Builder(activity.getContext())
-                    .setTitle("图片选择")
-                    .setView(pickPanel)
-                    .setNegativeButton("取消",
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    dialog.dismiss();
-                                }
-                            }).create();
-            mAlertDialog.setCanceledOnTouchOutside(false);
+    private void doPick()
+    {
+        if(!fromAlbum&&!fromCamera)
+        {
+            throw new RuntimeException("图片获取必须从相册或者相机");
         }
 
+        clearAlertDialog();
+        final View pickPanel = LayoutInflater.from(activity.getContext()) .inflate(
+                R.layout.dialog_pick_photo, null);
+        ly_from_album = pickPanel
+                .findViewById(R.id.ly_from_gallery);
+        ly_from_camera = pickPanel
+                .findViewById(R.id.ly_from_camera);
+
+        ly_from_album.setVisibility(fromAlbum?View.VISIBLE:View.GONE);
+        ly_from_camera.setVisibility(fromCamera?View.VISIBLE:View.GONE);
+
+        ly_from_album.setOnClickListener(this);
+        ly_from_camera.setOnClickListener(this);
+        mAlertDialog = new AlertDialog.Builder(activity.getContext())
+                .setTitle("图片选择")
+                .setView(pickPanel)
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+        mAlertDialog.setCanceledOnTouchOutside(false);
         mAlertDialog.show();
 
     }
+
+    public void pickPhoto() {
+        clip=true;
+        fromCamera=true;
+        fromAlbum=true;
+
+
+       doPick();
+
+
+    }
+
+
+    /**
+     * 相机趣图，
+     * @param clip 是否裁剪
+     */
+    public  void pickFromCamera(boolean clip)
+    {
+
+
+        this.clip=clip;
+        fromCamera=true;
+        fromAlbum=false;
+        doPick();
+
+    }
+
+
 
     @Override
     public void onClick(View v) {
@@ -175,9 +230,7 @@ public class CapturePictureHelper implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.ly_from_camera:
-                if (mAlertDialog != null) {
-                    mAlertDialog.dismiss();
-                }
+                clearAlertDialog();
                 try {
                     Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     initTempFile();
@@ -191,9 +244,7 @@ public class CapturePictureHelper implements View.OnClickListener {
                 }
                 break;
             case R.id.ly_from_gallery:
-                if (mAlertDialog != null) {
-                    mAlertDialog.dismiss();
-                }
+                clearAlertDialog();
                 try {
                     Intent intent1 = new Intent(Intent.ACTION_PICK, null);
                     intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
@@ -207,11 +258,22 @@ public class CapturePictureHelper implements View.OnClickListener {
 
     }
 
+    private void clearAlertDialog() {
+        if (mAlertDialog != null) {
+            mAlertDialog.dismiss();
+        }
+    }
+
     /**
      * 回调接口
      */
     public interface OnPictureGetListener {
-        public void onPictureGet(Bitmap bitmap);
+
+        /**
+         * 图片文件路径的回调， 这个路径是临时的， 回调结束后会删除。
+          * @param filePath
+         */
+        void onPictureFileGet(String filePath);
 
     }
 

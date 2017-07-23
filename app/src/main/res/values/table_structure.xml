@@ -2,7 +2,6 @@
 <resources>
 
 
-
     <!--订单表结构-->
     <string-array name="table_head_order_item">
         <item>序号||itm||7||60</item>
@@ -243,4 +242,43 @@
         <!-- <item_work_flow_report>产品尺寸||hpgg||1||120</item_work_flow_report>-->
 
     </string-array>
+
+
+    <!--流程材料清单表-->
+    <string-array name="table_work_flow_material">
+        <item>单号||mo_no||1||80</item>
+        <item>排厂||mrp_no||1||80</item>
+        <item>编号||prd_no||1||120</item>
+        <item>名称||prd_name||1||120</item>
+        <item>特征||prd_mark||1||120</item>
+        <item>单位用量||qty_std||1||120</item>
+        <item>应领量||qty_rsv||1||50</item>
+        <item>已领量||qty||1||50</item>
+        <item>单位||ut||1||40</item>
+        <item>备注||rem||1||120</item>
+        <item>日期||mo_dd||1||80</item>
+
+
+    </string-array>
+    <!--普通报价细项表 表格-->
+    <string-array name="table_erp_order_item">
+
+        <item>图片||thumbnail||2||91||url</item>
+        <item>客人代号||cus_no||1||120</item>
+        <item>订单号||os_no||1||120</item>
+        <item>货号||prd_no||1||120</item>
+        <item>配方号||id_no||1||120</item>
+        <item>客号||bat_no||1||100</item>
+        <item>数量||qty||1||80</item>
+        <item>单位||ut||1||40</item>
+        <item>货品规格||hpgg||1||100</item>
+        <item>每箱数||so_zxs||1||60</item>
+        <item>客户箱规||khxg||1||120</item>
+        <item>合同日期||os_dd||1||120</item>
+        <item>生产交期||so_data||1||120</item>
+
+
+    </string-array>
+
+
 </resources>

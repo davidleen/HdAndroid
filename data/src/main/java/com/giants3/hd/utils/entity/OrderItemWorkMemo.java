@@ -23,4 +23,26 @@ public class OrderItemWorkMemo {
 
 
     public String memo;
+
+
+    /**
+     * 是否已经审核
+     */
+    public  boolean checked;
+
+
+
+
+    public long lastModifierId;
+    public String lastModifierName;
+    public String lastModifyTimeString;
+    public  long  lastModifyTime;
+
+
+
+    public long lastCheckerId;
+    public String lastCheckerName;
+    public String lastCheckTimeString;
+    public  long  lastCheckTime;
+
 }

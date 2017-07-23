@@ -150,4 +150,17 @@ public interface RestApi {
 
   Observable getWorkFlowAreaList();
 
+    Observable getNewMessageInfo();
+
+  Observable getWorkFlowMaterials(String osNo, int itm, String workFlowCode);
+
+    Observable getWorkFLowMessageByOrderItem(String osNO, int itm);
+
+  Observable getMyWorkFlowMessage();
+
+    Observable getWorkFlowMemoAuth();
+
+    Observable checkWorkFlowMemoCase(long orderItemWorkMemoId, boolean check);
+
+    Observable updatePassword(String oldPasswordMd5, String newPasswordMd5);
 }

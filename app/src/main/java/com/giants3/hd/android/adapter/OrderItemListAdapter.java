@@ -3,9 +3,13 @@ package com.giants3.hd.android.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.helper.ImageLoaderFactory;
+import com.giants3.hd.android.helper.ImageViewerHelper;
+import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.utils.entity.ErpOrder;
 import com.giants3.hd.utils.entity.ErpOrderItem;
 import com.giants3.hd.utils.entity.OrderItem;
@@ -43,16 +47,28 @@ public class OrderItemListAdapter
 
     public class ViewHolder  extends BaseBindable<ErpOrderItem> {
 
+        @Bind(R.id.photo)
+        public ImageView photo;
         @Bind(R.id.os_no)
         public   TextView os_no;
         @Bind(R.id.productName)
         public   TextView productName;
         @Bind(R.id.pVersion)
         public   TextView pVersion;
+        @Bind(R.id.batNo)
+        public   TextView batNo;
         public ErpOrderItem mItem;
 
         public ViewHolder(View view) {
             super(view);
+
+            photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ImageViewerHelper.view(v.getContext(), (String) v.getTag());
+                }
+            });
 
         }
 
@@ -60,12 +76,17 @@ public class OrderItemListAdapter
         public void bindData(AbstractAdapter<ErpOrderItem> adapter, ErpOrderItem data, int position) {
 
 
-            mItem = data;
 
+
+            String uri = HttpUrl.completeUrl(data.url);
+            ImageLoaderFactory.getInstance().displayImage(uri,photo);
+            photo.setTag(uri);
+            mItem = data;
             os_no.setText(data.os_no);
             productName.setText(data.prd_name);
-            pVersion.setText(data.pVersion);
+            pVersion.setText(data.id_no);
             mView.setBackgroundResource(R.drawable.list_item_bg_selector);
+            batNo.setText(data.bat_no);
         }
 
 

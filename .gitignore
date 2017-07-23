@@ -10,3 +10,5 @@
 gradle/
 library/build/
 import-summary.txt
+PushSDK/build
+PushSDK/project.properties

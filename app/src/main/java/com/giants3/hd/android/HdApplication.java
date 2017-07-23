@@ -2,12 +2,16 @@ package com.giants3.hd.android;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import com.giants3.hd.android.helper.AndroidUtils;
 import com.giants3.hd.android.helper.BitmapToolkit;
 import com.giants3.hd.android.helper.ConnectionHelper;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.net.HttpUrl;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 
 ;
 
@@ -15,6 +19,7 @@ import com.giants3.hd.data.net.HttpUrl;
  * Created by david on 2016/1/2.
  */
 public class HdApplication extends Application {
+    public static final String TAG="Application";
     /**
      * Called when the application is starting, before any activity, service,
      * or receiver objects (excluding content providers) have been created.
@@ -37,9 +42,25 @@ public class HdApplication extends Application {
         ConnectionHelper.init(this);
         HttpUrl.init(this);
         Utils.init(this);
+        AndroidUtils.application=this;
 
         boolean autoUpdates = BuildConfig.AUTO_UPDATES;
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+//注册推送服务，每次调用register方法都会回调该接口
+        mPushAgent.register(new IUmengRegisterCallback() {
 
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回device token
+
+                Log.e(TAG,"deviceToken:"+deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.e(TAG,"s:"+s);
+            }
+        });
 
     }
 

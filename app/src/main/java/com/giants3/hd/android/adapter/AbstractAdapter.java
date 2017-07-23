@@ -46,6 +46,24 @@ public abstract class AbstractAdapter<D> extends BaseAdapter {
         }
 
         notifyDataSetChanged();
+    } /**
+     * set the datas Arrays and notify update
+     *
+     * @param arrayData
+     */
+    public void setDataArray(D[] arrayData) {
+        datas.clear();
+
+        List<D> newList=new ArrayList<>();
+        for(D temp:arrayData)
+        {
+            newList.add(temp);
+        }
+        if (arrayData != null) {
+            datas.addAll(newList);
+        }
+
+        notifyDataSetChanged();
     }
 
     /**

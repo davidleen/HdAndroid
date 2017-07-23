@@ -2,7 +2,7 @@ package com.giants3.hd.android.mvp;
 
 
 import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity_erp.ErpWorkFlowOrderItem;
+
 
 import java.util.List;
 
@@ -16,18 +16,27 @@ public interface UnCompleteOrderItemMVP {
     interface Model extends NewModel {
 
 
+        void setData(List<ErpOrderItem> datas);
 
+        List<ErpOrderItem> getFilterData();
+
+        int getSelectedStep();
+
+        void setSelectedStep(int flowStep);
     }
 
     interface Presenter extends NewPresenter<UnCompleteOrderItemMVP.Viewer> {
 
         void searchWorkFlowOrderItems(String text);
+
+        void filterData(int flowstep);
+
     }
 
     interface Viewer extends NewViewer {
 
 
 
-        void bindOrderItems(List<ErpWorkFlowOrderItem> datas);
+        void bindOrderItems(List<ErpOrderItem> datas,int flowStep);
     }
 }
