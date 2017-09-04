@@ -1,6 +1,7 @@
 package com.giants3.hd.android.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,12 +19,11 @@ import android.widget.ListView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.activity.WorkFlowListActivity;
 import com.giants3.hd.android.adapter.ItemListAdapter;
-import com.giants3.hd.android.adapter.OrderItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.mvp.MyAvailableOrderItemMVP;
 import com.giants3.hd.android.mvp.myavailableorderitem.PresenterImpl;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.entity.ErpOrderItem;
 
 import java.util.List;
 
@@ -80,13 +80,40 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
 
 
-                ErpOrderItem erpOrderItem = (ErpOrderItem) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(), WorkFlowListActivity.class);
-                intent.putExtra(WorkFlowListActivity.KEY_ORDER_ITEM, GsonUtils.toJson(erpOrderItem));
-                startActivityForResult(intent, REQUEST_MESSAGE_OPERATE);
+                View inflate =  getLayoutInflater().inflate(R.layout.menu_my_available_work, null);
+                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                        .setView(inflate).create();
+                View event =  inflate.findViewById(R.id.event);
+                View process =   inflate.findViewById(R.id.process);
+                process.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+
+                        ErpOrderItem erpOrderItem = (ErpOrderItem) parent.getItemAtPosition(position);
+                        Intent intent = new Intent(getActivity(), WorkFlowListActivity.class);
+                        intent.putExtra(WorkFlowListActivity.KEY_ORDER_ITEM, GsonUtils.toJson(erpOrderItem));
+                        startActivityForResult(intent, REQUEST_MESSAGE_OPERATE);
+                        alertDialog.dismiss();
+                    }
+                });
+
+                event.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        alertDialog.dismiss();
+                    }
+                });
+
+
+                alertDialog.setCanceledOnTouchOutside(true);
+                alertDialog.show();
 
 
             }
@@ -136,6 +163,12 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
         loadingMoreView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_load_more, null);
         listView.addFooterView(loadingMoreView);
         loadingMoreView.setVisibility(View.GONE);
+
+    }
+
+    private LayoutInflater getLayoutInflater() {
+
+        return LayoutInflater.from( getActivity());
 
     }
 

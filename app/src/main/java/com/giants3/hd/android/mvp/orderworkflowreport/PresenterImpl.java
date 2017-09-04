@@ -4,8 +4,8 @@ import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.android.mvp.OrderWorkFlowReportMVP;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.ErpOrder;
-import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.entity.ErpOrder;
+import com.giants3.hd.noEntity.RemoteData;
 
 /**
  * Created by davidleen29 on 2017/6/3.

@@ -19,10 +19,10 @@ import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.ErpOrder;
+import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.exception.HdException;
-import com.giants3.hd.utils.entity.ErpOrder;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.noEntity.ErpOrderDetail;
+import com.giants3.hd.noEntity.ErpOrderDetail;
 
 import butterknife.Bind;
 import rx.Subscriber;

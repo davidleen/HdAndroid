@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:maxHeight="300dp"
+
+
+
+    >
+<LinearLayout
+
+
+    android:layout_width="match_parent"
+    android:padding="5dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+
+
+    <TextView
+        android:id="@+id/event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+
+        android:textSize="16sp"
+
+        android:background="@drawable/button_white_round_selector"
+
+        android:layout_marginTop="10dp"
+        android:text="生产事件" />
+
+    <TextView
+        android:id="@+id/process"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="16sp"
+
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_white_round_selector"
+
+        android:text="生产流程" />
+
+
+
+</LinearLayout>
+
+
+</ScrollView>

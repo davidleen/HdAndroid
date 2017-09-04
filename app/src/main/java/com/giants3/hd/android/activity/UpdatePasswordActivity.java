@@ -8,18 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.events.LoginSuccessEvent;
-import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
-import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.crypt.DigestUtils;
 import com.giants3.hd.data.interractor.UseCaseFactory;
+import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.noEntity.BufferData;
 
 import butterknife.Bind;
-import de.greenrobot.event.EventBus;
 import rx.Subscriber;
 
 //import com.giants3.hd.data.net.HttpUrl;

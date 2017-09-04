@@ -6,8 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.fragment.OrderListFragment;
-import com.giants3.hd.utils.entity.ErpOrder;
+import com.giants3.hd.entity.ErpOrder;
 
 /**
  * Created by david on 2016/2/14.

@@ -18,15 +18,15 @@ import com.giants3.hd.android.fragment.SendWorkFlowFragment;
 import com.giants3.hd.android.mvp.workFlow.WorkFlowListMvp;
 import com.giants3.hd.android.widget.ExpandableGridView;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.entity.ErpOrderItemProcess;
+import com.giants3.hd.entity.ErpWorkFlow;
+import com.giants3.hd.entity.ErpWorkFlowReport;
+import com.giants3.hd.entity.OrderItemWorkMemo;
+import com.giants3.hd.entity.ProductWorkMemo;
+import com.giants3.hd.entity.WorkFlowMessage;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.ErpOrderItemProcess;
-import com.giants3.hd.utils.entity.ErpWorkFlow;
-import com.giants3.hd.utils.entity.ErpWorkFlowReport;
-import com.giants3.hd.utils.entity.OrderItemWorkMemo;
-import com.giants3.hd.utils.entity.ProductWorkMemo;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
 
 import java.util.List;
 

@@ -4,8 +4,7 @@ package com.giants3.hd.android.mvp.orderitemworkflowmaterial;
 import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
-import com.giants3.hd.utils.entity.ErpWorkFlowReport;
-import com.giants3.hd.utils.entity_erp.WorkFlowMaterial;
+import com.giants3.hd.entity_erp.WorkFlowMaterial;
 
 import java.util.List;
 

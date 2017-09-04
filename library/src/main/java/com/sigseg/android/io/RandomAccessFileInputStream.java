@@ -5,13 +5,13 @@
 
 package com.sigseg.android.io;
 
+import android.util.Log;
+
 import java.io.File;
-import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
-
-import android.util.Log;
 
 public class RandomAccessFileInputStream extends InputStream {
 

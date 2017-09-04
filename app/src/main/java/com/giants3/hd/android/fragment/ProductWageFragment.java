@@ -12,17 +12,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.activity.MaterialSelectActivity;
 import com.giants3.hd.android.activity.ProductProcessSelectActivity;
 import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.noEntity.ProductDetail;
+import com.giants3.hd.entity.ProductProcess;
+import com.giants3.hd.entity.ProductWage;
 import com.giants3.hd.exception.HdException;
-import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.ProductDetail;
-import com.giants3.hd.utils.entity.ProductMaterial;
-import com.giants3.hd.utils.entity.ProductProcess;
-import com.giants3.hd.utils.entity.ProductWage;
 
 import butterknife.Bind;
 import butterknife.OnClick;

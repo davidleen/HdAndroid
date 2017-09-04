@@ -6,9 +6,14 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.*;
+import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.widget.Scroller;
+
 import com.sigseg.android.view.InputStreamScene;
 
 import java.io.IOException;

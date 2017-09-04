@@ -16,16 +16,13 @@ import com.giants3.hd.android.R;
 import com.giants3.hd.android.mvp.workflowmemo.PresenterImpl;
 import com.giants3.hd.android.mvp.workflowmemo.WorkFlowOrderItemMemoMVP;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.entity.ErpWorkFlow;
+import com.giants3.hd.entity.OrderItemWorkMemo;
+import com.giants3.hd.entity.ProductWorkMemo;
 import com.giants3.hd.exception.HdException;
+import com.giants3.hd.noEntity.WorkFlowMemoAuth;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.ErpWorkFlow;
-import com.giants3.hd.utils.entity.OrderItemWorkMemo;
-import com.giants3.hd.utils.entity.ProductWorkMemo;
-
-import com.giants3.hd.utils.noEntity.WorkFlowMemoAuth;
-
-import java.text.BreakIterator;
 
 import butterknife.Bind;
 

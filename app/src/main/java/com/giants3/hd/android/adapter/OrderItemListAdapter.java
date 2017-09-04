@@ -10,9 +10,7 @@ import com.giants3.hd.android.R;
 import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.utils.entity.ErpOrder;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.OrderItem;
+import com.giants3.hd.entity.ErpOrderItem;
 
 import butterknife.Bind;
 

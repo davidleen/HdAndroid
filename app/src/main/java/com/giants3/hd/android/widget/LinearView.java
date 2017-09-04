@@ -1,19 +1,14 @@
 package com.giants3.hd.android.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
- 
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 

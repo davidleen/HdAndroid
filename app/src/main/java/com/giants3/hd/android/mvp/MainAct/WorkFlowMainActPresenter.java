@@ -7,10 +7,9 @@ import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.OrderItemWorkMemo;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.noEntity.FileInfo;
-import com.giants3.hd.utils.noEntity.MessageInfo;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.noEntity.FileInfo;
+import com.giants3.hd.noEntity.MessageInfo;
 
 import java.util.Calendar;
 

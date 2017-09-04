@@ -1,28 +1,13 @@
 package com.giants3.hd.android.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
 
-import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.AbstractAdapter;
 import com.giants3.hd.android.adapter.QuotationListAdapter;
-import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.interractor.UseCase;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.Quotation;
-import com.giants3.hd.utils.entity.RemoteData;
-
-import butterknife.Bind;
-import rx.Subscriber;
+import com.giants3.hd.entity.Quotation;
 
 
 /**

@@ -40,12 +40,12 @@ import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.utils.entity.ErpOrder;
-import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.Quotation;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.noEntity.BufferData;
-import com.giants3.hd.utils.noEntity.FileInfo;
+import com.giants3.hd.entity.ErpOrder;
+import com.giants3.hd.entity.Material;
+import com.giants3.hd.entity.Quotation;
+import com.giants3.hd.noEntity.BufferData;
+import com.giants3.hd.noEntity.FileInfo;
+import com.giants3.hd.noEntity.RemoteData;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

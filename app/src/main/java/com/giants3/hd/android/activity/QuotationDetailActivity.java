@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.fragment.ProductDetailFragment;
 import com.giants3.hd.android.fragment.QuotationDetailFragment;
 
 import butterknife.Bind;

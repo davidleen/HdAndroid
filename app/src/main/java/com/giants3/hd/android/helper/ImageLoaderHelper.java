@@ -2,11 +2,9 @@ package com.giants3.hd.android.helper;
 
 import android.graphics.Bitmap;
 
-
 import com.giants3.hd.android.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

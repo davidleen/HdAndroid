@@ -1,11 +1,10 @@
 package com.giants3.hd.android.mvp.myworkflowmessage;
 
 import com.giants3.hd.android.mvp.BasePresenter;
-import com.giants3.hd.android.mvp.MyUndoWorkFlowMessageMVP;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.entity.WorkFlowMessage;
 
 /**
  * Created by davidleen29 on 2017/6/3.

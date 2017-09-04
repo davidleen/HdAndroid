@@ -1,8 +1,8 @@
 package com.giants3.hd.android.mvp.MainAct;
 
 import com.giants3.hd.android.mvp.BasePresenter;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.noEntity.FileInfo;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.noEntity.FileInfo;
 
 import java.util.Calendar;
 

@@ -21,7 +21,7 @@ import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.noEntity.RemoteData;
 
 import java.util.ArrayList;
 import java.util.List;

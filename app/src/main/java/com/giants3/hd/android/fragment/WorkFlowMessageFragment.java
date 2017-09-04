@@ -12,8 +12,8 @@ import com.giants3.hd.android.viewer.BaseViewer;
 import com.giants3.hd.android.viewer.WorkFlowMessageViewer;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.entity.WorkFlowMessage;
 
 import rx.Subscriber;
 

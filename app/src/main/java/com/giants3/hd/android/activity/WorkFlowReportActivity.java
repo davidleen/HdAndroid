@@ -11,7 +11,7 @@ import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.mvp.workFlow.WorkFlowReportMvp;
 import com.giants3.hd.android.widget.ExpandableHeightListView;
-import com.giants3.hd.utils.entity.OrderItemWorkFlowState;
+import com.giants3.hd.entity.OrderItemWorkFlowState;
 
 import java.util.List;
 

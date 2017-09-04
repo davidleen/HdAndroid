@@ -21,9 +21,9 @@ import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.Material;
 import com.giants3.hd.exception.HdException;
-import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.noEntity.RemoteData;
 
 import java.io.ByteArrayOutputStream;
 

@@ -1,7 +1,7 @@
 package com.giants3.hd.android.mvp;
 
 
-import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.entity.WorkFlowMessage;
 
 import java.io.File;
 import java.util.List;

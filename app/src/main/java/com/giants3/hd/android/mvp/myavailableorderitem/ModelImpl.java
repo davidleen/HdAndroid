@@ -1,7 +1,7 @@
 package com.giants3.hd.android.mvp.myavailableorderitem;
 
 import com.giants3.hd.android.mvp.MyAvailableOrderItemMVP;
-import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.entity.ErpOrderItem;
 
 import java.util.List;
 

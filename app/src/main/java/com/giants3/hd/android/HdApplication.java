@@ -42,7 +42,7 @@ public class HdApplication extends Application {
         ConnectionHelper.init(this);
         HttpUrl.init(this);
         Utils.init(this);
-        AndroidUtils.application=this;
+        AndroidUtils.init(this);
 
         boolean autoUpdates = BuildConfig.AUTO_UPDATES;
         PushAgent mPushAgent = PushAgent.getInstance(this);
@@ -53,7 +53,8 @@ public class HdApplication extends Application {
             public void onSuccess(String deviceToken) {
                 //注册成功会返回device token
 
-                Log.e(TAG,"deviceToken:"+deviceToken);
+                SystemConst.device_token=deviceToken;
+
             }
 
             @Override

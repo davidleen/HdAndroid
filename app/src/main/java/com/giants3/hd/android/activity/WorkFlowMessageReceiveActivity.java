@@ -3,7 +3,6 @@ package com.giants3.hd.android.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.helper.AndroidUtils;
-import com.giants3.hd.android.helper.BitmapToolkit;
 import com.giants3.hd.android.helper.CapturePictureHelper;
 import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageLoaderHelper;
@@ -25,10 +23,10 @@ import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.mvp.workflowmessagereceive.PresenterImpl;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.WorkFlowMessage;
+import com.giants3.hd.entity.WorkFlowWorker;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
-import com.giants3.hd.utils.entity.WorkFlowWorker;
 
 import java.io.File;
 import java.util.Calendar;

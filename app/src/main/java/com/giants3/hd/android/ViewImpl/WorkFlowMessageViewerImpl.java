@@ -1,27 +1,18 @@
 package com.giants3.hd.android.ViewImpl;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.activity.WorkFlowMessageReceiveActivity;
 import com.giants3.hd.android.adapter.WorkFlowMessageAdapter;
-import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.presenter.WorkFlowMessagePresenter;
 import com.giants3.hd.android.viewer.WorkFlowMessageViewer;
-import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity.WorkFlow;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
-
-import java.util.List;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.entity.WorkFlowMessage;
 
 import butterknife.Bind;
 

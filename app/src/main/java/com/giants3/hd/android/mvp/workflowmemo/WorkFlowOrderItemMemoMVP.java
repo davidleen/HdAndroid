@@ -4,11 +4,10 @@ package com.giants3.hd.android.mvp.workflowmemo;
 import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.OrderItemWorkMemo;
-import com.giants3.hd.utils.entity.ProductWorkMemo;
-
-import com.giants3.hd.utils.noEntity.WorkFlowMemoAuth;
+import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.entity.OrderItemWorkMemo;
+import com.giants3.hd.entity.ProductWorkMemo;
+import com.giants3.hd.noEntity.WorkFlowMemoAuth;
 
 import java.util.List;
 

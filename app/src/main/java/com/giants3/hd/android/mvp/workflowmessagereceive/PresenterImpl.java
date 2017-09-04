@@ -1,16 +1,14 @@
 package com.giants3.hd.android.mvp.workflowmessagereceive;
 
 import com.giants3.hd.android.mvp.BasePresenter;
-import com.giants3.hd.android.mvp.WorkFlowMessageReceive;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.ErpWorkFlow;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.entity.ErpWorkFlow;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.entity.WorkFlowMessage;
 
 import java.io.File;
 import java.util.List;
 
-import de.greenrobot.common.io.FileUtils;
 import rx.Subscriber;
 
 import static com.giants3.hd.android.mvp.WorkFlowMessageReceive.Model;

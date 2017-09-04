@@ -16,9 +16,9 @@ import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.interractor.UseCaseFactory;
+import com.giants3.hd.entity.Material;
+import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.RemoteData;
 
 import butterknife.Bind;
 import butterknife.OnItemClick;

@@ -1,6 +1,5 @@
 package com.giants3.hd.android.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -11,14 +10,12 @@ import android.widget.ListView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFlowMessageAdapter;
-import com.giants3.hd.android.fragment.MyWorkFlowMessageFragment;
 import com.giants3.hd.android.mvp.workflowmessage.OrderItemWorkFlowMessageMVP;
 import com.giants3.hd.android.mvp.workflowmessage.PresenterImpl;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.entity.WorkFlowMessage;
 import com.giants3.hd.exception.HdException;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
-
 
 import java.util.List;
 

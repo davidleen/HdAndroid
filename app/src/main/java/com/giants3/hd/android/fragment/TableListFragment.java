@@ -13,12 +13,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.adapter.AbstractAdapter;
 import com.giants3.hd.android.adapter.ItemListAdapter;
-import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.interractor.UseCase;
-import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.noEntity.RemoteData;
 
 import butterknife.Bind;
 import rx.Subscriber;

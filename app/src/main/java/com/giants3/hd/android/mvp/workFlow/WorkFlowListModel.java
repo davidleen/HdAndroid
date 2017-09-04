@@ -1,13 +1,10 @@
 package com.giants3.hd.android.mvp.workFlow;
 
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
-import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.OrderItem;
-import com.giants3.hd.utils.entity.OrderItemWorkMemo;
-import com.giants3.hd.utils.entity.ProductWorkMemo;
-import com.giants3.hd.utils.entity.WorkFlow;
-import com.giants3.hd.utils.entity.WorkFlowWorker;
+import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.entity.OrderItemWorkMemo;
+import com.giants3.hd.entity.ProductWorkMemo;
+import com.giants3.hd.entity.WorkFlowWorker;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.giants3.hd.android.mvp.uncompleteorderitem;
 
 import com.giants3.hd.android.mvp.UnCompleteOrderItemMVP;
-import com.giants3.hd.utils.entity.ErpOrderItem;
+import com.giants3.hd.entity.ErpOrderItem;
 
 import java.util.ArrayList;
 import java.util.List;

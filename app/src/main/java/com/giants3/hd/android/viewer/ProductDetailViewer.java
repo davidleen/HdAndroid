@@ -1,8 +1,7 @@
 package com.giants3.hd.android.viewer;
 
-import com.giants3.hd.android.fragment.ProductDetailFragment;
 import com.giants3.hd.android.presenter.ProductDetailPresenter;
-import com.giants3.hd.utils.entity.ProductDetail;
+import com.giants3.hd.noEntity.ProductDetail;
 
 /**
  * Created by david on 2016/4/12.

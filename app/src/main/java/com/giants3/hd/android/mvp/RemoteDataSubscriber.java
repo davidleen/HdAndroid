@@ -1,6 +1,6 @@
 package com.giants3.hd.android.mvp;
 
-import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.noEntity.RemoteData;
 
 import rx.Subscriber;
 

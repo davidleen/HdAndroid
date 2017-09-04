@@ -1,8 +1,8 @@
 package com.giants3.hd.android.entity;
 
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.exception.HdException;
-import com.giants3.hd.utils.entity.ProductDetail;
 
 /**c产品信息 单例模式   整个应用只有一个产品处于 查看编辑状态
  * Created by david on 2016/4/13.

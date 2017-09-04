@@ -16,17 +16,16 @@ import com.giants3.hd.android.activity.MaterialSelectActivity;
 import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.Material;
+import com.giants3.hd.noEntity.ProductDetail;
+import com.giants3.hd.entity.ProductPaint;
+import com.giants3.hd.entity.ProductProcess;
 import com.giants3.hd.exception.HdException;
-import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.ProductDetail;
-//import com.giants3.hd.utils.entity.ProductMaterial;
-import com.giants3.hd.utils.entity.ProductPaint;
-import com.giants3.hd.utils.entity.ProductProcess;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+
+//import com.giants3.hd.utils.entity.ProductMaterial;
 
 
 /** 产品油漆材料编辑

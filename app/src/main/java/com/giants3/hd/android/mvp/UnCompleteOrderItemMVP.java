@@ -1,8 +1,7 @@
 package com.giants3.hd.android.mvp;
 
 
-import com.giants3.hd.utils.entity.ErpOrderItem;
-
+import com.giants3.hd.entity.ErpOrderItem;
 
 import java.util.List;
 

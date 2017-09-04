@@ -17,14 +17,10 @@ import android.widget.ListView;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.activity.WorkFlowListActivity;
 import com.giants3.hd.android.adapter.OrderItemListAdapter;
-
 import com.giants3.hd.android.mvp.OrderWorkFlowReportMVP;
-
 import com.giants3.hd.android.mvp.orderworkflowreport.PresenterImpl;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-
-import java.util.List;
+import com.giants3.hd.entity.ErpOrderItem;
 
 import butterknife.Bind;
 

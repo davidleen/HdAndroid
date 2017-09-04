@@ -19,15 +19,15 @@ import com.giants3.hd.android.activity.MaterialSelectActivity;
 import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.Flow;
+import com.giants3.hd.entity.Material;
+import com.giants3.hd.entity.PackMaterialClass;
+import com.giants3.hd.entity.PackMaterialPosition;
+import com.giants3.hd.entity.PackMaterialType;
+import com.giants3.hd.noEntity.ProductDetail;
+import com.giants3.hd.entity.ProductMaterial;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.FloatHelper;
-import com.giants3.hd.utils.entity.Flow;
-import com.giants3.hd.utils.entity.Material;
-import com.giants3.hd.utils.entity.PackMaterialClass;
-import com.giants3.hd.utils.entity.PackMaterialPosition;
-import com.giants3.hd.utils.entity.PackMaterialType;
-import com.giants3.hd.utils.entity.ProductDetail;
-import com.giants3.hd.utils.entity.ProductMaterial;
 
 import java.util.List;
 

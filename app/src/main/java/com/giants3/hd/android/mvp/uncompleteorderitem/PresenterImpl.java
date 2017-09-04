@@ -4,8 +4,8 @@ import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.android.mvp.UnCompleteOrderItemMVP;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.RemoteData;
+import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.noEntity.RemoteData;
 
 import java.util.List;
 

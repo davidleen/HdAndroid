@@ -3,8 +3,8 @@ package com.giants3.hd.android.mvp.MainAct;
 import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.noEntity.FileInfo;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.noEntity.FileInfo;
 
 import rx.Subscriber;
 

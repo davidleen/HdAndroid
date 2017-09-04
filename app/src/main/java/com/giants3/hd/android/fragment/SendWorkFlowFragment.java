@@ -20,10 +20,10 @@ import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.mvp.workFlow.WorkFlowSendMvp;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.ErpOrderItemProcess;
+import com.giants3.hd.entity.WorkFlowArea;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.ErpOrderItemProcess;
-import com.giants3.hd.utils.entity.WorkFlowArea;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;

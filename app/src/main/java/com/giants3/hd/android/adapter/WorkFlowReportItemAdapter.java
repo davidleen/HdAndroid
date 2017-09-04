@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.utils.entity.ErpWorkFlowReport;
+import com.giants3.hd.entity.ErpWorkFlowReport;
 
 import butterknife.Bind;
 

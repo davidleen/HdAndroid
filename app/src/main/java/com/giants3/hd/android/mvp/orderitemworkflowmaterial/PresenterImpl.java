@@ -3,9 +3,8 @@ package com.giants3.hd.android.mvp.orderitemworkflowmaterial;
 import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.data.interractor.UseCaseFactory;
-import com.giants3.hd.utils.entity.ErpWorkFlowReport;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity_erp.WorkFlowMaterial;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.entity_erp.WorkFlowMaterial;
 
 /**
  * Created by davidleen29 on 2017/6/11.

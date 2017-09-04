@@ -3,12 +3,8 @@ package com.giants3.hd.android.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
@@ -16,7 +12,6 @@ import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.fragment.ProductDetailFragment;
 
 import butterknife.Bind;
-import butterknife.BindString;
 
 /**
  * An activity representing a single ProductListActivity detail screen. This

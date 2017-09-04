@@ -3,9 +3,8 @@ package com.giants3.hd.android.mvp.workFlow;
 import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
-import com.giants3.hd.utils.entity.ErpOrderItemProcess;
-import com.giants3.hd.utils.entity.WorkFlowArea;
-
+import com.giants3.hd.entity.ErpOrderItemProcess;
+import com.giants3.hd.entity.WorkFlowArea;
 
 import java.util.List;
 

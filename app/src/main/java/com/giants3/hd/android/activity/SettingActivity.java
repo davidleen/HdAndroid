@@ -3,12 +3,10 @@ package com.giants3.hd.android.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.data.net.HttpUrl;
 

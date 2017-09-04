@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.utils.noEntity.BufferData;
+import com.giants3.hd.noEntity.BufferData;
 
 /**
  * Created by david on 2016/1/2.

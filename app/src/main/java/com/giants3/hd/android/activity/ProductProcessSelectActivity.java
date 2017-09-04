@@ -8,11 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
-
 import com.giants3.hd.android.fragment.ProcessSelectFragment;
 import com.giants3.hd.data.utils.GsonUtils;
-
-import com.giants3.hd.utils.entity.ProductProcess;
+import com.giants3.hd.entity.ProductProcess;
 
 import butterknife.Bind;
 

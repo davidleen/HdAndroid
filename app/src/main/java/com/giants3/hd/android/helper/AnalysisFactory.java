@@ -1,9 +1,10 @@
 package com.giants3.hd.android.helper;
 
+import android.content.Context;
+
 import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.HdApplication;
 import com.umeng.analytics.MobclickAgent;
-import android.content.Context;
 /**
  *
  * 分析工具包装类

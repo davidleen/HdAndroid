@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.appdata.AQuotation;
-import com.giants3.hd.utils.entity.Quotation;
+import com.giants3.hd.entity.Quotation;
 
 import butterknife.Bind;
 

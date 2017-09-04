@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.SystemConst;
 import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.fragment.ItemPickDialogFragment;
+import com.giants3.hd.android.helper.AndroidUtils;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AUser;
@@ -26,9 +28,9 @@ import com.giants3.hd.crypt.DigestUtils;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity.User;
-import com.giants3.hd.utils.noEntity.BufferData;
+import com.giants3.hd.entity.User;
+import com.giants3.hd.noEntity.BufferData;
+import com.giants3.hd.noEntity.RemoteData;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -182,7 +184,9 @@ public class LoginActivity extends BaseActivity {
 
             map.put("password", DigestUtils.md5(password));
             map.put("client", "ANDROID");
-            map.put("version", "1.1.0");
+            map.put("versionName", AndroidUtils.getVersionName());
+            map.put("version", String.valueOf(AndroidUtils.getVersionCode()));
+            map.put("device_token", SystemConst.device_token);
             UseCaseFactory.getInstance().createLogin(map).execute(new Subscriber<RemoteData<AUser>>() {
                 @Override
                 public void onCompleted() {

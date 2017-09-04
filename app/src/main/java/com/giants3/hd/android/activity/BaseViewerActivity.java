@@ -1,14 +1,10 @@
 package com.giants3.hd.android.activity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
-import com.giants3.hd.android.viewer.BaseViewer;
 
 /**  支持新mvp模式的基类act
  * Created by davidleen29 on 2016/10/10.

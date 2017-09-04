@@ -3,9 +3,8 @@ package com.giants3.hd.android.mvp.workflowmessage;
 import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
-
+import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.entity.WorkFlowMessage;
 
 import java.util.List;
 

@@ -1,0 +1,71 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+
+
+
+android {
+
+
+
+    compileSdkVersion 23
+    buildToolsVersion '25.0.0'
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "boolean", "DEBUG_", "true"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+   //  compile project(':data')
+      compile 'com.giants3:dataLib:1.0.9'
+    compile "io.reactivex:rxandroid:${rxVersion}"
+// Because RxAndroid releases are few and far between, it is recommended you also
+// explicitly depend on RxJava's latest version for bug fixes and new features.
+    compile "io.reactivex:rxjava:${rxVersion}"
+
+    compile "com.google.code.gson:gson:${gsonVersion}"
+    compile 'com.google.inject:guice:4.0:no_aop'
+
+    provided 'com.google.inject:guice:4.0'
+    //compile "com.squareup.okhttp:okhttp:${okHttpVersion}"
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories {
+        mavenDeployer {
+            snapshotRepository(url: LOCAL_MAVEN_SNAPSHOT_URL) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+            repository(url: LOCAL_MAVEN_URL) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+            pom.project {
+                version '1.0.0'
+                artifactId 'TestLibrary'
+                groupId GROUP_ID
+                packaging TYPE
+                description DESCRIPTION
+            }
+        }
+    }
+}
+
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

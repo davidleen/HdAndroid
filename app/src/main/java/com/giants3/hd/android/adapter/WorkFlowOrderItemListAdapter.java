@@ -3,17 +3,14 @@ package com.giants3.hd.android.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-
+import com.giants3.hd.entity.ErpOrderItem;
 
 import butterknife.Bind;
 

@@ -16,8 +16,8 @@ import com.giants3.hd.android.activity.WorkFlowMessageReceiveActivity;
 import com.giants3.hd.android.adapter.WorkFlowMessageAdapter;
 import com.giants3.hd.android.mvp.myworkflowmessage.MVP;
 import com.giants3.hd.android.mvp.myworkflowmessage.PresenterImpl;
-import com.giants3.hd.utils.entity.RemoteData;
-import com.giants3.hd.utils.entity.WorkFlowMessage;
+import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.entity.WorkFlowMessage;
 
 import butterknife.Bind;
 

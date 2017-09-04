@@ -23,12 +23,12 @@ import com.giants3.hd.android.presenter.ProductDetailPresenter;
 import com.giants3.hd.android.viewer.ProductDetailViewer;
 import com.giants3.hd.android.widget.ExpandableHeightListView;
 import com.giants3.hd.data.net.HttpUrl;
+import com.giants3.hd.entity.Flow;
+import com.giants3.hd.entity.Product;
+import com.giants3.hd.noEntity.ProductDetail;
+import com.giants3.hd.entity.ProductMaterial;
 import com.giants3.hd.utils.FloatHelper;
 import com.giants3.hd.utils.StringUtils;
-import com.giants3.hd.utils.entity.Flow;
-import com.giants3.hd.utils.entity.Product;
-import com.giants3.hd.utils.entity.ProductDetail;
-import com.giants3.hd.utils.entity.ProductMaterial;
 
 import java.util.ArrayList;
 import java.util.List;

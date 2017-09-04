@@ -1,18 +1,17 @@
 package com.sigseg.android.map;
 
-import android.content.Intent;
-import android.net.Uri;
-import java.io.InputStream;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
-import android.view.WindowManager;
+
 import com.sigseg.android.io.RandomAccessFileInputStream;
-import com.sigseg.android.map.ImageSurfaceView;
 import com.sigseg.android.map.lib.R;
+
+import java.io.InputStream;
 
 
 /**

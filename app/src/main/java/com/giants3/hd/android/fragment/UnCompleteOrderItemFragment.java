@@ -25,8 +25,8 @@ import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.mvp.UnCompleteOrderItemMVP;
 import com.giants3.hd.android.mvp.uncompleteorderitem.PresenterImpl;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.utils.entity.ErpOrderItem;
-import com.giants3.hd.utils.entity.ErpWorkFlow;
+import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.entity.ErpWorkFlow;
 
 import java.util.List;
 

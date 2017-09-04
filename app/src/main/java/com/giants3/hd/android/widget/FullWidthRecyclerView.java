@@ -3,7 +3,6 @@ package com.giants3.hd.android.widget;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 
 /**
  * Created by david on 2016/3/5.

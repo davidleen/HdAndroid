@@ -1,7 +1,13 @@
 package com.sigseg.android.view;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Debug;
 import android.util.Log;
 

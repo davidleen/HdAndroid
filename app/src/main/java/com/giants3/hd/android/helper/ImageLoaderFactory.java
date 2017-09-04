@@ -1,7 +1,8 @@
 package com.giants3.hd.android.helper;
 
-import android.util.DisplayMetrics;
 import android.content.Context;
+import android.util.DisplayMetrics;
+
 import com.giants3.hd.android.HdApplication;
 import com.giants3.hd.android.R;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;

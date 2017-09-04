@@ -1,7 +1,6 @@
 package com.giants3.hd.android.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
@@ -9,12 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.android.fragment.MaterialDetailFragment;
 import com.giants3.hd.android.fragment.MaterialSelectFragment;
-import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.utils.GsonUtils;
-import com.giants3.hd.exception.HdException;
-import com.giants3.hd.utils.entity.Material;
+import com.giants3.hd.entity.Material;
 
 import butterknife.Bind;
 

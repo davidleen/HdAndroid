@@ -1,10 +1,17 @@
 package com.sigseg.android.view;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import android.graphics.*;
-import android.util.Log;
 
 public class InputStreamScene extends Scene {
     private static final String TAG=InputStreamScene.class.getSimpleName();
