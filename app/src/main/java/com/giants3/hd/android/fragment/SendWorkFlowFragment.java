@@ -59,8 +59,8 @@ public class SendWorkFlowFragment extends BaseDialogFragment<WorkFlowSendMvp.Pre
     View panel_factory;
     @Bind(R.id.factory)
     TextView factory;
-    @Bind(R.id.subtype)
-    TextView subType;
+    @Bind(R.id.produceType)
+    TextView produceType;
     @Bind(R.id.panel_picture)
     View panel_picture;
 

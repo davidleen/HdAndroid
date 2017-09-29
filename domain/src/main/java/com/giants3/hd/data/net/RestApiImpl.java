@@ -109,6 +109,20 @@ public class RestApiImpl implements RestApi {
 
     }
 
+    @Override
+    public Observable<RemoteData<User>> loginByUserId(final long userId, final String passwordMd5, final String deviceToken) {
+
+        return create(new ApiInvoker<User>() {
+            @Override
+            public RemoteData<User> invoker() throws HdException {
+                return apiManager.loginByUserId(userId,passwordMd5,  deviceToken);
+            }
+        });
+
+
+
+    }
+
     /**
      * 读取产品列表
      *

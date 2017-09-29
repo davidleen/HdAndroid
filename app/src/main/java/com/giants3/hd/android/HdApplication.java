@@ -55,6 +55,7 @@ public class HdApplication extends Application {
 
                 SystemConst.device_token=deviceToken;
 
+
             }
 
             @Override

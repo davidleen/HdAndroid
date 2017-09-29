@@ -70,6 +70,7 @@ public class HttpUrl {
 
     private static Context mContext;
     private static String versionCode = "111";
+    private static String versionName = "";
 
     public static void init(Context context) {
         mContext = context;
@@ -94,6 +95,7 @@ public class HttpUrl {
         try {
             pi = pm.getPackageInfo(context.getPackageName(), 0);
             versionCode = String.valueOf(pi.versionCode);
+            versionName=pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -167,6 +169,11 @@ public class HttpUrl {
             url += "&client=" + CLIENT_TYPE;
         } else {
             url += "?client=" + CLIENT_TYPE;
+        }
+        if (url.contains("?")) {
+            url += "&versionName=" + versionName;
+        } else {
+            url += "?versionName=" + versionName;
         }
 
         return url;
@@ -406,5 +413,12 @@ public class HttpUrl {
 
     public static String updatePassword(String oldPasswordMd5, String newPasswordMd5) {
         return completeUrl("api/user/updatePassword2?oldPassword="+oldPasswordMd5+"&newPassword="+newPasswordMd5 );
+    }
+
+    public static String loginByUserId(long userId, String passwordMd5,String deviceToken) {
+
+
+        return completeUrl(String.format("/api/authority/login?userId=%d&password=%s&device_token=%s",userId,passwordMd5,deviceToken));
+
     }
 }

@@ -107,6 +107,10 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
                     public void onClick(View v) {
 
 
+
+
+
+
                         alertDialog.dismiss();
                     }
                 });

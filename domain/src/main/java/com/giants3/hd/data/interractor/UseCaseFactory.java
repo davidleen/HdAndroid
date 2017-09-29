@@ -54,6 +54,12 @@ public class UseCaseFactory {
         return new GetLoginData(Schedulers.newThread(), AndroidSchedulers.mainThread(), map, restApi);
     }
 
+    public UseCase createLoginUseCase(long userId,String passwordMd5,String deviceToken) {
+
+
+        return new LoginUseCase(    userId,  passwordMd5,deviceToken, restApi );
+    }
+
 
     public UseCase createProductListCase(String name, int pageIndex, int pageSize) {
 

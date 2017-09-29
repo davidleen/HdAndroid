@@ -92,6 +92,10 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
     public TextView name;
     @Bind(R.id.orderName)
     public TextView orderName;
+    @Bind(R.id.batNo)
+    public TextView batNo;
+    @Bind(R.id.cus_no)
+    public TextView cus_no;
     @Bind(R.id.productName)
     public TextView productName;
     @Bind(R.id.mrpNo)
@@ -311,6 +315,9 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         orderName.setText(data.orderName);
         qty.setText(String.valueOf(data.orderItemQty));
         productName.setText(data.productName);
+        batNo.setText(data.bat_no);
+        cus_no.setText(data.cus_no);
+
         toFlow.setText(data.toFlowName);
         fromFlow.setText(data.fromFlowName);
         tranQty.setText(String.valueOf(data.transportQty));

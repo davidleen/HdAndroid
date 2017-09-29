@@ -22,5 +22,8 @@ public class ErpWorkFlowReport {
     public float percentage;
 
 
+    public int produceType;
+    public String produceTypeName;
+
 
 }

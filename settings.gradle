@@ -1,3 +1,4 @@
 include ':app', ':domain', ':net', ':umengshare'
 include ':library'
 include ':PushSDK'
+include ':data'

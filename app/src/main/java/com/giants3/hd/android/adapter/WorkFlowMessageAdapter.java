@@ -79,7 +79,10 @@ public class WorkFlowMessageAdapter
         public TextView mrpNo;
         @Bind(R.id.qty)
         public TextView qty;
-
+        @Bind(R.id.batNo)
+        public TextView batNo;
+        @Bind(R.id.cus_no)
+        public TextView cus_no;
         @Bind(R.id.unitName)
         public TextView unitName;
 
@@ -120,7 +123,8 @@ public class WorkFlowMessageAdapter
             tranQty.setText(String.valueOf(data.transportQty));
             factory.setText(String.valueOf(data.factoryName));
             mrpNo.setText(data.mrpNo == null ? "" : data.mrpNo);
-
+            batNo.setText(data.bat_no);
+            cus_no.setText(data.cus_no);
             panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName) ? View.GONE : View.VISIBLE);
 
 

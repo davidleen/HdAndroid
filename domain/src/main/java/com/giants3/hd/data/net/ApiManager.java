@@ -601,4 +601,12 @@ public class ApiManager {
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
         return remoteData;
     }
+
+    public RemoteData<User> loginByUserId(long userId, String passwordMd5,String deviceToken) throws HdException {
+
+        String url = HttpUrl.loginByUserId(userId,passwordMd5,deviceToken);
+        String result = apiConnection.getString(url);
+        RemoteData<User> remoteData = invokeByReflect(result, User.class);
+        return remoteData;
+    }
 }

@@ -20,6 +20,7 @@ import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.entity.ErpOrderItemProcess;
 import com.giants3.hd.entity.Material;
+import com.giants3.hd.entity.User;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.entity.Quotation;
 import com.giants3.hd.noEntity.QuotationDetail;
@@ -57,6 +58,13 @@ public interface RestApi {
    * @return
    */
   Observable<RemoteData<AUser>> login(final Map<String,String> map)  ;
+  /**
+   * 登录接口
+   * @param userId
+   * @param passwordMd5
+   * @return
+   */
+  Observable<RemoteData<User>> loginByUserId(final long userId,String passwordMd5,String deviceToken)  ;
 
   /**
    * 读取产品列表
