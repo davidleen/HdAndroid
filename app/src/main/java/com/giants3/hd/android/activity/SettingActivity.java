@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.data.net.HttpUrl;
 
@@ -34,6 +35,10 @@ public class SettingActivity extends BaseActionBarActivity {
 
     @Bind(R.id.setInUrl)
     Button setInUrl;
+
+
+    @Bind(R.id.setProduceUrl)
+    Button setProduceUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +71,21 @@ public class SettingActivity extends BaseActionBarActivity {
                 etService.setText("Server");
             }
         });
-       // setOutUrl.setVisibility(BuildConfig.DEBUG?View.VISIBLE:View.GONE);
+
+        setProduceUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etIp.setText("192.168.0.198");
+                etPort.setText("8080");
+                etService.setText("Server");
+
+            }
+        });
+       setOutUrl.setVisibility(BuildConfig.DEBUG?View.VISIBLE:View.GONE);
         etIp.setText(HttpUrl.IPAddress);
         etPort.setText(HttpUrl.IPPort);
         etService.setText(HttpUrl.ServiceName);
+
     }
 
     @Override

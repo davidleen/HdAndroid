@@ -8,8 +8,8 @@ android {
         applicationId "com.giants3.hd.android"
         minSdkVersion 12
         targetSdkVersion 23
-        versionCode 17
-        versionName "1.1.7"
+        versionCode 22
+        versionName "1.2.2"
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
 

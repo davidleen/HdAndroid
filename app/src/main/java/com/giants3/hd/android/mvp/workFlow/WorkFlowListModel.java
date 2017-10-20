@@ -2,9 +2,11 @@ package com.giants3.hd.android.mvp.workFlow;
 
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.entity.ErpWorkFlowReport;
 import com.giants3.hd.entity.OrderItemWorkMemo;
 import com.giants3.hd.entity.ProductWorkMemo;
 import com.giants3.hd.entity.WorkFlowWorker;
+import com.giants3.hd.noEntity.ProductType;
 
 import java.util.List;
 
@@ -19,15 +21,16 @@ public class WorkFlowListModel implements WorkFlowListMvp.Model {
     private List<ProductWorkMemo> productWorkMemos;
 
     @Override
-    public boolean canSendWorkFlow(int workFlowStep) {
+    public boolean canSendWorkFlow(ErpWorkFlowReport workFlowStep) {
 
 
         List<WorkFlowWorker> workFlowWorkers = SharedPreferencesHelper.getInitData().workFlowWorkers;
 
-        for (WorkFlowWorker workFlow : workFlowWorkers) {
-            if (workFlow.workFlowStep == workFlowStep && workFlow.send)
+        for (WorkFlowWorker workFlowWorker : workFlowWorkers) {
 
-                return true;
+            if(workFlowWorker.send) {
+                if (isWorkerForStep(workFlowStep, workFlowWorker)) return true;
+            }
 
         }
 
@@ -37,17 +40,37 @@ public class WorkFlowListModel implements WorkFlowListMvp.Model {
 
 
     @Override
-    public boolean canReceiveWorkFlow(int workFlowStep) {
+    public boolean canReceiveWorkFlow(ErpWorkFlowReport erpWorkFlowReport) {
         List<WorkFlowWorker> workFlowWorkers = SharedPreferencesHelper.getInitData().workFlowWorkers;
 
-        for (WorkFlowWorker workFlow : workFlowWorkers) {
-            if (workFlow.workFlowStep == workFlowStep && workFlow.receive)
+        for (WorkFlowWorker workFlowWorker : workFlowWorkers) {
 
-                return true;
+            if( workFlowWorker.receive) {
+
+
+                if (isWorkerForStep(erpWorkFlowReport, workFlowWorker)) return true;
+            }
+
+
+
+
 
         }
 
 
+        return false;
+    }
+
+    private boolean isWorkerForStep(ErpWorkFlowReport erpWorkFlowReport, WorkFlowWorker workFlowWorker) {
+        if (workFlowWorker.workFlowStep == erpWorkFlowReport.workFlowStep  && workFlowWorker.produceType == erpWorkFlowReport.produceType) {
+
+            if (erpWorkFlowReport.productType == ProductType.TYPE_NONE)
+                return true;
+            if (workFlowWorker.tie && (erpWorkFlowReport.productType & ProductType.TYPE_TIE) == ProductType.TYPE_TIE)
+                return true;
+            if (workFlowWorker.mu && (erpWorkFlowReport.productType & ProductType.TYPE_MU) == ProductType.TYPE_MU)
+                return true;
+        }
         return false;
     }
 

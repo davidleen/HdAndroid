@@ -97,30 +97,6 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
     }
 
 
-    @Override
-    public void prepareData(long orderItemWorkFlowId, int workFlowStep) {
-
-
-        if (getModel().canReceiveWorkFlow(workFlowStep)) {
-
-            //加载数据 当前节点未接受的数据。
-
-            return;
-
-        } else {
-
-
-        }
-
-        if (getModel().canSendWorkFlow(workFlowStep)) {
-
-
-            showSendReceiveDialog(null);
-
-        }
-
-
-    }
 
 
     private void showSendReceiveDialog(List<WorkFlowMessage> messageList) {
@@ -153,7 +129,7 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
 
 
     @Override
-    public boolean canSendWorkFlow(int workFlowStep) {
+    public boolean canSendWorkFlow(ErpWorkFlowReport workFlowStep) {
 
 
         WorkFlowListMvp.Model model = getModel();
@@ -164,7 +140,7 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
 
 
     @Override
-    public boolean canReceiveWorkFlow(int workFlowStep) {
+    public boolean canReceiveWorkFlow(ErpWorkFlowReport workFlowStep) {
 
         WorkFlowListMvp.Model model = getModel();
         return model.canReceiveWorkFlow(workFlowStep);

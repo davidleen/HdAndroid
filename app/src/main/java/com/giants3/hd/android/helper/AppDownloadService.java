@@ -137,7 +137,7 @@ public class AppDownloadService extends Service {
             final String softUrl = url;
 
 
-           // ImageLoaderFactory.getInstance().getDiskCache().remove(softUrl);
+
 
             final File file = ImageLoaderFactory.getInstance().getDiskCache().get(softUrl);
 
@@ -148,11 +148,12 @@ public class AppDownloadService extends Service {
 
                 AsyncTask<Void, Integer, Boolean> task = new AsyncTask<Void, Integer, Boolean>() {
 
-                    @Override
-                    protected Boolean doInBackground(Void... params) {
 
-                        if (download.indexOfKey(id) > 0)
-                            return false;
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+
+
 
                         mNotifiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -177,8 +178,14 @@ public class AppDownloadService extends Service {
                             mNotifiManager.notify(id, mNotification);
                         }
 
-                        download.put(id, 0);
+                    }
 
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+
+                        if (download.indexOfKey(id) > 0)
+                            return false;
+                        download.put(id, 0);
                         Boolean result = false;
 
                         URL newUrl = null;
@@ -190,19 +197,25 @@ public class AppDownloadService extends Service {
 
                             contentLengthInputStream = new ContentLengthInputStream(inputStream, (int) fileLength);
 
+                         //   Log.e(TAG, " available:"+contentLengthInputStream.available());
+
                             ImageLoaderFactory.getInstance().getDiskCache().save(softUrl, contentLengthInputStream,
                             new IoUtils.CopyListener() {
+
+                                int byteRead=0;
                                 @Override
                                 public boolean onBytesCopied(int current, int total) {
 
 
-                                    try {
-                                        Thread.sleep(100);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
+                                    if(current-byteRead>total/100)
+                                    {
+
+                                        byteRead=current;
+                                        onProgressUpdate(new Integer[]{current, total});
+                                      //  Log.e(TAG,"current:"+current+",total:"+total);
                                     }
 
-                                    onProgressUpdate(new Integer[]{current, total});
+
                                     return true;
                                 }
                             }

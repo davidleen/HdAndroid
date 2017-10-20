@@ -84,5 +84,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
         android:text="设置内网" />
+
+    <Button
+        android:id="@+id/setProduceUrl"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:text="设置生产环境" />
 </LinearLayout>
 

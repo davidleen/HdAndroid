@@ -277,6 +277,7 @@
         <item>合同日期||os_dd||1||120</item>
         <item>生产交期||so_data||1||120</item>
         <item>生产类型||produceTypeName||1||100</item>
+      <!--  <item>厂商||cus_no||1||100</item>-->
 
 
     </string-array>

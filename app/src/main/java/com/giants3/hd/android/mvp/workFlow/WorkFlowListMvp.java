@@ -22,13 +22,13 @@ public interface WorkFlowListMvp {
     interface Model extends NewModel {
 
 
-        boolean canSendWorkFlow(int workFlowStep);
+        boolean canSendWorkFlow(ErpWorkFlowReport workFlowStep);
 
         void setSelectOrderItem(ErpOrderItem orderItem);
 
         ErpOrderItem getSelectOrderItem();
 
-        boolean canReceiveWorkFlow(int workFlowStep);
+        boolean canReceiveWorkFlow(ErpWorkFlowReport workFlowStep);
 
         void setProductWorkMemo(List<ProductWorkMemo> datas);
 
@@ -47,15 +47,15 @@ public interface WorkFlowListMvp {
          */
         void searchData();
 
-        boolean canSendWorkFlow(int workFLowStep);
+        boolean canSendWorkFlow(ErpWorkFlowReport workFLowStep);
 
         void sendWorkFlow(String os_no, int itm, int workFlowStep);
 
         void setSelectOrderItem(ErpOrderItem erpOrderItem);
 
-        void prepareData(long orderItemWorkFlowId, int workFlowStep);
 
-        boolean canReceiveWorkFlow(int workFlowStep);
+
+        boolean canReceiveWorkFlow(ErpWorkFlowReport workFlowStep);
 
         void receiveWorkFlow(String os_no, int itm, int workFlowStep);
 

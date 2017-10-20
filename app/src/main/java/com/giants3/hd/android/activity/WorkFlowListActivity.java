@@ -169,8 +169,8 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
         boolean unMemoStep = workFlowReport.workFlowStep == ErpWorkFlow.STEPS[0] || workFlowReport.workFlowStep == ErpWorkFlow.STEPS[ErpWorkFlow.STEPS.length - 1];
 
-        boolean canSend = getPresenter().canSendWorkFlow(workFlowReport.workFlowStep);
-        boolean canReceive = getPresenter().canReceiveWorkFlow(workFlowReport.workFlowStep) && workFlowReport.workFlowStep != ErpWorkFlow.FIRST_STEP;
+        boolean canSend = getPresenter().canSendWorkFlow(workFlowReport);
+        boolean canReceive = getPresenter().canReceiveWorkFlow(workFlowReport) && workFlowReport.workFlowStep != ErpWorkFlow.FIRST_STEP;
 
 
         if(unMemoStep&&!canSend&&!canReceive) return;
