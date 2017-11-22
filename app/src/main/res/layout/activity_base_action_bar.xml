@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.giants3.hd.android.activity.MainActivity">
+    tools:context="com.giants3.hd.android.activity.BaseActionBarActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

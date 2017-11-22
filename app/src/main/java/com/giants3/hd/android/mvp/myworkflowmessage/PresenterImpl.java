@@ -14,19 +14,27 @@ public class PresenterImpl extends BasePresenter<MVP.Viewer, MVP.Model> implemen
 
     @Override
     public void start() {
-        loadData();
+
     }
 
     @Override
     public MVP.Model createModel() {
         return new ModelImpl();
     }
-
     @Override
     public void loadData() {
+        loadData("");
+    }
+    @Override
+    public void loadData(String key) {
 
 
-        UseCaseFactory.getInstance().createGetMyWorkFlowMessageCase().execute(new RemoteDataSubscriber<WorkFlowMessage>(this) {
+
+
+
+        getView().showWaiting();
+
+        UseCaseFactory.getInstance().createGetMyWorkFlowMessageCase(key).execute(new RemoteDataSubscriber<WorkFlowMessage>(this) {
 
             @Override
             protected void handleRemoteData(RemoteData<WorkFlowMessage> data) {

@@ -224,6 +224,11 @@ public class ApiConnection {
 
 
         try {
+            if(BuildConfig.DEBUG_)
+            {
+                Log.i(TAG,"url:"+url);
+
+            }
 
             byte[] result = get(url);
             if (IS_CRYPT_JSON) {
@@ -235,7 +240,7 @@ public class ApiConnection {
 
             if(BuildConfig.DEBUG_)
             {
-                Log.i(TAG,"url:"+url);
+
                 Log.i(TAG,"data:"+remoteString);
             }
 

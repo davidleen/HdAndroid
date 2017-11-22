@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.giants3.hd.android.R;
@@ -32,6 +35,8 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MVP.Presenter> im
     WorkFlowMessageAdapter adapter;
     @Bind(R.id.swipeLayout)
     SwipeRefreshLayout swipeLayout;
+    @Bind(R.id.search)
+    EditText search;
 
     @Bind(R.id.list)
     ListView listView;
@@ -74,12 +79,44 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MVP.Presenter> im
 
             }
         });
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+                search.removeCallbacks(loadDelayRannable);
+                search.postDelayed(loadDelayRannable,1000);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        search.post(loadDelayRannable);
+
 
     }
 
 
+
+    private Runnable loadDelayRannable=new Runnable() {
+        @Override
+        public void run() {
+            getPresenter().loadData(search.getText().toString().trim());
+        }
+    };
+
     @Override
     public void showWaiting() {
+
         swipeLayout.setRefreshing(true);
     }
 

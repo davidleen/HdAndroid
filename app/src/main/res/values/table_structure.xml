@@ -264,10 +264,11 @@
     <string-array name="table_erp_order_item">
 
         <item>图片||thumbnail||2||91||url</item>
-        <item>客人代号||cus_no||1||120</item>
+
         <item>订单号||os_no||1||120</item>
         <item>货号||prd_no||1||120</item>
         <item>配方号||id_no||1||120</item>
+        <item>客人代号||cus_no||1||120</item>
         <item>客号||bat_no||1||100</item>
         <item>数量||qty||1||80</item>
         <item>单位||ut||1||40</item>

@@ -9,15 +9,17 @@ import rx.Observable;
  */
 
 class GetMyWorkFlowMessageCase extends DefaultUseCase {
+    private String key;
     private RestApi restApi;
 
-    public GetMyWorkFlowMessageCase(RestApi restApi) {
+    public GetMyWorkFlowMessageCase(String key,RestApi restApi) {
         super();
+        this.key = key;
         this.restApi = restApi;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return restApi.getMyWorkFlowMessage();
+        return restApi.getMyWorkFlowMessage(key);
     }
 }

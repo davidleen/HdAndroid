@@ -42,8 +42,10 @@
 
     <string-array name="menu_title">
     <item>待办事项</item>
-    <item>生产事项</item>
-    <item>排厂未出货报表</item>
+   <!-- <item>生产事项</item>-->
+    <item>生产任务表</item>
+
+        <item>已完成生产报表</item>
     <item>我的流程消息</item>
    <!-- <item>合同进度报表</item>
     <item>个人进度查询</item>-->
@@ -54,8 +56,9 @@
     <string-array name="menu_fragemnt_class">
         <item>com.giants3.hd.android.fragment.MyUndoWorkFlowMessageFragment</item>
 
-        <item>com.giants3.hd.android.fragment.MyAvailableOrderItemFragment</item>
+       <!-- <item>com.giants3.hd.android.fragment.MyAvailableOrderItemFragment</item>-->
         <item>com.giants3.hd.android.fragment.UnCompleteOrderItemFragment</item>
+        <item>com.giants3.hd.android.fragment.CompleteOrderItemFragment</item>
         <item>com.giants3.hd.android.fragment.MyWorkFlowMessageFragment</item>
 
         <!--    <item>com.giants3.hd.android.fragment.OrderWorkFlowReportFragment</item>

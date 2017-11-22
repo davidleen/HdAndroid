@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,52 +41,18 @@ import static com.giants3.hd.android.mvp.WorkFlowMessageReceive.Viewer;
 /**
  * 流程接受处理事件
  */
-public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter> implements Viewer {
+public class WorkFlowMessageReceiveActivity extends BaseHeadViewerActivity<Presenter> implements Viewer {
 
 
     public static final String KEY_MESSAGE = "KEY_MESSAGE";
-
-    @Bind(R.id.picture1)
-    ImageView picture1;
-    @Bind(R.id.picture2)
-    ImageView picture2;
-    @Bind(R.id.picture3)
-    ImageView picture3;
-    @Bind(R.id.panel_picture2)
-    View panel_picture2;
-    @Bind(R.id.panel_picture1)
-    View panel_picture1;
-    @Bind(R.id.panel_picture3)
-    View panel_picture3;
-
-
-    @Bind(R.id.delete1)
-    View delete1;
-    @Bind(R.id.delete2)
-    View delete2;
-    @Bind(R.id.delete3)
-    View delete3;
-
-    @Bind(R.id.addPicture)
-    ImageView addPicture;
-
-    @Bind(R.id.receive)
-    View receive;
-
-    @Bind(R.id.reject)
-    View reject;
-
     @Bind(R.id.picture)
     public ImageView picture;
-
     @Bind(R.id.fromFlow)
     public TextView fromFlow;
-
     @Bind(R.id.toFlow)
     public TextView toFlow;
     @Bind(R.id.tranQty)
     public TextView tranQty;
-
     @Bind(R.id.name)
     public TextView name;
     @Bind(R.id.orderName)
@@ -102,45 +67,83 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
     public TextView mrpNo;
     @Bind(R.id.qty)
     public TextView qty;
-
     @Bind(R.id.unitName)
     public TextView unitName;
-
     @Bind(R.id.area)
     public TextView area;
-
     @Bind(R.id.sendMemo)
     public TextView sendMemo;
-
-
     @Bind(R.id.createTime)
     public TextView createTime;
     @Bind(R.id.state)
     public TextView state;
-
-
     @Bind(R.id.memo)
     public EditText memo;
-    CapturePictureHelper capturePictureHelper;
-
-
     @Bind(R.id.panel_factory)
     public View panel_factory;
     @Bind(R.id.factory)
     public TextView factory;
+    @Bind(R.id.picture1)
+    ImageView picture1;
+    @Bind(R.id.picture2)
+    ImageView picture2;
+    @Bind(R.id.picture3)
+    ImageView picture3;
+    @Bind(R.id.panel_picture2)
+    View panel_picture2;
+    @Bind(R.id.panel_picture1)
+    View panel_picture1;
+    @Bind(R.id.panel_picture3)
+    View panel_picture3;
+    @Bind(R.id.delete1)
+    View delete1;
+    @Bind(R.id.delete2)
+    View delete2;
+    @Bind(R.id.delete3)
+    View delete3;
+    @Bind(R.id.addPicture)
+    ImageView addPicture;
+    @Bind(R.id.receive)
+    View receive;
+
+
+    @Bind(R.id.panel_receiver)
+    public View panel_receiver;
+    @Bind(R.id.receiver)
+    public TextView receiver;
+
+    @Bind(R.id.panel_sender)
+    public View panel_sender;
+    @Bind(R.id.sender)
+    public TextView sender;
+
+
+
+
+    @Bind(R.id.reject)
+    View reject;
+    CapturePictureHelper capturePictureHelper;
+
+    public static void start(Activity activity, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
+
+
+        Intent intent = new Intent(activity, WorkFlowMessageReceiveActivity.class);
+        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
+        activity.startActivityForResult(intent, requestMessageOperate);
+    }
+
+    public static void start(Fragment fragment, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
+
+
+        Intent intent = new Intent(fragment.getActivity(), WorkFlowMessageReceiveActivity.class);
+        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
+        fragment.startActivityForResult(intent, requestMessageOperate);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_work_flow_message_receive);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("流程接收");
-        }
-
+        setTitle("流程接收");
         WorkFlowMessage workFlowMessage = null;
         try {
             workFlowMessage = GsonUtils.fromJson(getIntent().getStringExtra(KEY_MESSAGE), WorkFlowMessage.class);
@@ -153,15 +156,6 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         }
         getPresenter().setWorkFlowMessage(workFlowMessage);
 
-    }
-
-    @Override
-    protected Presenter onLoadPresenter() {
-        return new PresenterImpl();
-    }
-
-    @Override
-    protected void initViews(Bundle savedInstanceState) {
 
         capturePictureHelper = new CapturePictureHelper(this, new CapturePictureHelper.OnPictureGetListener() {
 
@@ -169,9 +163,9 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
             @Override
             public void onPictureFileGet(String filePath) {
                 // WorkFlowMessageReceiveActivity.this.getCacheDir()
-                File newPath = new File(AndroidUtils.getCacheDir(), Calendar.getInstance().getTimeInMillis() + "") ;
+                File newPath = new File(AndroidUtils.getCacheDir(), Calendar.getInstance().getTimeInMillis() + "");
 
-                File tempFile=new File(filePath);
+                File tempFile = new File(filePath);
                 tempFile.renameTo(newPath);
 
 
@@ -179,8 +173,13 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
             }
         });
 
+
     }
 
+    @Override
+    protected Presenter onLoadPresenter() {
+        return new PresenterImpl();
+    }
 
     @Override
     public void onContentChanged() {
@@ -206,6 +205,13 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
     }
 
     @Override
+    protected View getContentView() {
+
+        return LayoutInflater.from(this).inflate(R.layout.activity_work_flow_message_receive, null);
+
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -214,9 +220,7 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         capturePictureHelper.onActivityResult(requestCode, resultCode, data);
 
 
-
     }
-
 
     @Override
     protected void onViewClick(int id, View v) {
@@ -257,22 +261,19 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
             case R.id.picture1:
             case R.id.picture2:
             case R.id.picture3:
-            case R.id.picture:
-            {
+            case R.id.picture: {
                 String url = (String) v.getTag();
                 ImageViewerHelper.view(this, url);
             }
 
 
-                break;
-
+            break;
 
 
         }
 
 
     }
-
 
     @Override
     public void bindPicture(List<File> files) {
@@ -285,7 +286,6 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         }
         showPictures(pictures, true);
     }
-
 
     private void showPictures(String[] pictureUrl, boolean canDelete) {
 
@@ -306,7 +306,6 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         addPicture.setVisibility(size >= 3 ? View.GONE : View.VISIBLE);
     }
 
-
     @Override
     public void bindWorkFlowMessage(WorkFlowMessage data) {
 
@@ -325,6 +324,15 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         mrpNo.setText(data.mrpNo == null ? "" : data.mrpNo);
         area.setText(data.area);
         sendMemo.setText(data.sendMemo);
+
+
+
+        panel_receiver.setVisibility(data.receiverId>0?View.VISIBLE:View.GONE);
+        panel_sender.setVisibility(data.senderId>0?View.VISIBLE:View.GONE);
+
+        receiver.setText(data.receiverName+ "   "+data.receiveTimeString);
+        sender.setText(data.senderName+ "   "+data.createTimeString);
+
 
         panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName) ? View.GONE : View.VISIBLE);
 
@@ -371,18 +379,14 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         List<WorkFlowWorker> workFlowWorkers = SharedPreferencesHelper.getInitData().workFlowWorkers;
 
         for (WorkFlowWorker workFlow : workFlowWorkers) {
-            if (workFlow.workFlowStep == data.toFlowStep && workFlow.receive)
-            {
-                canReceiveOrReject=true;
+            if (workFlow.workFlowStep == data.toFlowStep && workFlow.receive) {
+                canReceiveOrReject = true;
                 break;
             }
 
 
-
         }
-          canReceiveOrReject = canReceiveOrReject&&data.state == WorkFlowMessage.STATE_SEND;
-
-
+        canReceiveOrReject = canReceiveOrReject && data.state == WorkFlowMessage.STATE_SEND;
 
 
         receive.setVisibility(canReceiveOrReject ? View.VISIBLE : View.GONE);
@@ -391,9 +395,7 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
         memo.setEnabled(canReceiveOrReject);
 
 
-
     }
-
 
     @Override
     public void onPermissionGranted(String permission) {
@@ -408,21 +410,5 @@ public class WorkFlowMessageReceiveActivity extends BaseViewerActivity<Presenter
 
         setResult(RESULT_OK);
         finish();
-    }
-
-    public static void start(Activity activity, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
-
-
-        Intent intent = new Intent(activity, WorkFlowMessageReceiveActivity.class);
-        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
-        activity.startActivityForResult(intent, requestMessageOperate);
-    }
-
-    public static void start(Fragment fragment, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
-
-
-        Intent intent = new Intent(fragment.getActivity(), WorkFlowMessageReceiveActivity.class);
-        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
-        fragment.startActivityForResult(intent, requestMessageOperate);
     }
 }

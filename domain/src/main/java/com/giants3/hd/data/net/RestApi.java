@@ -149,6 +149,9 @@ public interface RestApi {
    */
     Observable getUnCompleteWorkFlowOrderItems(String key);
 
+
+  Observable getCompleteWorkFlowOrderItems(String key);
+
   Observable getOrderItemWorkMemoList(String os_no, int itm);
 
   Observable getProductWorkMemoList(String prd_name, String pversion);
@@ -163,11 +166,15 @@ public interface RestApi {
 
     Observable getWorkFLowMessageByOrderItem(String osNO, int itm);
 
-  Observable getMyWorkFlowMessage();
+  Observable getMyWorkFlowMessage(String key);
 
     Observable getWorkFlowMemoAuth();
 
     Observable checkWorkFlowMemoCase(long orderItemWorkMemoId, boolean check);
 
     Observable updatePassword(String oldPasswordMd5, String newPasswordMd5);
+
+    Observable searchSampleData(String prd_name, String pVersion);
+
+    Observable clearWorkFlow(String os_no, int itm);
 }

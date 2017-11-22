@@ -1,7 +1,6 @@
 package com.giants3.hd.android.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -23,11 +22,9 @@ import butterknife.Bind;
  * item_work_flow_report details are presented side-by-side with a list of items
  * in a {@link WorkFlowReportActivity}.
  */
-public class WorkFlowReportActivity extends BaseViewerActivity<WorkFlowReportMvp.Presenter> implements WorkFlowReportMvp.Viewer {
+public class WorkFlowReportActivity extends BaseHeadViewerActivity<WorkFlowReportMvp.Presenter> implements WorkFlowReportMvp.Viewer {
 
 
-    @Bind(R.id.detail_toolbar)
-    Toolbar toolbar;
 
     @Bind(R.id.progressSearch)
     View progressSearch;
@@ -62,15 +59,16 @@ public class WorkFlowReportActivity extends BaseViewerActivity<WorkFlowReportMvp
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_work_flow);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("生产流程报表");
+    protected View getContentView() {
+        return getLayoutInflater().inflate(R.layout.activity_work_flow, null);
+    }
 
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setTitle("生产流程报表");
+
     }
 
     @Override

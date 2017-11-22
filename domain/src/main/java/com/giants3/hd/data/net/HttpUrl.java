@@ -95,7 +95,7 @@ public class HttpUrl {
         try {
             pi = pm.getPackageInfo(context.getPackageName(), 0);
             versionCode = String.valueOf(pi.versionCode);
-            versionName=pi.versionName;
+            versionName = pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -332,8 +332,8 @@ public class HttpUrl {
      * @param key
      * @return
      */
-    public static String searchErpOrderItem(String key,final int pageIndex, final int pageSize) {
-        return completeUrl(String.format("api/order/searchOrderItems?key=%s&pageIndex=%d&pageSize=%d", key ,pageIndex,pageSize));
+    public static String searchErpOrderItem(String key, final int pageIndex, final int pageSize) {
+        return completeUrl(String.format("api/order/searchOrderItems?key=%s&pageIndex=%d&pageSize=%d", key, pageIndex, pageSize));
     }
 
     public static String getAvailableOrderItemProcess(final String osNo, final int itm, int workFlowStep) {
@@ -352,21 +352,28 @@ public class HttpUrl {
     }
 
     public static String getUnCompleteWorkFlowOrderItems(String key) {
-        return completeUrl( "api/erpWork/searchUnCompleteOrderItems?key=" + key  );
+        return completeUrl("api/erpWork/searchUnCompleteOrderItems?key=" + key);
+
+    }
+
+
+    public static String getCompleteWorkFlowOrderItems(String key) {
+        return completeUrl("api/erpWork/searchCompleteOrderItems?key=" + key);
+
 
     }
 
     public static String getOrderItemWorkMemoList(String os_no, int itm) {
-        return completeUrl( "api/erpWork/getOrderItemWorkMemos?os_no=" + os_no+ "&itm=" + itm   );
+        return completeUrl("api/erpWork/getOrderItemWorkMemos?os_no=" + os_no + "&itm=" + itm);
     }
 
     public static String getProductWorkMemoList(String productName, String pversion) {
 
-        return completeUrl( "api/erpWork/getProductWorkMemos?productName=" + productName+ "&pVersion=" + pversion  );
+        return completeUrl("api/erpWork/getProductWorkMemos?productName=" + productName + "&pVersion=" + pversion);
     }
 
-    public static String saveWorkMemo( ){
-        return completeUrl( "api/erpWork/saveWorkMemo"
+    public static String saveWorkMemo() {
+        return completeUrl("api/erpWork/saveWorkMemo"
 
         );
     }
@@ -375,50 +382,64 @@ public class HttpUrl {
     public static String getWorkFlowAreaList() {
 
 
-        return completeUrl( "api/workFlow/area");
+        return completeUrl("api/workFlow/area");
 
     }
 
     public static String getNewMessageInfo() {
 
-        return completeUrl( "/api/user/newMessage");
+        return completeUrl("/api/user/newMessage");
     }
 
     public static String getWorkFlowMaterials(String osNo, int itm, String workFlowCode) {
 
-        return completeUrl( "/api/erpWork/workFlowMaterials?osNo=" + osNo+ "&itm=" + itm+ "&workFlowCode=" + workFlowCode);
+        return completeUrl("/api/erpWork/workFlowMaterials?osNo=" + osNo + "&itm=" + itm + "&workFlowCode=" + workFlowCode);
     }
 
     public static String getWorkFlowMessageByOrderItem(String osNo, int itm) {
-        return completeUrl("api/order/workFlowMessageByOrderItem?osNo=" + osNo+ "&itm=" + itm );
+        return completeUrl("api/order/workFlowMessageByOrderItem?osNo=" + osNo + "&itm=" + itm);
 
 
     }
 
     public static String getWorkFlowMemoAuth() {
-        return completeUrl("api/workFlow/memoAuth" );
+        return completeUrl("api/workFlow/memoAuth");
 
 
     }
-    public static String getMyWorkFlowMessage( ) {
-        return completeUrl("api/order/myWorkFlowMessage"  );
+
+    public static String getMyWorkFlowMessage(String key) {
+        return completeUrl("api/order/myWorkFlowMessage?key="+key);
 
 
     }
 
     public static String checkWorkFlowMemo(long orderItemWorkMemoId, boolean check) {
 
-        return completeUrl("api/workFlow/checkMemo?orderItemWorkMemoId="+orderItemWorkMemoId+"&check="+check );
+        return completeUrl("api/workFlow/checkMemo?orderItemWorkMemoId=" + orderItemWorkMemoId + "&check=" + check);
     }
 
     public static String updatePassword(String oldPasswordMd5, String newPasswordMd5) {
-        return completeUrl("api/user/updatePassword2?oldPassword="+oldPasswordMd5+"&newPassword="+newPasswordMd5 );
+        return completeUrl("api/user/updatePassword2?oldPassword=" + oldPasswordMd5 + "&newPassword=" + newPasswordMd5);
     }
 
-    public static String loginByUserId(long userId, String passwordMd5,String deviceToken) {
+    public static String loginByUserId(long userId, String passwordMd5, String deviceToken) {
 
 
-        return completeUrl(String.format("/api/authority/login?userId=%d&password=%s&device_token=%s",userId,passwordMd5,deviceToken));
+        return completeUrl(String.format("/api/authority/login?userId=%d&password=%s&device_token=%s", userId, passwordMd5, deviceToken));
 
+    }
+
+    public static String searchSampleData(String prdNo, String pVersion) {
+
+
+        return completeUrl(String.format("/api/erpWork/findSampleState?prdNo=%s&pVersion=%s", prdNo, pVersion));
+
+
+    }
+
+
+    public static String clearWorkFlow(String os_no, int itm) {
+        return completeUrl(String.format("/api/erpWork/clear?osNO=%s&itm=%d", os_no, itm));
     }
 }

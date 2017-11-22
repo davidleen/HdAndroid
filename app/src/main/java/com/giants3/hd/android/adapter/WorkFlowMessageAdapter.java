@@ -97,6 +97,17 @@ public class WorkFlowMessageAdapter
         public TextView reason;
 
 
+        @Bind(R.id.panel_receiver)
+        public View panel_receiver;
+        @Bind(R.id.receiver)
+        public TextView receiver;
+
+        @Bind(R.id.panel_sender)
+        public View panel_sender;
+        @Bind(R.id.sender)
+        public TextView sender;
+
+
         @Bind(R.id.panel_factory)
         public View panel_factory;
         @Bind(R.id.factory)
@@ -125,6 +136,15 @@ public class WorkFlowMessageAdapter
             mrpNo.setText(data.mrpNo == null ? "" : data.mrpNo);
             batNo.setText(data.bat_no);
             cus_no.setText(data.cus_no);
+
+            panel_receiver.setVisibility(data.receiverId>0?View.VISIBLE:View.GONE);
+            panel_sender.setVisibility(data.senderId>0?View.VISIBLE:View.GONE);
+
+            receiver.setText(data.receiverName+ "   "+data.receiveTimeString);
+            sender.setText(data.senderName+ "   "+data.createTimeString);
+
+
+
             panel_factory.setVisibility(StringUtils.isEmpty(data.factoryName) ? View.GONE : View.VISIBLE);
 
 

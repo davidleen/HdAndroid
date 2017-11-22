@@ -81,6 +81,8 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
     FrameLayout frameLayout;
 
 
+
+
     View view;
     private int currentListFragmentIndex;
 
@@ -162,16 +164,17 @@ public class MainActivity extends BaseViewerActivity<MainActMvp.Presenter>
         return new MainActPresenter();
     }
 
-    @Override
-    protected void initViews(Bundle savedInstanceState) {
 
-    }
 
     @Override
     protected void initEventAndData() {
 
     }
 
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
+
+    }
     private void bindData() {
 
         navigationView.getMenu().getItem(0).setVisible(AuthorityUtil.getInstance().viewProductModule());

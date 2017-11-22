@@ -9,6 +9,7 @@ import com.giants3.hd.entity.ErpWorkFlowReport;
 import com.giants3.hd.entity.OrderItemWorkMemo;
 import com.giants3.hd.entity.ProductWorkMemo;
 import com.giants3.hd.entity.WorkFlowMessage;
+import com.giants3.hd.entity_erp.SampleState;
 
 import java.util.List;
 
@@ -62,6 +63,7 @@ public interface WorkFlowListMvp {
         void chooseWorkFlowReport(ErpWorkFlowReport workFlowReport);
 
 
+        void clearWorkFlow();
     }
 
     interface Viewer extends NewViewer {
@@ -77,6 +79,7 @@ public interface WorkFlowListMvp {
 
         void showSendWorkFlowDialog(ErpWorkFlowReport workFlowReport, ProductWorkMemo productWorkMemo, OrderItemWorkMemo orderItemWorkMemo);
 
+        void showSampleState(SampleState sampleState);
     }
 
 }

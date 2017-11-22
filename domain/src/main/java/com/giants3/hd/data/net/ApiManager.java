@@ -11,20 +11,21 @@ import com.giants3.hd.entity.Material;
 import com.giants3.hd.entity.OrderItem;
 import com.giants3.hd.entity.OrderItemWorkFlowState;
 import com.giants3.hd.entity.OrderItemWorkMemo;
-import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.entity.ProductProcess;
 import com.giants3.hd.entity.ProductWorkMemo;
 import com.giants3.hd.entity.Quotation;
-import com.giants3.hd.noEntity.QuotationDetail;
 import com.giants3.hd.entity.User;
 import com.giants3.hd.entity.WorkFlowArea;
 import com.giants3.hd.entity.WorkFlowMessage;
+import com.giants3.hd.entity_erp.SampleState;
 import com.giants3.hd.entity_erp.WorkFlowMaterial;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.noEntity.BufferData;
 import com.giants3.hd.noEntity.ErpOrderDetail;
 import com.giants3.hd.noEntity.FileInfo;
 import com.giants3.hd.noEntity.MessageInfo;
+import com.giants3.hd.noEntity.ProductDetail;
+import com.giants3.hd.noEntity.QuotationDetail;
 import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.noEntity.WorkFlowMemoAuth;
 import com.google.gson.reflect.TypeToken;
@@ -112,6 +113,8 @@ public class ApiManager {
         tokenMaps.put(MessageInfo.class, new TypeToken<RemoteData<MessageInfo>>() {
         }.getType());
         tokenMaps.put(WorkFlowMaterial.class, new TypeToken<RemoteData<WorkFlowMaterial>>() {
+        }.getType());
+        tokenMaps.put(SampleState.class, new TypeToken<RemoteData<SampleState>>() {
         }.getType());
 
 
@@ -426,7 +429,6 @@ public class ApiManager {
     /**
      * 查询订单的报表
      *
-
      * @return
      */
 
@@ -504,6 +506,18 @@ public class ApiManager {
         return remoteData;
     }
 
+
+    public RemoteData<ErpOrderItem> getCompleteWorkFlowOrderItems(String key) throws HdException {
+
+
+        String url = HttpUrl.getCompleteWorkFlowOrderItems(key);
+        String result = apiConnection.getString(url);
+        RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
+
+        return remoteData;
+
+    }
+
     public RemoteData<OrderItemWorkMemo> getOrderItemWorkMemoList(String os_no, int itm) throws HdException {
         String url = HttpUrl.getOrderItemWorkMemoList(os_no, itm);
         String result = apiConnection.getString(url);
@@ -571,9 +585,9 @@ public class ApiManager {
         return remoteData;
     }
 
-    public RemoteData<WorkFlowMessage> getMyWorkFlowMessage() throws HdException {
+    public RemoteData<WorkFlowMessage> getMyWorkFlowMessage(String key) throws HdException {
 
-        String url = HttpUrl.getMyWorkFlowMessage();
+        String url = HttpUrl.getMyWorkFlowMessage(key);
         String result = apiConnection.getString(url);
         RemoteData<WorkFlowMessage> remoteData = invokeByReflect(result, WorkFlowMessage.class);
         return remoteData;
@@ -589,24 +603,41 @@ public class ApiManager {
 
     public RemoteData<Void> checkWorkFlowMemo(long orderItemWorkMemoId, boolean check) throws HdException {
 
-        String url = HttpUrl.checkWorkFlowMemo(orderItemWorkMemoId,check);
+        String url = HttpUrl.checkWorkFlowMemo(orderItemWorkMemoId, check);
         String result = apiConnection.getString(url);
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
         return remoteData;
     }
 
     public RemoteData<Void> updatePassword(String oldPasswordMd5, String newPasswordMd5) throws HdException {
-        String url = HttpUrl.updatePassword(oldPasswordMd5,newPasswordMd5);
+        String url = HttpUrl.updatePassword(oldPasswordMd5, newPasswordMd5);
         String result = apiConnection.getString(url);
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
         return remoteData;
     }
 
-    public RemoteData<User> loginByUserId(long userId, String passwordMd5,String deviceToken) throws HdException {
+    public RemoteData<User> loginByUserId(long userId, String passwordMd5, String deviceToken) throws HdException {
 
-        String url = HttpUrl.loginByUserId(userId,passwordMd5,deviceToken);
+        String url = HttpUrl.loginByUserId(userId, passwordMd5, deviceToken);
         String result = apiConnection.getString(url);
         RemoteData<User> remoteData = invokeByReflect(result, User.class);
+        return remoteData;
+    }
+
+    public RemoteData<SampleState> searchSampleData(String prdNo, String pVersion) throws HdException {
+
+        String url = HttpUrl.searchSampleData(prdNo, pVersion);
+        String result = apiConnection.getString(url);
+        RemoteData<SampleState> remoteData = invokeByReflect(result, SampleState.class);
+        return remoteData;
+
+    }
+
+
+    public RemoteData<Void> clearWorkFlow(String os_no, int itm) throws HdException {
+        String url = HttpUrl.clearWorkFlow(os_no, itm);
+        String result = apiConnection.getString(url);
+        RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
         return remoteData;
     }
 }

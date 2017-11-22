@@ -2,7 +2,6 @@ package com.giants3.hd.android.activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
@@ -11,18 +10,18 @@ import com.giants3.hd.android.mvp.NewViewer;
  * Created by davidleen29 on 2016/10/10.
  */
 
-public  abstract  class BaseViewerActivity<P extends NewPresenter> extends BaseActivity  implements NewViewer{
+public  abstract  class BaseHeadViewerActivity<P extends NewPresenter> extends BaseActionBarActivity  implements NewViewer{
 
     protected P mPresenter;
 
     protected static   String TAG="BaseViewerActivity";
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected    void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG=getClass().getName();
         mPresenter = onLoadPresenter();
         getPresenter().attachView(this);
-        initViews(savedInstanceState);
+
         initEventAndData();
         if(getPresenter() != null) {
             getPresenter().start();
@@ -54,7 +53,7 @@ public  abstract  class BaseViewerActivity<P extends NewPresenter> extends BaseA
     }
 
     protected abstract P onLoadPresenter();
-    protected abstract void initViews(Bundle savedInstanceState);
+
     protected abstract void initEventAndData();
 
     @Override

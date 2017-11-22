@@ -24,6 +24,7 @@ public interface MVP {
 
 
         void loadData();
+        void loadData(String key);
 
 
     }

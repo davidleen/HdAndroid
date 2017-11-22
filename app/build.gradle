@@ -3,20 +3,20 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.giants3.hd.android"
         minSdkVersion 12
         targetSdkVersion 23
-        versionCode 22
-        versionName "1.2.2"
+        versionCode 26
+        versionName "1.2.6"
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
 
         //友盟appkey常量配置
         buildConfigField "String", "UMENG_APP_KEY", "\"57a1e715e0f55a37b8004434\""
         buildConfigField "String", "UMENG_CHANNEL", "\"DEVELOPER\""
-
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
 
@@ -31,10 +31,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     productFlavors {
-        free {
-        }
-        full {
-        }
+
     }
 }
 

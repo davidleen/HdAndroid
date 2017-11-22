@@ -3,7 +3,6 @@ package com.giants3.hd.android.activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +26,9 @@ import com.giants3.hd.android.mvp.MainAct.WorkFlowMainActPresenter;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.noEntity.BufferData;
 import com.giants3.hd.noEntity.FileInfo;
+import com.giants3.hd.noEntity.RemoteData;
 
 import butterknife.Bind;
 import rx.Subscriber;
@@ -37,7 +36,7 @@ import rx.Subscriber;
 /**
  * 生产流程管理主界面
  */
-public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.Presenter>
+public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainActMvp.Presenter>
         implements WorkFlowMainActMvp.Viewer,
 
         OrderDetailFragment.OnFragmentInteractionListener,
@@ -49,13 +48,10 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
     public static final Fragment EMPTY_LIST_FRAGMENT = new Fragment();
 
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
     @Bind(R.id.menu)
     ListView menu;
-    @Bind(R.id.content)
-    FrameLayout content;
+    @Bind(R.id.main_content)
+    FrameLayout main_content;
 
     @Bind(R.id.head)
     ImageView head;
@@ -68,15 +64,16 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
 
     View view;
 
-    String[] menuTitles=null;
+    String[] menuTitles = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_work_flow_main);
-        setSupportActionBar(toolbar);
-        menuTitles=  getResources().getStringArray(R.array.menu_title);
+
+        setBackEnable(false);
+
+        menuTitles = getResources().getStringArray(R.array.menu_title);
 
         createListeners();
 
@@ -99,10 +96,6 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
         return new WorkFlowMainActPresenter();
     }
 
-    @Override
-    protected void initViews(Bundle savedInstanceState) {
-
-    }
 
     @Override
     protected void initEventAndData() {
@@ -127,7 +120,7 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
             }
         });
         //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.menu_title, android.R.layout.simple_list_item_1);
-        WorkFLowMainMenuAdapter adapter=new WorkFLowMainMenuAdapter(this);
+        WorkFLowMainMenuAdapter adapter = new WorkFLowMainMenuAdapter(this);
         adapter.setDataArray(menuTitles);
 
         menu.setAdapter(adapter);
@@ -219,6 +212,14 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected View getContentView() {
+
+
+        return getLayoutInflater().inflate(R.layout.activity_work_flow_main, null);
+
+    }
+
 
     /**
      * 重新读取缓存数据
@@ -267,7 +268,7 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
     }
 
     private void setActTitle(String title) {
-        getSupportActionBar().setTitle(title);
+         setTitle(title);
     }
 
     private void showNewListFragment(String fragmentClassName) {
@@ -292,7 +293,7 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
 
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, fragment)
+                .replace(R.id.main_content, fragment)
                 .commit();
 
 
@@ -318,33 +319,26 @@ public class WorkFlowMainActivity extends BaseViewerActivity<WorkFlowMainActMvp.
         getPresenter().attemptUpdateNewMessageCount();
 
 
-
-
-
     }
 
     @Override
     public void setNewWorkFlowMessageCount(int count) {
 
 
-
-        int childCount=menu.getChildCount();
+        int childCount = menu.getChildCount();
         for (int i = 0; i < childCount; i++) {
 
-            View child=menu.getChildAt(i);
-            if(child.getTag() instanceof  WorkFLowMainMenuAdapter.ViewHolder)
-            {
+            View child = menu.getChildAt(i);
+            if (child.getTag() instanceof WorkFLowMainMenuAdapter.ViewHolder) {
                 WorkFLowMainMenuAdapter.ViewHolder tag = (WorkFLowMainMenuAdapter.ViewHolder) child.getTag();
 
-                if(i==0)
-                   tag.setMessageCount(count);
+                if (i == 0)
+                    tag.setMessageCount(count);
                 else
                     tag.setMessageCount(0);
 
             }
         }
-
-
 
 
     }

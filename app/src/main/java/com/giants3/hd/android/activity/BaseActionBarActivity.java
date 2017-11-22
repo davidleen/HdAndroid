@@ -30,7 +30,7 @@ public abstract class BaseActionBarActivity extends BaseActivity {
         frameLayout.addView(getContentView());
         setContentView(view);
         setSupportActionBar(toolbar);
-
+        setBackEnable(true);
 
     }
 
@@ -38,7 +38,7 @@ public abstract class BaseActionBarActivity extends BaseActivity {
      * 设置标题
      * @param title
      */
-    protected  void setTitle(String title)
+    protected final   void setTitle(String title)
     {
 
 
@@ -46,11 +46,25 @@ public abstract class BaseActionBarActivity extends BaseActivity {
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+
             actionBar.setTitle(title);
 
 
         }
+    }
+
+
+    protected  final void setBackEnable(boolean show)
+    {
+        // Show the Up button in the action bar.
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(show);
+
+
+
+        }
+
     }
 
     @Override

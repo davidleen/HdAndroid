@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFlowReportItemAdapter;
 import com.giants3.hd.android.fragment.SendWorkFlowFragment;
@@ -25,6 +24,7 @@ import com.giants3.hd.entity.ErpWorkFlowReport;
 import com.giants3.hd.entity.OrderItemWorkMemo;
 import com.giants3.hd.entity.ProductWorkMemo;
 import com.giants3.hd.entity.WorkFlowMessage;
+import com.giants3.hd.entity_erp.SampleState;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
 
@@ -36,19 +36,26 @@ import butterknife.Bind;
  * 生产流程管理界面
  * 挑选订单， 显示流程序列
  */
-public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Presenter> implements WorkFlowListMvp.Viewer, SendWorkFlowFragment.OnFragmentInteractionListener {
+public class WorkFlowListActivity extends BaseHeadViewerActivity<WorkFlowListMvp.Presenter> implements WorkFlowListMvp.Viewer, SendWorkFlowFragment.OnFragmentInteractionListener {
 
 
     public static final int REQUEST_CODE = 33;
     public static final String KEY_ORDER_ITEM = "KEY_ORDER_ITEM";
-    @Bind(R.id.detail_toolbar)
-    Toolbar toolbar;
+
 
 
     @Bind(R.id.orderItemInfo)
     TextView orderItemInfo;
 
+    @Bind(R.id.beibang)
+    TextView beibang;
 
+
+    @Bind(R.id.sampleState)
+    TextView sampleState;
+
+    @Bind(R.id.clear)
+    View clear;
 
 
     @Bind(R.id.workFlowReport)
@@ -70,16 +77,26 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         return new com.giants3.hd.android.mvp.workFlow.WorkFlowListPresenter();
     }
 
-    @Override
-    protected void initViews(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_work_flow_list);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("生产流程管理");
 
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+        setTitle("生产流程管理");
+
+
+
+
+
+        clear.setVisibility(BuildConfig.DEBUG?View.VISIBLE:View.GONE);
+        clear.setOnClickListener(this);
+    }
+
+
+    @Override
+    protected View getContentView() {
+        return getLayoutInflater().inflate(R.layout.activity_work_flow_list, null);
     }
 
     @Override
@@ -97,6 +114,7 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
 
         getPresenter().setSelectOrderItem(orderItem);
+
 
 
         adapter = new WorkFlowReportItemAdapter(this);
@@ -148,8 +166,6 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         });
 
 
-
-
     }
 
 
@@ -160,6 +176,39 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
 
     }
 
+
+    @Override
+    public void showSampleState(SampleState data) {
+
+
+        beibang.setText("背板："+(SampleState.BB_TRUE.equalsIgnoreCase(  data.bb )
+              ? "有" : "无"));
+
+
+
+        String  message ="";
+        if(data.BL_ID!=null) {
+            switch (data.BL_ID) {
+
+                case SampleState.STATE_LB:
+                case SampleState.STATE_PC:
+                    message = "在库：" + data.wareHouse +",时间：" + data.ltime;
+
+                    break;
+                case SampleState.STATE_LN:
+
+                    message = "借出：" + data.factory +",时间："+ data.ltime;
+                    break;
+
+            }
+        }
+        sampleState.setText("样品状态："+(message));
+
+
+
+
+
+    }
 
     @Override
     public void showSendWorkFlowDialog(final ErpWorkFlowReport workFlowReport, ProductWorkMemo productWorkMemo, OrderItemWorkMemo orderItemWorkMemo) {
@@ -173,7 +222,7 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         boolean canReceive = getPresenter().canReceiveWorkFlow(workFlowReport) && workFlowReport.workFlowStep != ErpWorkFlow.FIRST_STEP;
 
 
-        if(unMemoStep&&!canSend&&!canReceive) return;
+        if (unMemoStep && !canSend && !canReceive) return;
 
         View inflate = getLayoutInflater().inflate(R.layout.layout_work_flow_info, null);
         TextView productMemoView = (TextView) inflate.findViewById(R.id.productMemo);
@@ -189,9 +238,6 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         orderItemMemoView.setVisibility(unMemoStep ? View.GONE : View.VISIBLE);
         title_orderItemMemoView.setVisibility(unMemoStep ? View.GONE : View.VISIBLE);
         viewMaterial.setVisibility(unMemoStep ? View.GONE : View.VISIBLE);
-
-
-
 
 
         TextView send = (TextView) inflate.findViewById(R.id.send);
@@ -226,25 +272,22 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
             public void onClick(View v) {
 
 
-
                 // 包装流程，并且名称带有组装时候， 弹出选择查看组装的还是包装的
-                if(ErpWorkFlow.CODE_BAOZHUANG.equals(workFlowReport.workFlowCode)&&workFlowReport.workFlowName.startsWith(ErpWorkFlow.NAME_ZUZHUANG))
-                {
+                if (ErpWorkFlow.CODE_BAOZHUANG.equals(workFlowReport.workFlowCode) && workFlowReport.workFlowName.startsWith(ErpWorkFlow.NAME_ZUZHUANG)) {
 
 
                     final AlertDialog zhbzDialog = new AlertDialog.Builder(WorkFlowListActivity.this)
-                            .setItems(new String[]{ErpWorkFlow.NAME_ZUZHUANG+"材料", ErpWorkFlow.NAME_BAOZHUANG+"材料"}, new DialogInterface.OnClickListener() {
+                            .setItems(new String[]{ErpWorkFlow.NAME_ZUZHUANG + "材料", ErpWorkFlow.NAME_BAOZHUANG + "材料"}, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    switch(which)
-                                    {
+                                    switch (which) {
                                         case 0:
-                                            OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this,workFlowReport.osNo,workFlowReport.itm,ErpWorkFlow.CODE_ZUZHUANG,0);
+                                            OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this, workFlowReport.osNo, workFlowReport.itm, ErpWorkFlow.CODE_ZUZHUANG, 0);
 
                                             break;
                                         case 1:
-                                            OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this,workFlowReport.osNo,workFlowReport.itm,ErpWorkFlow.CODE_BAOZHUANG,0);
+                                            OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this, workFlowReport.osNo, workFlowReport.itm, ErpWorkFlow.CODE_BAOZHUANG, 0);
                                             break;
                                     }
 
@@ -254,10 +297,10 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
                     zhbzDialog.show();
 
 
-                }else
+                } else
 
 
-                OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this,workFlowReport.osNo,workFlowReport.itm,workFlowReport.workFlowCode,0);
+                    OrderItemWorkFlowMaterialActivity.start(WorkFlowListActivity.this, workFlowReport.osNo, workFlowReport.itm, workFlowReport.workFlowCode, 0);
 
 
             }
@@ -333,5 +376,19 @@ public class WorkFlowListActivity extends BaseViewerActivity<WorkFlowListMvp.Pre
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    protected void onViewClick(int id, View v) {
+
+
+        switch (id)
+        {
+            case R.id.clear:
+
+                getPresenter().clearWorkFlow();
+                break;
+        }
     }
 }

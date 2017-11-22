@@ -8,6 +8,7 @@ import com.giants3.hd.entity.ErpOrderItemProcess;
 import com.giants3.hd.entity.ErpWorkFlowReport;
 import com.giants3.hd.entity.OrderItemWorkMemo;
 import com.giants3.hd.entity.ProductWorkMemo;
+import com.giants3.hd.entity_erp.SampleState;
 import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.entity.WorkFlowMessage;
 
@@ -94,6 +95,32 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
         getView().showWaiting();
 
 
+        UseCaseFactory.getInstance().createSearchSampleData( orderItem.prd_name,orderItem.pVersion).execute(new Subscriber<RemoteData<SampleState>>()   {
+
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+                e.printStackTrace();
+
+            }
+
+            @Override
+            public void onNext(RemoteData<SampleState> data) {
+
+                getView().showSampleState(data.datas.get(0) );
+
+            }
+
+
+
+
+        });
     }
 
 
@@ -124,6 +151,14 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
         getView().showSelectOrderItem(orderItem);
         getModel().setSelectOrderItem(orderItem);
         searchData();
+
+
+        searchSampleData();
+
+    }
+
+    private void searchSampleData() {
+
 
     }
 
@@ -206,7 +241,29 @@ public class WorkFlowListPresenter extends BasePresenter<WorkFlowListMvp.Viewer,
 
     }
 
+    @Override
+    public void clearWorkFlow() {
+        //获取关联的流程信息
+        ErpOrderItem selectOrderItem = getModel().getSelectOrderItem();
+        if(selectOrderItem==null) return;
+        UseCaseFactory.getInstance().createGetClearWorkFlowUseCase(selectOrderItem.os_no, selectOrderItem.itm).execute(new RemoteDataSubscriber<Void>(this) {
 
+            @Override
+            protected void handleRemoteData(RemoteData<Void> data) {
+                if(data.isSuccess())
+                {
+                    getView().showMessage("清除成功");
+                    searchData();
+
+
+                }else
+                {
+                    getView().showMessage("清除失败："+data.message);
+                }
+
+            }
+        });
+    }
 
     @Override
     public void sendWorkFlow(String os_no, int itm, int workFlowStep) {

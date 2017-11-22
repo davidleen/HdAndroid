@@ -26,6 +26,7 @@ import com.giants3.hd.entity.ErpWorkFlowReport;
 import com.giants3.hd.entity.Material;
 import com.giants3.hd.entity.OrderItemWorkFlowState;
 import com.giants3.hd.entity.OrderItemWorkMemo;
+import com.giants3.hd.entity_erp.SampleState;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.entity.ProductProcess;
 import com.giants3.hd.entity.ProductWorkMemo;
@@ -525,6 +526,18 @@ public class RestApiImpl implements RestApi {
 
 
     @Override
+    public Observable getCompleteWorkFlowOrderItems(final String key) {
+        return create(new ApiInvoker<ErpOrderItem>() {
+            @Override
+            public RemoteData<ErpOrderItem> invoker() throws HdException {
+
+
+                return apiManager.getCompleteWorkFlowOrderItems(   key);
+            }
+        });
+    }
+
+    @Override
     public Observable getOrderItemWorkMemoList(final String os_no, final int itm) {
         return create(new ApiInvoker<OrderItemWorkMemo>() {
             @Override
@@ -613,13 +626,13 @@ public class RestApiImpl implements RestApi {
         });
     }
     @Override
-    public Observable getMyWorkFlowMessage ( ) {
+    public Observable getMyWorkFlowMessage (final String key ) {
         return create(new ApiInvoker<WorkFlowMessage>() {
             @Override
             public RemoteData<WorkFlowMessage> invoker() throws HdException {
 
 
-                return apiManager.getMyWorkFlowMessage(  )  ;
+                return apiManager.getMyWorkFlowMessage( key )  ;
             }
         });
     }
@@ -658,6 +671,29 @@ public class RestApiImpl implements RestApi {
 
 
                 return apiManager.updatePassword( oldPasswordMd5,newPasswordMd5 )  ;
+            }
+        });
+    }  @Override
+    public Observable searchSampleData(final String prdNo, final String pVersion) {
+        return create(new ApiInvoker<SampleState>() {
+            @Override
+            public RemoteData<SampleState> invoker() throws HdException {
+
+
+                return apiManager.searchSampleData( prdNo,pVersion )  ;
+            }
+        });
+    }
+
+
+    @Override
+    public Observable clearWorkFlow(final String os_no, final int itm) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.clearWorkFlow( os_no,itm )  ;
             }
         });
     }

@@ -138,9 +138,9 @@ public class UseCaseFactory {
     }
 
 
-    public UseCase createGetMyWorkFlowMessageCase() {
+    public UseCase createGetMyWorkFlowMessageCase(String key) {
 
-        return new GetMyWorkFlowMessageCase( restApi);
+        return new GetMyWorkFlowMessageCase(key, restApi);
     }
 
     /**
@@ -277,6 +277,10 @@ public class UseCaseFactory {
 
         return new GetUnCompleteWorkFlowOrderItemsUseCase(key, restApi);
     }
+    public UseCase createGetCompleteWorkFlowOrderItemsUseCase(String key) {
+
+        return new GetCompleteWorkFlowOrderItemsUseCase(key, restApi);
+    }
 
     public UseCase createGetProductWorkMemoUseCase(String prd_name, String pversion) {
 
@@ -327,5 +331,13 @@ public class UseCaseFactory {
     public UseCase createUpdatePasswordUseCase(String oldPasswordMd5,String newPasswordMd5) {
 
         return new UpdatePasswordUseCase(  oldPasswordMd5,  newPasswordMd5, restApi);
+    }
+
+    public UseCase createSearchSampleData(String prd_name, String pVersion) {
+        return new SearchSampleDataUseCase(  prd_name,  pVersion, restApi);
+    }
+
+    public UseCase createGetClearWorkFlowUseCase(String os_no, int itm) {
+        return new ClearWorkFlowUseCase(  os_no,  itm, restApi);
     }
 }

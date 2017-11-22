@@ -14,35 +14,35 @@ import rx.Subscriber;
 public abstract class RemoteDataSubscriber<T> extends Subscriber<RemoteData<T>> {
 
 
-    private BasePresenter viewer;
+    private BasePresenter presenter;
 
     public RemoteDataSubscriber(BasePresenter viewer) {
 
 
-        this.viewer = viewer;
+        this.presenter = viewer;
     }
 
     @Override
     public void onCompleted() {
 
-        if (viewer.getView() == null) return;
-        viewer.getView().hideWaiting();
+        if (presenter.getView() == null) return;
+        presenter.getView().hideWaiting();
     }
 
     @Override
     public void onError(Throwable e) {
-        if (viewer.getView() == null) return;
+        if (presenter.getView() == null) return;
 
-        viewer.getView().hideWaiting();
+        presenter.getView().hideWaiting();
         e.printStackTrace();
 
-        viewer.getView().showMessage(e.getMessage());
+        presenter.getView().showMessage(e.getMessage());
 
     }
 
     @Override
     public void onNext(RemoteData<T> tRemoteData) {
-        if (viewer.getView() == null) return;
+        if (presenter.getView() == null) return;
         if (tRemoteData.isSuccess()) {
 
             handleRemoteData(tRemoteData);
@@ -50,10 +50,10 @@ public abstract class RemoteDataSubscriber<T> extends Subscriber<RemoteData<T>> 
         } else {
 
 
-            viewer.getView().showMessage(tRemoteData.message);
+            presenter.getView().showMessage(tRemoteData.message);
 
             if (tRemoteData.code == RemoteData.CODE_UNLOGIN) {
-                viewer.getView().startLoginActivity();
+                presenter.getView().startLoginActivity();
             }
         }
 
