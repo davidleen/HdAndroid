@@ -7,8 +7,6 @@ import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.entity.ErpOrderItem;
 import com.giants3.hd.noEntity.RemoteData;
 
-import java.util.List;
-
 
 /**
  * Created by davidleen29 on 2017/6/3.
@@ -16,9 +14,10 @@ import java.util.List;
 
 public class PresenterImpl extends BasePresenter<CompleteOrderItemMVP.Viewer, CompleteOrderItemMVP.Model> implements CompleteOrderItemMVP.Presenter {
 
+
     @Override
     public void start() {
-        searchWorkFlowOrderItems("");
+
     }
 
     @Override
@@ -28,14 +27,69 @@ public class PresenterImpl extends BasePresenter<CompleteOrderItemMVP.Viewer, Co
 
 
     @Override
-    public void searchWorkFlowOrderItems(String text) {
+    public void loadMoreWorkFlowOrderItems() {
+
+        RemoteData<ErpOrderItem> remoteData = getModel().getRemoteData();
+        String key = getModel().getKey();
+
+        if (remoteData != null&&remoteData.pageIndex+1<remoteData.pageCount) {
 
 
-        UseCaseFactory.getInstance().createGetCompleteWorkFlowOrderItemsUseCase(text).execute(new RemoteDataSubscriber<ErpOrderItem>(this) {
+            UseCaseFactory.getInstance().createGetCompleteWorkFlowOrderItemsUseCase(key, remoteData.pageIndex + 1, remoteData.pageSize).execute(new RemoteDataSubscriber<ErpOrderItem>(this) {
+                @Override
+                protected void handleRemoteData(RemoteData<ErpOrderItem> data) {
+
+
+                    if (data.isSuccess()) {
+                        getModel().setRemoteData(data);
+                        getView().bindOrderItems(getModel().getDatas());
+                    } else {
+                        getView().showMessage(data.message);
+                    }
+
+
+                }
+
+
+            });
+
+
+        } else {
+            getView().hideWaiting();
+        }
+
+
+    }
+
+    @Override
+    public void setKey(String key) {
+
+
+        getModel().setKey(key);
+    }
+
+    @Override
+    public void searchWorkFlowOrderItems() {
+
+
+        String key = getModel().getKey();
+        int pageIndex = 0;
+        int pageSize = 20;
+        RemoteData<ErpOrderItem> remoteData = getModel().getRemoteData();
+        if (remoteData != null) {
+            pageSize = remoteData.pageSize;
+        }
+
+        UseCaseFactory.getInstance().createGetCompleteWorkFlowOrderItemsUseCase(key, pageIndex, pageSize).execute(new RemoteDataSubscriber<ErpOrderItem>(this) {
             @Override
             protected void handleRemoteData(RemoteData<ErpOrderItem> data) {
 
-                getView().bindOrderItems(data.datas );
+                if (data.isSuccess()) {
+                    getModel().setRemoteData(data);
+                    getView().bindOrderItems(getModel().getDatas());
+                } else {
+                    getView().showMessage(data.message);
+                }
 
 
             }
@@ -47,10 +101,6 @@ public class PresenterImpl extends BasePresenter<CompleteOrderItemMVP.Viewer, Co
 
 
     }
-
-
-
-
 
 
 }

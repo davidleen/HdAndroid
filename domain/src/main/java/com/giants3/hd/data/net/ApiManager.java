@@ -116,6 +116,8 @@ public class ApiManager {
         }.getType());
         tokenMaps.put(SampleState.class, new TypeToken<RemoteData<SampleState>>() {
         }.getType());
+  tokenMaps.put(com.giants3.hd.entity.app.Quotation.class, new TypeToken<RemoteData<com.giants3.hd.entity.app.Quotation>>() {
+        }.getType());
 
 
     }
@@ -498,8 +500,8 @@ public class ApiManager {
 
     }
 
-    public RemoteData<ErpOrderItem> getUnCompleteWorkFlowOrderItems(String key) throws HdException {
-        String url = HttpUrl.getUnCompleteWorkFlowOrderItems(key);
+    public RemoteData<ErpOrderItem> getUnCompleteWorkFlowOrderItems(String key, int workFlowStep, int pageIndex, int pageSize) throws HdException {
+        String url = HttpUrl.getUnCompleteWorkFlowOrderItems(key,   workFlowStep,   pageIndex,   pageSize);
         String result = apiConnection.getString(url);
         RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
 
@@ -507,10 +509,10 @@ public class ApiManager {
     }
 
 
-    public RemoteData<ErpOrderItem> getCompleteWorkFlowOrderItems(String key) throws HdException {
+    public RemoteData<ErpOrderItem> getCompleteWorkFlowOrderItems(String key,int pageIndex,int pageSize) throws HdException {
 
 
-        String url = HttpUrl.getCompleteWorkFlowOrderItems(key);
+        String url = HttpUrl.getCompleteWorkFlowOrderItems(key,  pageIndex,  pageSize);
         String result = apiConnection.getString(url);
         RemoteData<ErpOrderItem> remoteData = invokeByReflect(result, ErpOrderItem.class);
 
@@ -585,9 +587,9 @@ public class ApiManager {
         return remoteData;
     }
 
-    public RemoteData<WorkFlowMessage> getMyWorkFlowMessage(String key) throws HdException {
+    public RemoteData<WorkFlowMessage> getMyWorkFlowMessage(String key,int pageIndex,int pageSize) throws HdException {
 
-        String url = HttpUrl.getMyWorkFlowMessage(key);
+        String url = HttpUrl.getMyWorkFlowMessage(key,  pageIndex,  pageSize);
         String result = apiConnection.getString(url);
         RemoteData<WorkFlowMessage> remoteData = invokeByReflect(result, WorkFlowMessage.class);
         return remoteData;
@@ -639,5 +641,14 @@ public class ApiManager {
         String result = apiConnection.getString(url);
         RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
         return remoteData;
+    }
+
+    public RemoteData<com.giants3.hd.entity.app.Quotation> getAppQotations(String key, int pageIndex, int pageSize) throws HdException {
+
+        String url = HttpUrl.getAppQotations(key, pageIndex,pageSize);
+        String result = apiConnection.getString(url);
+        RemoteData<com.giants3.hd.entity.app.Quotation> remoteData = invokeByReflect(result, com.giants3.hd.entity.app.Quotation.class);
+        return remoteData;
+
     }
 }

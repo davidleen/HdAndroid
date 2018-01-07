@@ -1,7 +1,11 @@
 package com.giants3.hd.android.mvp.uncompleteorderitem;
 
+import android.util.SparseArray;
+
+import com.giants3.hd.android.mvp.PageModelImpl;
 import com.giants3.hd.android.mvp.UnCompleteOrderItemMVP;
 import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.noEntity.RemoteData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +14,15 @@ import java.util.List;
  * Created by davidleen29 on 2016/10/10.
  */
 
-public class ModelImpl implements UnCompleteOrderItemMVP.Model {
+public class ModelImpl extends PageModelImpl<ErpOrderItem> implements UnCompleteOrderItemMVP.Model {
 
 
     private List<ErpOrderItem> datas;
-    private int flowStep=-1;
+    private int flowStep = -1;
+
+
+    SparseArray<List<ErpOrderItem>> erpOrderItemSparseArray = new SparseArray<>();
+    SparseArray<RemoteData<ErpOrderItem>> remoteDataSparseArray = new SparseArray<>();
 
     @Override
     public void setData(List<ErpOrderItem> datas) {
@@ -26,22 +34,16 @@ public class ModelImpl implements UnCompleteOrderItemMVP.Model {
     public List<ErpOrderItem> getFilterData() {
 
 
-        List<ErpOrderItem> result = new ArrayList<>();
-        if (datas != null) {
+        return erpOrderItemSparseArray.get(flowStep);
 
 
-            if (flowStep == -1) result.addAll(datas);
-            else
+    }
 
-                for (ErpOrderItem orderItem : datas) {
+    @Override
+    public RemoteData<ErpOrderItem> getRemoteData() {
 
-                    if (orderItem.maxWorkFlowStep == flowStep) {
-                        result.add(orderItem);
-                    }
-                }
-        }
 
-        return result;
+        return remoteDataSparseArray.get(flowStep);
 
     }
 
@@ -54,5 +56,31 @@ public class ModelImpl implements UnCompleteOrderItemMVP.Model {
     public void setSelectedStep(int flowStep) {
 
         this.flowStep = flowStep;
+    }
+
+    @Override
+    public void setRemoteData(RemoteData<ErpOrderItem> remoteData, int workFlowStep) {
+        List<ErpOrderItem> erpOrderItems = erpOrderItemSparseArray.get(workFlowStep);
+        if (erpOrderItems == null) erpOrderItems = new ArrayList<>();
+        if (remoteData.pageIndex == 0) {
+            //第一页
+            erpOrderItems.clear();
+        }
+
+        erpOrderItems.addAll(remoteData.datas);
+        erpOrderItemSparseArray.put(workFlowStep, erpOrderItems);
+
+        remoteDataSparseArray.put(workFlowStep, remoteData);
+
+
+    }
+
+    @Override
+    public boolean hasNextPage() {
+
+        RemoteData<ErpOrderItem> remoteData = remoteDataSparseArray.get(flowStep);
+
+        return remoteData != null && remoteData.pageIndex + 1 < remoteData.pageCount;
+
     }
 }

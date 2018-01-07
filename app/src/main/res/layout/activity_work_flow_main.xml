@@ -26,6 +26,15 @@
 
         </ListView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/quotation"
+            android:text="@string/quotation"
+            android:gravity="center"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:layout_height="wrap_content" />
+
 
     </LinearLayout>
 

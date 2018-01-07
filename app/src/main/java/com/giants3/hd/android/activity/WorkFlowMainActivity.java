@@ -12,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFLowMainMenuAdapter;
 import com.giants3.hd.android.events.LoginSuccessEvent;
+import com.giants3.hd.android.fragment.AppQuotationFragment;
 import com.giants3.hd.android.fragment.MaterialDetailFragment;
 import com.giants3.hd.android.fragment.OrderDetailFragment;
 import com.giants3.hd.android.fragment.QuotationDetailFragment;
@@ -62,6 +64,10 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
     TextView name;
 
 
+    @Bind(R.id.quotation)
+    TextView quotation;
+
+
     View view;
 
     String[] menuTitles = null;
@@ -89,6 +95,9 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
         }
 
 
+        quotation.setVisibility(BuildConfig.DEBUG ?View.VISIBLE:View.GONE);
+       // quotation.setVisibility(BuildConfig.DEBUG&&SharedPreferencesHelper.getLoginUser().isSalesman?View.VISIBLE:View.GONE);
+
     }
 
     @Override
@@ -113,7 +122,18 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
                 String title = (String) parent.getItemAtPosition(position);
 
 
-                String className = getResources().getStringArray(R.array.menu_fragemnt_class)[position];
+                int index = -1;
+                int length = menuTitles.length;
+                for (int i = 0; i < length; i++) {
+                    String temp = menuTitles[i];
+                    if (temp.equalsIgnoreCase(title)) {
+                        index = i;
+                        break;
+                    }
+                }
+
+
+                String className = getResources().getStringArray(R.array.menu_fragemnt_class)[index];
                 showNewListFragment(className);
                 setActTitle(title);
 
@@ -124,6 +144,19 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
         adapter.setDataArray(menuTitles);
 
         menu.setAdapter(adapter);
+
+
+        quotation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String className = AppQuotationFragment.class.getName();
+                showNewListFragment(className);
+                setActTitle("广交会报价");
+
+            }
+        });
 
 
     }
@@ -268,7 +301,7 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
     }
 
     private void setActTitle(String title) {
-         setTitle(title);
+        setTitle(title);
     }
 
     private void showNewListFragment(String fragmentClassName) {

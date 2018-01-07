@@ -78,7 +78,7 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
 
@@ -101,7 +101,7 @@
             android:headerDividersEnabled="true" />
         </HorizontalScrollView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
 
 </LinearLayout>

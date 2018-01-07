@@ -513,26 +513,26 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable getUnCompleteWorkFlowOrderItems(final String key) {
+    public Observable getUnCompleteWorkFlowOrderItems(final String key, final int workFlowStep, final int pageIndex, final int pageSize) {
         return create(new ApiInvoker<ErpOrderItem>() {
             @Override
             public RemoteData<ErpOrderItem> invoker() throws HdException {
 
 
-                return apiManager.getUnCompleteWorkFlowOrderItems(   key);
+                return apiManager.getUnCompleteWorkFlowOrderItems(   key,   workFlowStep,   pageIndex,   pageSize);
             }
         });
     }
 
 
     @Override
-    public Observable getCompleteWorkFlowOrderItems(final String key) {
+    public Observable getCompleteWorkFlowOrderItems(final String key, final int pageIndex, final int pageSize) {
         return create(new ApiInvoker<ErpOrderItem>() {
             @Override
             public RemoteData<ErpOrderItem> invoker() throws HdException {
 
 
-                return apiManager.getCompleteWorkFlowOrderItems(   key);
+                return apiManager.getCompleteWorkFlowOrderItems(   key,  pageIndex,  pageSize);
             }
         });
     }
@@ -626,13 +626,13 @@ public class RestApiImpl implements RestApi {
         });
     }
     @Override
-    public Observable getMyWorkFlowMessage (final String key ) {
+    public Observable getMyWorkFlowMessage (final String key, final int pageIndex, final int pageSize ) {
         return create(new ApiInvoker<WorkFlowMessage>() {
             @Override
             public RemoteData<WorkFlowMessage> invoker() throws HdException {
 
 
-                return apiManager.getMyWorkFlowMessage( key )  ;
+                return apiManager.getMyWorkFlowMessage( key,  pageIndex,  pageSize )  ;
             }
         });
     }
@@ -694,6 +694,17 @@ public class RestApiImpl implements RestApi {
 
 
                 return apiManager.clearWorkFlow( os_no,itm )  ;
+            }
+        });
+    }
+    @Override
+    public Observable getAppQuotations(final String key, final int pageIndex, final int pageSize) {
+        return create(new ApiInvoker<com.giants3.hd.entity.app.Quotation>() {
+            @Override
+            public RemoteData<com.giants3.hd.entity.app.Quotation> invoker() throws HdException {
+
+
+                return apiManager.getAppQotations( key,pageIndex,pageSize )  ;
             }
         });
     }

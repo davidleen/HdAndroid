@@ -162,6 +162,16 @@ public abstract class AbstractAdapter<D> extends BaseAdapter {
 
     }
 
+    public void clear() {
+
+        if(datas!=null) {
+            datas.clear();
+            notifyDataSetChanged();
+        }
+
+
+    }
+
     /**
      * a bindable interface with a bindData method
      * 数据绑定类 包含绑定的控件成员 绑定方法。

@@ -1,10 +1,10 @@
 package com.giants3.hd.android.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +16,13 @@ import com.giants3.hd.android.activity.WorkFlowMessageReceiveActivity;
 import com.giants3.hd.android.adapter.WorkFlowMessageAdapter;
 import com.giants3.hd.android.mvp.MyUndoWorkFlowMessageMVP;
 import com.giants3.hd.android.mvp.myundoworkflowmessage.PresenterImpl;
+import com.giants3.hd.android.widget.RefreshLayoutConfig;
 import com.giants3.hd.entity.WorkFlowMessage;
 import com.giants3.hd.noEntity.RemoteData;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.footer.LoadingView;
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 
 import butterknife.Bind;
 
@@ -31,10 +36,12 @@ public class MyUndoWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlo
     private static final int REQUEST_MESSAGE_OPERATE = 9999;
     WorkFlowMessageAdapter adapter;
     @Bind(R.id.swipeLayout)
-    SwipeRefreshLayout swipeLayout;
+    TwinklingRefreshLayout swipeLayout;
 
     @Bind(R.id.list)
     ListView listView;
+    @Bind(R.id.search)
+    View search;
 
     @Override
     protected MyUndoWorkFlowMessageMVP.Presenter createPresenter() {
@@ -52,12 +59,27 @@ public class MyUndoWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlo
     @Override
     protected void initView() {
 
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+        RefreshLayoutConfig.config(swipeLayout);
+        swipeLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+
+
             @Override
-            public void onRefresh() {
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
 
 
                 getPresenter().loadData();
+
+
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+
+
+                swipeLayout.finishLoadmore();
+
+
             }
         });
 
@@ -65,28 +87,38 @@ public class MyUndoWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlo
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                WorkFlowMessage workFlowMessage= (WorkFlowMessage) parent.getItemAtPosition(position);
-                WorkFlowMessageReceiveActivity.start(MyUndoWorkFlowMessageFragment.this,workFlowMessage,REQUEST_MESSAGE_OPERATE);
 
+                WorkFlowMessage workFlowMessage = (WorkFlowMessage) parent.getItemAtPosition(position);
+                WorkFlowMessageReceiveActivity.start(MyUndoWorkFlowMessageFragment.this, workFlowMessage, REQUEST_MESSAGE_OPERATE);
+
+                swipeLayout.finishLoadmore();
 
 
             }
         });
+        search.post(new Runnable() {
+            @Override
+            public void run() {
 
+                getPresenter().loadData();
+            }
+        });
+        search.setVisibility(View.GONE);
     }
-
 
     @Override
     public void showWaiting() {
-        swipeLayout.setRefreshing(true);
+        swipeLayout.startRefresh();
     }
 
     @Override
     public void hideWaiting() {
-        swipeLayout.setRefreshing(false);
+        swipeLayout.finishRefreshing();
     }
 
     @Override
@@ -98,10 +130,9 @@ public class MyUndoWorkFlowMessageFragment extends BaseMvpFragment<MyUndoWorkFlo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode!= Activity.RESULT_OK)return;
-        switch (requestCode)
-        {
-            case  REQUEST_MESSAGE_OPERATE:
+        if (resultCode != Activity.RESULT_OK) return;
+        switch (requestCode) {
+            case REQUEST_MESSAGE_OPERATE:
                 getPresenter().loadData();
                 break;
         }

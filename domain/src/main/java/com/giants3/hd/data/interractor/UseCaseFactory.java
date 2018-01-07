@@ -138,9 +138,9 @@ public class UseCaseFactory {
     }
 
 
-    public UseCase createGetMyWorkFlowMessageCase(String key) {
+    public UseCase createGetMyWorkFlowMessageCase(String key,int pageIndex,int pageSize) {
 
-        return new GetMyWorkFlowMessageCase(key, restApi);
+        return new GetMyWorkFlowMessageCase(key, restApi ,  pageIndex,  pageSize);
     }
 
     /**
@@ -273,13 +273,13 @@ public class UseCaseFactory {
         return new LoadUsersUseCase(restApi);
     }
 
-    public UseCase createGetUnCompleteWorkFlowOrderItemsUseCase(String key) {
+    public UseCase createGetUnCompleteWorkFlowOrderItemsUseCase(String key, int workFlowStep, int pageIndex, int pageSize) {
 
-        return new GetUnCompleteWorkFlowOrderItemsUseCase(key, restApi);
+        return new GetUnCompleteWorkFlowOrderItemsUseCase(key, restApi,   workFlowStep,   pageIndex,   pageSize);
     }
-    public UseCase createGetCompleteWorkFlowOrderItemsUseCase(String key) {
+    public UseCase createGetCompleteWorkFlowOrderItemsUseCase(String key,int pageIndex,int pageSize) {
 
-        return new GetCompleteWorkFlowOrderItemsUseCase(key, restApi);
+        return new GetCompleteWorkFlowOrderItemsUseCase(key, restApi,  pageIndex,  pageSize);
     }
 
     public UseCase createGetProductWorkMemoUseCase(String prd_name, String pversion) {
@@ -339,5 +339,11 @@ public class UseCaseFactory {
 
     public UseCase createGetClearWorkFlowUseCase(String os_no, int itm) {
         return new ClearWorkFlowUseCase(  os_no,  itm, restApi);
+    }
+
+    public UseCase createGetAppQuotationsUseCase(String key, int pageIndex, int pageSize) {
+
+        return new GetAppQuotationsUseCase(key,pageIndex,pageSize,restApi);
+
     }
 }

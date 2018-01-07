@@ -33,7 +33,7 @@ public class HttpUrl {
     public static final String API_URL_GET_MATERIAL_LIST = "/api/material/search?codeOrName=%s&pageIndex=%d&pageSize=%d";
     public static final String API_URL_GET_MATERIAL_LIST_IN_SERVICE = "/api/material/searchInService?codeOrName=%s&pageIndex=%d&pageSize=%d";
     public static final String API_URL_UPLOAD_MATERIAL_PICTURE = "/api/file/uploadMaterialPicture?materialId=%d";
-    public static final String API_URL_GET_INITDATA = "/api/user/getInitData?userId=%d";
+    public static final String API_URL_GET_INITDATA = "/api/user/getAppInitData?userId=%d";
     public static final String API_URL_SAVE_PRODUCTDETAIL = "/api/product/save";
     public static final String API_URL_GET_QUOTATION_DETAIL = "/api/quotation/detail?id=%d";
     public static final String API_URL_GET_ORDER_LIST = "/api/order/list?key=%s&pageIndex=%d&pageSize=%d";
@@ -351,14 +351,14 @@ public class HttpUrl {
 
     }
 
-    public static String getUnCompleteWorkFlowOrderItems(String key) {
-        return completeUrl("api/erpWork/searchUnCompleteOrderItems?key=" + key);
+    public static String getUnCompleteWorkFlowOrderItems(String key, int workFlowStep, int pageIndex, int pageSize) {
+        return completeUrl("api/erpWork/searchUnCompleteOrderItems?key=" + key + "&workFlowStep=" + workFlowStep + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
 
     }
 
 
-    public static String getCompleteWorkFlowOrderItems(String key) {
-        return completeUrl("api/erpWork/searchCompleteOrderItems?key=" + key);
+    public static String getCompleteWorkFlowOrderItems(String key, int pageIndex, int pageSize) {
+        return completeUrl("api/erpWork/searchCompleteOrderItems?key=" + key + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
 
 
     }
@@ -408,8 +408,8 @@ public class HttpUrl {
 
     }
 
-    public static String getMyWorkFlowMessage(String key) {
-        return completeUrl("api/order/myWorkFlowMessage?key="+key);
+    public static String getMyWorkFlowMessage(String key, int pageIndex, int pageSize) {
+        return completeUrl("api/order/myWorkFlowMessage?key=" + key + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
 
 
     }
@@ -441,5 +441,9 @@ public class HttpUrl {
 
     public static String clearWorkFlow(String os_no, int itm) {
         return completeUrl(String.format("/api/erpWork/clear?osNO=%s&itm=%d", os_no, itm));
+    }
+
+    public static String getAppQotations(String key, int pageIndex, int pageSize) {
+        return completeUrl(String.format("/api/app/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d", key, pageIndex, pageSize));
     }
 }

@@ -2,6 +2,7 @@ package com.giants3.hd.android.mvp;
 
 
 import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.noEntity.RemoteData;
 
 import java.util.List;
 
@@ -12,19 +13,19 @@ import java.util.List;
 public interface CompleteOrderItemMVP {
 
 
-    interface Model extends NewModel {
-
-
-
+    interface Model<T> extends PageModel<T> {
 
 
     }
 
     interface Presenter extends NewPresenter<CompleteOrderItemMVP.Viewer> {
 
-        void searchWorkFlowOrderItems(String text);
+        void searchWorkFlowOrderItems( );
 
 
+        void loadMoreWorkFlowOrderItems();
+
+        void setKey(String trim);
     }
 
     interface Viewer extends NewViewer {

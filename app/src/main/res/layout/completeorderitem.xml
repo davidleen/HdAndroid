@@ -3,6 +3,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragment.MyAvailableOrderItemFragment">
 
@@ -17,7 +18,7 @@
 
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
 
@@ -40,7 +41,7 @@
             android:headerDividersEnabled="true" />
         </HorizontalScrollView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
 
 </LinearLayout>

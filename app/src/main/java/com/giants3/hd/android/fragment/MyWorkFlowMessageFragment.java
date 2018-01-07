@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -19,8 +18,12 @@ import com.giants3.hd.android.activity.WorkFlowMessageReceiveActivity;
 import com.giants3.hd.android.adapter.WorkFlowMessageAdapter;
 import com.giants3.hd.android.mvp.myworkflowmessage.MVP;
 import com.giants3.hd.android.mvp.myworkflowmessage.PresenterImpl;
-import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.android.widget.RefreshLayoutConfig;
 import com.giants3.hd.entity.WorkFlowMessage;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -34,7 +37,7 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MVP.Presenter> im
     private static final int REQUEST_MESSAGE_OPERATE = 9999;
     WorkFlowMessageAdapter adapter;
     @Bind(R.id.swipeLayout)
-    SwipeRefreshLayout swipeLayout;
+    TwinklingRefreshLayout swipeLayout;
     @Bind(R.id.search)
     EditText search;
 
@@ -57,14 +60,31 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MVP.Presenter> im
     @Override
     protected void initView() {
 
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+        RefreshLayoutConfig.config(swipeLayout);
+
+        swipeLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+
+
             @Override
-            public void onRefresh() {
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
 
 
                 getPresenter().loadData();
+
+
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+
+
+                getPresenter().loadMore();
+
+
             }
         });
+
 
         adapter = new WorkFlowMessageAdapter(getActivity());
         listView.setAdapter(adapter);
@@ -88,9 +108,9 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MVP.Presenter> im
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-
+                getPresenter().setKey(s.toString().trim());
                 search.removeCallbacks(loadDelayRannable);
-                search.postDelayed(loadDelayRannable,1000);
+                search.postDelayed(loadDelayRannable, 1000);
 
             }
 
@@ -100,34 +120,34 @@ public class MyWorkFlowMessageFragment extends BaseMvpFragment<MVP.Presenter> im
             }
         });
 
-        search.post(loadDelayRannable);
+
 
 
     }
 
 
-
-    private Runnable loadDelayRannable=new Runnable() {
+    private Runnable loadDelayRannable = new Runnable() {
         @Override
         public void run() {
-            getPresenter().loadData(search.getText().toString().trim());
+            getPresenter().loadData();
         }
     };
 
-    @Override
-    public void showWaiting() {
-
-        swipeLayout.setRefreshing(true);
-    }
+//    @Override
+//    public void showWaiting() {
+//        swipeLayout.startRefresh();
+//    }
 
     @Override
     public void hideWaiting() {
-        swipeLayout.setRefreshing(false);
+        super.hideWaiting();
+        swipeLayout.finishRefreshing();
+        swipeLayout.finishLoadmore();
     }
 
     @Override
-    public void setData(RemoteData<WorkFlowMessage> remoteData) {
-        adapter.setDataArray(remoteData.datas);
+    public void setData(List<WorkFlowMessage> datas) {
+        adapter.setDataArray(datas);
     }
 
 

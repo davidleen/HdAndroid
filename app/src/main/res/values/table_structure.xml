@@ -278,7 +278,24 @@
         <item>合同日期||os_dd||1||120</item>
         <item>生产交期||so_data||1||120</item>
         <item>生产类型||produceTypeName||1||100</item>
-      <!--  <item>厂商||cus_no||1||100</item>-->
+        <item>厂商||factory||1||100</item>
+
+
+    </string-array>
+
+
+    <!--广交会报价细项表 表格-->
+    <string-array name="table_app_quotation">
+
+        <item>报价单号||qNumber||1||91</item>
+
+        <item>日期||qDate||1||120</item>
+        <item>客户编号||customerCode||1||120</item>
+        <item>业务员||salesman||1||120</item>
+        <item>款数||itemCount||1||120</item>
+        <item>总额||totalCost||1||100</item>
+        <item>备注||memo||1||200</item>
+
 
 
     </string-array>

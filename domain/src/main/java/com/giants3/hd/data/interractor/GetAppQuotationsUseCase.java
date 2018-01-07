@@ -5,25 +5,25 @@ import com.giants3.hd.data.net.RestApi;
 import rx.Observable;
 
 /**
- * Created by davidleen29 on 2017/6/25.
+ * Created by davidleen29 on 2017/12/11.
  */
 
-class GetMyWorkFlowMessageCase extends DefaultUseCase {
-    private String key;
-    private RestApi restApi;
+class GetAppQuotationsUseCase extends DefaultUseCase {
+    private final String key;
     private final int pageIndex;
     private final int pageSize;
+    private RestApi restApi;
 
-    public GetMyWorkFlowMessageCase(String key,RestApi restApi,int pageIndex,int pageSize) {
+    public GetAppQuotationsUseCase(String key, int pageIndex, int pageSize, RestApi restApi) {
         super();
         this.key = key;
-        this.restApi = restApi;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
+        this.restApi = restApi;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return restApi.getMyWorkFlowMessage(key ,  pageIndex, pageSize);
+        return restApi.getAppQuotations(key,pageIndex,pageSize);
     }
 }

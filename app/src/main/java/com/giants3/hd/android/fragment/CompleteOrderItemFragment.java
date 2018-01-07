@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,9 +23,11 @@ import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.mvp.CompleteOrderItemMVP;
 import com.giants3.hd.android.mvp.completeorderitem.PresenterImpl;
+import com.giants3.hd.android.widget.RefreshLayoutConfig;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.entity.ErpOrderItem;
-import com.giants3.hd.entity.ErpWorkFlow;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.List;
 
@@ -42,14 +43,12 @@ public class CompleteOrderItemFragment extends BaseMvpFragment<CompleteOrderItem
     private static final int REQUEST_MESSAGE_OPERATE = 9999;
     ItemListAdapter<ErpOrderItem> adapter;
     @Bind(R.id.swipeLayout)
-    SwipeRefreshLayout swipeLayout;
+    TwinklingRefreshLayout swipeLayout;
 
     @Bind(R.id.list)
     ListView listView;
     @Bind(R.id.search_text)
     EditText search_text;
-
-
 
 
     @Override
@@ -68,14 +67,31 @@ public class CompleteOrderItemFragment extends BaseMvpFragment<CompleteOrderItem
     @Override
     protected void initView() {
 
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        RefreshLayoutConfig.config(swipeLayout);
+        swipeLayout.setTargetView(listView);
+
+        swipeLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+
+
             @Override
-            public void onRefresh() {
-                searchWorkFlowOrderItems();
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+
+
+                getPresenter().searchWorkFlowOrderItems();
+
+
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+
+                getPresenter().loadMoreWorkFlowOrderItems();
+
 
             }
         });
-        swipeLayout.setEnabled(false);
+
+
         adapter = new ItemListAdapter<>(getActivity());
         adapter.setTableData(TableData.resolveData(getActivity(), R.array.table_erp_order_item));
         listView.setAdapter(adapter);
@@ -87,7 +103,7 @@ public class CompleteOrderItemFragment extends BaseMvpFragment<CompleteOrderItem
 
                 final ErpOrderItem erpOrderItem = (ErpOrderItem) parent.getItemAtPosition(position);
 
-                if(erpOrderItem==null) return ;
+                if (erpOrderItem == null) return;
 //                if((SharedPreferencesHelper.getLoginUser().position& CompanyPosition.PRIVILAGE_WORKFLOW_MEMO)==CompanyPosition.PRIVILAGE_WORKFLOW_MEMO)
 //                {
                 //有备注权限
@@ -143,6 +159,7 @@ public class CompleteOrderItemFragment extends BaseMvpFragment<CompleteOrderItem
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
+                getPresenter().setKey(s.toString().trim());
                 search_text.removeCallbacks(searchRunnable);
                 search_text.postDelayed(searchRunnable, 1500);
 
@@ -156,26 +173,27 @@ public class CompleteOrderItemFragment extends BaseMvpFragment<CompleteOrderItem
         });
 
 
+        search_text.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeLayout.startRefresh();
+            }
+        });
 
     }
+
+
+
 
     private Runnable searchRunnable = new Runnable() {
         @Override
         public void run() {
 
 
-            searchWorkFlowOrderItems();
-
+           swipeLayout.startRefresh();
 
         }
     };
-
-    private void searchWorkFlowOrderItems() {
-
-        String text = search_text.getText().toString().trim();
-        getPresenter().searchWorkFlowOrderItems(text);
-
-    }
 
 
     @Override
@@ -188,14 +206,22 @@ public class CompleteOrderItemFragment extends BaseMvpFragment<CompleteOrderItem
 
     }
 
+    @Override
+    public void showWaiting() {
 
+    }
 
     @Override
-    public void bindOrderItems(List<ErpOrderItem> datas ) {
+    public void hideWaiting() {
+//        super.hideWaiting();
+
+        swipeLayout.finishRefreshing();
+        swipeLayout.finishLoadmore();
+    }
+
+    @Override
+    public void bindOrderItems(List<ErpOrderItem> datas) {
         adapter.setDataArray(datas);
-
-
-
 
 
     }
@@ -206,7 +232,7 @@ public class CompleteOrderItemFragment extends BaseMvpFragment<CompleteOrderItem
         if (resultCode != Activity.RESULT_OK) return;
         switch (requestCode) {
             case REQUEST_MESSAGE_OPERATE:
-                searchWorkFlowOrderItems();
+                getPresenter().searchWorkFlowOrderItems();
 
                 break;
         }
@@ -215,10 +241,6 @@ public class CompleteOrderItemFragment extends BaseMvpFragment<CompleteOrderItem
 
     @Override
     public void onClick(View v) {
-
-
-
-
 
 
     }

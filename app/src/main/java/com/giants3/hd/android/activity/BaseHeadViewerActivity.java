@@ -23,9 +23,16 @@ public  abstract  class BaseHeadViewerActivity<P extends NewPresenter> extends B
         getPresenter().attachView(this);
 
         initEventAndData();
-        if(getPresenter() != null) {
-            getPresenter().start();
-        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(getPresenter() != null) {
+                    getPresenter().start();
+                }
+            }
+        });
+
     }
 
     public P getPresenter() {

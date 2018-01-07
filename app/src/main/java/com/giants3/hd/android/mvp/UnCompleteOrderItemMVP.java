@@ -2,6 +2,7 @@ package com.giants3.hd.android.mvp;
 
 
 import com.giants3.hd.entity.ErpOrderItem;
+import com.giants3.hd.noEntity.RemoteData;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public interface UnCompleteOrderItemMVP {
 
 
-    interface Model extends NewModel {
+    interface Model extends PageModel<ErpOrderItem> {
 
 
         void setData(List<ErpOrderItem> datas);
@@ -22,14 +23,20 @@ public interface UnCompleteOrderItemMVP {
         int getSelectedStep();
 
         void setSelectedStep(int flowStep);
+
+
+        void setRemoteData(RemoteData<ErpOrderItem> data, int workFlowStep);
     }
 
     interface Presenter extends NewPresenter<UnCompleteOrderItemMVP.Viewer> {
 
-        void searchWorkFlowOrderItems(String text);
+        void searchWorkFlowOrderItems( );
 
         void filterData(int flowstep);
 
+        void setKey(String key);
+
+        void loadMoreWorkFlowOrderItems();
     }
 
     interface Viewer extends NewViewer {

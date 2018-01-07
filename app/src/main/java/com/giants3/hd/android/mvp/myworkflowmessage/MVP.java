@@ -4,8 +4,11 @@ package com.giants3.hd.android.mvp.myworkflowmessage;
 import com.giants3.hd.android.mvp.NewModel;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
+import com.giants3.hd.android.mvp.PageModel;
 import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.entity.WorkFlowMessage;
+
+import java.util.List;
 
 /**代办流程消息列表
  * Created by davidleen29 on 2017/5/23.
@@ -14,8 +17,7 @@ import com.giants3.hd.entity.WorkFlowMessage;
 public interface MVP {
 
 
-    interface Model extends NewModel {
-
+    interface Model<T> extends PageModel<T> {
 
 
     }
@@ -24,14 +26,14 @@ public interface MVP {
 
 
         void loadData();
-        void loadData(String key);
 
-
+        void  setKey(String key);
+        void loadMore();
     }
 
     interface Viewer extends NewViewer {
 
 
-        void setData(RemoteData<WorkFlowMessage> remoteData);
+        void setData(List<WorkFlowMessage> datas);
     }
 }

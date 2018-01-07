@@ -18,7 +18,8 @@ public class PresenterImpl extends BasePresenter<UnCompleteOrderItemMVP.Viewer, 
 
     @Override
     public void start() {
-        searchWorkFlowOrderItems("");
+         searchWorkFlowOrderItems( );
+         getView().showWaiting();
     }
 
     @Override
@@ -28,27 +29,28 @@ public class PresenterImpl extends BasePresenter<UnCompleteOrderItemMVP.Viewer, 
 
 
     @Override
-    public void searchWorkFlowOrderItems(String text) {
+    public void searchWorkFlowOrderItems( ) {
 
 
-        UseCaseFactory.getInstance().createGetUnCompleteWorkFlowOrderItemsUseCase(text).execute(new RemoteDataSubscriber<ErpOrderItem>(this) {
+        String key=getModel().getKey();
+        final int workFlowStep=getModel().getSelectedStep();
+        int pageIndex = 0;
+        int pageSize = 20;
+
+
+//
+        UseCaseFactory.getInstance().createGetUnCompleteWorkFlowOrderItemsUseCase(key,workFlowStep,pageIndex,pageSize).execute(new RemoteDataSubscriber<ErpOrderItem>(this) {
             @Override
             protected void handleRemoteData(RemoteData<ErpOrderItem> data) {
 
 
-                getModel().setData(data.datas);
-              bindData();
+                getModel().setRemoteData(data,workFlowStep);
+                bindData();
 
             }
 
 
         });
-
-        getView().showWaiting();
-
-
-
-
 
 
 
@@ -56,8 +58,37 @@ public class PresenterImpl extends BasePresenter<UnCompleteOrderItemMVP.Viewer, 
     }
 
 
-    private   void  bindData()
+    @Override
+    public void loadMoreWorkFlowOrderItems() {
 
+
+
+        if(!getModel().hasNextPage())
+        {
+            getView().hideWaiting();
+            return   ;}
+        final RemoteData remoteData = getModel().getRemoteData();
+
+        final int workFlowStep=getModel().getSelectedStep();
+        String key=getModel().getKey();
+
+//
+        UseCaseFactory.getInstance().createGetUnCompleteWorkFlowOrderItemsUseCase(key,workFlowStep,remoteData.pageIndex+1,remoteData.pageSize).execute(new RemoteDataSubscriber<ErpOrderItem>(this) {
+            @Override
+            protected void handleRemoteData(RemoteData<ErpOrderItem> data) {
+
+
+                getModel().setRemoteData(data,workFlowStep);
+                bindData();
+
+            }
+
+
+        });
+
+    }
+
+    private   void  bindData()
     {
         List<ErpOrderItem> datas=getModel().getFilterData();
         int flowStep=getModel().getSelectedStep();
@@ -72,7 +103,33 @@ public class PresenterImpl extends BasePresenter<UnCompleteOrderItemMVP.Viewer, 
     @Override
     public void filterData(int flowStep) {
         getModel().setSelectedStep(flowStep);
-        bindData();
+
+
+        List<ErpOrderItem> erpOrderItems=getModel().getFilterData();
+
+        if(erpOrderItems==null)
+        {
+            getView().bindOrderItems(null,flowStep);
+            searchWorkFlowOrderItems();
+            getView().showWaiting();
+
+        }else
+        {
+            bindData();
+        }
+
+
+
+
+    }
+
+
+    @Override
+    public void setKey(String key) {
+
+        getModel().setKey(key);
+
+
 
     }
 }

@@ -33,8 +33,7 @@ public class PresenterImpl extends BasePresenter<MyAvailableOrderItemMVP.Viewer,
 
         String key=text;
         final int pageIndex=0;
-        final int pageSize=30;
-
+        final int pageSize=20;
         doSearch(key,pageIndex,pageSize);
 
 

@@ -15,7 +15,7 @@ public class PresenterImpl extends BasePresenter<MyUndoWorkFlowMessageMVP.Viewer
 
     @Override
     public void start() {
-        loadData();
+
     }
 
     @Override

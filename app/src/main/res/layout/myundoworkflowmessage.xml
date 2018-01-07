@@ -3,6 +3,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragment.MyUndoWorkFlowMessageFragment">
 
@@ -13,23 +14,25 @@
 
         android:hint="请输入订单号，货号查询..."
         android:textSize="16sp" />
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
         android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        app:tr_showLoadingWhenOverScroll="true"
+
 
         android:layout_height="match_parent">
-    <ListView
-        android:id="@+id/list"
 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@drawable/icon_divider"
-        android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
-         />
+        <ListView
+            android:id="@+id/list"
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/icon_divider"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true" />
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
 
 </LinearLayout>

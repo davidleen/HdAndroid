@@ -15,12 +15,17 @@ public class GetCompleteWorkFlowOrderItemsUseCase extends DefaultUseCase {
 
     private final String key;
     RestApi restApi;
-    public GetCompleteWorkFlowOrderItemsUseCase(  String key, RestApi restApi) {
+    private final int pageIndex;
+    private final int pageSize;
+
+    public GetCompleteWorkFlowOrderItemsUseCase(  String key, RestApi restApi,int pageIndex,int pageSize) {
 
         this.key=key;
         this.restApi=restApi;
 
 
+        this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
     }
 
     @Override
@@ -28,7 +33,7 @@ public class GetCompleteWorkFlowOrderItemsUseCase extends DefaultUseCase {
 
 
 
-       return restApi.getCompleteWorkFlowOrderItems( key);
+       return restApi.getCompleteWorkFlowOrderItems( key, pageIndex, pageSize);
 
 
     }

@@ -145,12 +145,14 @@ public interface RestApi {
   /**
    * 读取已排产未完工的订单
    * @param key
-   * @return
+   * @param workFlowStep
+   *@param pageIndex
+   * @param pageSize @return
    */
-    Observable getUnCompleteWorkFlowOrderItems(String key);
+    Observable getUnCompleteWorkFlowOrderItems(String key, int workFlowStep, int pageIndex, int pageSize);
 
 
-  Observable getCompleteWorkFlowOrderItems(String key);
+  Observable getCompleteWorkFlowOrderItems(String key,int pageIndex,int pageSize);
 
   Observable getOrderItemWorkMemoList(String os_no, int itm);
 
@@ -166,7 +168,7 @@ public interface RestApi {
 
     Observable getWorkFLowMessageByOrderItem(String osNO, int itm);
 
-  Observable getMyWorkFlowMessage(String key);
+  Observable getMyWorkFlowMessage(String key,int pageIndex,int pageSize);
 
     Observable getWorkFlowMemoAuth();
 
@@ -177,4 +179,6 @@ public interface RestApi {
     Observable searchSampleData(String prd_name, String pVersion);
 
     Observable clearWorkFlow(String os_no, int itm);
+
+    Observable getAppQuotations(String key, int pageIndex, int pageSize);
 }

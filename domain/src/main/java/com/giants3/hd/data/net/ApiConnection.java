@@ -89,7 +89,27 @@ public class ApiConnection {
 
 
     }
+    public byte[] put(String url, byte[] data) throws HdException {
 
+        RequestBody body = RequestBody.create(mediaType, data);
+        Request request = null;
+        try {
+            request = new Request.Builder()
+                    .url(new URL(url))
+                    .put(body).build();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw HdException.create("url:" + url + ",is not a valid url");
+        }
+        try {
+            return okHttpClient.newCall(request).execute().body().bytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw HdException.create(e);
+        }
+
+
+    }
     /**
      * 提交二进制流数据
      */
@@ -213,6 +233,30 @@ public class ApiConnection {
             throw HdException.create(e);
         }
     }
+
+
+    public byte[] delete(String url) throws HdException {
+
+
+
+        Request request = null;
+        try {
+            request = new Request.Builder()
+                    .url(new URL(url))
+                    .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_VALUE_JSON).delete().build();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw HdException.create("url:" + url + ",is not a valid url");
+        }
+        try {
+            return okHttpClient.newCall(request).execute().body().bytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw HdException.create(e);
+        }
+    }
+
 
     /**
      *
