@@ -220,7 +220,16 @@ public class ItemListAdapter<T>
 
 
             for (int i = 0; i < tableData.size; i++) {
-                Object o = getData(tableData.fields.get(i), orderItem);
+
+
+                String field = tableData.fields.get(i);
+                //判断是否有自定义实现
+                if(bindFieldData(views[i],orderItem,field))
+                {
+                    continue;
+                }
+
+                Object o = getData(field, orderItem);
 //                try {
 //                    o = orderItem.getClass().getField(tableData.fields[i]).get(orderItem);
 //                } catch (IllegalAccessException e) {
@@ -296,6 +305,18 @@ public class ItemListAdapter<T>
 
     }
 
+
+    /**
+     * 自定义数据绑定， 子类可以实现 未实现，默认使用反射处理。
+     * @param data
+     * @param field
+     * @return
+     */
+    protected boolean bindFieldData(View view, T data, String field)
+    {
+
+        return false;
+    }
     /**
      * 通过反射获取数据
      *

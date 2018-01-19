@@ -280,6 +280,10 @@
         <item>生产类型||produceTypeName||1||100</item>
         <item>厂商||factory||1||100</item>
 
+        <item>当前流程||maxWorkFlowName||1||100</item>
+        <item>当前情况||currentOverDueDay||1||100</item>
+        <item>总进度情况||totalLimit||1||100</item>
+
 
     </string-array>
 

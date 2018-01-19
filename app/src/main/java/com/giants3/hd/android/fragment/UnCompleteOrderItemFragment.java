@@ -19,6 +19,7 @@ import com.giants3.hd.android.R;
 import com.giants3.hd.android.activity.OrderItemWorkFlowMessageActivity;
 import com.giants3.hd.android.activity.WorkFlowListActivity;
 import com.giants3.hd.android.activity.WorkFlowOrderItemMemoActivity;
+import com.giants3.hd.android.adapter.ErpOrderItemListAdapter;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.mvp.UnCompleteOrderItemMVP;
@@ -101,8 +102,7 @@ public class UnCompleteOrderItemFragment extends BaseMvpFragment<UnCompleteOrder
             }
         });
 
-        adapter = new ItemListAdapter<>(getActivity());
-        adapter.setTableData(TableData.resolveData(getActivity(), R.array.table_erp_order_item));
+        adapter = new ErpOrderItemListAdapter(getActivity());
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -12,4 +12,18 @@
     <color name="title_color">#aa99a7</color>
     <color name="value_color">#333333</color>
     <color name="white">#ffffff</color>
+
+
+
+
+    <color name="red">#ff0000</color>
+    <color name="red2">#ff6666</color>
+
+    <color name="yellow">#ffff00</color>
+    <color name="yellow2">#ffff88</color>
+
+
+    <color name="orange">#FF8888</color>
+    <color name="orange2">#FF8800</color>
+
 </resources>

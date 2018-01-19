@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.activity.WorkFlowListActivity;
+import com.giants3.hd.android.adapter.ErpOrderItemListAdapter;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.mvp.MyAvailableOrderItemMVP;
@@ -74,8 +75,8 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
 
        swipeLayout.setEnabled(false);
 
-        adapter = new ItemListAdapter(getActivity());
-        adapter.setTableData(TableData.resolveData(getActivity(),R.array.table_erp_order_item));
+        adapter = new ErpOrderItemListAdapter(getActivity());
+
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
