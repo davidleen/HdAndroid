@@ -27,6 +27,8 @@ public interface AppQuotationMVP {
         void loadMoreData();
 
         void setKey(String text);
+
+
     }
 
     interface Viewer extends NewViewer {

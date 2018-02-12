@@ -16,10 +16,10 @@ public abstract class RemoteDataSubscriber<T> extends Subscriber<RemoteData<T>> 
 
     private BasePresenter presenter;
 
-    public RemoteDataSubscriber(BasePresenter viewer) {
+    public RemoteDataSubscriber(BasePresenter presenter) {
 
 
-        this.presenter = viewer;
+        this.presenter = presenter;
     }
 
     @Override

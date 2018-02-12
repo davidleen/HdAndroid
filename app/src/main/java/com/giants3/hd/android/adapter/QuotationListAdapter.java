@@ -6,10 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
-import com.giants3.hd.appdata.AQuotation;
 import com.giants3.hd.entity.Quotation;
 
 import butterknife.Bind;
+
+;
 
 
 /**
@@ -56,7 +57,7 @@ public class QuotationListAdapter
         @Bind(R.id.overdue)
         public View overdue;
 
-        public AQuotation mItem;
+        public com.giants3.hd.entity.app.Quotation mItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -71,9 +72,9 @@ public class QuotationListAdapter
             customer.setText(data.customerName);
             type.setText(data.quotationTypeName);
             check.setSelected(data.isVerified);
-           boolean isOverdueAndNotCheck=!data.isVerified &&data.isOverdue();
-            check.setVisibility(  isOverdueAndNotCheck?View.GONE:View.VISIBLE);
-            overdue.setVisibility(  isOverdueAndNotCheck?View.VISIBLE:View.GONE);
+            boolean isOverdueAndNotCheck = !data.isVerified && data.isOverdue();
+            check.setVisibility(isOverdueAndNotCheck ? View.GONE : View.VISIBLE);
+            overdue.setVisibility(isOverdueAndNotCheck ? View.VISIBLE : View.GONE);
         }
 
 

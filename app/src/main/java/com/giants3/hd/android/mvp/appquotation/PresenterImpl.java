@@ -1,5 +1,7 @@
 package com.giants3.hd.android.mvp.appquotation;
 
+import com.giants3.hd.android.activity.AppQuotationActivity;
+import com.giants3.hd.android.activity.QuotationDetailActivity;
 import com.giants3.hd.android.mvp.AppQuotationMVP;
 import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
@@ -66,4 +68,6 @@ public class PresenterImpl extends BasePresenter<AppQuotationMVP.Viewer, AppQuot
     public void setKey(String text) {
         getModel().setKey(text);
     }
+
+
 }

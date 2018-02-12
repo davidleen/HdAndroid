@@ -13,7 +13,7 @@
     tools:ignore="MergeRootFrame">
 
     <Button
-        android:id="@+id/clear"
+            android:id="@+id/clear"
         android:layout_width="wrap_content"
         android:text="清除流程数据"
         android:visibility="gone"
@@ -74,7 +74,6 @@
             android:id="@+id/workFlowReport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:numColumns="@integer/numOfWorkFlowReportColumn"
 
             />

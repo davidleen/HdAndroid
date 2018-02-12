@@ -29,4 +29,8 @@ public interface PageModel<T> extends NewModel {
 
       boolean hasNextPage();
 
+
+        int getPageIndex();
+        int getPageSize();
+
 }

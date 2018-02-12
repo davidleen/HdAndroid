@@ -181,4 +181,16 @@ public interface RestApi {
     Observable clearWorkFlow(String os_no, int itm);
 
     Observable getAppQuotations(String key, int pageIndex, int pageSize);
+
+    Observable getAppQuotationDetail(long quotationId);
+
+  Observable createAppQuotation();
+
+  Observable addProductToQuotation(long quotationId, long productId);
+
+    Observable removeItemFromQuotation(long quotationId, int item);
+
+    Observable updateQuotationItemPrice(long quotationId, int itm, float price);
+
+  Observable updateQuotationItemQty(long quotationId, int itm, int newQty);
 }

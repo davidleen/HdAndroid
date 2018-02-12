@@ -183,16 +183,7 @@ public class UseCaseFactory {
         return new ReceiveWorkFlowMessageCase(workFlowMessageId, file, memo, restApi);
     }
 
-    /**
-     * 获取可以传递流程的订单item
-     *
-     * @return
-     */
-    public UseCase createGetAvailableOrderItemForTransformCase() {
 
-        return new GetAvailableOrderItemForTransformCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
-
-    }
 
     /**
      * 订单查询
@@ -345,5 +336,32 @@ public class UseCaseFactory {
 
         return new GetAppQuotationsUseCase(key,pageIndex,pageSize,restApi);
 
+    }
+
+    public UseCase createTempQuotation() {
+        return new CreateAppQuotationCase(restApi);
+    }
+
+    public UseCase getAppQuotationDetailCase(long quotationId) {
+
+
+        return new GetAppQuotationDetailCase(quotationId,restApi);
+    }
+
+    public UseCase createAddProductToQuotationUseCase(long quotationId, long productId) {
+
+        return new AddProductToQuotationUseCase(quotationId,productId,restApi);
+    }
+
+    public UseCase createRemoveItemFromQuotationUseCase(long quotationId, int item) {
+        return new RemoveItemFromQuotationUseCase(quotationId,item,restApi);
+    }
+
+    public UseCase createUpdateQuotationItemPriceUseCase(long quotationId, int itm, float price) {
+        return new UpdateQuotationItemPriceUseCase(quotationId,itm,price,restApi);
+    }
+
+    public UseCase createUpdateQuotationItemQtyUseCase(long quotationId, int itm, int newQty) {
+        return new UpdateQuotationItemQtyUseCase(quotationId,itm,newQty,restApi);
     }
 }

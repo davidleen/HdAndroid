@@ -446,4 +446,30 @@ public class HttpUrl {
     public static String getAppQotations(String key, int pageIndex, int pageSize) {
         return completeUrl(String.format("/api/app/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d", key, pageIndex, pageSize));
     }
+
+    public static String getAppQuotationDetail(long quotationId) {
+        return completeUrl(String.format("/api/app/quotation/detail?id=%d", quotationId));
+    }
+
+    public static String createTempAppQuotation() {
+        return completeUrl(String.format("/api/app/quotation/create" ));
+    }
+
+    public static String addProductToQuotation(long quotationId, long productId) {
+        return completeUrl(String.format("/api/app/quotation/addItem?quotationId=%d&productId=%d" ,quotationId,productId));
+    }
+
+    public static String removeItemFromQuotation(long quotationId, int item) {
+        return completeUrl(String.format("/api/app/quotation/removeItem?quotationId=%d&itemIndex=%d", quotationId, item));
+    }
+
+    public static String updateQuotationItemPrice(long quotationId, int itm, float price) {
+
+        return completeUrl(String.format("/api/app/quotation/updateItemPrice?quotationId=%d&itemIndex=%d&price=%f", quotationId, itm,price));
+    }
+
+    public static String updateQuotationItemQty(long quotationId, int itm, int newQty) {
+        return completeUrl(String.format("/api/app/quotation/updateItemQuantity?quotationId=%d&itemIndex=%d&quantity=%d", quotationId, itm,newQty));
+
+    }
 }

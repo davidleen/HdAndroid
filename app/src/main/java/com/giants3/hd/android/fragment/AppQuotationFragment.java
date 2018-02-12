@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.activity.AppQuotationActivity;
 import com.giants3.hd.android.activity.WorkFlowListActivity;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
@@ -79,37 +80,8 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
 
-
-                View inflate = getLayoutInflater().inflate(R.layout.menu_my_available_work, null);
-                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                        .setView(inflate).create();
-                View event = inflate.findViewById(R.id.event);
-                View process = inflate.findViewById(R.id.process);
-                process.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        ErpOrderItem erpOrderItem = (ErpOrderItem) parent.getItemAtPosition(position);
-                        Intent intent = new Intent(getActivity(), WorkFlowListActivity.class);
-                        intent.putExtra(WorkFlowListActivity.KEY_ORDER_ITEM, GsonUtils.toJson(erpOrderItem));
-                        startActivityForResult(intent, REQUEST_MESSAGE_OPERATE);
-                        alertDialog.dismiss();
-                    }
-                });
-
-                event.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        alertDialog.dismiss();
-                    }
-                });
-
-
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
+                Quotation quotation= (Quotation) parent.getItemAtPosition(position);
+                AppQuotationActivity.start(getView().getContext(),quotation.id);
 
 
             }
@@ -146,7 +118,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                AppQuotationActivity.start(v.getContext());
             }
         });
 

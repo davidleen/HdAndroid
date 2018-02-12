@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.utils.StringUtils;
 
+import java.lang.reflect.Field;
+
 /**
  * 表格item adapter
  * <p>
@@ -31,7 +34,11 @@ import com.giants3.hd.utils.StringUtils;
  */
 public class ItemListAdapter<T>
         extends AbstractAdapter<T> {
+    public void setCellClickListener(CellClickListener<T> cellClickListener) {
+        this.cellClickListener = cellClickListener;
+    }
 
+    CellClickListener<T> cellClickListener;
 
     private static final int DEFAULT_ROW_HEIGHT = Utils.dp2px(91);
     public static final int MAXLINES = 5;
@@ -146,10 +153,13 @@ public class ItemListAdapter<T>
     }
 
 
+
+
+
     public void onBindViewHolder(final ViewHolder holder, int position) {
         T orderItem = getItem(position);
         holder.mItem = orderItem;
-        holder.bind(orderItem);
+        holder.bind(orderItem,   position);
 
 
     }
@@ -215,7 +225,7 @@ public class ItemListAdapter<T>
             this.tableData = tableData;
         }
 
-        public void bind(T orderItem) {
+        public void bind(T orderItem, int position) {
             mItem = orderItem;
 
 
@@ -279,7 +289,22 @@ public class ItemListAdapter<T>
                             }
                         }
                         textView.setText(stringValue);
-                        textView.setTag(tableData.headNames.get(i));
+
+
+
+
+
+                            if(cellClickListener!=null&&cellClickListener.isCellClickable(field)) {
+                                textView.setOnClickListener(onClickListener);
+                                textView.setTag(R.id.tag_data,orderItem);
+                                textView.setTag(R.id.tag_position,position);
+                                textView.setTag(R.id.tag_field,tableData.fields.get(i));
+                                textView.setTag(R.id.tag_title,tableData.headNames.get(i));
+                            }else {
+                                textView.setOnClickListener(null);
+                                textView.setClickable(false);
+                            }
+
 
                     }
 
@@ -289,10 +314,25 @@ public class ItemListAdapter<T>
 
         }
 
+        public View.OnClickListener onClickListener=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                T orderItem= (T) v.getTag(R.id.tag_data);
+                String field  = (String) v.getTag(R.id.tag_field);
+                String title  = (String) v.getTag(R.id.tag_title);
+                int position  = (int) v.getTag(R.id.tag_position);
+                if(cellClickListener!=null)
+                {
+                    cellClickListener.onCellClick(field,orderItem,position);
+                }
+
+
+            }
+        };
         @Override
         public void bindData(final AbstractAdapter<T> adapter, T data, final int position) {
-            bind(data);
+            bind(data,position);
             contentView.setBackgroundColor(adapter.getSelectedPosition() == position ? Color.GRAY : Color.TRANSPARENT);
 
         }
@@ -320,21 +360,46 @@ public class ItemListAdapter<T>
     /**
      * 通过反射获取数据
      *
-     * @param field
+     * @param fieldName
      * @param object
      * @return
      */
-    public Object getData(String field, T object) {
+    public Object getData(String fieldName, T object) {
 
         try {
-            return object.getClass().getField(field).get(object);
+
+            Field field=getField(object.getClass(),fieldName);
+            if(field==null)return null;
+            return field.get(object);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+
+    SparseArray<Field> fieldCaches=new SparseArray<>();
+    private Field getField(Class c,String fieldName)
+    {
+        Field field=null;
+//        int key = fieldName.hashCode();
+//         f field = fieldCaches.get(key);
+//        if(fieldCaches.(key)==-1) {
+//
+
+//            if (field == null) {
+                try {
+                    field = c.getField(fieldName);
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                }
+//                fieldCaches.put(key, field);
+//            }
+
+//        }
+        return field;
+
     }
 
     private View.OnClickListener imageViewClickListener = new View.OnClickListener() {
@@ -409,5 +474,15 @@ public class ItemListAdapter<T>
 
     }
 
+
+
+
+    public interface  CellClickListener<T>
+    {
+
+
+        boolean isCellClickable(String field);
+        void onCellClick(String field,T data,int position);
+    }
 
 }

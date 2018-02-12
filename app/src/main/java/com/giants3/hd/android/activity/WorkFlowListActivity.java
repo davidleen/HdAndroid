@@ -387,7 +387,21 @@ public class WorkFlowListActivity extends BaseHeadViewerActivity<WorkFlowListMvp
         {
             case R.id.clear:
 
-                getPresenter().clearWorkFlow();
+          new      AlertDialog.Builder(this).setTitle("是否确定清除流程数据!!!").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+
+                  dialog.dismiss();
+                  //getPresenter().clearWorkFlow();
+              }
+          }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                  dialog.dismiss();
+              }
+          }).create().show();
+
+
                 break;
         }
     }

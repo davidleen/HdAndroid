@@ -19,6 +19,14 @@ public class QRProduct implements Serializable
     public String className;
 
 
-
-
+    @Override
+    public String toString() {
+        return "QRProduct{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pVersion='" + pVersion + '\'' +
+                ", unitName='" + unitName + '\'' +
+                ", className='" + className + '\'' +
+                '}';
+    }
 }

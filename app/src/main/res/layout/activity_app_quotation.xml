@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+ >
+
+    <com.wefika.flowlayout.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/title_text_style"
+                android:text="报价单号" />
+
+            <TextView
+                android:id="@+id/name"
+
+                style="@style/value_text_style" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/title_text_style"
+                android:text="报价日期" />
+
+            <TextView
+                android:id="@+id/createTime"
+
+                style="@style/value_text_style" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/title_text_style"
+                android:text="客户" />
+
+            <TextView
+                android:id="@+id/customer"
+
+                style="@style/value_text_style" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/title_text_style"
+                android:text="业务员" />
+
+            <TextView
+                android:id="@+id/salesman"
+
+                style="@style/value_text_style" />
+
+        </LinearLayout>
+
+    </com.wefika.flowlayout.FlowLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="备注" />
+
+        <TextView
+            android:id="@+id/memo"
+
+            style="@style/value_text_style" />
+
+    </LinearLayout>
+
+    <HorizontalScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:minHeight="200dp"
+        android:scrollbars="none">
+
+        <ListView
+            android:id="@+id/quotation_item_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_gray_border"
+            android:divider="@drawable/icon_divider"
+            android:dividerHeight="1dp"
+            android:fillViewport="false"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:listSelector="#00000000"
+            android:minHeight="300dp"
+            android:orientation="vertical" />
+
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/pickItem"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/icon_add_green_selector"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/scanItem"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_scan_selector"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

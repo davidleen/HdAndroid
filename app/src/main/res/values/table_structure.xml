@@ -300,9 +300,44 @@
         <item>总额||totalCost||1||100</item>
         <item>备注||memo||1||200</item>
 
+    </string-array><!--广交会报价细项表 表格-->
+    <string-array name="table_app_quotation_item">
 
+        <item>序号||itm||1||60</item>
+        <item>产品名称||productName||1||91</item>
+        <item>图片||thumbnail||2||91||photoUrl</item>
+        <item>数量||qty||1||60</item>
+        <item>单价||price||1||80</item>
+        <item>原价||priceOrigin||1||80</item>
+        <item>箱数||inboxCount||1||60</item>
+        <item>装箱数||packQuantity||1||60</item>
+        <item>规格||spec||1||100</item>
+        <item>单位||unit||1||60</item>
+        <item>箱长||boxLong||1||60</item>
+        <item>箱宽||boxWidth||1||60</item>
+        <item>箱高||boxHeight||1||60</item>
+        <item>体积/箱||volumePerBox||1||60</item>
+        <item>毛重/箱||weightPerBox||1||60</item>
+        <item>合计金额||amountSum||1||60</item>
+        <item>合计体积||volume||1||60</item>
+        <item>合计重量||weight||1||60</item>
+
+
+
+
+        <item>备注||memo||1||200</item>
 
     </string-array>
 
+    <string-array name="table_product_item">
 
+
+        <item>产品名称||name||1||91</item>
+        <item>版本号||pVersion||1||91</item>
+        <item>图片||thumbnail||2||91</item>
+
+
+        <item>备注||memo||1||200</item>
+
+    </string-array>
 </resources>

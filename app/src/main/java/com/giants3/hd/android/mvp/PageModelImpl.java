@@ -59,4 +59,19 @@ public class PageModelImpl<T> implements PageModel<T> {
     {
         return  remoteData!=null&& remoteData.pageIndex+1<remoteData.pageCount;
     }
+
+
+    @Override
+    public int getPageIndex() {
+
+        if(remoteData==null)return 0;
+        return remoteData.pageIndex;
+
+    }
+
+    @Override
+    public int getPageSize() {
+        if(remoteData==null)return 20;
+        return remoteData.pageSize;
+    }
 }
