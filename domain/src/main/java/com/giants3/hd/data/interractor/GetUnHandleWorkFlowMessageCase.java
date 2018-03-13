@@ -13,14 +13,14 @@ import rx.Scheduler;
 public class GetUnHandleWorkFlowMessageCase extends UseCase {
 
 
-
-
+    private final String key;
     RestApi restApi;
 
 
 
-    public GetUnHandleWorkFlowMessageCase(Scheduler threadExecutor, Scheduler postExecutionThread,  RestApi restApi) {
+    public GetUnHandleWorkFlowMessageCase(Scheduler threadExecutor, Scheduler postExecutionThread,  String key,RestApi restApi) {
         super(threadExecutor, postExecutionThread);
+        this.key = key;
 
         this.restApi=restApi;
 
@@ -32,7 +32,7 @@ public class GetUnHandleWorkFlowMessageCase extends UseCase {
 
 
 
-       return  restApi.getUnHandleWorkFlowList( );
+       return  restApi.getUnHandleWorkFlowList( key);
 
 
 

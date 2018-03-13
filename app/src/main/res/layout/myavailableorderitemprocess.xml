@@ -11,8 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:inputType="number"
         android:hint="请输入订单号，货号查询生产进度"
-        android:textSize="16sp" />
+
+        android:textSize="14sp" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"

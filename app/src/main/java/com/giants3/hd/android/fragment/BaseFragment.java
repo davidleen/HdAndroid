@@ -67,8 +67,10 @@ public class BaseFragment extends Fragment implements AndroidRouter{
     }
 
     protected void startLoginActivity() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivityForResult(intent, BaseActivity.REQUEST_LOGIN);
+
+        LoginActivity.start(this, BaseActivity.REQUEST_LOGIN);
+
+
 
     }
 

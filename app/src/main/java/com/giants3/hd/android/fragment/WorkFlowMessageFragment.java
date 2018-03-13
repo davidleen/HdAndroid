@@ -81,7 +81,7 @@ public class WorkFlowMessageFragment extends BaseFragment implements WorkFlowMes
 
         if (currentShowData == MYRECEIVE) {
 
-            UseCaseFactory.getInstance().createGetUnHandleWorkFlowMessageCase().execute(new Subscriber<RemoteData<WorkFlowMessage>>() {
+            UseCaseFactory.getInstance().createGetUnHandleWorkFlowMessageCase("").execute(new Subscriber<RemoteData<WorkFlowMessage>>() {
                 @Override
                 public void onCompleted() {
                     viewer.hideWaiting();

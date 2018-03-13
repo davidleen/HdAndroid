@@ -19,6 +19,12 @@ public class PresenterImpl extends BasePresenter<MyUndoWorkFlowMessageMVP.Viewer
     }
 
     @Override
+    public void setKey(String s) {
+
+        getModel().setKey(s);
+    }
+
+    @Override
     public MyUndoWorkFlowMessageMVP.Model createModel() {
         return new ModelImpl();
     }
@@ -27,7 +33,9 @@ public class PresenterImpl extends BasePresenter<MyUndoWorkFlowMessageMVP.Viewer
     public void loadData() {
 
 
-        UseCaseFactory.getInstance().createGetUnHandleWorkFlowMessageCase().execute(new RemoteDataSubscriber<WorkFlowMessage>(this) {
+
+        String key=getModel().getKey();
+        UseCaseFactory.getInstance().createGetUnHandleWorkFlowMessageCase(key).execute(new RemoteDataSubscriber<WorkFlowMessage>(this) {
 
             @Override
             protected void handleRemoteData(RemoteData<WorkFlowMessage> data) {

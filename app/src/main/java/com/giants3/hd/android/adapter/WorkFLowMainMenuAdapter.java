@@ -55,7 +55,8 @@ public class WorkFLowMainMenuAdapter extends AbstractAdapter<String> {
 
         public void setMessageCount(int count) {
 
-            countText.setText(String.valueOf(count));
+
+            countText.setText(count>99?"99+":String.valueOf(count));
             countText.setVisibility(count>0?View.VISIBLE:View.GONE);
         }
     }

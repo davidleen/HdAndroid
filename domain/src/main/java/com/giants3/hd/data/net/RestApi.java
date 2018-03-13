@@ -95,7 +95,7 @@ public interface RestApi {
 
   Observable getProductProcessList(String name, int pageIndex, int pageSize);
 
-  Observable getUnHandleWorkFlowList();
+  Observable getUnHandleWorkFlowList(String key);
 
   Observable checkWorkFlowMessageCase(long workFlowMessageId);
 
@@ -193,4 +193,16 @@ public interface RestApi {
     Observable updateQuotationItemPrice(long quotationId, int itm, float price);
 
   Observable updateQuotationItemQty(long quotationId, int itm, int newQty);
+
+    Observable updateQuotationItemDiscount(long quotationId, int itm, float newDisCount);
+
+  Observable updateQuotationDiscount(long quotationId, float newDisCount);
+
+  Observable saveAppQuotation(long quotationId);
+
+  Observable printQuotation(long quotationId,String filePath);
+
+    Observable getCustomerList();
+
+    Observable updateQuotationCustomer(long quotationId, long customerId);
 }

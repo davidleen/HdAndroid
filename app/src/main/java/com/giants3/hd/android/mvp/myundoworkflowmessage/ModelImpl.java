@@ -8,7 +8,15 @@ import com.giants3.hd.android.mvp.MyUndoWorkFlowMessageMVP;
 
 public class ModelImpl implements MyUndoWorkFlowMessageMVP.Model {
 
+    String key="";
 
+    @Override
+    public String getKey() {
+        return key;
+    }
 
-
+    @Override
+    public void setKey(String value) {
+        this.key=value;
+    }
 }

@@ -27,7 +27,7 @@ public class PresenterImpl extends BasePresenter<OrderWorkFlowReportMVP.Viewer, 
     public void loadData() {
 
 
-        UseCaseFactory.getInstance().createGetUnHandleWorkFlowMessageCase().execute(new RemoteDataSubscriber<ErpOrder>(this) {
+        UseCaseFactory.getInstance().createGetUnHandleWorkFlowMessageCase("").execute(new RemoteDataSubscriber<ErpOrder>(this) {
             @Override
             protected void handleRemoteData(RemoteData<ErpOrder> data) {
 

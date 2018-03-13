@@ -70,7 +70,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
 
         RefreshLayoutConfig.config(swipeLayout);
 
-        swipeLayout.setEnabled(false);
+
 
         adapter = new ItemListAdapter(getActivity());
         adapter.setTableData(TableData.resolveData(getActivity(), R.array.table_app_quotation));
@@ -100,8 +100,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
                     getPresenter().setKey(text);
 
                 }
-                search_text.removeCallbacks(searchRunnable);
-                search_text.postDelayed(searchRunnable, 1500);
+               doSearch();
 
 
             }
@@ -139,8 +138,15 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
             }
         });
 
+        doSearch();
+
+    }
 
 
+    private void doSearch()
+    {
+        search_text.removeCallbacks(searchRunnable);
+        search_text.postDelayed(searchRunnable, 1500);
     }
 
     @Override
@@ -162,6 +168,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
         public void run() {
 
 
+         //   showWaiting();
             searchData();
 
 
@@ -170,6 +177,9 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
 
 
     private void searchData() {
+
+
+//        swipeLayout.onRefresh(swipeLayout);
 
         swipeLayout.startRefresh();
 

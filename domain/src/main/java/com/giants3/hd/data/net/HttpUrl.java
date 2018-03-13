@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.utils.StringUtils;
+import com.giants3.hd.utils.UrlFormatter;
 
 import java.net.URLEncoder;
 
@@ -149,35 +150,35 @@ public class HttpUrl {
 
     public static String additionInfo(String url) {
 
+        UrlFormatter urlFormatter=new UrlFormatter(url).append ( "appVersion",versionCode)
+                .append ( "client", CLIENT_TYPE)
+                .append( "token",token)
+                .append( "versionName",versionName);
 
-        if (StringUtils.isEmpty(token)) {
-            return url;
-        }
 
-        if (url.contains("?")) {
-            url += "&token=" + token;
-        } else {
-            url += "?token=" + token;
-        }
-        if (url.contains("?")) {
-            url += "&appVersion=" + versionCode;
-        } else {
-            url += "?appVersion=" + versionCode;
-        }
+        return urlFormatter.toUrl();
 
-        if (url.contains("?")) {
-            url += "&client=" + CLIENT_TYPE;
-        } else {
-            url += "?client=" + CLIENT_TYPE;
-        }
-        if (url.contains("?")) {
-            url += "&versionName=" + versionName;
-        } else {
-            url += "?versionName=" + versionName;
-        }
 
-        return url;
+
+
     }
+
+    public static String additionInfo(UrlFormatter urlFormatter) {
+
+
+
+        urlFormatter.append ( "appVersion",versionCode)
+                .append ( "client", CLIENT_TYPE)
+                .append( "token",token)
+                .append( "versionName",versionName);
+
+
+
+        return  urlFormatter.toUrl();
+
+
+    }
+
 
     public static String login() {
         return completeUrl(API_LOGIN);
@@ -247,8 +248,13 @@ public class HttpUrl {
      * @return
      * @throws HdException
      */
-    public static String getUnHandleWorkFlowList() {
-        return completeUrl(API_URL_GET_UN_HANDLE_WORK_FLOW_LIST);
+    public static String getUnHandleWorkFlowList(String key) {
+
+        String apiUrl=BASE_URL + API_URL_GET_UN_HANDLE_WORK_FLOW_LIST;
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("key",key)
+                 ;
+        return additionInfo(formatter);
+
 
     }
 
@@ -471,5 +477,34 @@ public class HttpUrl {
     public static String updateQuotationItemQty(long quotationId, int itm, int newQty) {
         return completeUrl(String.format("/api/app/quotation/updateItemQuantity?quotationId=%d&itemIndex=%d&quantity=%d", quotationId, itm,newQty));
 
+    }
+
+    public static String updateQuotationItemDiscount(long quotationId, int itm, float newDisCount) {
+        return completeUrl(String.format("/api/app/quotation/updateItemDiscount?quotationId=%d&itemIndex=%d&discount=%f", quotationId, itm,newDisCount));
+
+    }
+
+    public static String updateQuotationDiscount(long quotationId, float newDisCount) {
+        return completeUrl(String.format("/api/app/quotation/updateQuotationDiscount?quotationId=%d&discount=%f", quotationId, newDisCount));
+
+    }
+
+    public static String saveAppQuotation(long quotationId) {
+
+        return completeUrl(String.format("/api/app/quotation/save?quotationId=%d", quotationId));
+    }
+
+    public static String printQuotation(long quotationId) {
+
+        return completeUrl(String.format("/api/app/quotation/print?quotationId=%d", quotationId));
+    }
+
+    public static String getCustomerList() {
+
+        return completeUrl(String.format("/api/customer/list"));
+    }
+
+    public static String updateQuotationCustomer(long quotationId, long customerId) {
+        return completeUrl(String.format("/api/app/quotation/updateCustomer?quotationId=%d&customerId=%d", quotationId,customerId));
     }
 }

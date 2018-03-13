@@ -132,9 +132,9 @@ public class UseCaseFactory {
 
     }
 
-    public UseCase createGetUnHandleWorkFlowMessageCase() {
+    public UseCase createGetUnHandleWorkFlowMessageCase(String key) {
 
-        return new GetUnHandleWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), restApi);
+        return new GetUnHandleWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),key, restApi);
     }
 
 
@@ -363,5 +363,37 @@ public class UseCaseFactory {
 
     public UseCase createUpdateQuotationItemQtyUseCase(long quotationId, int itm, int newQty) {
         return new UpdateQuotationItemQtyUseCase(quotationId,itm,newQty,restApi);
+    }
+
+    public UseCase createUpdateQuotationItemDiscountUseCase(long quotationId, int itm, float newDisCount) {
+
+
+        return new UpdateQuotationItemDiscountUseCase(quotationId,itm,newDisCount,restApi);
+
+    }
+
+    public UseCase createUpdateQuotationDiscountUseCase(long quotationId, float newDisCount) {
+        return new UpdateQuotationDiscountUseCase(quotationId,newDisCount,restApi);
+
+    }
+
+    public UseCase createSaveQuotationUseCase(long quotationId) {
+
+        return new SaveQuotationUseCase(quotationId,restApi);
+    }
+
+    public UseCase createPrintQuotationUseCase(long quotationId,String filePath) {
+        return new PrintQuotationUseCase(quotationId,  filePath,restApi);
+
+    }
+
+    public UseCase createGetCustomerListUseCase() {
+        return new GetCustomerListUseCase( restApi);
+    }
+
+    public UseCase createUpdateQuotationCustomerUseCase(long quotationId, long customerId) {
+
+        return new UpdateQuotationCustomerUseCase(quotationId, customerId,restApi);
+
     }
 }

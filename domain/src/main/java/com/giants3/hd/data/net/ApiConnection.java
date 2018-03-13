@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,6 +36,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 //import  okhttp3.MultipartBuilder;
 
@@ -216,6 +218,20 @@ public class ApiConnection {
 
 
 
+
+
+
+        try {
+            return  getResponseBody(url).bytes();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw HdException.create(e);
+        }
+    }
+
+
+    private ResponseBody getResponseBody(String url) throws HdException {
         Request request = null;
         try {
             request = new Request.Builder()
@@ -227,35 +243,24 @@ public class ApiConnection {
             throw HdException.create("url:" + url + ",is not a valid url");
         }
         try {
-            return okHttpClient.newCall(request).execute().body().bytes();
+
+            return okHttpClient.newCall(request).execute().body() ;
         } catch (IOException e) {
             e.printStackTrace();
             throw HdException.create(e);
         }
+
     }
 
 
-    public byte[] delete(String url) throws HdException {
+    public InputStream getInputStream(String url) throws HdException {
 
 
+            return  getResponseBody(url).byteStream();
 
-        Request request = null;
-        try {
-            request = new Request.Builder()
-                    .url(new URL(url))
-                    .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_VALUE_JSON).delete().build();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw HdException.create("url:" + url + ",is not a valid url");
-        }
-        try {
-            return okHttpClient.newCall(request).execute().body().bytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw HdException.create(e);
-        }
     }
+
 
 
     /**

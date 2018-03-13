@@ -131,7 +131,7 @@
             android:name=".activity.WorkFlowMessageReceiveActivity"
             android:label="@string/title_activity_work_flow_message_receive"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -146,7 +146,16 @@
         <activity
             android:name=".activity.AppQuotationActivity"
             android:label="@string/title_activity_app_quotation"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.CustomerEditActivity"
+            android:label="@string/title_activity_customer_edit"
+            android:parentActivityName=".activity.BaseActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.giants3.hd.android.activity.BaseActivity" />
+        </activity>
     </application>
 
 </manifest>

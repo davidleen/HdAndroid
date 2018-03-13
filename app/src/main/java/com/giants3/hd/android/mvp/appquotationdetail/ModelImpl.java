@@ -1,8 +1,7 @@
 package com.giants3.hd.android.mvp.appquotationdetail;
 
-import com.giants3.hd.android.mvp.AppQuotationMVP;
 import com.giants3.hd.android.mvp.PageModelImpl;
-import com.giants3.hd.entity.app.Quotation;
+import com.giants3.hd.entity.Customer;
 import com.giants3.hd.noEntity.app.QuotationDetail;
 
 import java.util.List;
@@ -15,6 +14,7 @@ public class ModelImpl extends PageModelImpl<QuotationDetail> implements AppQuot
 
 
     private QuotationDetail quotationDetail;
+    private List<Customer> customerList;
 
     @Override
     public void setQuotationDetail(QuotationDetail quotationDetail) {
@@ -25,5 +25,16 @@ public class ModelImpl extends PageModelImpl<QuotationDetail> implements AppQuot
     @Override
     public QuotationDetail  getQuotationDetail() {
         return quotationDetail;
+    }
+
+    @Override
+    public void setCustomers(List<Customer> customers) {
+
+        this.customerList = customers;
+    }
+
+    @Override
+    public List<Customer> getCustomers() {
+        return customerList;
     }
 }

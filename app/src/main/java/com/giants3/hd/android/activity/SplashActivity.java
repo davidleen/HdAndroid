@@ -28,7 +28,7 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 goToMain();
             }
-        },2000);
+        },500);
     }
 
 

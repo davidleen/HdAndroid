@@ -4,8 +4,7 @@ package com.giants3.hd.android.mvp.appquotationdetail;
 import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
 import com.giants3.hd.android.mvp.PageModel;
-import com.giants3.hd.appdata.AProduct;
-import com.giants3.hd.entity.app.Quotation;
+import com.giants3.hd.entity.Customer;
 import com.giants3.hd.noEntity.app.QuotationDetail;
 
 import java.util.List;
@@ -24,6 +23,9 @@ public interface AppQuotationDetailMVP {
         void setQuotationDetail(QuotationDetail quotationDetail);
 
         QuotationDetail getQuotationDetail();
+
+        void setCustomers(List<Customer> customer);
+        List<Customer> getCustomers();
     }
 
     interface Presenter extends NewPresenter<AppQuotationDetailMVP.Viewer> {
@@ -31,20 +33,41 @@ public interface AppQuotationDetailMVP {
 
         void setQuotationId(long quotationId);
 
-        void pickNewProduct();
 
-        void addNewProduct(long productId  );
+        void addNewProduct(long productId);
 
         void deleteQuotationItem(int item);
 
         void updatePrice(int itm, float newFloatValue);
 
         void updateQty(int itm, int newQty);
+
+        void updateItemDiscount(int itm, float newDisCount);
+
+        void updateQuotationDiscount(float newDisCount);
+
+        void saveQuotation();
+
+        void goBack();
+
+        void printQuotation();
+
+        void pickCustomer();
+
+        void updateCustomer(Customer newValue);
+
+
     }
 
     interface Viewer extends NewViewer {
 
 
         void bindData(QuotationDetail data);
+
+        void showUnSaveAlert();
+
+        void exit();
+
+        void chooseCustomer(Customer current, List<Customer> customers);
     }
 }

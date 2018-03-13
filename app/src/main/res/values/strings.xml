@@ -71,18 +71,17 @@
 
 
     <string-array name="quotation_menu_title">
-          <item>@string/title_activity_app_quotation</item>
+        <item>@string/title_activity_app_quotation</item>
     </string-array>
 
-     <string-array name="quotation_menu_fragemnt_class">
+    <string-array name="quotation_menu_fragemnt_class">
         <item>com.giants3.hd.android.fragment.AppQuotationFragment</item>
 
     </string-array>
 
 
-
-
-
-
     <string name="title_activity_app_quotation">广交会报价</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="title_activity_customer_edit">CustomerEditActivity</string>
 </resources>

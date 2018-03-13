@@ -13,15 +13,17 @@
 
     <TextView
         android:id="@+id/countText"
-        android:layout_width="20dp"
+        android:layout_width="25dp"
         android:textColor="@color/white"
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
+
         android:visibility="gone"
         android:layout_centerVertical="true"
         android:background="@drawable/bg_red_point"
-        android:text="1"
+        android:text="99+"
+        android:textSize="12sp"
         android:gravity="center"
-        android:layout_height="20dp" />
+        android:layout_height="25dp" />
 
 </RelativeLayout>

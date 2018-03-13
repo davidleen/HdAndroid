@@ -110,8 +110,9 @@ public abstract class BaseMvpFragment<P extends NewPresenter> extends Fragment i
 
 
     public void startLoginActivity() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivityForResult(intent, BaseActivity.REQUEST_LOGIN);
+
+
+        LoginActivity.start(this, BaseActivity.REQUEST_LOGIN);
 
     }
 

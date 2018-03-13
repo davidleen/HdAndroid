@@ -291,13 +291,14 @@
     <!--广交会报价细项表 表格-->
     <string-array name="table_app_quotation">
 
-        <item>报价单号||qNumber||1||91</item>
+        <item>报价单号||qNumber||1||120</item>
 
         <item>日期||qDate||1||120</item>
-        <item>客户编号||customerCode||1||120</item>
+        <item>客户编号||customerCode||1||90</item>
+        <item>客户名称||customerName||1||120</item>
         <item>业务员||salesman||1||120</item>
-        <item>款数||itemCount||1||120</item>
-        <item>总额||totalCost||1||100</item>
+        <item>款数||itemCount||1||50</item>
+        <item>总额||totalAmount||1||90</item>
         <item>备注||memo||1||200</item>
 
     </string-array><!--广交会报价细项表 表格-->

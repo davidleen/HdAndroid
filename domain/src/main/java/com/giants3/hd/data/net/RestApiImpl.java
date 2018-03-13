@@ -19,6 +19,7 @@ package com.giants3.hd.data.net;
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.exception.NetworkConnectionException;
+import com.giants3.hd.entity.Customer;
 import com.giants3.hd.entity.ErpOrder;
 import com.giants3.hd.entity.ErpOrderItem;
 import com.giants3.hd.entity.ErpOrderItemProcess;
@@ -325,13 +326,13 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable getUnHandleWorkFlowList() {
+    public Observable getUnHandleWorkFlowList(final String key) {
         return create(new ApiInvoker<WorkFlowMessage>() {
             @Override
             public RemoteData<WorkFlowMessage> invoker() throws HdException {
 
 
-                return apiManager.getUnHandleWorkFlowList( );
+                return apiManager.getUnHandleWorkFlowList(key );
             }
         });
     }
@@ -787,6 +788,78 @@ public class RestApiImpl implements RestApi {
 
 
                 return apiManager.updateQuotationItemQty( quotationId,  itm, newQty)  ;
+            }
+        });
+    }
+
+    @Override
+    public Observable updateQuotationItemDiscount(final long quotationId, final int itm, final float newDisCount) {
+        return create(new ApiInvoker<com.giants3.hd.noEntity.app.QuotationDetail>() {
+            @Override
+            public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> invoker() throws HdException {
+
+
+                return apiManager.updateQuotationItemDiscount( quotationId,  itm, newDisCount)  ;
+            }
+        });
+    }
+
+    @Override
+    public Observable updateQuotationDiscount(final long quotationId, final float newDisCount) {
+        return create(new ApiInvoker<com.giants3.hd.noEntity.app.QuotationDetail>() {
+            @Override
+            public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> invoker() throws HdException {
+
+
+                return apiManager.updateQuotationDiscount( quotationId,   newDisCount)  ;
+            }
+        });
+    }
+
+    @Override
+    public Observable saveAppQuotation(final long quotationId) {
+        return create(new ApiInvoker<com.giants3.hd.noEntity.app.QuotationDetail>() {
+            @Override
+            public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> invoker() throws HdException {
+
+
+                return apiManager.saveAppQuotation( quotationId)  ;
+            }
+        });
+    }
+
+    @Override
+    public Observable printQuotation(final long quotationId, final String filePath) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.printQuotation( quotationId,  filePath)  ;
+            }
+        });
+    } @Override
+    public Observable getCustomerList( ) {
+        return create(new ApiInvoker<Customer>() {
+            @Override
+            public RemoteData<Customer> invoker() throws HdException {
+
+
+                return apiManager.getCustomerList( )  ;
+            }
+        });
+    }
+
+
+    @Override
+    public Observable updateQuotationCustomer(final long quotationId, final long customerId) {
+
+        return create(new ApiInvoker<com.giants3.hd.noEntity.app.QuotationDetail>() {
+            @Override
+            public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> invoker() throws HdException {
+
+
+                return apiManager.updateQuotationCustomer( quotationId,  customerId)  ;
             }
         });
     }

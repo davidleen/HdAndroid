@@ -14,7 +14,8 @@ public interface MyUndoWorkFlowMessageMVP {
     interface Model extends NewModel {
 
 
-
+        String getKey();
+        void setKey(String value);
     }
 
     interface Presenter extends NewPresenter<MyUndoWorkFlowMessageMVP.Viewer> {
@@ -23,6 +24,7 @@ public interface MyUndoWorkFlowMessageMVP {
         void loadData();
 
 
+        void setKey(String s);
     }
 
     interface Viewer extends NewViewer {

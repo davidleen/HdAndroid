@@ -1,12 +1,20 @@
 package com.giants3.hd.android.mvp.appquotationdetail;
 
+import android.content.Context;
+import android.print.PrintAttributes;
+import android.print.PrintManager;
+
 import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
-import com.giants3.hd.appdata.AProduct;
+import com.giants3.hd.android.print.PDFPrintDocumentAdapter;
 import com.giants3.hd.data.interractor.UseCase;
 import com.giants3.hd.data.interractor.UseCaseFactory;
+import com.giants3.hd.entity.Customer;
 import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.noEntity.app.QuotationDetail;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * 广交会报价 P层接口
@@ -23,9 +31,26 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
 
     @Override
     public void start() {
-
+        loadCustomer();
     }
 
+
+    private void loadCustomer()
+    {
+
+        RemoteDataSubscriber<Customer> subscriber = new RemoteDataSubscriber<Customer>(this,true) {
+
+            @Override
+            protected void handleRemoteData(RemoteData<Customer> data) {
+                if (data.isSuccess()) {
+                    getModel().setCustomers(data.datas );
+                }
+            }
+        };
+
+
+       executeUseCase( UseCaseFactory.getInstance().createGetCustomerListUseCase(),subscriber);
+    }
 
 
     @Override
@@ -42,7 +67,6 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
                 if (data.isSuccess()) {
                     getModel().setQuotationDetail(data.datas.get(0));
                     bindData();
-
 
 
                 }
@@ -68,108 +92,59 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
     }
 
 
-    private  void  bindData()
-    {
+    private void bindData() {
 
         getView().bindData(getModel().getQuotationDetail());
     }
-    private void executeUseCase(UseCase useCase, RemoteDataSubscriber<QuotationDetail> subscriber) {
+
+    private <T> void executeUseCase(UseCase useCase, RemoteDataSubscriber<T> subscriber) {
 
         //createTempQuotation;
         useCase.execute(subscriber);
 
     }
 
-    @Override
-    public void pickNewProduct() {
-
-
-
-
-    }
 
     @Override
-    public void addNewProduct(long productId ) {
+    public void addNewProduct(long productId) {
 
 
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
 
-        QuotationDetail quotationDetail=getModel().getQuotationDetail();
-        long quotationId=quotationDetail.quotation.id;
-
-        RemoteDataSubscriber<QuotationDetail> useCaseSubscriber = new RemoteDataSubscriber<QuotationDetail>(this) {
-
-            @Override
-            protected void handleRemoteData(RemoteData<QuotationDetail> data) {
-                if (data.isSuccess()) {
-                    getModel().setQuotationDetail(data.datas.get(0));
-                    bindData();
-
-//
-//                    UseCase addProductToQuotationUseCase = UseCaseFactory.getInstance().createAddProductToQuotationUseCase(data.datas.get(0).quotation.id, 123);
-//                    addProductToQuotationUseCase.execute(useCaseSubscriber);
-                }
-            }
-        };
 
         UseCase addProductToQuotationUseCase = UseCaseFactory.getInstance().createAddProductToQuotationUseCase(quotationId, productId);
-        addProductToQuotationUseCase.execute(useCaseSubscriber);
 
-
+        executeQuotationUseCase(addProductToQuotationUseCase);
 
 
     }
 
     @Override
-    public void deleteQuotationItem(int  item) {
+    public void deleteQuotationItem(int item) {
 
 
-        QuotationDetail quotationDetail=getModel().getQuotationDetail();
-        long quotationId=quotationDetail.quotation.id;
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
 
-        RemoteDataSubscriber<QuotationDetail> useCaseSubscriber = new RemoteDataSubscriber<QuotationDetail>(this) {
-
-            @Override
-            protected void handleRemoteData(RemoteData<QuotationDetail> data) {
-                if (data.isSuccess()) {
-                    getModel().setQuotationDetail(data.datas.get(0));
-                    bindData();
-
-//
-//                    UseCase addProductToQuotationUseCase = UseCaseFactory.getInstance().createAddProductToQuotationUseCase(data.datas.get(0).quotation.id, 123);
-//                    addProductToQuotationUseCase.execute(useCaseSubscriber);
-                }
-            }
-        };
 
         UseCase useCase = UseCaseFactory.getInstance().createRemoveItemFromQuotationUseCase(quotationId, item);
-        useCase.execute(useCaseSubscriber);
+
+        executeQuotationUseCase(useCase);
     }
 
     @Override
     public void updatePrice(int itm, float newFloatValue) {
 
 
-        QuotationDetail quotationDetail=getModel().getQuotationDetail();
-        long quotationId=quotationDetail.quotation.id;
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
 
-        RemoteDataSubscriber<QuotationDetail> useCaseSubscriber = new RemoteDataSubscriber<QuotationDetail>(this) {
 
-            @Override
-            protected void handleRemoteData(RemoteData<QuotationDetail> data) {
-                if (data.isSuccess()) {
-                    getModel().setQuotationDetail(data.datas.get(0));
-                    bindData();
+        UseCase useCase = UseCaseFactory.getInstance().createUpdateQuotationItemPriceUseCase(quotationId, itm, newFloatValue);
 
-//
-//                    UseCase addProductToQuotationUseCase = UseCaseFactory.getInstance().createAddProductToQuotationUseCase(data.datas.get(0).quotation.id, 123);
-//                    addProductToQuotationUseCase.execute(useCaseSubscriber);
-                }
-            }
-        };
 
-        UseCase useCase = UseCaseFactory.getInstance().createUpdateQuotationItemPriceUseCase(quotationId, itm,newFloatValue);
-        useCase.execute(useCaseSubscriber);
-
+        executeQuotationUseCase(useCase);
 
 
     }
@@ -177,9 +152,52 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
 
     @Override
     public void updateQty(int itm, int newQty) {
-        QuotationDetail quotationDetail=getModel().getQuotationDetail();
-        long quotationId=quotationDetail.quotation.id;
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
 
+
+        UseCase useCase = UseCaseFactory.getInstance().createUpdateQuotationItemQtyUseCase(quotationId, itm, newQty);
+
+
+        executeQuotationUseCase(useCase);
+    }
+
+
+    @Override
+    public void updateItemDiscount(int itm, float newDisCount) {
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
+
+
+        UseCase useCase = UseCaseFactory.getInstance().createUpdateQuotationItemDiscountUseCase(quotationId, itm, newDisCount);
+
+
+        executeQuotationUseCase(useCase);
+    }
+
+    @Override
+    public void updateQuotationDiscount(float newDisCount) {
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
+
+
+        UseCase useCase = UseCaseFactory.getInstance().createUpdateQuotationDiscountUseCase(quotationId, newDisCount);
+
+        executeQuotationUseCase(useCase);
+    }
+
+
+    @Override
+    public void saveQuotation() {
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
+
+
+        UseCase useCase = UseCaseFactory.getInstance().createSaveQuotationUseCase(quotationId);
+        executeQuotationUseCase(useCase);
+    }
+
+    private void executeQuotationUseCase(UseCase useCase) {
         RemoteDataSubscriber<QuotationDetail> useCaseSubscriber = new RemoteDataSubscriber<QuotationDetail>(this) {
 
             @Override
@@ -191,8 +209,123 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
                 }
             }
         };
-
-        UseCase useCase = UseCaseFactory.getInstance().createUpdateQuotationItemQtyUseCase(quotationId, itm,newQty);
         useCase.execute(useCaseSubscriber);
+
     }
+
+    @Override
+    public void goBack() {
+
+
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        if (quotationDetail != null && quotationDetail.quotation != null && !quotationDetail.quotation.formal) {
+            getView().showUnSaveAlert();
+
+        } else {
+
+            getView().exit();
+        }
+
+
+    }
+
+    private void onPrintPdf(String  filePath) {
+        PrintManager printManager = (PrintManager) getView().getContext().getSystemService(Context.PRINT_SERVICE);
+        PrintAttributes.Builder builder = new PrintAttributes.Builder();
+        builder.setColorMode(PrintAttributes.COLOR_MODE_COLOR);
+
+        printManager.print("test pdf print", new PDFPrintDocumentAdapter(getView().getContext(), filePath), builder.build());
+    }
+    @Override
+    public void printQuotation() {
+
+
+
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        if(quotationDetail==null||quotationDetail.quotation==null)return ;
+        if(!quotationDetail.quotation.formal)
+        {
+            getView().showMessage("先保存报价单。");
+            return;
+        }
+
+
+        final String filePath=new File(getView().getContext().getExternalCacheDir(),"temp.pdf").getPath();
+        long quotationId = quotationDetail.quotation.id;
+
+
+
+        UseCase useCase = UseCaseFactory.getInstance().createPrintQuotationUseCase(quotationId,filePath);
+
+        getView().showWaiting();
+        useCase.execute(new RemoteDataSubscriber<Void>(this) {
+            @Override
+            protected void handleRemoteData(RemoteData<Void> data) {
+
+                if(data.isSuccess())
+                {
+
+                    onPrintPdf(filePath);
+
+
+
+                }
+
+            }
+
+
+        });
+
+
+    }
+
+
+    @Override
+    public void pickCustomer() {
+
+
+        List<Customer> customers=getModel().getCustomers();
+
+
+
+        QuotationDetail quotationDetail=getModel().getQuotationDetail();
+
+        long customerId = quotationDetail.quotation.customerId;
+
+        Customer current=null;
+
+        for(Customer temp:customers)
+        {
+            if(temp.id==customerId) {
+                current = temp;
+                break;
+            }
+
+        }
+
+        getView().chooseCustomer(current,customers);
+
+
+    }
+
+
+    @Override
+    public void updateCustomer(Customer newValue) {
+
+        QuotationDetail quotationDetail=getModel().getQuotationDetail();
+        quotationDetail.quotation.customerId=newValue.id;
+        quotationDetail.quotation.customerCode=newValue.code;
+        quotationDetail.quotation.customerName =newValue.name;
+        bindData();
+
+
+       ;
+
+
+        executeQuotationUseCase( UseCaseFactory.getInstance().createUpdateQuotationCustomerUseCase( quotationDetail.quotation.id,newValue.id));
+
+    }
+
+
+
 }

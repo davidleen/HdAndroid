@@ -3,6 +3,7 @@ package com.giants3.hd.android.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -393,6 +394,35 @@ public class LoginActivity extends BaseActivity {
 
 
     }
+   static long lastStartTime;
+    public static void start(BaseActivity activity,int requestCode)
+    {
 
+        boolean hasJustStart=false;
+        if(lastStartTime>0&&System.currentTimeMillis()-lastStartTime<3000)
+        {
+            hasJustStart=true;
+        }
+        lastStartTime=System.currentTimeMillis();
+        if(!hasJustStart) {
+            Intent intent = new Intent(activity, LoginActivity.class);
+            activity.startActivityForResult(intent, requestCode);
+        }
+    }
+
+    public static void start(Fragment fragment, int requestCode)
+    {
+
+        boolean hasJustStart=false;
+        if(lastStartTime>0&&System.currentTimeMillis()-lastStartTime<3000)
+        {
+            hasJustStart=true;
+        }
+        lastStartTime=System.currentTimeMillis();
+        if(!hasJustStart) {
+            Intent intent = new Intent(fragment.getActivity(), LoginActivity.class);
+            fragment.startActivityForResult(intent, requestCode);
+        }
+    }
 }
 
