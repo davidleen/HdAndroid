@@ -1,9 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.giants3.hd.android.activity.CustomerEditActivity">
 
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="320dp"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <TextView
+
+                style="@style/title_text_style"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="编号" />
+
+
+            <EditText
+                android:id="@+id/code"
+                style="@style/value_edit_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/title_text_style"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="名称" />
+
+
+            <EditText
+                android:id="@+id/name"
+                style="@style/value_edit_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                style="@style/title_text_style"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="电话" />
+
+
+            <EditText
+                android:id="@+id/tel"
+                style="@style/value_edit_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                style="@style/title_text_style"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="传真" />
+
+
+            <EditText
+                android:id="@+id/fax"
+                style="@style/value_edit_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>  <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                style="@style/title_text_style"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="邮箱" />
+
+
+            <EditText
+                android:id="@+id/email"
+                style="@style/value_edit_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                style="@style/title_text_style"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="地址" />
+
+
+            <EditText
+                android:id="@+id/address"
+                style="@style/value_edit_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                style="@style/title_text_style"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="国家" />
+
+
+            <EditText
+                android:id="@+id/nation"
+                style="@style/value_edit_text_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+
+
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="120dp"
+            android:layout_marginTop="30dp"
+            android:padding="5dp"
+            android:text="保存"
+            android:gravity="center"
+            android:background="@drawable/button_white_round_selector"
+            android:layout_height="wrap_content" />
+
+
+
+
+        <TextView
+            android:id="@+id/namecard"
+            android:layout_width="120dp"
+            android:layout_marginTop="30dp"
+            android:padding="5dp"
+            android:text="扫描名片"
+            android:gravity="center"
+            android:background="@drawable/button_white_round_selector"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+</ScrollView>

@@ -2,6 +2,7 @@ package com.giants3.hd.data.interractor;
 
 import com.giants3.hd.data.module.AppModule;
 import com.giants3.hd.data.net.RestApi;
+import com.giants3.hd.entity.Customer;
 import com.giants3.hd.entity.ErpOrderItemProcess;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.google.inject.Guice;
@@ -395,5 +396,22 @@ public class UseCaseFactory {
 
         return new UpdateQuotationCustomerUseCase(quotationId, customerId,restApi);
 
+    }
+
+    public UseCase createSaveCustomerUseCase(Customer customer) {
+
+        return new SaveCustomerUseCase( customer,restApi);
+    }
+
+    public UseCase createUpdateQuotationItemMemoUseCase(long quotationId, int itm, String memo) {
+        return  new UpdateQuotationItemMemoUseCase(quotationId,itm,memo,restApi);
+    }
+
+    public UseCase createDeleteQuotationUseCase(long quotationId) {
+        return new DeleteQuotationUseCase(quotationId,restApi);
+    }
+
+    public UseCase createUpdateQuotationFieldUseCase(long quotationId, String field, String data) {
+        return new UpdateQuotationFieldUseCase(quotationId,field,data,restApi);
     }
 }

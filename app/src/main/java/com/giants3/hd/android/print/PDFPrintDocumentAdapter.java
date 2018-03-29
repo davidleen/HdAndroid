@@ -95,7 +95,7 @@ public class PDFPrintDocumentAdapter extends PrintDocumentAdapter {
 
         if (totalpages > 0) {
             PrintDocumentInfo.Builder builder = new PrintDocumentInfo
-                    .Builder("快速入门.pdf")
+                    .Builder(pdfPath.hashCode()+".pdf")
                     .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
                     .setPageCount(totalpages);  //构建文档配置信息
 
@@ -171,7 +171,7 @@ public class PDFPrintDocumentAdapter extends PrintDocumentAdapter {
 
 
         }
-        canvas.drawText("what is the fuck....",300,300,paint);
+       // canvas.drawText("what is the fuck....",300,300,paint);
     }
 
 }

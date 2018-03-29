@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 
-public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener  {
     public static final int REQUEST_LOGIN = 1009;
     public static final int REQUEST_CODE_PERMISSION = 200;
 
@@ -172,7 +172,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected  void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
@@ -349,5 +349,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public void onEvent(LoginSuccessEvent event) {
 
     }
+
+
+
 
 }

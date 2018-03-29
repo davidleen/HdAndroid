@@ -791,6 +791,40 @@ public class RestApiImpl implements RestApi {
             }
         });
     }
+    @Override
+    public Observable updateQuotationItemMemo(final long quotationId, final int itm, final String memo) {
+        return create(new ApiInvoker<com.giants3.hd.noEntity.app.QuotationDetail>() {
+            @Override
+            public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> invoker() throws HdException {
+
+
+                return apiManager.updateQuotationItemMemo( quotationId,  itm, memo)  ;
+            }
+        });
+    }
+    @Override
+    public Observable updateQuotationFieldValue(final long quotationId, final String  field, final String data) {
+        return create(new ApiInvoker<com.giants3.hd.noEntity.app.QuotationDetail>() {
+            @Override
+            public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> invoker() throws HdException {
+
+
+                return apiManager.updateQuotationFieldValue( quotationId,  field, data)  ;
+            }
+        });
+    }
+
+    @Override
+    public Observable deleteQuotation(final long quotationId ) {
+        return create(new ApiInvoker<Void>() {
+            @Override
+            public RemoteData<Void> invoker() throws HdException {
+
+
+                return apiManager.deleteQuotation( quotationId)  ;
+            }
+        });
+    }
 
     @Override
     public Observable updateQuotationItemDiscount(final long quotationId, final int itm, final float newDisCount) {
@@ -860,6 +894,18 @@ public class RestApiImpl implements RestApi {
 
 
                 return apiManager.updateQuotationCustomer( quotationId,  customerId)  ;
+            }
+        });
+    }
+
+    @Override
+    public Observable saveCustomer(final Customer customer) {
+        return create(new ApiInvoker<Customer>() {
+            @Override
+            public RemoteData<Customer> invoker() throws HdException {
+
+
+                return apiManager.saveCustomer( customer)  ;
             }
         });
     }

@@ -73,6 +73,23 @@
 
         </LinearLayout>
 
+
+
+        <LinearLayout
+            style="@style/item_group_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/title_text_style"
+                android:text="有效日期" />
+
+            <TextView
+                android:id="@+id/validateTime"
+                style="@style/value_edit_text_style" />
+
+        </LinearLayout>
+
     </com.wefika.flowlayout.FlowLayout>
 
     <LinearLayout
@@ -86,8 +103,10 @@
 
         <TextView
             android:id="@+id/memo"
-
-            style="@style/value_text_style" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minLines="2"
+            style="@style/value_edit_text_style" />
 
     </LinearLayout>
 
@@ -116,79 +135,91 @@
 
     </HorizontalScrollView>
 
- <!--   <HorizontalScrollView
+    <!--   <HorizontalScrollView
 
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+
+           android:scrollbars="none">
+   -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="left|center"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
-        android:scrollbars="none">
--->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/pickItem"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/icon_add_green_selector" />
 
-            <ImageView
-                android:id="@+id/pickItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/icon_add_green_selector" />
-
-            <ImageView
-                android:id="@+id/scanItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/icon_scan_selector" />
+        <ImageView
+            android:id="@+id/scanItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_scan_selector" />
 
 
-            <TextView
-                android:id="@+id/discountAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/button_white_round_selector"
-                android:padding="5dp"
-                android:text="全部打折" />
+        <TextView
+            android:id="@+id/discountAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/button_white_round_selector"
+            android:padding="5dp"
+            android:text="全部打折" />
 
-            <TextView
-                android:id="@+id/save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/button_white_round_selector"
-                android:padding="5dp"
-                android:text="保存" />
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/button_white_round_selector"
+            android:padding="5dp"
+            android:text="保存" />
 
-            <TextView
-                android:id="@+id/print"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/button_white_round_selector"
-                android:padding="5dp"
-                android:text="打印" />
+        <TextView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/button_white_round_selector"
+            android:padding="5dp"
+            android:text="删除" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+        <TextView
+            android:id="@+id/print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/button_white_round_selector"
+            android:padding="5dp"
+            android:text="打印" />
 
-            <TextView
-                android:id="@+id/addCustomer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/button_white_round_selector"
-                android:padding="5dp"
-                android:text="添加客户" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/addCustomer"
 
-<!--
-    </HorizontalScrollView>-->
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/button_white_round_selector"
+            android:padding="5dp"
+            android:text="添加客户"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <!--
+        </HorizontalScrollView>-->
 
 </LinearLayout>

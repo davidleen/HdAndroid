@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.L;
 
 /**
  * imageLoader 第三方库包装类
@@ -60,10 +61,12 @@ public class ImageLoaderFactory {
                     .imageDownloader(new BaseImageDownloader(context)) // default
                     .imageDecoder(new BaseImageDecoder(true)) // default
                     .defaultDisplayImageOptions(options) // default
-                    .writeDebugLogs()
+                   // .writeDebugLogs()
 
 
                     .build();
+            L.writeLogs(false);
+            L.writeDebugLogs(false);
             ImageLoader.getInstance().init(config);
             imageLoader=imageLoader.getInstance();
         }

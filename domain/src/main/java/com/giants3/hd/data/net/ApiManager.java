@@ -769,4 +769,35 @@ public class ApiManager {
 
 
     }
+
+    public RemoteData<Customer> saveCustomer(Customer customer) throws HdException {
+
+        String url = HttpUrl.saveCustomer();
+        String result = apiConnection.post(url, GsonUtils.toJson(customer));
+        RemoteData<Customer> remoteData = invokeByReflect(result, Customer.class);
+        return remoteData;
+
+    }
+
+    public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> updateQuotationItemMemo(long quotationId, int itm, String memo) throws HdException {
+        String url = HttpUrl.updateQuotationItemMemo(quotationId, itm, memo);
+        String result = apiConnection.getString(url);
+        RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> remoteData = invokeByReflect(result, com.giants3.hd.noEntity.app.QuotationDetail.class);
+        return remoteData;
+    }
+
+    public RemoteData<Void> deleteQuotation(long quotationId) throws HdException {
+        String url = HttpUrl.deleteQuotation(quotationId);
+        String result = apiConnection.getString(url);
+        RemoteData<Void> remoteData = invokeByReflect(result, Void.class);
+        return remoteData;
+    }
+
+    public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> updateQuotationFieldValue(long quotationId, String field, String data) throws HdException {
+        String url = HttpUrl.updateQuotationFieldValue(quotationId, field, data);
+        String result = apiConnection.getString(url);
+        RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> remoteData = invokeByReflect(result, com.giants3.hd.noEntity.app.QuotationDetail.class);
+        return remoteData;
+
+    }
 }

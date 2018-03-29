@@ -35,7 +35,8 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
     }
 
 
-    private void loadCustomer()
+    @Override
+    public  void loadCustomer()
     {
 
         RemoteDataSubscriber<Customer> subscriber = new RemoteDataSubscriber<Customer>(this,true) {
@@ -161,7 +162,82 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
 
         executeQuotationUseCase(useCase);
     }
+    @Override
+    public void updateMemo(int itm, String memo) {
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
 
+
+        UseCase useCase = UseCaseFactory.getInstance().createUpdateQuotationItemMemoUseCase(quotationId, itm, memo);
+
+
+        executeQuotationUseCase(useCase);
+    }
+
+
+    @Override
+    public void updateValidateTime(String dateString) {
+
+
+        QuotationDetail quotationDetail=getModel().getQuotationDetail();
+        quotationDetail.quotation.vDate=dateString;
+        bindData();
+
+
+        executeQuotationUseCase( UseCaseFactory.getInstance().createUpdateQuotationFieldUseCase( quotationDetail.quotation.id,"vDate",dateString));
+
+
+    }
+
+    @Override
+    public void updateCreateTime(String dateString) {
+        QuotationDetail quotationDetail=getModel().getQuotationDetail();
+        quotationDetail.quotation.qDate=dateString;
+        bindData();
+        executeQuotationUseCase( UseCaseFactory.getInstance().createUpdateQuotationFieldUseCase( quotationDetail.quotation.id,"qDate",dateString));
+
+    }
+
+    @Override
+    public void updateQuotationMemo(String newValue) {
+        QuotationDetail quotationDetail=getModel().getQuotationDetail();
+        quotationDetail.quotation.memo=newValue;
+        bindData();
+        executeQuotationUseCase( UseCaseFactory.getInstance().createUpdateQuotationFieldUseCase( quotationDetail.quotation.id,"memo",newValue));
+    }
+
+    @Override
+    public void deleteQuotation() {
+
+
+
+        QuotationDetail quotationDetail = getModel().getQuotationDetail();
+        long quotationId = quotationDetail.quotation.id;
+
+
+        UseCase useCase = UseCaseFactory.getInstance().createDeleteQuotationUseCase(quotationId);
+
+        RemoteDataSubscriber<Void> useCaseSubscriber = new RemoteDataSubscriber<Void>(this) {
+
+            @Override
+            protected void handleRemoteData(RemoteData<Void> data) {
+                if (data.isSuccess()) {
+
+                    getView().showMessage("删除成功");
+                    getView().exit();
+
+
+                } else {
+                    getView().showMessage(data.message);
+                }
+            }
+        };
+        useCase.execute(useCaseSubscriber);
+
+
+
+
+    }
 
     @Override
     public void updateItemDiscount(int itm, float newDisCount) {
@@ -250,7 +326,7 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
         }
 
 
-        final String filePath=new File(getView().getContext().getExternalCacheDir(),"temp.pdf").getPath();
+        final String filePath=new File(getView().getContext().getExternalCacheDir(),System.currentTimeMillis()+".pdf").getPath();
         long quotationId = quotationDetail.quotation.id;
 
 

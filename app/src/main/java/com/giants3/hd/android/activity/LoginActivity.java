@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,16 +23,12 @@ import com.giants3.hd.android.helper.AndroidUtils;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AUser;
-import com.giants3.hd.appdata.QRProduct;
 import com.giants3.hd.crypt.DigestUtils;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
-import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.entity.User;
 import com.giants3.hd.noEntity.BufferData;
 import com.giants3.hd.noEntity.RemoteData;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,8 +62,7 @@ public class LoginActivity extends BaseActivity {
     EditText mPasswordView;
     @Bind(R.id.email_sign_in_button)
     Button emailSignInButton;
-    @Bind(R.id.button)
-    Button button;
+
     @Bind(R.id.act)
     Button act;
     @Bind(R.id.email_login_form)
@@ -103,26 +97,6 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-
-        button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                IntentIntegrator integrator = new IntentIntegrator(LoginActivity.this);
-//                 integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-//                 integrator.setPrompt("Scan a barcode");
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("扫描产品二维码");
-
-
-                integrator.setCaptureActivity(QRCaptureActivity.class);
-                integrator.setCameraId(0);  // Use a specific camera of the device
-                integrator.setBeepEnabled(false);
-                integrator.initiateScan();
-
-
-            }
-        });
 
         user.setOnClickListener(this);
 
@@ -276,27 +250,6 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-
-
-        if (result != null) {
-
-
-            try {
-                QRProduct product = GsonUtils.fromJson(result.getContents(), QRProduct.class);
-                user.setText(product.name + "----" + product.className);
-                Log.d("TEST", "result:" + product);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-        }
-    }
-
-
     protected void onViewClick(int id, View v) {
 
         switch (id) {
@@ -364,12 +317,11 @@ public class LoginActivity extends BaseActivity {
         user.setText(loginUser.toString());
 
 
-        if(BuildConfig.DEBUG)
-        {
+        if (BuildConfig.DEBUG) {
 
-            user.setText(  loginUser.name);
+            user.setText(loginUser.name);
             mPasswordView.setText("xin2975.");
-           // attemptLogin();
+            // attemptLogin();
         }
 
     }
@@ -394,32 +346,30 @@ public class LoginActivity extends BaseActivity {
 
 
     }
-   static long lastStartTime;
-    public static void start(BaseActivity activity,int requestCode)
-    {
 
-        boolean hasJustStart=false;
-        if(lastStartTime>0&&System.currentTimeMillis()-lastStartTime<3000)
-        {
-            hasJustStart=true;
+    static long lastStartTime;
+
+    public static void start(BaseActivity activity, int requestCode) {
+
+        boolean hasJustStart = false;
+        if (lastStartTime > 0 && System.currentTimeMillis() - lastStartTime < 3000) {
+            hasJustStart = true;
         }
-        lastStartTime=System.currentTimeMillis();
-        if(!hasJustStart) {
+        lastStartTime = System.currentTimeMillis();
+        if (!hasJustStart) {
             Intent intent = new Intent(activity, LoginActivity.class);
             activity.startActivityForResult(intent, requestCode);
         }
     }
 
-    public static void start(Fragment fragment, int requestCode)
-    {
+    public static void start(Fragment fragment, int requestCode) {
 
-        boolean hasJustStart=false;
-        if(lastStartTime>0&&System.currentTimeMillis()-lastStartTime<3000)
-        {
-            hasJustStart=true;
+        boolean hasJustStart = false;
+        if (lastStartTime > 0 && System.currentTimeMillis() - lastStartTime < 3000) {
+            hasJustStart = true;
         }
-        lastStartTime=System.currentTimeMillis();
-        if(!hasJustStart) {
+        lastStartTime = System.currentTimeMillis();
+        if (!hasJustStart) {
             Intent intent = new Intent(fragment.getActivity(), LoginActivity.class);
             fragment.startActivityForResult(intent, requestCode);
         }

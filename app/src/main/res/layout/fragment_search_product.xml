@@ -3,7 +3,7 @@
     android:id="@+id/sendPanel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#aa444444"
+    android:background="#ffffff"
     android:orientation="vertical"
 
     tools:context="com.giants3.hd.android.fragment.SearchProductFragment">

@@ -15,20 +15,22 @@ public interface CustomerEditMVP {
     interface Model extends PageModel<Customer> {
 
 
+        Customer getCustomer();
 
+        void setCustomer(Customer customer);
     }
 
     interface Presenter extends NewPresenter<Viewer> {
 
 
+        void save();
 
-
-
+        void updateValue(String codeText, String nameText, String telText, String faxText, String emailText, String addressText, String nationText);
     }
 
     interface Viewer extends NewViewer {
 
 
-
+        void finish();
     }
 }

@@ -185,15 +185,15 @@ public class HttpUrl {
     }
 
     public static String getProductList(String name, int pageIndex, int pageSize) {
-        return completeUrl(String.format(API_URL_GET_PRODUCT_LIST, name, pageIndex, pageSize));
+        return completeUrl(String.format(API_URL_GET_PRODUCT_LIST, UrlFormatter.encode(name), pageIndex, pageSize));
     }
 
     public static String getOrderList(String name, int pageIndex, int pageSize) {
-        return completeUrl(String.format(API_URL_GET_ORDER_LIST, name, pageIndex, pageSize));
+        return completeUrl(String.format(API_URL_GET_ORDER_LIST, UrlFormatter.encode(name), pageIndex, pageSize));
     }
 
     public static String getOrderDetail(String orderNo) {
-        return completeUrl(String.format(API_URL_GET_ORDER_DETAIL, orderNo));
+        return completeUrl(String.format(API_URL_GET_ORDER_DETAIL, UrlFormatter.encode(orderNo)));
     }
 
     public static String getProductDetail(long productId) {
@@ -329,7 +329,13 @@ public class HttpUrl {
      * @return
      */
     public static String getOrderItemWorkFlowReport(final String os_no, int itm) {
-        return completeUrl("api/erpWork/findOrderItemReport?os_no=" + os_no + "&itm=" + itm);
+
+
+        String apiUrl=BASE_URL + "api/erpWork/findOrderItemReport";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("os_no",os_no).append("itm",itm);
+        return additionInfo(formatter);
+
+//        return completeUrl("api/erpWork/findOrderItemReport?os_no=" + os_no + "&itm=" + itm);
     }
 
     /**
@@ -339,15 +345,23 @@ public class HttpUrl {
      * @return
      */
     public static String searchErpOrderItem(String key, final int pageIndex, final int pageSize) {
+
+//        String apiUrl=BASE_URL + "api/order/searchOrderItems";
+//        UrlFormatter formatter=new UrlFormatter(apiUrl).append("key",key).append("pageIndex",pageIndex).append("pageSize",pageSize);
+//        return additionInfo(formatter);
+
+
         return completeUrl(String.format("api/order/searchOrderItems?key=%s&pageIndex=%d&pageSize=%d", key, pageIndex, pageSize));
     }
 
     public static String getAvailableOrderItemProcess(final String osNo, final int itm, int workFlowStep) {
-        return completeUrl("api/erpWork/getAvailableOrderItemProcess?os_no=" + osNo + "&itm=" + itm + "&flowStep=" + workFlowStep);
+
+
+        return completeUrl("api/erpWork/getAvailableOrderItemProcess?os_no=" + UrlFormatter.encode(osNo) + "&itm=" + itm + "&flowStep=" + workFlowStep);
     }
 
     public static String getOrderItemWorkFlowMessage(String os_no, int itm, int workFlowStep) {
-        return completeUrl(String.format("api/workFlow/workFlowMessage?os_no=" + os_no + "&itm=" + itm + "&workFlowStep=" + workFlowStep));
+        return completeUrl(String.format("api/workFlow/workFlowMessage?os_no=" + UrlFormatter.encode(os_no) + "&itm=" + itm + "&workFlowStep=" + workFlowStep));
     }
 
 
@@ -358,24 +372,28 @@ public class HttpUrl {
     }
 
     public static String getUnCompleteWorkFlowOrderItems(String key, int workFlowStep, int pageIndex, int pageSize) {
-        return completeUrl("api/erpWork/searchUnCompleteOrderItems?key=" + key + "&workFlowStep=" + workFlowStep + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
+        return completeUrl("api/erpWork/searchUnCompleteOrderItems?key=" + UrlFormatter.encode(key) + "&workFlowStep=" + workFlowStep + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
 
     }
 
 
     public static String getCompleteWorkFlowOrderItems(String key, int pageIndex, int pageSize) {
-        return completeUrl("api/erpWork/searchCompleteOrderItems?key=" + key + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
+        return completeUrl("api/erpWork/searchCompleteOrderItems?key=" +UrlFormatter.encode( key) + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
 
 
     }
 
     public static String getOrderItemWorkMemoList(String os_no, int itm) {
-        return completeUrl("api/erpWork/getOrderItemWorkMemos?os_no=" + os_no + "&itm=" + itm);
+
+        String apiUrl=BASE_URL + "api/erpWork/getOrderItemWorkMemos";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("os_no",os_no).append("itm",itm);
+        return additionInfo(formatter);
+
     }
 
     public static String getProductWorkMemoList(String productName, String pversion) {
 
-        return completeUrl("api/erpWork/getProductWorkMemos?productName=" + productName + "&pVersion=" + pversion);
+        return completeUrl("api/erpWork/getProductWorkMemos?productName=" +UrlFormatter.encode( productName) + "&pVersion=" + pversion);
     }
 
     public static String saveWorkMemo() {
@@ -399,11 +417,16 @@ public class HttpUrl {
 
     public static String getWorkFlowMaterials(String osNo, int itm, String workFlowCode) {
 
-        return completeUrl("/api/erpWork/workFlowMaterials?osNo=" + osNo + "&itm=" + itm + "&workFlowCode=" + workFlowCode);
+        return completeUrl("/api/erpWork/workFlowMaterials?osNo=" + UrlFormatter.encode(osNo) + "&itm=" + itm + "&workFlowCode=" + workFlowCode);
     }
 
     public static String getWorkFlowMessageByOrderItem(String osNo, int itm) {
-        return completeUrl("api/order/workFlowMessageByOrderItem?osNo=" + osNo + "&itm=" + itm);
+
+
+        String apiUrl=BASE_URL + "api/order/workFlowMessageByOrderItem";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("osNo",osNo).append("itm",itm);
+        return additionInfo(formatter);
+
 
 
     }
@@ -415,7 +438,7 @@ public class HttpUrl {
     }
 
     public static String getMyWorkFlowMessage(String key, int pageIndex, int pageSize) {
-        return completeUrl("api/order/myWorkFlowMessage?key=" + key + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
+        return completeUrl("api/order/myWorkFlowMessage?key=" +UrlFormatter.encode( key) + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize);
 
 
     }
@@ -439,18 +462,18 @@ public class HttpUrl {
     public static String searchSampleData(String prdNo, String pVersion) {
 
 
-        return completeUrl(String.format("/api/erpWork/findSampleState?prdNo=%s&pVersion=%s", prdNo, pVersion));
+        return completeUrl(String.format("/api/erpWork/findSampleState?prdNo=%s&pVersion=%s", UrlFormatter.encode(prdNo), pVersion));
 
 
     }
 
 
     public static String clearWorkFlow(String os_no, int itm) {
-        return completeUrl(String.format("/api/erpWork/clear?osNO=%s&itm=%d", os_no, itm));
+        return completeUrl(String.format("/api/erpWork/clear?osNO=%s&itm=%d", UrlFormatter.encode(os_no), itm));
     }
 
     public static String getAppQotations(String key, int pageIndex, int pageSize) {
-        return completeUrl(String.format("/api/app/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d", key, pageIndex, pageSize));
+        return completeUrl(String.format("/api/app/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d", UrlFormatter.encode(key), pageIndex, pageSize));
     }
 
     public static String getAppQuotationDetail(long quotationId) {
@@ -506,5 +529,33 @@ public class HttpUrl {
 
     public static String updateQuotationCustomer(long quotationId, long customerId) {
         return completeUrl(String.format("/api/app/quotation/updateCustomer?quotationId=%d&customerId=%d", quotationId,customerId));
+    }
+
+    public static String saveCustomer() {
+        return completeUrl( "/api/customer/saveOne" );
+    }
+
+    public static String updateQuotationItemMemo(long quotationId, int itemIndex, String memo) {
+
+
+        String apiUrl=BASE_URL + "api/app/quotation/updateItemMemo";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("quotationId",quotationId).append("itemIndex",itemIndex).append("memo",memo);
+        return additionInfo(formatter);
+
+
+    }
+
+    public static String deleteQuotation(long quotationId) {
+        String apiUrl=BASE_URL + "api/app/quotation/delete";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("quotationId",quotationId) ;
+        return additionInfo(formatter);
+
+    }
+
+    public static String updateQuotationFieldValue(long quotationId, String field, String data) {
+        String apiUrl=BASE_URL + "api/app/quotation/updateField";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("quotationId",quotationId).append("field",field).append("data",data) ;
+        return additionInfo(formatter);
+
     }
 }

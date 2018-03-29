@@ -31,7 +31,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.QRCaptureActivity" />
         <activity
             android:name=".activity.ProductListActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -150,12 +149,15 @@
         <activity
             android:name=".activity.CustomerEditActivity"
             android:label="@string/title_activity_customer_edit"
-            android:parentActivityName=".activity.BaseActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.giants3.hd.android.activity.BaseActivity" />
+            android:theme="@style/AppTheme.NoActionBar"
+
+            >
+
         </activity>
+
+
+
+
     </application>
 
 </manifest>

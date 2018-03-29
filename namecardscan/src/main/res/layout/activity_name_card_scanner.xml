@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yangchao.namecardscanner.activity.NameCardScannerActivity">
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/line_1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#fff"
+        />
+    <View
+        android:id="@+id/line_2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#fff"
+        android:layout_alignParentBottom="true"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请将名片对准屏幕中央\n若不易识别，尝试将名片横置或竖置"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        />
+
+    <TextView
+        android:id="@+id/take"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点我拍照"
+        android:textColor="#fff"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="90dp"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="#80ffffff"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选图"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:background="#40000000"
+            />
+        <TextView
+            android:id="@+id/flash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开灯"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:background="#40000000"
+            android:layout_marginTop="16dp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

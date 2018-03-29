@@ -18,6 +18,7 @@ package com.giants3.hd.data.net;
 
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
+import com.giants3.hd.entity.Customer;
 import com.giants3.hd.entity.ErpOrderItemProcess;
 import com.giants3.hd.entity.Material;
 import com.giants3.hd.entity.User;
@@ -205,4 +206,12 @@ public interface RestApi {
     Observable getCustomerList();
 
     Observable updateQuotationCustomer(long quotationId, long customerId);
+
+    Observable saveCustomer(Customer customer);
+
+    Observable updateQuotationItemMemo(long quotationId, int itm, String memo);
+
+  Observable deleteQuotation(long quotationId);
+
+  Observable updateQuotationFieldValue(long quotationId, String field, String data);
 }

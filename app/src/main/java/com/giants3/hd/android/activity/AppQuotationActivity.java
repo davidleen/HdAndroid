@@ -1,45 +1,56 @@
 package com.giants3.hd.android.activity;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.print.PrintManager;
-
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.giants3.android.api.qrCode.QRCodeResult;
 import com.giants3.android.frame.util.Log;
+import com.giants3.android.zxing.QRCodeFactory;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
+import com.giants3.hd.android.events.CustomerUpdateEvent;
 import com.giants3.hd.android.fragment.ItemPickDialogFragment;
 import com.giants3.hd.android.fragment.SearchProductFragment;
 import com.giants3.hd.android.fragment.ValueEditDialogFragment;
+import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.mvp.appquotationdetail.AppQuotationDetailMVP;
 import com.giants3.hd.android.mvp.appquotationdetail.PresenterImpl;
 import com.giants3.hd.appdata.AProduct;
+import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.appdata.QRProduct;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.entity.Customer;
 import com.giants3.hd.entity.User;
 import com.giants3.hd.entity.app.QuotationItem;
+import com.giants3.hd.noEntity.CompanyPosition;
 import com.giants3.hd.noEntity.app.QuotationDetail;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+import com.giants3.hd.utils.StringUtils;
 
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 
+import static com.giants3.hd.utils.DateFormats.FORMAT_YYYY_MM_DD;
+
 public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDetailMVP.Presenter> implements AppQuotationDetailMVP.Viewer, SearchProductFragment.OnFragmentInteractionListener {
 
     public static final String KEY_QUOTATION_ID = "KEY_QUOTATION_ID";
+    private static final int REQUEST_CODE_ADD_CUSTOMER = 998;
 
 
     @Bind(R.id.pickItem)
@@ -54,6 +65,8 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     TextView name;
     @Bind(R.id.createTime)
     TextView createTime;
+    @Bind(R.id.validateTime)
+    TextView validateTime;
     @Bind(R.id.customer)
     TextView customer;
 
@@ -61,6 +74,8 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     TextView salesman;
     @Bind(R.id.save)
     TextView save;
+    @Bind(R.id.delete)
+    View delete;
     @Bind(R.id.print)
     TextView print;
     @Bind(R.id.memo)
@@ -111,6 +126,9 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                             return true;
                         case "qty":
                             return true;
+                        case "memo":
+                            return true;
+
                     }
 
 
@@ -145,7 +163,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                                         getPresenter().updatePrice(data.itm, newFloatValue);
                                     }
                                 } catch (Throwable t) {
-                                   Log.e(t);
+                                    Log.e(t);
                                 }
 
 
@@ -190,10 +208,41 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
                     ;
                     break;
+                    case "memo": {
+
+
+                        updateValue("修改备注", String.valueOf(data.memo)
+                                , new ValueEditDialogFragment.ValueChangeListener() {
+                                    @Override
+                                    public void onValueChange(String title, String oldValue, String newValue) {
+                                        try {
+
+
+                                            if (!StringUtils.compare(newValue, data.memo)) {
+                                                data.memo = newValue;
+                                                adapter.notifyDataSetChanged();
+
+
+                                                getPresenter().updateMemo(data.itm, newValue);
+                                            }
+                                        } catch (Throwable t) {
+                                            t.printStackTrace();
+                                        }
+
+
+                                    }
+                                });
+
+
+                    }
+
+
+                    ;
+                    break;
                 }
 
 
-                Log.e(  data.toString());
+                Log.e(data.toString());
 
             }
         });
@@ -203,7 +252,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
                 final QuotationItem item = (QuotationItem) parent.getItemAtPosition(position);
                 if (item != null) {
-                    new AlertDialog.Builder(AppQuotationActivity.this).setItems(new String[]{"删除", "折扣", "上移"}, new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(AppQuotationActivity.this).setItems(new String[]{"删除", "折扣"}, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -265,6 +314,9 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
         print.setOnClickListener(this);
         customer.setOnClickListener(this);
         addCustomer.setOnClickListener(this);
+        delete.setOnClickListener(this);
+        validateTime.setOnClickListener(this);
+        createTime.setOnClickListener(this);
 
 
         long quotationId = getIntent().getLongExtra(KEY_QUOTATION_ID, -1);
@@ -284,16 +336,37 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
 
         createTime.setText(data.quotation.qDate);
+        validateTime.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
         name.setText(data.quotation.qNumber);
         customer.setText(data.quotation.customerName);
         salesman.setText(data.quotation.salesman);
         memo.setText(data.quotation.memo);
+        validateTime.setText(data.quotation.vDate);
 
 
         adapter.setDataArray(data.items);
 
 
+
+        boolean canEdit=false;
+
+
+        AUser loginUser = SharedPreferencesHelper.getLoginUser();
+        if( loginUser !=null&&data.quotation!=null&&(loginUser.isSalesman||loginUser.name.equals(User.ADMIN ))&&data.quotation.saleId== loginUser.id)
+        {
+            canEdit=true;
+        }
+
+        createTime.setOnClickListener(canEdit?this:null);
+        validateTime.setOnClickListener(canEdit?this:null);
+        memo.setOnClickListener(canEdit?this:null);
+        salesman.setOnClickListener(canEdit?this:null);
+
+
     }
+
+
+
 
     public static void start(Context context, long id) {
         Intent intent = new Intent(context, AppQuotationActivity.class);
@@ -308,7 +381,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     }
 
     @Override
-    protected void onViewClick(int id, View v) {
+    protected void onViewClick(final int id, View v) {
 
         switch (id) {
             case R.id.pickItem:
@@ -324,22 +397,93 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
                 break;
 
-                case R.id.customer:
+            case R.id.customer:
 
 
                 getPresenter().pickCustomer();
 
                 break;
+            case R.id.validateTime:
+            case R.id.createTime:
+
+                Date date = null;
+                try {
+                    String text = (id == R.id.validateTime ? validateTime : createTime).getText().toString().trim();
+                    date = FORMAT_YYYY_MM_DD.parse(text);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+
+                }
+                final Calendar calendar = Calendar.getInstance();
+                if (date != null)
+                    calendar.setTime(date);
+                DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        String dateString = FORMAT_YYYY_MM_DD.format(calendar.getTime());
+                        if (id == R.id.validateTime)
+                            getPresenter().updateValidateTime(dateString);
+                        else
+                            getPresenter().updateCreateTime(dateString);
+
+
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
+
+
+                break;
+
+
             case R.id.print:
 
 
                 getPresenter().printQuotation();
 
+                break;case R.id.memo:
+
+               final  String text = memo.getText().toString();
+                updateValue("修改备注",  text
+                        , new ValueEditDialogFragment.ValueChangeListener() {
+                            @Override
+                            public void onValueChange(String title, String oldValue, String newValue) {
+                                try {
+
+
+                                    if (!StringUtils.compare(newValue, text)) {
+
+                                        adapter.notifyDataSetChanged();
+
+
+                                        getPresenter().updateQuotationMemo( newValue);
+                                    }
+                                } catch (Throwable t) {
+                                    t.printStackTrace();
+                                }
+
+
+                            }
+                        });
+
+
+
                 break;
-                case R.id.addCustomer:
+            case R.id.addCustomer:
 
 
-                 addNewCustomer();
+                addNewCustomer();
+
+                break;
+            case R.id.delete:
+                new AlertDialog.Builder(AppQuotationActivity.this).setTitle("确定删除报价单?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getPresenter().deleteQuotation();
+                    }
+                }).setNegativeButton("取消", null).create().show();
+
 
                 break;
             case R.id.discountAll:
@@ -375,17 +519,9 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
             case R.id.scanItem:
 
 
-                IntentIntegrator integrator = new IntentIntegrator(AppQuotationActivity.this);
-//                 integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-//                 integrator.setPrompt("Scan a barcode");
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("扫描产品二维码");
+                QRCodeFactory.start(this, "扫描产品二维码");
 
 
-                integrator.setCaptureActivity(QRCaptureActivity.class);
-                integrator.setCameraId(0);  // Use a specific camera of the device
-                integrator.setBeepEnabled(false);
-                integrator.initiateScan();
                 break;
         }
 
@@ -395,8 +531,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     private void addNewCustomer() {
 
 
-        // CustomerEditActivity.start(this,REQUEST_CODE_ADD_CUSTOMER);
-
+        CustomerEditActivity.start(this, REQUEST_CODE_ADD_CUSTOMER);
 
 
     }
@@ -410,22 +545,20 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        QRCodeResult qrCodeResult = QRCodeFactory.onActivityResult(requestCode, resultCode, data);
 
 
-        if (result != null) {
-
-
+        if (qrCodeResult != null) {
             try {
-                QRProduct product = GsonUtils.fromJson(result.getContents(), QRProduct.class);
+                QRProduct product = GsonUtils.fromJson(qrCodeResult.contents, QRProduct.class);
 
                 if (product != null) {
                     getPresenter().addNewProduct(product.id);
                 }
-                Log.i(  "result:" + product);
+                Log.i("result:" + product);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -465,9 +598,6 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                 finish();
 
 
-
-
-
             }
         }).create().show();
 
@@ -485,7 +615,6 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     public void chooseCustomer(Customer current, List<Customer> customers) {
 
 
-
         ItemPickDialogFragment<Customer> dialogFragment = new ItemPickDialogFragment<Customer>();
         dialogFragment.set("选择客户", customers, current, new ItemPickDialogFragment.ValueChangeListener<Customer>() {
             @Override
@@ -497,5 +626,19 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
         });
         dialogFragment.show(getSupportFragmentManager(), null);
 
+    }
+
+
+    /**
+     * 这个方法 适配 evenbus 必须实现一个这种方法 否则会报错。
+     * <p/>
+     * <br>Created 2016年4月19日 下午3:58:56
+     *
+     * @param event
+     * @author davidleen29
+     */
+    public void onEvent(CustomerUpdateEvent event) {
+
+        getPresenter().loadCustomer();
     }
 }

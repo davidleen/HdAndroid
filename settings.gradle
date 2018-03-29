@@ -1,5 +1,7 @@
-include ':app', ':domain', ':net', ':umengshare', ':frame'
+include ':app', ':domain', ':net', ':umengshare', ':frame', ':namecardscan', ':testnamecard',  ':api'
 include ':library'
 include ':PushSDK'
+include ':zxing'
+include ':zxing_no_op'
 //include   ':quotation'
 //include ':data'

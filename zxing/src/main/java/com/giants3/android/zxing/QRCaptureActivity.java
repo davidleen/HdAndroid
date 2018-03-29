@@ -1,4 +1,4 @@
-package com.giants3.hd.android.activity;
+package com.giants3.android.zxing;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 

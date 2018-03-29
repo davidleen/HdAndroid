@@ -56,7 +56,18 @@ public interface AppQuotationDetailMVP {
 
         void updateCustomer(Customer newValue);
 
+        void loadCustomer();
 
+
+        void updateMemo(int itm, String newValue);
+
+        void deleteQuotation();
+
+        void updateValidateTime(String dateString);
+
+        void updateCreateTime(String dateString);
+
+        void updateQuotationMemo(String newValue);
     }
 
     interface Viewer extends NewViewer {
