@@ -180,6 +180,9 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
 
 
         QuotationDetail quotationDetail=getModel().getQuotationDetail();
+
+
+
         quotationDetail.quotation.vDate=dateString;
         bindData();
 
@@ -204,6 +207,18 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
         quotationDetail.quotation.memo=newValue;
         bindData();
         executeQuotationUseCase( UseCaseFactory.getInstance().createUpdateQuotationFieldUseCase( quotationDetail.quotation.id,"memo",newValue));
+    }
+
+
+    @Override
+    public void updateQuotationNumber(String newValue) {
+
+        QuotationDetail quotationDetail=getModel().getQuotationDetail();
+        quotationDetail.quotation.qNumber=newValue;
+        bindData();
+        executeQuotationUseCase( UseCaseFactory.getInstance().createUpdateQuotationFieldUseCase( quotationDetail.quotation.id,"qNumber",newValue));
+
+
     }
 
     @Override
@@ -270,7 +285,24 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
 
 
         UseCase useCase = UseCaseFactory.getInstance().createSaveQuotationUseCase(quotationId);
-        executeQuotationUseCase(useCase);
+
+        RemoteDataSubscriber<QuotationDetail> useCaseSubscriber = new RemoteDataSubscriber<QuotationDetail>(this) {
+
+            @Override
+            protected void handleRemoteData(RemoteData<QuotationDetail> data) {
+                if (data.isSuccess()) {
+                    getModel().setQuotationDetail(data.datas.get(0));
+                    bindData();
+                    getView().showMessage("保存成功");
+                    getView().setResultOK();
+
+                }else
+                {
+                    getView().showMessage(data.message);
+                }
+            }
+        };
+        useCase.execute(useCaseSubscriber);
     }
 
     private void executeQuotationUseCase(UseCase useCase) {
@@ -280,9 +312,12 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
             protected void handleRemoteData(RemoteData<QuotationDetail> data) {
                 if (data.isSuccess()) {
                     getModel().setQuotationDetail(data.datas.get(0));
-                    bindData();
 
+
+                }else{
+                    getView().showMessage(data.message);
                 }
+                    bindData();
             }
         };
         useCase.execute(useCaseSubscriber);

@@ -39,7 +39,7 @@ import butterknife.Bind;
 
 public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presenter> implements AppQuotationMVP.Viewer {
 
-    private static final int REQUEST_MESSAGE_OPERATE = 9999;
+    private static final int REQUEST_QUOTATION_DETAIL_OPERATE = 9993;
     ItemListAdapter<Quotation> adapter;
     @Bind(R.id.swipeLayout)
     TwinklingRefreshLayout swipeLayout;
@@ -51,6 +51,8 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
     View add;
 
     TextWatcher watcher;
+
+
 
     @Override
     protected AppQuotationMVP.Presenter createPresenter() {
@@ -81,7 +83,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
 
                 Quotation quotation= (Quotation) parent.getItemAtPosition(position);
-                AppQuotationActivity.start(getView().getContext(),quotation.id);
+                AppQuotationActivity.start(AppQuotationFragment.this,quotation.id,REQUEST_QUOTATION_DETAIL_OPERATE);
 
 
             }
@@ -117,7 +119,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppQuotationActivity.start(v.getContext());
+                AppQuotationActivity.start(AppQuotationFragment.this,-1,REQUEST_QUOTATION_DETAIL_OPERATE);
             }
         });
 
@@ -191,7 +193,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) return;
         switch (requestCode) {
-            case REQUEST_MESSAGE_OPERATE:
+            case REQUEST_QUOTATION_DETAIL_OPERATE:
                 searchData();
 
                 break;

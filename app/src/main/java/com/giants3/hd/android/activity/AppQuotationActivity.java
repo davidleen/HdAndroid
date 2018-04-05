@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +26,7 @@ import com.giants3.hd.android.fragment.SearchProductFragment;
 import com.giants3.hd.android.fragment.ValueEditDialogFragment;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
+import com.giants3.hd.android.mvp.AndroidRouter;
 import com.giants3.hd.android.mvp.appquotationdetail.AppQuotationDetailMVP;
 import com.giants3.hd.android.mvp.appquotationdetail.PresenterImpl;
 import com.giants3.hd.appdata.AProduct;
@@ -34,7 +36,6 @@ import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.entity.Customer;
 import com.giants3.hd.entity.User;
 import com.giants3.hd.entity.app.QuotationItem;
-import com.giants3.hd.noEntity.CompanyPosition;
 import com.giants3.hd.noEntity.app.QuotationDetail;
 import com.giants3.hd.utils.StringUtils;
 
@@ -61,8 +62,8 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     @Bind(R.id.discountAll)
     View discountAll;
 
-    @Bind(R.id.name)
-    TextView name;
+    @Bind(R.id.qNumber)
+    TextView qNumber;
     @Bind(R.id.createTime)
     TextView createTime;
     @Bind(R.id.validateTime)
@@ -86,7 +87,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     ListView quotation_item_list;
     ItemListAdapter<QuotationItem> adapter;
 
-    boolean isEditable = true;
+    boolean isCellEditable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
             public boolean isCellClickable(String field) {
 
 
-                if (isEditable) {
+                if (isCellEditable) {
 
                     switch (field) {
                         case "price":
@@ -211,13 +212,11 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                     case "memo": {
 
 
-                        updateValue("修改备注", String.valueOf(data.memo)
+                        updateValue("修改备注", data.memo==null?"":data.memo,true
                                 , new ValueEditDialogFragment.ValueChangeListener() {
                                     @Override
                                     public void onValueChange(String title, String oldValue, String newValue) {
                                         try {
-
-
                                             if (!StringUtils.compare(newValue, data.memo)) {
                                                 data.memo = newValue;
                                                 adapter.notifyDataSetChanged();
@@ -324,10 +323,13 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
     }
 
-
     private void updateValue(String title, String value, ValueEditDialogFragment.ValueChangeListener listener) {
+        updateValue(title,value,false,listener);
+    }
+    private void updateValue(String title, String value,boolean multiableText, ValueEditDialogFragment.ValueChangeListener listener) {
         ValueEditDialogFragment dialogFragment = new ValueEditDialogFragment();
         dialogFragment.set(title, value, listener);
+        dialogFragment.setMultiableText(multiableText);
         dialogFragment.show(getSupportFragmentManager(), null);
     }
 
@@ -336,12 +338,13 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
 
         createTime.setText(data.quotation.qDate);
-        validateTime.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-        name.setText(data.quotation.qNumber);
+
+        qNumber.setText(data.quotation.qNumber);
         customer.setText(data.quotation.customerName);
         salesman.setText(data.quotation.salesman);
         memo.setText(data.quotation.memo);
         validateTime.setText(data.quotation.vDate);
+
 
 
         adapter.setDataArray(data.items);
@@ -356,27 +359,48 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
         {
             canEdit=true;
         }
+        isCellEditable=canEdit;
+        setEditable(createTime,canEdit);
+        setEditable(validateTime,canEdit);
+        setEditable(customer,canEdit);
+        setEditable(memo,canEdit);
+        setEditable(qNumber,canEdit);
 
-        createTime.setOnClickListener(canEdit?this:null);
-        validateTime.setOnClickListener(canEdit?this:null);
-        memo.setOnClickListener(canEdit?this:null);
-        salesman.setOnClickListener(canEdit?this:null);
 
+
+
+
+    }
+    private void  setEditable(TextView v, boolean isEditable)
+    {
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            v.setTextAppearance(isEditable?R.style.value_edit_text_style:R.style.value_text_style);
+        }else
+        {
+            v.setCompoundDrawablesWithIntrinsicBounds(0,0,isEditable?R.mipmap.ic_menu_edit:0,0);
+        }
+        v.setOnClickListener(isEditable?this:null);
 
     }
 
 
+    public static void start(AndroidRouter router, long id) {
 
 
-    public static void start(Context context, long id) {
-        Intent intent = new Intent(context, AppQuotationActivity.class);
+        start(router,id,-1);
+    }
+
+    public static void start(AndroidRouter router, long id, int requestCode) {
+        Intent intent = new Intent(router.getContext(), AppQuotationActivity.class);
         intent.putExtra(AppQuotationActivity.KEY_QUOTATION_ID, id);
-        context.startActivity(intent);
+        router.startActivityForResult(intent,requestCode);
     }
 
-    public static void start(Context context) {
+    public static void start(AndroidRouter router) {
 
-        start(context, -1);
+        start(router, -1);
 
     }
 
@@ -403,10 +427,15 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                 getPresenter().pickCustomer();
 
                 break;
+
+
+
             case R.id.validateTime:
             case R.id.createTime:
 
+
                 Date date = null;
+
                 try {
                     String text = (id == R.id.validateTime ? validateTime : createTime).getText().toString().trim();
                     date = FORMAT_YYYY_MM_DD.parse(text);
@@ -442,22 +471,51 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
                 getPresenter().printQuotation();
 
-                break;case R.id.memo:
+                break;
 
-               final  String text = memo.getText().toString();
-                updateValue("修改备注",  text
-                        , new ValueEditDialogFragment.ValueChangeListener() {
+
+                case R.id.memo: {
+
+                    final String text = memo.getText().toString();
+                    updateValue("修改备注", text, true
+                            , new ValueEditDialogFragment.ValueChangeListener() {
+                                @Override
+                                public void onValueChange(String title, String oldValue, String newValue) {
+                                    try {
+
+
+                                        if (!StringUtils.compare(newValue, text)) {
+
+
+                                            getPresenter().updateQuotationMemo(newValue);
+                                        }
+                                    } catch (Throwable t) {
+                                        t.printStackTrace();
+                                    }
+
+
+                                }
+                            });
+
+
+                }
+
+                break;
+
+                case R.id.qNumber: {
+
+                final String oldQnumber = qNumber.getText().toString();
+                updateValue("修改报价单号", oldQnumber,
+                        new ValueEditDialogFragment.ValueChangeListener() {
                             @Override
                             public void onValueChange(String title, String oldValue, String newValue) {
                                 try {
 
 
-                                    if (!StringUtils.compare(newValue, text)) {
-
-                                        adapter.notifyDataSetChanged();
+                                    if (!StringUtils.compare(newValue, oldQnumber)) {
 
 
-                                        getPresenter().updateQuotationMemo( newValue);
+                                        getPresenter().updateQuotationNumber(newValue);
                                     }
                                 } catch (Throwable t) {
                                     t.printStackTrace();
@@ -468,6 +526,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                         });
 
 
+            }
 
                 break;
             case R.id.addCustomer:
@@ -628,6 +687,11 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
     }
 
+
+    @Override
+    public void setResultOK() {
+        setResult(RESULT_OK);
+    }
 
     /**
      * 这个方法 适配 evenbus 必须实现一个这种方法 否则会报错。

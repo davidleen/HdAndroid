@@ -45,6 +45,7 @@
     <style name="value_edit_text_style" parent="value_text_style">
         <item name="android:drawableRight">@mipmap/ic_menu_edit</item>
         <item name="android:background">@drawable/bg_gray_input_selector</item>
+        <item name="android:layout_width">@dimen/value_lengthX2</item>
 
 
     </style>

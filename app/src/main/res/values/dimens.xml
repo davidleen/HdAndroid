@@ -11,7 +11,7 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="title_divider">5dp</dimen>
     <dimen name="value_length">120dp</dimen>
-    <dimen name="value_lengthX2">180dp</dimen>
+    <dimen name="value_lengthX2">160dp</dimen>
     <dimen name="title_length">60dp</dimen>
     <dimen name="title_long_length">80dp</dimen>
 

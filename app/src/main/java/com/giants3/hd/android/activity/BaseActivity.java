@@ -30,11 +30,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.Window;
 
+import com.giants3.android.push.PushProxy;
 import com.giants3.hd.android.events.BaseEvent;
 import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.helper.AnalysisFactory;
 import com.giants3.hd.android.helper.ToastHelper;
-import com.umeng.message.PushAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +43,9 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 
-public class BaseActivity extends AppCompatActivity implements View.OnClickListener  {
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     public static final int REQUEST_LOGIN = 1009;
     public static final int REQUEST_CODE_PERMISSION = 200;
-
-
 
 
     ProgressDialog progressDialog;
@@ -64,7 +62,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        PushAgent.getInstance(this).onAppStart();
+        PushProxy.onAppStart();
+
 
         sharedPreferences = getSharedPreferences("PERMMISON", Context.MODE_PRIVATE);
 
@@ -123,8 +122,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public Context getContext()
-    {
+    public Context getContext() {
         return this;
     }
 
@@ -152,6 +150,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.onConfigurationChanged(newConfig);
 
     }
+
     /**
      * 这个方法 适配 evenbus 必须实现一个这种方法 否则会报错。
      * <p/>
@@ -161,6 +160,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
      * @author davidleen29
      */
     public void onEvent(BaseEvent event) {
+
     }
 
 
@@ -172,7 +172,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected  void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
@@ -349,8 +349,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public void onEvent(LoginSuccessEvent event) {
 
     }
-
-
 
 
 }

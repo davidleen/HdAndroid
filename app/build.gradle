@@ -1,7 +1,16 @@
 apply plugin: 'com.android.application'
+apply from: 'local.gradle'
 
 
 android {
+    signingConfigs {
+        debug {
+            keyAlias myKeyAlias
+            keyPassword myKeyPassword
+            storeFile file(myStoreFileName)
+            storePassword myStorePassword
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion '26.0.2'
     defaultConfig {
@@ -15,17 +24,19 @@ android {
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
 
-        //友盟appkey常量配置
-        buildConfigField "String", "UMENG_APP_KEY", "\"57a1e715e0f55a37b8004434\""
-        buildConfigField "String", "UMENG_CHANNEL", "\"DEVELOPER\""
+
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
-
-
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -47,33 +58,29 @@ dependencies {
     compile('com.nostra13.universalimageloader:universal-image-loader:1.9.4') {
         exclude group: 'com.android.support'
     }
-//     compile 'com.giants3:dataLib:1.0.6'
+    //     compile 'com.giants3:dataLib:1.0.6'
     compile project(':domain')
     compile project(':library')
-    compile project(':PushSDK')
+    releaseCompile project(':PushSDK')
+    debugCompile project(':PushSDK_no_op')
     compile project(':frame')
-//    fullCompile project(':sharesdk')
+    //    fullCompile project(':sharesdk')
     //友盟分析统计
     //noinspection GradleCompatible
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_V7_VERSION}"
-    compile 'com.android.support:design:23.4.0'
-
-
-    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile "com.android.support:design:${ANDROID_SUPPORT_V7_VERSION}"
+    compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_V7_VERSION}"
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.greenrobot:eventbus:2.4.1'
-
     compile 'com.wefika:flowlayout:0.4.1'
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.android.support:support-v4:23.4.0'
+    // compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
-
     releaseCompile project(':zxing')
-//    debugCompile project(':zxing')
+    //    debugCompile project(':zxing')
     debugCompile project(':zxing_no_op')
-//    compile project(':namecardscan')
-    compile project(path: ':api')
+    //    compile project(':namecardscan')
+    compile "com.giants3.android:api:${API_VERSION}"
+    releaseCompile project(path: ':umenganalysis')
 }

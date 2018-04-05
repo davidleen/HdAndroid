@@ -1,0 +1,16 @@
+//将函数设置为extra属性中去，这样，加载这个.gradle就能调用此文件中定义的函数了
+//这里可以自由定义
+
+//本地配置studio配置
+
+ext {
+
+    //畅读书城签名
+    myStoreFileName = 'D:/projects/giants3/HdAndroid/doc/android.jks'
+    myKeyAlias = 'android'
+    myKeyPassword = '123456'
+    myStorePassword = '123456'
+
+}
+
+

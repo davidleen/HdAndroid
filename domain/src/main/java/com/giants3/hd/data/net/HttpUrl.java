@@ -22,7 +22,7 @@ public class HttpUrl {
 
     public static final String DEFAULT_IPAddress = "192.168.2.108";
     public static final String DEFAULT_IPPort = "8080";
-    public static final String DEFAULT_ServiceName = "Service";
+    public static final String DEFAULT_ServiceName = "Server";
     public static final String API_BASE_URL = "";
     public static final String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
     /**

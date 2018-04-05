@@ -68,6 +68,8 @@ public interface AppQuotationDetailMVP {
         void updateCreateTime(String dateString);
 
         void updateQuotationMemo(String newValue);
+
+        void updateQuotationNumber(String newValue);
     }
 
     interface Viewer extends NewViewer {
@@ -80,5 +82,7 @@ public interface AppQuotationDetailMVP {
         void exit();
 
         void chooseCustomer(Customer current, List<Customer> customers);
+
+        void setResultOK();
     }
 }

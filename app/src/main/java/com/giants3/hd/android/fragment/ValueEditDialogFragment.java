@@ -3,6 +3,7 @@ package com.giants3.hd.android.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,13 @@ import android.widget.TextView;
 
 import com.giants3.hd.android.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by davidleen29 on 2016/6/13.
  */
-public class ValueEditDialogFragment extends DialogFragment {
+public class ValueEditDialogFragment<T extends Serializable> extends DialogFragment {
 
 
     private Class<?> valueType;
@@ -24,6 +26,8 @@ public class ValueEditDialogFragment extends DialogFragment {
     private String titleString;
     private String oldValue;
     private ValueChangeListener listener;
+
+    private boolean isMutiableText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +49,16 @@ public class ValueEditDialogFragment extends DialogFragment {
         final TextView oldValueTextView= (TextView) view.findViewById(R.id.oldValue);
         oldValueTextView.setText(oldValue);
         final TextView newValueTextView= (TextView) view.findViewById(R.id.newValue);
+
+        if(isMutiableText)
+        {
+            newValueTextView.setMinLines(4);
+            newValueTextView.setGravity(Gravity.LEFT|Gravity.TOP);
+        }else
+        {
+            newValueTextView.setMinLines(1);
+            newValueTextView.setGravity(Gravity.CENTER );
+        }
         getDialog().setTitle(titleString);
         View save=view.findViewById(R.id.btn_save);
         save.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +92,18 @@ public class ValueEditDialogFragment extends DialogFragment {
         this.oldValue = oldValue;
         this.listener = listener;
     }
+
+    /**
+     * 是否多行文本
+     * @param b
+     */
+    public void setMultiableText(boolean b) {
+
+        this.isMutiableText=b;
+
+
+    }
+
     public interface  ValueChangeListener
     {public void onValueChange(String title,String oldValue,String newValue);}
 

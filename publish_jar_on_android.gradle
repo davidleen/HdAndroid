@@ -1,0 +1,62 @@
+apply plugin: 'maven-publish'
+
+//源代码jar
+task sourceJar(type: Jar) {
+    //源代码生成jar
+    from android.sourceSets.main.java.srcDirs
+
+    classifier = 'sources'
+}
+
+//删除旧的代码jar
+task deleteOldJar(type: Delete) {
+    delete "$buildDir/libs/${project.getName()}.jar"
+}
+
+//复制jar 到build/libs目录下
+task createJar(type: Copy ) {
+    from("$buildDir/intermediates/bundles/release/")
+    into("$buildDir/libs/")
+    include('classes.jar')
+    rename('classes.jar', "${project.getName()}.jar")
+}
+
+
+createJar.dependsOn(deleteOldJar,build)
+
+//定义构建jar发布的任务- 这是个空任务，目的是调用依赖任务。
+task  publishAfterCreateJar(){
+
+    println  "构建jar发布============"
+}
+//先执行创建jar ，然后发布
+publishAfterCreateJar.dependsOn(createJar,publish)
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+
+
+            groupId PUBLISH_GROUP_ID
+            artifactId "${project.getName()}"
+            version "${android.defaultConfig.versionName}"
+            artifact(sourceJar)
+            artifact("$buildDir/libs/${project.getName()}.jar")
+        }
+    }
+    repositories {
+        maven {
+            if (project.version.endsWith('-SNAPSHOT')) {
+                url = LOCAL_MAVEN_SNAPSHOT_URL
+            } else {
+                url = LOCAL_MAVEN_URL
+            }
+            credentials {
+                username NEXUS_USERNAME
+                password NEXUS_PASSWORD
+            }
+        }
+    }
+}
+
+

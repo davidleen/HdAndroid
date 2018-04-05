@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+        minSdkVersion 11
+        targetSdkVersion 23
+    }
+
+
+
+
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+       provided "com.giants3.android:api:${API_VERSION}"
+}

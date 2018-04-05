@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 22
+        targetSdkVersion 23
     }
 
     buildTypes {
@@ -53,4 +53,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    provided "com.giants3.android:api:${API_VERSION}"
 }

@@ -2,45 +2,60 @@ package com.giants3.hd.android.helper;
 
 import android.content.Context;
 
-import com.giants3.hd.android.BuildConfig;
+import com.giants3.android.api.analytics.AnalysisApi;
 import com.giants3.hd.android.HdApplication;
-import com.umeng.analytics.MobclickAgent;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 /**
- *
  * 分析工具包装类
  * Created by davidleen29 on 2016/11/3.
  */
 
-public class AnalysisFactory {
-
-    private  static  AnalysisFactory analysis;
+public class AnalysisFactory implements AnalysisApi {
 
 
+    public static final String UMENG_IMPL_CLASS_NAME = "com.giants3.android.analysis.UmengAnalysisImpl";
 
-    public static AnalysisFactory getInstance() {
+    private static AnalysisApi analysis;
 
-        if(analysis==null)
-        {
-            //与微社区存在UMENG_APP_KEY上不一致的冲突
-            //统计sdk 采用代码注入方式。
-            MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(HdApplication.baseContext, BuildConfig.UMENG_APP_KEY,BuildConfig.UMENG_CHANNEL, MobclickAgent.EScenarioType.E_UM_NORMAL);
-            MobclickAgent.startWithConfigure(config);
-            MobclickAgent.setDebugMode(true);
-            // MobclickAgent.setCatchUncaughtExceptions(true);
 
-            analysis=new AnalysisFactory();
+    public static AnalysisApi getInstance() {
+
+        if (analysis == null) {
+
+            try {
+                Class<?> aClass = Class.forName(UMENG_IMPL_CLASS_NAME);
+                Constructor<?> constructor = aClass.getConstructor(Context.class);
+                analysis = (AnalysisApi) constructor.newInstance(HdApplication.baseContext);
+
+
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+            if (analysis == null)
+                analysis = new AnalysisFactory();
         }
         return analysis;
     }
 
-    public  void onResume(Context context)
-    {
-        MobclickAgent.onResume(context);
+    @Override
+    public void onResume(Context context) {
+
     }
 
+    @Override
+    public void onPause(Context context) {
 
-    public  void onPause(Context context)
-    {
-        MobclickAgent.onPause(context);
     }
 }

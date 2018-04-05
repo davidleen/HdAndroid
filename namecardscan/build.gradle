@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply from :'../publish_aar.gradle'
 android {
     compileSdkVersion 23
 
@@ -10,7 +10,7 @@ android {
         //名片识别 so文件 需求版本不能高于等于23
         targetSdkVersion 19
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

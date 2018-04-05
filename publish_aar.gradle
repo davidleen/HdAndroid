@@ -1,0 +1,44 @@
+apply plugin: 'maven-publish'
+
+
+//源代码jar
+task sourceJar(type: Jar) {
+    //源代码生成jar
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+//定义构建aar 发布的任务- 这是个空任务，目的是调用依赖任务。
+task  publishAfterAssemble(){
+
+    println  "构建aar发布============"
+}
+//先执行构建aar ，然后发布
+publishAfterAssemble.dependsOn(build,publish)
+
+
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId PUBLISH_GROUP_ID
+            artifactId "${project.getName()}"
+            version "${android.defaultConfig.versionName}"
+            artifact(sourceJar)
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            if (project.version.endsWith('-SNAPSHOT')) {
+                url = LOCAL_MAVEN_SNAPSHOT_URL
+            } else {
+                url = LOCAL_MAVEN_URL
+            }
+            credentials {
+                username NEXUS_USERNAME
+                password NEXUS_PASSWORD
+            }
+        }
+    }
+}

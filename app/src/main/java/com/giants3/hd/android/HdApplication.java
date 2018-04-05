@@ -4,14 +4,14 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.giants3.android.api.push.RegisterCallback;
+import com.giants3.android.push.PushProxy;
 import com.giants3.hd.android.helper.AndroidUtils;
 import com.giants3.hd.android.helper.BitmapToolkit;
 import com.giants3.hd.android.helper.ConnectionHelper;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.data.net.HttpUrl;
-import com.umeng.message.IUmengRegisterCallback;
-import com.umeng.message.PushAgent;
 
 ;
 
@@ -19,7 +19,7 @@ import com.umeng.message.PushAgent;
  * Created by david on 2016/1/2.
  */
 public class HdApplication extends Application {
-    public static final String TAG="Application";
+    public static final String TAG = "Application";
     /**
      * Called when the application is starting, before any activity, service,
      * or receiver objects (excluding content providers) have been created.
@@ -45,24 +45,24 @@ public class HdApplication extends Application {
         AndroidUtils.init(this);
 
         boolean autoUpdates = BuildConfig.AUTO_UPDATES;
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-//注册推送服务，每次调用register方法都会回调该接口
-        mPushAgent.register(new IUmengRegisterCallback() {
 
+
+        PushProxy.config(this, new RegisterCallback() {
             @Override
-            public void onSuccess(String deviceToken) {
-                //注册成功会返回device token
-
-                SystemConst.device_token=deviceToken;
-
-
+            public void onSuccess(String... deviceToken) {
+                SystemConst.device_token = deviceToken[0];
             }
 
             @Override
-            public void onFailure(String s, String s1) {
-                Log.e(TAG,"s:"+s);
+            public void onFail(String... message) {
+                for (int i = 0; i < message.length; i++) {
+                    Log.e(TAG, message[i]);
+
+                }
+
             }
         });
+
 
     }
 

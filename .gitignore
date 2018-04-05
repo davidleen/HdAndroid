@@ -13,3 +13,4 @@ import-summary.txt
 PushSDK/build
 PushSDK/project.properties
 app/release/
+PushSDK_no_op/build/
