@@ -873,13 +873,13 @@ public class RestApiImpl implements RestApi {
             }
         });
     } @Override
-    public Observable getCustomerList( ) {
+    public Observable getCustomerList(final String key ) {
         return create(new ApiInvoker<Customer>() {
             @Override
             public RemoteData<Customer> invoker() throws HdException {
 
 
-                return apiManager.getCustomerList( )  ;
+                return apiManager.getCustomerList(key )  ;
             }
         });
     }

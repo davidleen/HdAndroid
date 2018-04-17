@@ -12,6 +12,7 @@ import com.giants3.hd.android.events.CustomerUpdateEvent;
 import com.giants3.hd.android.mvp.AndroidRouter;
 import com.giants3.hd.android.mvp.customer.CustomerEditMVP;
 import com.giants3.hd.android.mvp.customer.PresenterImpl;
+import com.giants3.hd.entity.Customer;
 import com.giants3.hd.utils.StringUtils;
 
 import butterknife.Bind;
@@ -20,7 +21,7 @@ import butterknife.Bind;
 public class CustomerEditActivity extends BaseHeadViewerActivity<CustomerEditMVP.Presenter> implements CustomerEditMVP.Viewer {
 
 
-
+    private static final String KEY_CUSTOMER ="KEY_CUSTOMER" ;
     @Bind(R.id.save)
     TextView save;
     @Bind(R.id.namecard)
@@ -75,6 +76,31 @@ public class CustomerEditActivity extends BaseHeadViewerActivity<CustomerEditMVP
         });
 
 
+        Customer customer= (Customer) getIntent().getSerializableExtra(KEY_CUSTOMER);
+
+        if(customer!=null)
+            getPresenter().initCustomer(customer);
+
+        setTitle(customer==null?"添加客户":"客户编辑");
+
+
+
+
+    }
+
+    @Override
+    public void bindData(Customer customer) {
+
+        if(customer==null) return ;
+        code.setText(customer.code);
+        name.setText(customer.name);
+        tel.setText(customer.tel);
+        fax.setText(customer.fax);
+        address.setText(customer.addr);
+        nation.setText(customer.nation);
+        email.setText(customer.email);
+
+
 
     }
 
@@ -96,7 +122,17 @@ public class CustomerEditActivity extends BaseHeadViewerActivity<CustomerEditMVP
 
     public static void start(AndroidRouter communicator, int requestCode)
     {
+        start(communicator,requestCode,null);
+    }
+
+
+    public static void start(AndroidRouter communicator, int requestCode, Customer customer)
+    {
         Intent intent=new Intent(communicator.getContext(),CustomerEditActivity.class);
+        if(customer!=null)
+        {
+            intent.putExtra(CustomerEditActivity.KEY_CUSTOMER,customer);
+        }
         communicator.startActivityForResult(intent,requestCode);
     }
 

@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-
+    compileSdkVersion project.ANDROID_COMPILE_VERSION
+    buildToolsVersion project.ANDROID_BUILD_VERSION
 
 
     defaultConfig {

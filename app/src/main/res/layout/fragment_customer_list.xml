@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/search_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:inputType="number"
+        android:hint="查询"
+        android:textSize="16sp" />
+
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/list"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:divider="@drawable/icon_divider"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true" />
+        </HorizontalScrollView>
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="100dp"
+        android:layout_gravity="center"
+        android:text="添加"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

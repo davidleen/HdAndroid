@@ -203,7 +203,7 @@ public interface RestApi {
 
   Observable printQuotation(long quotationId,String filePath);
 
-    Observable getCustomerList();
+    Observable getCustomerList(String key);
 
     Observable updateQuotationCustomer(long quotationId, long customerId);
 

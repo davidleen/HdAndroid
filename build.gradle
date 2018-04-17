@@ -15,7 +15,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven{ url "http://127.0.0.1:8081/nexus/content/repositories/thirdparty/"}
+        maven{ url LOCAL_MAVEN_URL}
         google()
     }
 }

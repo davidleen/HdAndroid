@@ -22,6 +22,7 @@ import com.giants3.hd.android.adapter.ItemListAdapter;
 import com.giants3.hd.android.entity.TableData;
 import com.giants3.hd.android.events.CustomerUpdateEvent;
 import com.giants3.hd.android.fragment.ItemPickDialogFragment;
+import com.giants3.hd.android.fragment.ProductDetailFragment;
 import com.giants3.hd.android.fragment.SearchProductFragment;
 import com.giants3.hd.android.fragment.ValueEditDialogFragment;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
@@ -129,6 +130,8 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                             return true;
                         case "memo":
                             return true;
+                        case "productName":
+                            return true;
 
                     }
 
@@ -231,6 +234,23 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
                                     }
                                 });
+
+
+                    }
+
+
+                    ;
+                    break;
+
+                    case "productName": {
+
+                            //跳转产品详情
+                       AProduct aProduct=new AProduct();
+                       aProduct.id=data.productId;
+                        //调整act
+                        Intent intent = new Intent(AppQuotationActivity.this, ProductDetailActivity.class);
+                        intent.putExtra(ProductDetailFragment.ARG_ITEM, GsonUtils.toJson(aProduct));
+                        startActivity(intent);
 
 
                     }
@@ -694,9 +714,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     }
 
     /**
-     * 这个方法 适配 evenbus 必须实现一个这种方法 否则会报错。
-     * <p/>
-     * <br>Created 2016年4月19日 下午3:58:56
+
      *
      * @param event
      * @author davidleen29

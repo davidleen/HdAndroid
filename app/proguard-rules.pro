@@ -30,7 +30,8 @@
     <init>(java.lang.Throwable);
 }
 
-
+-keep class com.giants3.hd.entity.** { *; }
+-keep class com.giants3.hd.noEntity.** { *; }
 
 # =======butterknife7.*========
 -keep class butterknife.** { *; }

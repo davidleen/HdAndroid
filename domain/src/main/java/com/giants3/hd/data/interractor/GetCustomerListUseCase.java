@@ -9,15 +9,17 @@ import rx.Observable;
  */
 
 class GetCustomerListUseCase extends DefaultUseCase {
+    private String key;
     private RestApi restApi;
 
-    public GetCustomerListUseCase(RestApi restApi) {
+    public GetCustomerListUseCase(String key,RestApi restApi) {
         super();
+        this.key = key;
         this.restApi = restApi;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return restApi.getCustomerList();
+        return restApi.getCustomerList(key);
     }
 }

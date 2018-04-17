@@ -5,36 +5,36 @@ import com.giants3.hd.android.mvp.NewViewer;
 import com.giants3.hd.android.mvp.PageModel;
 import com.giants3.hd.entity.Customer;
 
+import java.util.List;
+
 /**
  * Created by davidleen29 on 2018/3/11.
  */
 
-public interface CustomerEditMVP {
+public interface CustomerListMVP {
 
 
     interface Model extends PageModel<Customer> {
 
 
-        Customer getCustomer();
 
-        void setCustomer(Customer customer);
     }
 
     interface Presenter extends NewPresenter<Viewer> {
 
 
-        void save();
+        void setKey(String text);
 
-        void updateValue(String codeText, String nameText, String telText, String faxText, String emailText, String addressText, String nationText);
+        void searchData();
 
-        void initCustomer(Customer customer);
+        void loadMoreData();
+
     }
 
     interface Viewer extends NewViewer {
 
 
-        void finish();
 
-        void bindData(Customer customer);
+        void bindData(List<Customer> datas);
     }
 }

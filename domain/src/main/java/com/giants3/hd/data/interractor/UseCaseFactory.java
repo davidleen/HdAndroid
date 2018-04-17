@@ -389,7 +389,9 @@ public class UseCaseFactory {
     }
 
     public UseCase createGetCustomerListUseCase() {
-        return new GetCustomerListUseCase( restApi);
+        return createGetCustomerListUseCase("");
+    }public UseCase createGetCustomerListUseCase(String key) {
+        return new GetCustomerListUseCase( key,restApi);
     }
 
     public UseCase createUpdateQuotationCustomerUseCase(long quotationId, long customerId) {

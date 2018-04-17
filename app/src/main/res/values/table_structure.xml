@@ -260,6 +260,8 @@
 
 
     </string-array>
+
+
     <!--普通报价细项表 表格-->
     <string-array name="table_erp_order_item">
 
@@ -339,6 +341,25 @@
 
 
         <item>备注||memo||1||200</item>
+
+    </string-array>
+
+
+
+
+
+
+    <!--客户列表-->
+    <string-array name="table_customer_list">
+        <item>编号||code||1||80</item>
+        <item>名称||name||1||80</item>
+        <item>电话||tel||1||80</item>
+        <item>传真||fax||1||120</item>
+        <item>email||email||1||120</item>
+        <item>地址||addr||1||120</item>
+        <item>国家||nation||1||50</item>
+
+
 
     </string-array>
 </resources>

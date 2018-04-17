@@ -53,6 +53,15 @@ public class PresenterImpl extends BasePresenter<CustomerEditMVP.Viewer, Custome
     }
 
     @Override
+    public void initCustomer(Customer customer) {
+
+
+
+        getModel().setCustomer(customer);
+        getView().bindData(customer);
+    }
+
+    @Override
     public void updateValue(String codeText, String nameText, String telText, String faxText, String emailText, String addressText, String nationText) {
 
 
@@ -77,6 +86,8 @@ public class PresenterImpl extends BasePresenter<CustomerEditMVP.Viewer, Custome
 
 
     }
+
+
 
     @Override
     public void start() {

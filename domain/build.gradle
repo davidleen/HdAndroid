@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
 
 
 
@@ -8,8 +7,8 @@ android {
 
 
 
-    compileSdkVersion 23
-    buildToolsVersion '26.0.2'
+    compileSdkVersion project.ANDROID_COMPILE_VERSION
+    buildToolsVersion project.ANDROID_BUILD_VERSION
 
     defaultConfig {
         minSdkVersion 9
@@ -43,26 +42,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
 }
 
-uploadArchives {
-    configuration = configurations.archives
-    repositories {
-        mavenDeployer {
-            snapshotRepository(url: LOCAL_MAVEN_SNAPSHOT_URL) {
-                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
-            }
-            repository(url: LOCAL_MAVEN_URL) {
-                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
-            }
-            pom.project {
-                version '1.0.0'
-                artifactId 'TestLibrary'
-                groupId GROUP_ID
-                packaging TYPE
-                description DESCRIPTION
-            }
-        }
-    }
-}
+
 
 
 

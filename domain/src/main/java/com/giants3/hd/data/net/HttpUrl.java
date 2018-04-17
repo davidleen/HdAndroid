@@ -522,9 +522,16 @@ public class HttpUrl {
         return completeUrl(String.format("/api/app/quotation/print?quotationId=%d", quotationId));
     }
 
-    public static String getCustomerList() {
+    public static String getCustomerList(String key) {
 
-        return completeUrl(String.format("/api/customer/list"));
+
+        String apiUrl=BASE_URL + "/api/customer/list";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("key",key) ;
+        return additionInfo(formatter);
+
+
+
+
     }
 
     public static String updateQuotationCustomer(long quotationId, long customerId) {
