@@ -74,7 +74,7 @@ public interface RestApi {
    * @param pageSize
    * @return
    */
-  Observable<RemoteData<AProduct>> getProductList(String name, int pageIndex, int pageSize)  ;
+  Observable<RemoteData<AProduct>> getProductList(String name, int pageIndex, int pageSize,boolean withCopy)  ;
 
   Observable getOrderList(String name, int pageIndex, int pageSize);
 

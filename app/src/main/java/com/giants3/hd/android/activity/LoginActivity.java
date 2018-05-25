@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.giants3.android.frame.util.Log;
 import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.SystemConst;
@@ -181,7 +182,7 @@ public class LoginActivity extends BaseActivity {
                         SharedPreferencesHelper.saveLoginUser(aUser.datas.get(0));
                         getPreferences(Context.MODE_PRIVATE).edit().putString(KEY_LAST_LOGIN_USER, userName).commit();
                         HttpUrl.setToken(aUser.datas.get(0).token);
-
+                        Log.e(aUser.datas.get(0).toString());
                         ToastHelper.show("登录成功");
 
                         loadInitData(aUser.datas.get(0).id);

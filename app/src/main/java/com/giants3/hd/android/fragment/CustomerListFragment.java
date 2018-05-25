@@ -178,6 +178,7 @@ public class CustomerListFragment extends BaseMvpFragment<CustomerListMVP.Presen
 
 //        swipeLayout.onRefresh(swipeLayout);
 
+        if(swipeLayout!=null)
         swipeLayout.startRefresh();
 
     }

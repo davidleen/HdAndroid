@@ -14,15 +14,17 @@ public class GetProductListCase extends UseCase {
     private final String name;
     private final int pageIndex;
     private final int pageSize;
+    private final boolean withCopy;
     RestApi restApi;
 
 
 
-    public GetProductListCase(Scheduler threadExecutor, Scheduler postExecutionThread, String name,int pageIndex,int pageSize, RestApi restApi) {
+    public GetProductListCase(Scheduler threadExecutor, Scheduler postExecutionThread, String name,int pageIndex,int pageSize,boolean withCopy, RestApi restApi) {
         super(threadExecutor, postExecutionThread);
         this.name = name;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
+        this.withCopy = withCopy;
 
         this.restApi=restApi;
 
@@ -34,7 +36,7 @@ public class GetProductListCase extends UseCase {
 
 
 
-       return  restApi.getProductList(name,pageIndex,pageSize);
+       return  restApi.getProductList(name,pageIndex,pageSize,withCopy);
 
 
 

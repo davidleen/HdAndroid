@@ -19,6 +19,7 @@ import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFLowMainMenuAdapter;
 import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.fragment.AppQuotationFragment;
+import com.giants3.hd.android.fragment.ListFragment;
 import com.giants3.hd.android.fragment.MaterialDetailFragment;
 import com.giants3.hd.android.fragment.OrderDetailFragment;
 import com.giants3.hd.android.fragment.QuotationDetailFragment;
@@ -231,7 +232,15 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
             }
         }
 
+        {
+            String[]    menuTitles = getResources().getStringArray(R.array.product_menu_title);
+            String[]     menuFragmentClass= getResources().getStringArray(R.array.product_menu_fragemnt_class);
 
+            for (int i = 0; i < menuTitles.length; i++) {
+                menuTitleList.add(menuTitles[i]);
+                menuFragmentClassList.add(menuFragmentClass[i]);
+            }
+        }
         adapter.setDataArray(menuTitleList);
 
     }
@@ -362,6 +371,7 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
         try {
             Class<Fragment> fragmentClass = (Class<Fragment>) Class.forName(fragmentClassName);
             fragment = fragmentClass.newInstance();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

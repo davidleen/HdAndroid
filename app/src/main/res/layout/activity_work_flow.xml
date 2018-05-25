@@ -83,7 +83,7 @@
                     android:layout_width="0dp"
                     android:hint="请输入订单号，货号查询生产进度"
                     android:textSize="13sp"
-                    android:inputType="number"
+
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 

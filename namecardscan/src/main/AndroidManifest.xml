@@ -24,10 +24,13 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity
-            android:name=".activity.NameCardScannerActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.ShowResultActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
     </application>
 
 

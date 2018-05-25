@@ -24,6 +24,7 @@ import com.giants3.hd.entity.Material;
 import com.giants3.hd.entity.PackMaterialClass;
 import com.giants3.hd.entity.PackMaterialPosition;
 import com.giants3.hd.entity.PackMaterialType;
+import com.giants3.hd.logic.ProductAnalytics;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.entity.ProductMaterial;
 import com.giants3.hd.exception.HdException;
@@ -47,7 +48,7 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
 
 
     private static final int REQUEST_MATERIAL_SELECT = 11;
-    public static final java.lang.String EXTRA_PRODUCT_MATERIAL = "EXTRA_PRODUCT_PAINT";
+
 
     public static String PRODUCT_MATERIAL_TYPE = "PRODUCT_MATERIAL_TYPE";
     public static String PRODUCT_MATERIAL_POSITION = "PRODUCT_PAINT_POSITION";
@@ -125,21 +126,7 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
     }
 
 
-    public static final int PRODUCT_MATERIAL_CONCEPTUS = 1;
-    public static final int PRODUCT_MATERIAL_ASSEMBLE = 2;
-    public static final int PRODUCT_MATERIAL_PAINT = 3;
-    public static final int PRODUCT_MATERIAL_PACK = 4;
 
-
-    public static ProductMaterialFragment newInstance(ProductMaterial productMaterial) {
-        ProductMaterialFragment fragment = new ProductMaterialFragment();
-        Bundle args = new Bundle();
-        if (productMaterial != null)
-            args.putString(EXTRA_PRODUCT_MATERIAL, GsonUtils.toJson(productMaterial));
-
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public static ProductMaterialFragment newInstance(Bundle args) {
         ProductMaterialFragment fragment = new ProductMaterialFragment();
@@ -154,15 +141,13 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
         if (getArguments() != null) {
 
 
-            materialType = getArguments().getInt(PRODUCT_MATERIAL_TYPE, PRODUCT_MATERIAL_CONCEPTUS);
+            materialType = getArguments().getInt(PRODUCT_MATERIAL_TYPE, ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS);
             position = getArguments().getInt(PRODUCT_MATERIAL_POSITION);
 
-            try {
-                productMaterial = GsonUtils.fromJson(getArguments().getString(EXTRA_PRODUCT_MATERIAL), ProductMaterial.class);
 
-            } catch (HdException e) {
-                e.printStackTrace();
-            }
+            productMaterial =ProductDetailSingleton.getInstance().getProductMaterial(materialType,position);
+
+
 
             if (productMaterial == null) {
                 //构建新数据表示添加
@@ -192,7 +177,8 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
 
                 try {
                     Material material = GsonUtils.fromJson(data.getExtras().getString(MaterialSelectActivity.EXTRA_MATERIAL), Material.class);
-                    productMaterial.updateMaterial(material);
+
+                    ProductAnalytics.setMaterialToProductPaint(productMaterial,material);
                     bindData(productMaterial);
 
 
@@ -225,19 +211,19 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
         if (productMaterial.getId() <= 0)//新增数据
         {
             switch (materialType) {
-                case PRODUCT_MATERIAL_CONCEPTUS:
+                case ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS:
 
                     productDetail.conceptusMaterials.add(position, productMaterial);
 
                     break;
 
-                case PRODUCT_MATERIAL_ASSEMBLE:
+                case ProductDetailSingleton.PRODUCT_MATERIAL_ASSEMBLE:
 
                     productDetail.assembleMaterials.add(position, productMaterial);
 
                     break;
 
-                case PRODUCT_MATERIAL_PACK:
+                case ProductDetailSingleton.PRODUCT_MATERIAL_PACK:
 
                     productDetail.packMaterials.add(position, productMaterial);
 
@@ -247,19 +233,19 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
         } else {
 
             switch (materialType) {
-                case PRODUCT_MATERIAL_CONCEPTUS:
+                case ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS:
 
                     productDetail.conceptusMaterials.set(position, productMaterial);
 
                     break;
 
-                case PRODUCT_MATERIAL_ASSEMBLE:
+                case ProductDetailSingleton.PRODUCT_MATERIAL_ASSEMBLE:
 
                     productDetail.assembleMaterials.set(position, productMaterial);
 
                     break;
 
-                case PRODUCT_MATERIAL_PACK:
+                case ProductDetailSingleton.PRODUCT_MATERIAL_PACK:
 
                     productDetail.packMaterials.set(position, productMaterial);
 
@@ -268,19 +254,23 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
 
 
         }
-        productDetail.updatePackDataOnPackMaterialClass(productMaterial);
-        productDetail.updateProductPackRelateData();
-        productDetail.updateProductStatistics(SharedPreferencesHelper.getInitData().globalData);
+
+        ProductAnalytics.updatePackDataOnPackMaterialClass(productDetail.packMaterials,productDetail.product,productMaterial);
+        ProductAnalytics.updateProductPackRelateData(productDetail);
+        ProductAnalytics.updateProductStatistics(productDetail,SharedPreferencesHelper.getInitData().globalData);
+
 
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
 
     }
 
+
+
     private void initView() {
-        ll_packMaterialClass.setVisibility(materialType == ProductMaterialFragment.PRODUCT_MATERIAL_PACK ? View.VISIBLE : View.GONE);
-        ll_packMaterialPosition.setVisibility(materialType == ProductMaterialFragment.PRODUCT_MATERIAL_PACK ? View.VISIBLE : View.GONE);
-        ll_packMaterialType.setVisibility(materialType == ProductMaterialFragment.PRODUCT_MATERIAL_PACK ? View.VISIBLE : View.GONE);
+        ll_packMaterialClass.setVisibility(materialType == ProductDetailSingleton.PRODUCT_MATERIAL_PACK ? View.VISIBLE : View.GONE);
+        ll_packMaterialPosition.setVisibility(materialType == ProductDetailSingleton.PRODUCT_MATERIAL_PACK ? View.VISIBLE : View.GONE);
+        ll_packMaterialType.setVisibility(materialType == ProductDetailSingleton.PRODUCT_MATERIAL_PACK ? View.VISIBLE : View.GONE);
         {
             // 建立Adapter并且绑定数据源
             List<PackMaterialClass> mItems = SharedPreferencesHelper.getInitData().packMaterialClasses;
@@ -358,7 +348,7 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
         price.setText(String.valueOf(productMaterial.price));
 
 
-        if (materialType == PRODUCT_MATERIAL_PACK) {
+        if (materialType == ProductDetailSingleton.PRODUCT_MATERIAL_PACK) {
             int packQuantity = Math.max(1, ProductDetailSingleton.getInstance().getProductDetail().product.packQuantity);
             amount.setText(String.valueOf(FloatHelper.scale(productMaterial.amount / packQuantity)));
         } else {
@@ -388,11 +378,14 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
             packMaterialClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    productMaterial.setPackMaterialClass((PackMaterialClass) parent.getItemAtPosition(position));
-                    productMaterial.update();
+
+                    ProductAnalytics.setPackMaterialClass(productMaterial,(PackMaterialClass) parent.getItemAtPosition(position));
+
+                    ProductAnalytics.update(productMaterial);
                     ProductDetail productDetail = ProductDetailSingleton.getInstance().getProductDetail();
-                    productDetail.updateProductPackRelateData();
-                    productDetail.updatePackDataOnPackMaterialClass(productMaterial);
+                    ProductAnalytics.updateProductPackRelateData(productDetail);
+                    ProductAnalytics.updatePackDataOnPackMaterialClass(productDetail.packMaterials,productDetail.product,productMaterial);
+
 
                     bindData(productMaterial);
 
@@ -429,9 +422,10 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
                     productMaterial.setPackMaterialPosition((PackMaterialPosition) parent.getItemAtPosition(position));
 
                     ProductDetail productDetail = ProductDetailSingleton.getInstance().getProductDetail();
+                    ProductAnalytics.updateProductPackRelateData(productDetail);
 
-                    productDetail.updateProductPackRelateData();
-                    productDetail.updatePackDataOnPackMaterialClass(productMaterial);
+                    ProductAnalytics.updatePackDataOnPackMaterialClass(productDetail.packMaterials,productDetail.product,productMaterial);
+
 
 
                     bindData(productMaterial);
@@ -465,7 +459,9 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     productMaterial.setPackMaterialType((PackMaterialType) parent.getItemAtPosition(position));
                     ProductDetail productDetail = ProductDetailSingleton.getInstance().getProductDetail();
-                    productDetail.updatePackDataOnPackMaterialClass(productMaterial);
+
+                    ProductAnalytics.updatePackDataOnPackMaterialClass(productDetail.packMaterials,productDetail.product,productMaterial);
+
 
                     bindData(productMaterial);
                 }
@@ -509,7 +505,8 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
                 try {
                     float newAvailable = Float.valueOf(newValue);
                     productMaterial.setAvailable(newAvailable);
-                    productMaterial.update();
+
+                    ProductAnalytics.update(productMaterial);
                     bindData(productMaterial);
                 } catch (Throwable t) {
 
@@ -533,8 +530,7 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
                 try {
                     float newValueFloat = Float.valueOf(newValue);
                     productMaterial.setQuantity(newValueFloat);
-                    ;
-                    productMaterial.update();
+                    ProductAnalytics.update(productMaterial);
                     bindData(productMaterial);
                 } catch (Throwable t) {
 
@@ -559,8 +555,7 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
                 try {
                     float newValueFloat = Float.valueOf(newValue);
                     productMaterial.setpLong(newValueFloat);
-                    ;
-                    productMaterial.update();
+                    ProductAnalytics.update(productMaterial);
                     bindData(productMaterial);
                 } catch (Throwable t) {
 
@@ -585,8 +580,7 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
                 try {
                     float newValueFloat = Float.valueOf(newValue);
                     productMaterial.setpWidth(newValueFloat);
-                    ;
-                    productMaterial.update();
+                    ProductAnalytics.update(productMaterial);
                     bindData(productMaterial);
                 } catch (Throwable t) {
 
@@ -611,8 +605,7 @@ public class ProductMaterialFragment extends BaseFragment implements View.OnClic
                 try {
                     float newValueFloat = Float.valueOf(newValue);
                     productMaterial.setpHeight(newValueFloat);
-                    ;
-                    productMaterial.update();
+                    ProductAnalytics.update(productMaterial);
                     bindData(productMaterial);
                 } catch (Throwable t) {
 

@@ -6,19 +6,30 @@
     android:background="#ffffff"
     android:orientation="vertical"
 
+
     tools:context="com.giants3.hd.android.fragment.SearchProductFragment">
 
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/key"
-            android:inputType="number"
-            android:layout_width="match_parent"
+
+            android:layout_width="0dp"
+            android:text="18A"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
 
+
+        <CheckBox
+            android:id="@+id/withCopy"
+            android:layout_width="wrap_content"
+            android:text="包含翻单"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <HorizontalScrollView
@@ -29,7 +40,19 @@
 
         <ListView
             android:id="@+id/list"
+            android:divider="@drawable/icon_divider"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"
+
+
+            android:background="@drawable/background_gray_border"
+            android:dividerHeight="1dp"
+            android:fillViewport="false"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:listSelector="#00000000"
+            android:minHeight="300dp"
+            android:orientation="vertical"
+            ></ListView>
     </HorizontalScrollView>
 </LinearLayout>

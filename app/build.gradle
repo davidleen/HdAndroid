@@ -18,19 +18,36 @@ android {
         applicationId "com.giants3.hd.android"
         minSdkVersion 19
 
-        //由于接入名片扫描功能， targetsdk 不能大于等于23（含）
+
         targetSdkVersion ANDROID_TARGET_VERSION
-        versionCode 37
-        versionName "1.3.7"
+        versionCode 39
+        versionName "1.3.9"
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
 
 
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
+
+
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+        incremental true
+        jumboMode = true
+    }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+        quiet true
+
+    }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
@@ -81,7 +98,7 @@ dependencies {
     releaseCompile project(':zxing')
     //    debugCompile project(':zxing')
     debugCompile project(':zxing_no_op')
-    //    compile project(':namecardscan')
+//        compile project(':namecardscan')
     compile "com.giants3.android:api:${API_VERSION}"
     releaseCompile project(path: ':umenganalysis')
 }

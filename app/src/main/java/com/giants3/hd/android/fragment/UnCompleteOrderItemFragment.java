@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,6 +159,7 @@ public class UnCompleteOrderItemFragment extends BaseMvpFragment<UnCompleteOrder
 
             }
         });
+        search_text.setRawInputType(InputType.TYPE_CLASS_NUMBER);
         search_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

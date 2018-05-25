@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.fragment.ProductMaterialFragment;
 
 import butterknife.Bind;
@@ -52,11 +53,10 @@ public class ProductMaterialActivity extends BaseActivity implements  ProductMat
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putInt(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE,
-                    getIntent().getIntExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE,ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS));
+                    getIntent().getIntExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE, ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS));
             arguments.putInt(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION,
                     getIntent().getIntExtra(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION,0));
-            arguments.putString(ProductMaterialFragment.EXTRA_PRODUCT_MATERIAL,
-                    getIntent().getStringExtra(ProductMaterialFragment.EXTRA_PRODUCT_MATERIAL  ));
+
             ProductMaterialFragment fragment = new ProductMaterialFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

@@ -33,6 +33,8 @@ public interface SearchProductMvp {
         boolean canSearchMore();
 
         void setKeyWord(String s);
+
+        void setWithCopy(boolean isChecked);
     }
 
     interface Viewer extends NewViewer {

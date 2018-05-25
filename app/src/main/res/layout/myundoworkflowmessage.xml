@@ -11,7 +11,7 @@
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
+
 
         android:hint="请输入订单号，货号查询..."
         android:textSize="16sp" />

@@ -16,7 +16,9 @@ import com.giants3.hd.android.activity.MaterialSelectActivity;
 import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.entity.GlobalData;
 import com.giants3.hd.entity.Material;
+import com.giants3.hd.logic.ProductAnalytics;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.entity.ProductPaint;
 import com.giants3.hd.entity.ProductProcess;
@@ -45,6 +47,7 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
 
 
     ProductPaint productPaint;
+    ProductPaint oldData;
 
     @Bind(R.id.materialCode)
     TextView materialCode;
@@ -100,15 +103,6 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
 
 
 
-    public static ProductPaintFragment newInstance(ProductPaint productPaint) {
-        ProductPaintFragment fragment = new ProductPaintFragment();
-        Bundle args = new Bundle();
-        if(productPaint!=null)
-        args.putString(EXTRA_PRODUCT_PAINT, GsonUtils.toJson(productPaint));
-
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public static ProductPaintFragment newInstance(Bundle args) {
         ProductPaintFragment fragment = new ProductPaintFragment();
@@ -124,21 +118,19 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
         if (getArguments() != null) {
 
 
-            materialType=getArguments().getInt(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE,ProductMaterialFragment.PRODUCT_MATERIAL_PAINT);
+            materialType=getArguments().getInt(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE, ProductDetailSingleton.PRODUCT_MATERIAL_PAINT);
             position=getArguments().getInt(PRODUCT_PAINT_POSITION);
 
+            productPaint=   ProductDetailSingleton.getInstance().getProductPaint(position);
+
             try {
-            productPaint =GsonUtils.fromJson(getArguments().getString(EXTRA_PRODUCT_PAINT),ProductPaint.class);
+                oldData =GsonUtils.fromJson(getArguments().getString(EXTRA_PRODUCT_PAINT),ProductPaint.class);
 
         } catch (HdException e) {
             e.printStackTrace();
         }
 
-            if(productPaint ==null)
-            {
-                //构建新数据表示添加
-                productPaint =new ProductPaint();
-            }
+
 
 
         }
@@ -162,7 +154,11 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
 
                 try {
                     Material material = GsonUtils.fromJson(data.getExtras().getString(MaterialSelectActivity.EXTRA_MATERIAL), Material.class);
-                    productPaint.updateMaterial(material,SharedPreferencesHelper.getInitData().globalData);
+
+                    GlobalData globalData = SharedPreferencesHelper.getInitData().globalData;
+                    ProductAnalytics.setMaterialToProductPaint(productPaint,material, globalData);
+                    ProductDetail productDetail = ProductDetailSingleton.getInstance().getProductDetail();
+                    ProductAnalytics.updateProductInfoOnly(globalData, productDetail.product);
                     bindData(productPaint);
 
 
@@ -196,13 +192,13 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
     {
 
 
-
-        ProductDetail productDetail=ProductDetailSingleton.getInstance().getProductDetail();
+        ProductDetail productDetail1 = ProductDetailSingleton.getInstance().getProductDetail();
+        ProductDetail productDetail= productDetail1;
         if(productPaint.getId()<=0)//新增数据
         {
                 switch (materialType)
                 {
-                    case ProductMaterialFragment.PRODUCT_MATERIAL_PAINT:
+                    case ProductDetailSingleton.PRODUCT_MATERIAL_PAINT:
 
                         productDetail.paints.add(position,productPaint);
 
@@ -216,7 +212,7 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
 
             switch (materialType)
             {
-                case ProductMaterialFragment.PRODUCT_MATERIAL_PAINT:
+                case ProductDetailSingleton.PRODUCT_MATERIAL_PAINT:
 
 
                     productDetail.paints.set(position,productPaint);
@@ -227,8 +223,10 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
 
         }
 
-        ProductDetailSingleton.getInstance().getProductDetail().updateProductStatistics(SharedPreferencesHelper.getInitData().globalData);
 
+        GlobalData globalData = SharedPreferencesHelper.getInitData().globalData;
+        ProductAnalytics.updateProductStatistics(productDetail1, globalData);
+        ProductAnalytics.updateProductInfoOnly(globalData,productDetail.product);
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
 
@@ -407,7 +405,8 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
                 try {
                     float newValueFloat = Float.valueOf(newValue);
                     productPaint.quantity=newValueFloat;                    ;
-                    productPaint.updatePriceAndCostAndQuantity(SharedPreferencesHelper.getInitData().globalData);
+
+                    ProductAnalytics.updateProductPaintPriceAndCostAndQuantity(productPaint,SharedPreferencesHelper.getInitData().globalData);
                     updateQuantityOfIngredient();
                     bindData(productPaint);
                 }catch (Throwable t )
@@ -434,7 +433,8 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
                 try {
                     float newValueFloat = Float.valueOf(newValue);
                     productPaint.ingredientRatio=newValueFloat;                    ;
-                    productPaint.updatePriceAndCostAndQuantity(SharedPreferencesHelper.getInitData().globalData);
+                      ProductAnalytics.updateProductPaintPriceAndCostAndQuantity(productPaint,SharedPreferencesHelper.getInitData().globalData);
+
                     updateQuantityOfIngredient();
                     bindData(productPaint);
                 }catch (Throwable t )
@@ -477,15 +477,16 @@ public class ProductPaintFragment extends BaseFragment implements View.OnClickLi
 
 
     /**
-     * 更新配料洗刷枪的费用的数据量值。
+     * 更新
      */
     public void updateQuantityOfIngredient()
     {
 
-      ProductDetail productDetail=  ProductDetailSingleton.getInstance().getProductDetail();
-        productDetail.updateQuantityOfIngredient(SharedPreferencesHelper.getInitData().globalData);
-
-
+        ProductDetail productDetail=  ProductDetailSingleton.getInstance().getProductDetail();
+        GlobalData globalData = SharedPreferencesHelper.getInitData().globalData;
+        ProductAnalytics.updateQuantityOfIngredient(productDetail.paints, globalData);
+        ProductAnalytics.updateProductStatistics(productDetail, globalData);
+        ProductAnalytics.updateProductInfoOnly(globalData,productDetail.product);
 
     }
     @Override

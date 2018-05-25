@@ -11,9 +11,12 @@ android {
 
 
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
-       provided "com.giants3.android:api:${API_VERSION}"
+    provided "com.giants3.android:api:${API_VERSION}"
 }

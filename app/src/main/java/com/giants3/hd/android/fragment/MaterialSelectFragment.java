@@ -3,6 +3,7 @@ package com.giants3.hd.android.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -136,7 +137,7 @@ public class MaterialSelectFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         itemList.setAdapter(materialItemListAdapter);
-
+        search_text.setRawInputType(InputType.TYPE_CLASS_NUMBER);
         search_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -334,10 +334,24 @@
 
     <string-array name="table_product_item">
 
+        <item>图片||thumbnail||2||91</item>
+        <item>产品名称||name||1||91</item>
+        <item>美金价||fob||1||91</item>
+        <item>单位||pUnitName||1||40</item>
 
+
+        <item>备注||memo||1||200</item>
+
+    </string-array>
+
+    <string-array name="table_product_item_with_copy">
+
+        <item>图片||thumbnail||2||91</item>
         <item>产品名称||name||1||91</item>
         <item>版本号||pVersion||1||91</item>
-        <item>图片||thumbnail||2||91</item>
+        <item>美金价||fob||1||91</item>
+        <item>单位||pUnitName||1||40</item>
+
 
 
         <item>备注||memo||1||200</item>

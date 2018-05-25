@@ -29,7 +29,7 @@ public class HttpUrl {
      * Api url for getting a user profile: Remember to concatenate id + 'json'
      */
     public static final String API_URL_GET_USER_DETAILS = API_BASE_URL + "user_";
-    public static final String API_URL_GET_PRODUCT_LIST = "/api/product/appSearch?name=%s&pageIndex=%d&pageSize=%d";
+
     public static final String API_URL_GET_QUOTATION_LIST = "/api/quotation/search?searchValue=%s&pageIndex=%d&pageSize=%d";
     public static final String API_URL_GET_MATERIAL_LIST = "/api/material/search?codeOrName=%s&pageIndex=%d&pageSize=%d";
     public static final String API_URL_GET_MATERIAL_LIST_IN_SERVICE = "/api/material/searchInService?codeOrName=%s&pageIndex=%d&pageSize=%d";
@@ -184,8 +184,20 @@ public class HttpUrl {
         return completeUrl(API_LOGIN);
     }
 
-    public static String getProductList(String name, int pageIndex, int pageSize) {
-        return completeUrl(String.format(API_URL_GET_PRODUCT_LIST, UrlFormatter.encode(name), pageIndex, pageSize));
+    public static String getProductList(String name, int pageIndex, int pageSize,boolean withCopy) {
+
+
+        String apiUrl=BASE_URL + "/api/product/appSearch";
+        UrlFormatter formatter=new UrlFormatter(apiUrl)
+                .append("name",name)
+                .append("pageIndex",pageIndex)
+                .append("pageSize",pageSize)
+                .append("withCopy",withCopy)
+                ;
+        return additionInfo(formatter);
+
+
+
     }
 
     public static String getOrderList(String name, int pageIndex, int pageSize) {

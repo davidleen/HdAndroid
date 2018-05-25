@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 //import com.giants3.android.namecardscan.activity.*;
+//import com.giants3.android.namecardscan.activity.*;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.events.CustomerUpdateEvent;
 import com.giants3.hd.android.mvp.AndroidRouter;
@@ -69,12 +70,15 @@ public class CustomerEditActivity extends BaseHeadViewerActivity<CustomerEditMVP
             @Override
             public void onClick(View v) {
 
-//               NameCardScannerActivity.startActivity(CustomerEditActivity.this, NameCardScannerActivity.SCAN_MODE_PREVIEW);
-//                 getPresenter().scanNameCard();
+              ;
+
+//               Intent intent=new Intent(CustomerEditActivity.this, com.giants3.android.namecardscan.activity.MainActivity.class);
+//               startActivity(intent);
 
             }
         });
 
+        namecard.setVisibility(View.GONE);
 
         Customer customer= (Customer) getIntent().getSerializableExtra(KEY_CUSTOMER);
 

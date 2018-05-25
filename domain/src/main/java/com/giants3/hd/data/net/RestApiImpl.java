@@ -134,12 +134,12 @@ public class RestApiImpl implements RestApi {
      * @return
      */
     @Override
-    public Observable<RemoteData<AProduct>> getProductList(final String name, final int pageIndex, final int pageSize) {
+    public Observable<RemoteData<AProduct>> getProductList(final String name, final int pageIndex, final int pageSize, final boolean withCopy) {
 
         return create(new ApiInvoker<AProduct>() {
             @Override
             public RemoteData<AProduct> invoker() throws HdException {
-                return apiManager.getProductList(name, pageIndex, pageSize);
+                return apiManager.getProductList(name, pageIndex, pageSize,withCopy);
             }
         });
     }

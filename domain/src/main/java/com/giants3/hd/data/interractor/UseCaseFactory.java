@@ -60,12 +60,16 @@ public class UseCaseFactory {
 
         return new LoginUseCase(    userId,  passwordMd5,deviceToken, restApi );
     }
-
-
     public UseCase createProductListCase(String name, int pageIndex, int pageSize) {
 
+      return   createProductListCase(name,pageIndex,pageSize,true);
 
-        return new GetProductListCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), name, pageIndex, pageSize, restApi);
+    }
+
+    public UseCase createProductListCase(String name, int pageIndex, int pageSize,boolean withCopy) {
+
+
+        return new GetProductListCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), name, pageIndex, pageSize, withCopy,restApi);
     }
 
     public UseCase createOrderListCase(String name, int pageIndex, int pageSize) {

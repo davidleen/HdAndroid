@@ -47,5 +47,22 @@ public class AUser   implements Serializable {
     public List<Authority> authorities;
     public QuoteAuth quoteAuth;
 
-
+    @Override
+    public String toString() {
+        return "AUser{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", chineseName='" + chineseName + '\'' +
+                ", password='" + password + '\'' +
+                ", isSalesman=" + isSalesman +
+                ", email='" + email + '\'' +
+                ", tel='" + tel + '\'' +
+                ", token='" + token + '\'' +
+                ", positionName='" + positionName + '\'' +
+                ", position=" + position +
+                ", authorities=" + authorities +
+                ", quoteAuth=" + quoteAuth +
+                '}';
+    }
 }

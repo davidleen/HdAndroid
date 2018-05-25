@@ -158,9 +158,9 @@ public class ApiManager {
      * @return
      * @throws HdException
      */
-    public RemoteData<AProduct> getProductList(String name, int pageIndex, int pageSize) throws HdException {
+    public RemoteData<AProduct> getProductList(String name, int pageIndex, int pageSize,boolean withCopy) throws HdException {
 
-        String url = HttpUrl.getProductList(name, pageIndex, pageSize);
+        String url = HttpUrl.getProductList(name, pageIndex, pageSize,withCopy);
         String result = apiConnection.getString(url);
         RemoteData<AProduct> remoteData = invokeByReflect(result, AProduct.class);
 

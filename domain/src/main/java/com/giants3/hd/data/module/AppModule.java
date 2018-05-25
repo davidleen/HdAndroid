@@ -24,8 +24,5 @@ public class AppModule extends AbstractModule {
 
     }
 
-//    @Provides
-//    Account providePurchasingAccount(Product product) {
-//        return product.quotations();
-//    }
+
 }

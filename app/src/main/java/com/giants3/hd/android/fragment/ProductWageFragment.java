@@ -16,6 +16,7 @@ import com.giants3.hd.android.activity.ProductProcessSelectActivity;
 import com.giants3.hd.android.entity.ProductDetailSingleton;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.data.utils.GsonUtils;
+import com.giants3.hd.logic.ProductAnalytics;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.entity.ProductProcess;
 import com.giants3.hd.entity.ProductWage;
@@ -223,8 +224,7 @@ public class ProductWageFragment extends BaseFragment implements View.OnClickLis
 
         }
 
-        ProductDetailSingleton.getInstance().getProductDetail().updateProductStatistics(SharedPreferencesHelper.getInitData().globalData);
-
+         ProductAnalytics.updateProductStatistics(ProductDetailSingleton.getInstance().getProductDetail(),SharedPreferencesHelper.getInitData().globalData);
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
 

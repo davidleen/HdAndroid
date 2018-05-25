@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,6 +146,7 @@ public class MyAvailableOrderItemFragment extends BaseMvpFragment<MyAvailableOrd
             }
         };
         search_text.addTextChangedListener(watcher);
+        search_text.setRawInputType(InputType.TYPE_CLASS_NUMBER);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

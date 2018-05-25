@@ -23,9 +23,8 @@ import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.entity.Pack;
+import com.giants3.hd.logic.ProductAnalytics;
 import com.giants3.hd.noEntity.ProductDetail;
-import com.giants3.hd.entity.ProductMaterial;
-import com.giants3.hd.entity.ProductPaint;
 import com.giants3.hd.entity.ProductWage;
 import com.giants3.hd.noEntity.RemoteData;
 import com.giants3.hd.exception.HdException;
@@ -225,11 +224,12 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
                     if(subIndex==0)
                     {
 
-                        startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS,position,null);
+                        int newPosition= ProductDetailSingleton.getInstance().addNewProductMaterial(ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS);
+                        startProductMaterialEdit(ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS,newPosition);
 
                     }else
                     {
-                        startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS,position,null);
+                        startProductWageEdit(ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS,position,null);
                     }
 
                 }
@@ -238,30 +238,35 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
 
                     if(subIndex==0)
                     {
-
-                        startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_ASSEMBLE,position,null);
+                        int newPosition= ProductDetailSingleton.getInstance().addNewProductMaterial(ProductDetailSingleton.PRODUCT_MATERIAL_ASSEMBLE);
+                        startProductMaterialEdit(ProductDetailSingleton.PRODUCT_MATERIAL_ASSEMBLE,newPosition);
 
                     }else
                     {
-                        startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_ASSEMBLE,position,null);
+                        startProductWageEdit(ProductDetailSingleton.PRODUCT_MATERIAL_ASSEMBLE,position,null);
                     }
 
 
                     break;
                 case 2://油漆
 
-                    startProductPaintEdit(position,null);
+                {
+
+                    int newPosition = ProductDetailSingleton.getInstance().addNewProductMaterial(ProductDetailSingleton.PRODUCT_MATERIAL_PAINT);
+                    startProductPaintEdit(newPosition);
+                }
 
                     break;
                 case 3 ://包装
 
                     if(subIndex==0)
                     {
-                        startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_PACK,position,null);
+                        int newPosition= ProductDetailSingleton.getInstance().addNewProductMaterial(ProductDetailSingleton.PRODUCT_MATERIAL_PACK);
+                        startProductMaterialEdit(ProductDetailSingleton.PRODUCT_MATERIAL_PACK,newPosition);
 
                     }else
                     {
-                        startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_PACK,position,null);
+                        startProductWageEdit(ProductDetailSingleton.PRODUCT_MATERIAL_PACK,position,null);
                     }
                     break;
 
@@ -289,11 +294,11 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
 
                 if(subIndex==0)
                 {
-                    startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS,position,productDetail.conceptusMaterials.get(position));
+                    startProductMaterialEdit(ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS,position);
 
                 }else
                 {
-                    startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_CONCEPTUS,position,productDetail.conceptusWages.get(position));
+                    startProductWageEdit(ProductDetailSingleton.PRODUCT_MATERIAL_CONCEPTUS,position,productDetail.conceptusWages.get(position));
                 }
 
 
@@ -306,23 +311,23 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
 
                 if(subIndex==0)
                 {
-                    startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_ASSEMBLE,position,productDetail.assembleMaterials.get(position));
+                    startProductMaterialEdit(ProductDetailSingleton.PRODUCT_MATERIAL_ASSEMBLE,position);
 
                 }else
                 {
-                    startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_ASSEMBLE,position,productDetail.assembleWages.get(position));
+                    startProductWageEdit(ProductDetailSingleton.PRODUCT_MATERIAL_ASSEMBLE,position,productDetail.assembleWages.get(position));
                 }
                 break;
             case 2://油漆
 
-                startProductPaintEdit(position,productDetail.paints.get(position));
+                startProductPaintEdit(position );
                 break;
             case 3 ://包装
                 if(subIndex==0) {
 
-                    startProductMaterialEdit(ProductMaterialFragment.PRODUCT_MATERIAL_PACK,position,productDetail.packMaterials.get(position));
+                    startProductMaterialEdit(ProductDetailSingleton.PRODUCT_MATERIAL_PACK,position);
                 }else{
-                    startProductWageEdit(ProductMaterialFragment.PRODUCT_MATERIAL_PACK,position,productDetail.packWages.get(position));
+                    startProductWageEdit(ProductDetailSingleton.PRODUCT_MATERIAL_PACK,position,productDetail.packWages.get(position));
                 }
                 break;
 
@@ -336,26 +341,25 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
      * 启动产品材料编辑
      * @param type
      * @param position
-     * @param productMaterial
+
      */
-    private void startProductMaterialEdit(int type, int position, ProductMaterial productMaterial)
+    private void startProductMaterialEdit(int type, int position )
     {   Intent intent=new Intent(getActivity(),ProductMaterialActivity.class);
-        if(productMaterial!=null)
-        intent.putExtra(ProductMaterialFragment.EXTRA_PRODUCT_MATERIAL, GsonUtils.toJson(productMaterial));
+
+
         intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_POSITION, position);
         intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE, type);
         startActivityForResult(intent,REQUEST_PRODUCT_MATERIAL);
     }  /**
      * 启动产品油漆材料编辑
      * @param position
-     * @param productPaint
+
      */
-    private void startProductPaintEdit(  int position, ProductPaint productPaint)
+    private void startProductPaintEdit(  int position )
     {   Intent intent=new Intent(getActivity(),ProductPaintActivity.class);
-        if(productPaint!=null)
-        intent.putExtra(ProductPaintFragment.EXTRA_PRODUCT_PAINT, GsonUtils.toJson(productPaint));
+
         intent.putExtra(ProductPaintFragment.PRODUCT_PAINT_POSITION, position);
-        intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE, ProductMaterialFragment.PRODUCT_MATERIAL_PAINT);
+        intent.putExtra(ProductMaterialFragment.PRODUCT_MATERIAL_TYPE, ProductDetailSingleton.PRODUCT_MATERIAL_PAINT);
         startActivityForResult(intent,REQUEST_PRODUCT_PAINT);
     }
     /* 启动产品工资编辑
@@ -434,7 +438,9 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
 
 
         }
-        productDetail.updateProductStatistics(SharedPreferencesHelper.getInitData().globalData);
+
+        ProductAnalytics.updateProductStatistics(productDetail,SharedPreferencesHelper.getInitData().globalData);
+
         bindData();
 
 
@@ -656,6 +662,8 @@ public class ProductDetailFragment extends BaseFragment implements ProductDetail
         switch (requestCode)
         {
             case REQUEST_PRODUCT_MATERIAL:
+
+
 
                 bindData();
                 break;

@@ -75,9 +75,18 @@
         <item>@string/title_activity_customer_list</item>
     </string-array>
 
+    <string-array name="product_menu_title">
+        <item>@string/product_list</item>
+
+    </string-array>
+
     <string-array name="quotation_menu_fragemnt_class">
         <item>com.giants3.hd.android.fragment.AppQuotationFragment</item>
         <item>com.giants3.hd.android.fragment.CustomerListFragment</item>
+
+    </string-array>
+ <string-array name="product_menu_fragemnt_class">
+        <item>com.giants3.hd.android.fragment.ProductListFragment</item>
 
     </string-array>
 

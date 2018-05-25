@@ -17,10 +17,11 @@ public class PresenterImpl extends BasePresenter<SearchProductMvp.Viewer, Search
 
     private boolean isSearching=false;
     private String s="";
+    private boolean isChecked;
 
     @Override
     public void start() {
-        search( );
+
     }
 
     @Override
@@ -35,7 +36,7 @@ public class PresenterImpl extends BasePresenter<SearchProductMvp.Viewer, Search
 
         String key=s;
         final int pageIndex=0;
-        final int pageSize=20;
+        final int pageSize=100;
         doSearch(key,pageIndex,pageSize);
 
 
@@ -48,7 +49,7 @@ public class PresenterImpl extends BasePresenter<SearchProductMvp.Viewer, Search
     {
 
         isSearching=true;
-        UseCase searchOrderItemUseCase = UseCaseFactory.getInstance().createProductListCase(key,pageIndex,pageSize);
+        UseCase searchOrderItemUseCase = UseCaseFactory.getInstance().createProductListCase(key,pageIndex,pageSize,isChecked);
 
         searchOrderItemUseCase.execute(new RemoteDataSubscriber<AProduct>(this) {
 
@@ -111,5 +112,12 @@ public class PresenterImpl extends BasePresenter<SearchProductMvp.Viewer, Search
     public void setKeyWord(String s) {
 
         this.s = s;
+    }
+
+
+    @Override
+    public void setWithCopy(boolean isChecked) {
+
+        this.isChecked = isChecked;
     }
 }

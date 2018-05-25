@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,6 +114,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
             }
         };
         search_text.addTextChangedListener(watcher);
+        search_text.setRawInputType(InputType.TYPE_CLASS_NUMBER);
 
 
 
@@ -183,6 +185,7 @@ public class AppQuotationFragment extends BaseMvpFragment<AppQuotationMVP.Presen
 
 //        swipeLayout.onRefresh(swipeLayout);
 
+        if(swipeLayout!=null)
         swipeLayout.startRefresh();
 
     }

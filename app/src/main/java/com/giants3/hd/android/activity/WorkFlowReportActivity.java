@@ -2,6 +2,7 @@ package com.giants3.hd.android.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
@@ -90,6 +91,8 @@ public class WorkFlowReportActivity extends BaseHeadViewerActivity<WorkFlowRepor
         list_progress.setAdapter(searchAdapter);
 
         search_text.setOnClickListener(this);
+        key.setRawInputType(InputType.TYPE_CLASS_NUMBER);;
+
     }
 
 
