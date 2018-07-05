@@ -19,6 +19,7 @@ import com.giants3.hd.android.helper.ImageLoaderFactory;
 import com.giants3.hd.android.helper.ImageLoaderHelper;
 import com.giants3.hd.android.helper.ImageViewerHelper;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
+import com.giants3.hd.android.mvp.AndroidRouter;
 import com.giants3.hd.android.mvp.workflowmessagereceive.PresenterImpl;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
@@ -45,6 +46,7 @@ public class WorkFlowMessageReceiveActivity extends BaseHeadViewerActivity<Prese
 
 
     public static final String KEY_MESSAGE = "KEY_MESSAGE";
+    private static final String KEY_MESSAGE_ID = "KEY_MESSAGE_ID";
     @Bind(R.id.picture)
     public ImageView picture;
     @Bind(R.id.fromFlow)
@@ -124,21 +126,35 @@ public class WorkFlowMessageReceiveActivity extends BaseHeadViewerActivity<Prese
     View reject;
     CapturePictureHelper capturePictureHelper;
 
-    public static void start(Activity activity, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
+
+    public static void start(AndroidRouter router, long workflowMessageId  , int requestMessageOperate) {
 
 
-        Intent intent = new Intent(activity, WorkFlowMessageReceiveActivity.class);
-        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
-        activity.startActivityForResult(intent, requestMessageOperate);
+
+
+
+
+        Intent intent = new Intent(router.getContext(), WorkFlowMessageReceiveActivity.class);
+        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE_ID,workflowMessageId);
+        router.startActivityForResult(intent, requestMessageOperate);
     }
 
-    public static void start(Fragment fragment, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
+
+    public static void start(AndroidRouter router, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
 
 
-        Intent intent = new Intent(fragment.getActivity(), WorkFlowMessageReceiveActivity.class);
+        Intent intent = new Intent(router.getContext(), WorkFlowMessageReceiveActivity.class);
         intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
-        fragment.startActivityForResult(intent, requestMessageOperate);
+        router.startActivityForResult(intent, requestMessageOperate);
     }
+
+//    public static void start(Fragment fragment, WorkFlowMessage workFlowMessage, int requestMessageOperate) {
+//
+//
+//        Intent intent = new Intent(fragment.getActivity(), WorkFlowMessageReceiveActivity.class);
+//        intent.putExtra(WorkFlowMessageReceiveActivity.KEY_MESSAGE, GsonUtils.toJson(workFlowMessage));
+//        fragment.startActivityForResult(intent, requestMessageOperate);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,11 +166,24 @@ public class WorkFlowMessageReceiveActivity extends BaseHeadViewerActivity<Prese
         } catch (HdException e) {
             e.printStackTrace();
         }
-        if (workFlowMessage == null) {
-            finish();
-            return;
+        if (workFlowMessage != null) {
+
+            getPresenter().setWorkFlowMessage(workFlowMessage);
+
+        }else {
+
+
+            long workflowMessageId =getIntent().getLongExtra(KEY_MESSAGE_ID,0);
+            if(workflowMessageId!=0)
+            {
+                getPresenter().setWorkFlowMessageId(workflowMessageId);
+
+            }else
+            {
+                finish();return;
+            }
         }
-        getPresenter().setWorkFlowMessage(workFlowMessage);
+
 
 
         capturePictureHelper = new CapturePictureHelper(this, new CapturePictureHelper.OnPictureGetListener() {

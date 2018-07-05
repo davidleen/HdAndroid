@@ -3,6 +3,18 @@ apply from: 'local.gradle'
 
 
 android {
+
+    sourceSets {
+        main {
+
+
+            res.srcDirs = ['src/main/res', 'src/main/res/layout/notification/']
+
+
+        }
+
+    }
+
     signingConfigs {
         debug {
             keyAlias myKeyAlias
@@ -20,8 +32,8 @@ android {
 
 
         targetSdkVersion ANDROID_TARGET_VERSION
-        versionCode 39
-        versionName "1.3.9"
+        versionCode 40
+        versionName "1.4.0"
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
 
@@ -47,12 +59,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            zipAlignEnabled true
             proguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
         debug {
             minifyEnabled true
+
             proguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
@@ -79,8 +93,7 @@ dependencies {
     //     compile 'com.giants3:dataLib:1.0.6'
     compile project(':domain')
     compile project(':library')
-    releaseCompile project(':PushSDK')
-    debugCompile project(':PushSDK_no_op')
+
     compile project(':frame')
     //    fullCompile project(':sharesdk')
     //友盟分析统计
@@ -100,5 +113,11 @@ dependencies {
     debugCompile project(':zxing_no_op')
 //        compile project(':namecardscan')
     compile "com.giants3.android:api:${API_VERSION}"
+//    compile project(':PushSDK_no_op')
+
+    releaseCompile project(':PushSDK')
     releaseCompile project(path: ':umenganalysis')
+    debugCompile project(':PushSDK')
+    debugCompile project(path: ':umenganalysis')
+
 }

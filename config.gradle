@@ -3,7 +3,7 @@ ext{
     gsonVersion='1.7.2'
     okHttpVersion = '2.3.0'
 
-    DataLibVersion='1.4.4'
+    DataLibVersion='1.4.6'
 
 
 
@@ -16,7 +16,7 @@ ext{
 
 
 
-    API_VERSION='1.6'
+    API_VERSION='1.7.1'
 
 
 

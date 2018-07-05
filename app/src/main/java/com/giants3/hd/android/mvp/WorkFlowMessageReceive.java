@@ -39,6 +39,8 @@ public interface WorkFlowMessageReceive {
         void deleteFile(int indexOfFile);
 
         void rejectWorkFlow();
+
+        void setWorkFlowMessageId(long workflowMessageId);
     }
 
     interface Viewer extends NewViewer {

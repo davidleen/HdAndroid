@@ -214,4 +214,6 @@ public interface RestApi {
   Observable deleteQuotation(long quotationId);
 
   Observable updateQuotationFieldValue(long quotationId, String field, String data);
+
+    Observable getWorkFlowMessageById(long workflowMessageId);
 }

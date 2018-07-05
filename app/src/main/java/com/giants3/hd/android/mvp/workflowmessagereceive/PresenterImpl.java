@@ -1,6 +1,7 @@
 package com.giants3.hd.android.mvp.workflowmessagereceive;
 
 import com.giants3.hd.android.mvp.BasePresenter;
+import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.entity.ErpWorkFlow;
 import com.giants3.hd.noEntity.RemoteData;
@@ -102,7 +103,28 @@ public class PresenterImpl extends BasePresenter<Viewer, Model> implements Prese
     }
 
 
+    @Override
+    public void setWorkFlowMessageId(long workflowMessageId) {
 
+
+
+        UseCaseFactory.getInstance().createGetWorkFlowMessageUseCase(workflowMessageId).execute(new RemoteDataSubscriber<WorkFlowMessage>(this) {
+            @Override
+            protected void handleRemoteData(RemoteData<WorkFlowMessage> data) {
+
+
+                if(data.isSuccess()&&data.datas.size()>0)
+
+                setWorkFlowMessage(data.datas.get(0));
+            }
+
+
+        });
+
+
+
+       /// setWorkFlowMessage();
+    }
 
     //流程拒绝
     @Override

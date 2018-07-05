@@ -420,4 +420,8 @@ public class UseCaseFactory {
     public UseCase createUpdateQuotationFieldUseCase(long quotationId, String field, String data) {
         return new UpdateQuotationFieldUseCase(quotationId,field,data,restApi);
     }
+
+    public UseCase createGetWorkFlowMessageUseCase(long workflowMessageId) {
+        return new GetWorkFlowMessageUseCase(workflowMessageId,restApi);
+    }
 }

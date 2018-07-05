@@ -1,0 +1,89 @@
+apply plugin: 'maven-publish'
+
+
+//定义构建aar 发布的任务- 这是个空任务，目的是调用依赖任务。
+task publishAfterAssemble() {
+
+    println "构建aar发布============"
+}
+//先执行构建aar ，然后发布
+publishAfterAssemble.dependsOn(build, publish)
+
+
+
+def publicationNames = []
+publishing {
+    publications {
+        android.libraryVariants.all { variant ->
+            if (variant.buildType.name == "debug") return
+            def flavored = !variant.flavorName.isEmpty()
+            def variantArtifactId =project.name+"-"+( flavored ? variant.flavorName.replace('_', '-') : "")
+            def javaDocDestDir = file("${buildDir}/docs/javadoc ${flavored ? variantArtifactId : ""}")
+            def sourceDirs = variant.sourceSets.collect {
+                it.javaDirectories // Also includes kotlin sources if any.
+            }
+            def javadoc = task("${variant.name}Javadoc", type: Javadoc) {
+                description "Generates Javadoc for ${variant.name}."
+                source = variant.javaCompile.source // Yes, javaCompile is deprecated,
+                // but I didn't find any working alternative. Please, tweet @Louis_CAD if you find one.
+
+                destinationDir = javaDocDestDir
+                classpath += files(android.getBootClasspath().join(File.pathSeparator))
+                classpath += files(configurations.compile)
+                options.links("http://docs.oracle.com/javase/7/docs/api/");
+                options.links("http://d.android.com/reference/");
+                exclude '**/BuildConfig.java'
+                exclude '**/R.java'
+                failOnError false
+            }
+
+            def javadocJar = task("${variant.name}JavadocJar", type: Jar, dependsOn: javadoc) {
+                description "Puts Javadoc for ${variant.name} in a jar."
+                classifier = 'javadoc'
+
+                from javadoc.destinationDir
+            }
+
+            def sourcesJar = task("${variant.name}SourcesJar", type: Jar) {
+                description "Puts sources for ${variant.name} in a jar."
+                from sourceDirs
+                classifier = 'sources'
+            }
+
+            def publicationName = "splitties${variant.name.capitalize()}Library"
+            publicationNames.add(publicationName)
+
+
+            "$publicationName"(MavenPublication) {
+
+
+                groupId GROUP_ID
+
+
+                artifactId variantArtifactId
+                version "${android.defaultConfig.versionName}"
+                artifact sourcesJar
+                artifact javadocJar
+                artifact(variant.outputs[0].packageLibrary)
+
+
+
+            }
+
+        }
+
+    }
+    repositories {
+        maven {
+            if (project.version.endsWith('-SNAPSHOT')) {
+                url = LOCAL_MAVEN_SNAPSHOT_URL
+            } else {
+                url = LOCAL_MAVEN_URL
+            }
+            credentials {
+                username NEXUS_USERNAME
+                password NEXUS_PASSWORD
+            }
+        }
+    }
+}

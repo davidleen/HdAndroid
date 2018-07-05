@@ -577,4 +577,10 @@ public class HttpUrl {
         return additionInfo(formatter);
 
     }
+
+    public static String getWorkFlowMessageById(long workFlowMessageId) {
+        String apiUrl=BASE_URL + "api/workFlow/findMessageById";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("workFlowMessageId",workFlowMessageId)  ;
+        return additionInfo(formatter);
+    }
 }

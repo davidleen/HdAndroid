@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.giants3.android.frame.util.Log;
 import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFLowMainMenuAdapter;
@@ -31,6 +32,7 @@ import com.giants3.hd.android.mvp.MainAct.WorkFlowMainActPresenter;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
+import com.giants3.hd.entity.WorkFlowMessage;
 import com.giants3.hd.noEntity.BufferData;
 import com.giants3.hd.noEntity.FileInfo;
 import com.giants3.hd.noEntity.RemoteData;
@@ -54,6 +56,11 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
 
     public static final Fragment EMPTYP_FRAGMENT = new Fragment();
     public static final Fragment EMPTY_LIST_FRAGMENT = new Fragment();
+
+    /**
+     * 传进参数， 当这个参数有值时候， 直接跳转消息详情界面
+     */
+    public static final String EXTRA_FLOW_MESSAGE = "EXTRA_FLOW_MESSAGE";
 
 
     @Bind(R.id.menu)
@@ -107,7 +114,7 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
 
         quotation.setVisibility(BuildConfig.DEBUG ?View.VISIBLE:View.GONE);
        // quotation.setVisibility(BuildConfig.DEBUG&&SharedPreferencesHelper.getLoginUser().isSalesman?View.VISIBLE:View.GONE);
-
+        handleMessageEntry(getIntent());
     }
 
     @Override
@@ -115,6 +122,36 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
         return new WorkFlowMainActPresenter();
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleMessageEntry(intent);
+    }
+
+
+    private  void handleMessageEntry(Intent intent)
+    {
+        Log.e("handleMessageEntry");
+
+        final long messageId=intent.getLongExtra(EXTRA_FLOW_MESSAGE,0);
+        if(messageId!=0)
+        {
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    WorkFlowMessageReceiveActivity.start(WorkFlowMainActivity.this,messageId,0);
+                }
+            });
+
+
+        }
+
+
+
+    }
 
     @Override
     protected void initEventAndData() {

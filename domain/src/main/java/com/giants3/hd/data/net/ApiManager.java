@@ -800,4 +800,14 @@ public class ApiManager {
         return remoteData;
 
     }
+
+    public RemoteData<WorkFlowMessage> getWorkFlowMessageById(long workFlowMessageId) throws HdException {
+
+
+        String url = HttpUrl.getWorkFlowMessageById(workFlowMessageId );
+        String result = apiConnection.getString(url);
+        RemoteData<WorkFlowMessage> remoteData = invokeByReflect(result, WorkFlowMessage.class);
+        return remoteData;
+
+    }
 }
