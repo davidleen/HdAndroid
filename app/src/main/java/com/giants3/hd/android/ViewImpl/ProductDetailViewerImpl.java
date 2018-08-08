@@ -25,6 +25,7 @@ import com.giants3.hd.android.widget.ExpandableHeightListView;
 import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.entity.Flow;
 import com.giants3.hd.entity.Product;
+import com.giants3.hd.noEntity.ModuleConstant;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.entity.ProductMaterial;
 import com.giants3.hd.utils.FloatHelper;
@@ -71,6 +72,10 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
     TextView specCm;
     @Bind(R.id.packSize)
     TextView packSize;
+    @Bind(R.id.price_panel)
+    View price_panel;
+    @Bind(R.id.panel_cost_wage_sum)
+    View panel_cost_wage_sum;
     @Bind(R.id.fob)
     TextView fob;
     @Bind(R.id.price)
@@ -173,9 +178,30 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
             public Object getData(String field, Object object) {
 
                 ProductMaterial productMaterial = null;
+
+                boolean viewPriceable=AuthorityUtil.getInstance().canViewPrice(ModuleConstant.NAME_PRODUCT);
+                if(!viewPriceable)
+                {
+                    switch (field)
+                    {
+                        case "amount":
+                        case "price" :
+                        case "cost" :
+                        case "processPrice" :
+                            return "***";
+
+                    }
+
+                }
+
+
                 if (object instanceof ProductMaterial) {
                     productMaterial = (ProductMaterial) object;
                 }
+
+
+
+
                 if (productDetail != null && productMaterial != null && "amount".equals(field) && productMaterial.flowId == Flow.FLOW_PACK) {
                     return FloatHelper.scale(productMaterial.amount / Math.max(productDetail.product.packQuantity, 1));
                 } else
@@ -207,6 +233,7 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
         listView.setAdapter(adapter);
         listView.setExpanded(true);
+
 
         if (editable)
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -268,9 +295,18 @@ public class ProductDetailViewerImpl extends BaseViewerImpl implements ProductDe
 
         packSize.setText(String.valueOf(packString));
 
+
+
+
         fob.setText(String.valueOf(product.fob));
         price.setText(String.valueOf(product.price));
         cost.setText(String.valueOf(product.cost));
+
+        boolean viewPriceable=AuthorityUtil.getInstance().canViewPrice(ModuleConstant.NAME_PRODUCT);
+
+        price_panel.setVisibility(viewPriceable?View.VISIBLE:View.GONE);
+        panel_cost_wage_sum.setVisibility(viewPriceable?View.VISIBLE:View.GONE);
+
 
 
         //白胚组装油漆包装成本工资

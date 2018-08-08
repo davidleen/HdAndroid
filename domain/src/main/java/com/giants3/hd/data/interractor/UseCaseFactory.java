@@ -5,6 +5,7 @@ import com.giants3.hd.data.net.RestApi;
 import com.giants3.hd.entity.Customer;
 import com.giants3.hd.entity.ErpOrderItemProcess;
 import com.giants3.hd.noEntity.ProductDetail;
+import com.giants3.hd.noEntity.app.QuotationDetail;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 
@@ -97,6 +98,15 @@ public class UseCaseFactory {
     public UseCase createGetProductDetailCase(long productId) {
         return new GetProductDetailCase(Schedulers.newThread(), AndroidSchedulers.mainThread(), productId, restApi);
     }
+/***
+     * 读取订单详情
+     *
+     * @param productId
+     * @return
+     */
+    public UseCase createGetProductByIdCase(long productId) {
+        return new FindProductByIdUseCase( productId, restApi);
+    }
 
     public UseCase createGetQuotationList(String name, int pageIndex, int pageSize) {
 
@@ -140,6 +150,11 @@ public class UseCaseFactory {
     public UseCase createGetUnHandleWorkFlowMessageCase(String key) {
 
         return new GetUnHandleWorkFlowMessageCase(Schedulers.newThread(), AndroidSchedulers.mainThread(),key, restApi);
+    }
+
+   public UseCase createGetUnHandleWorkFlowMessageReportCase(int hourLimit) {
+
+        return new GetUnHandleWorkFlowMessageReportCase( hourLimit, restApi);
     }
 
 
@@ -382,9 +397,9 @@ public class UseCaseFactory {
 
     }
 
-    public UseCase createSaveQuotationUseCase(long quotationId) {
+    public UseCase createSaveQuotationUseCase(QuotationDetail quotationDetail) {
 
-        return new SaveQuotationUseCase(quotationId,restApi);
+        return new SaveQuotationUseCase(quotationDetail,restApi);
     }
 
     public UseCase createPrintQuotationUseCase(long quotationId,String filePath) {

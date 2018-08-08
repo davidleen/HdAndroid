@@ -27,6 +27,7 @@ import com.giants3.hd.entity.ErpWorkFlowReport;
 import com.giants3.hd.entity.Material;
 import com.giants3.hd.entity.OrderItemWorkFlowState;
 import com.giants3.hd.entity.OrderItemWorkMemo;
+import com.giants3.hd.entity.Product;
 import com.giants3.hd.entity_erp.SampleState;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.entity.ProductProcess;
@@ -134,15 +135,17 @@ public class RestApiImpl implements RestApi {
      * @return
      */
     @Override
-    public Observable<RemoteData<AProduct>> getProductList(final String name, final int pageIndex, final int pageSize, final boolean withCopy) {
+    public Observable<RemoteData<AProduct>> getAProductList(final String name, final int pageIndex, final int pageSize, final boolean withCopy) {
 
         return create(new ApiInvoker<AProduct>() {
             @Override
             public RemoteData<AProduct> invoker() throws HdException {
-                return apiManager.getProductList(name, pageIndex, pageSize,withCopy);
+                return apiManager.getAProductList(name, pageIndex, pageSize,withCopy);
             }
         });
     }
+
+
 
     @Override
     public Observable<RemoteData<ErpOrder>> getOrderList(final String name, final int pageIndex, final int pageSize) {
@@ -170,6 +173,15 @@ public class RestApiImpl implements RestApi {
             @Override
             public RemoteData<ProductDetail> invoker() throws HdException {
                 return apiManager.getProductDetail(productId);
+            }
+        });
+    }
+    @Override
+    public Observable findProductById(final long productId) {
+        return create(new ApiInvoker<Product>() {
+            @Override
+            public RemoteData<Product> invoker() throws HdException {
+                return apiManager.findProductById(productId);
             }
         });
     }
@@ -851,13 +863,13 @@ public class RestApiImpl implements RestApi {
     }
 
     @Override
-    public Observable saveAppQuotation(final long quotationId) {
+    public Observable saveAppQuotation(final com.giants3.hd.noEntity.app.QuotationDetail quotationDetail) {
         return create(new ApiInvoker<com.giants3.hd.noEntity.app.QuotationDetail>() {
             @Override
             public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> invoker() throws HdException {
 
 
-                return apiManager.saveAppQuotation( quotationId)  ;
+                return apiManager.saveAppQuotation( quotationDetail)  ;
             }
         });
     }
@@ -923,4 +935,15 @@ public class RestApiImpl implements RestApi {
     }
 
 
+    @Override
+    public Observable getUnHandleWorkFlowMessageReport(final int hourLimit) {
+        return create(new ApiInvoker<WorkFlowMessage>() {
+            @Override
+            public RemoteData<WorkFlowMessage> invoker() throws HdException {
+
+
+                return apiManager.getUnHandleWorkFlowMessageReport( hourLimit)  ;
+            }
+        });
+    }
 }

@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.giants3.hd.android.R;
+import com.giants3.hd.entity.ErpOrderItem;
 import com.giants3.hd.entity.ErpWorkFlowReport;
 import com.giants3.hd.utils.StringUtils;
 
@@ -21,6 +22,8 @@ import de.greenrobot.common.DateUtils;
  */
 
 public class WorkFlowReportItemAdapter extends AbstractAdapter<ErpWorkFlowReport> {
+
+
 
     public WorkFlowReportItemAdapter(Context context) {
         super(context);
@@ -64,7 +67,14 @@ public class WorkFlowReportItemAdapter extends AbstractAdapter<ErpWorkFlowReport
             mItem = aProduct;
             progress.setProgress((int) (data.percentage*100));
             workFlowName.setText(data.workFlowName);
-            percentage.setText("完成"+(int) (data.percentage*100)+"%");
+            String percentText = "完成" + (int) (data.percentage * 100) + "%";
+
+            if(data.sendingQty>0&&data.percentage<1)
+            {
+                percentText+=",\n 已发送未接收数量:"+data.sendingQty;
+            }
+
+            percentage.setText(percentText);
 
             limit.setText("期限:"+data.limitDay+"天");
             String text="";
@@ -135,5 +145,7 @@ public class WorkFlowReportItemAdapter extends AbstractAdapter<ErpWorkFlowReport
             return mView;
         }
     }
+
+
 
 }

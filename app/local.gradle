@@ -5,7 +5,7 @@
 
 ext {
 
-    //畅读书城签名
+
     myStoreFileName = 'D:/projects/giants3/HdAndroid/doc/android.jks'
     myKeyAlias = 'android'
     myKeyPassword = '123456'

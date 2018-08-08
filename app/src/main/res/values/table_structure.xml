@@ -324,10 +324,6 @@
         <item>合计金额||amountSum||1||60</item>
         <item>合计体积||volume||1||60</item>
         <item>合计重量||weight||1||60</item>
-
-
-
-
         <item>备注||memo||1||200</item>
 
     </string-array>
@@ -376,4 +372,27 @@
 
 
     </string-array>
+
+
+
+
+
+    <string-array name="table_work_flow_message">
+
+        <item>图片||thumbnail||2||91</item>
+        <item>订单||orderName||1||91</item>
+        <item>货号||productName||1||91</item>
+        <item>订单数量||orderItemQty||1||80</item>
+        <item>交接数量||transportQty||1||80</item>
+        <item>制令单||mrpNo||1||80</item>
+        <item>发起流程||fromFlowName||1||80</item>
+        <item>发起人||senderName||1||80</item>
+        <item>发起时间||createTimeString||1||80</item>
+        <item>交接区域||area||1||80</item>
+        <item>接收流程||toFlowName||1||80</item>
+        <item>接收人||receiverName||1||80</item>
+        <item>接收时间||receiveTimeString||1||80</item>
+
+    </string-array>
+
 </resources>

@@ -36,7 +36,7 @@ public class GetProductListCase extends UseCase {
 
 
 
-       return  restApi.getProductList(name,pageIndex,pageSize,withCopy);
+       return  restApi.getAProductList(name,pageIndex,pageSize,withCopy);
 
 
 

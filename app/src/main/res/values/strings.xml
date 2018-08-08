@@ -49,6 +49,7 @@
 
         <item>已完成生产报表</item>
         <item>我的流程消息</item>
+        <item>未处理消息报表</item>
         <!-- <item>合同进度报表</item>-->
         <!-- <item>广交会报价</item>
 -->
@@ -62,6 +63,7 @@
         <item>com.giants3.hd.android.fragment.UnCompleteOrderItemFragment</item>
         <item>com.giants3.hd.android.fragment.CompleteOrderItemFragment</item>
         <item>com.giants3.hd.android.fragment.MyWorkFlowMessageFragment</item>
+        <item>com.giants3.hd.android.fragment.UnHandleWorkFlowMessageReport</item>
 
         <!--    <item>com.giants3.hd.android.fragment.OrderWorkFlowReportFragment</item>
       <item>合同进度报表</item>
@@ -96,4 +98,8 @@
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="title_activity_customer_edit">添加客户</string>
+    <string name="permission_write_read_neverask"  >你已经限制应用使用sd卡权限，请去应用管理授权</string>
+    <string name="permission_write_read_sd" >应用需要使用sd卡的存储读取权限</string>
+
+
 </resources>

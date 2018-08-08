@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.giants3.android.api.push.MessageCallback;
 import com.giants3.android.api.push.RegisterCallback;
+import com.giants3.android.frame.util.StorageUtils;
 import com.giants3.android.push.PushProxy;
 import com.giants3.hd.android.helper.AndroidUtils;
 import com.giants3.hd.android.helper.BitmapToolkit;
@@ -41,14 +42,22 @@ public class HdApplication extends Application {
     public void onCreate() {
         super.onCreate();
         baseContext = this;
+
+
         ToastHelper.init(this);
         BitmapToolkit.init(this);
         SharedPreferencesHelper.init(this);
+
+
+        StorageUtils.setRoot(getResources().getString(R.string.sd_root));
+
+
         ConnectionHelper.init(this);
         HttpUrl.init(this);
         Utils.init(this);
         AndroidUtils.init(this);
         PushManager.getInstance().init(this);
+
 
         boolean autoUpdates = BuildConfig.AUTO_UPDATES;
 

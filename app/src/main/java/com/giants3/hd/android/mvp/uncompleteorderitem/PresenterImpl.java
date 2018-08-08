@@ -18,8 +18,8 @@ public class PresenterImpl extends BasePresenter<UnCompleteOrderItemMVP.Viewer, 
 
     @Override
     public void start() {
-         searchWorkFlowOrderItems( );
-         getView().showWaiting();
+         //searchWorkFlowOrderItems( );
+        // getView().showWaiting();
     }
 
     @Override

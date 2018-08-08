@@ -36,7 +36,7 @@ public class AuthorityUtil {
      * @param moduleName
      * @return
      */
-    private boolean isViewable(String moduleName)
+    public boolean isViewable(String moduleName)
     {
         if(loginUser==null) return false;
 
@@ -79,6 +79,32 @@ public class AuthorityUtil {
 
         return false;
     }
+
+
+
+    /**
+     * 判断是否可以查看价格信息
+     *
+     *
+     * @return
+     */
+    public  boolean canViewPrice( String module) {
+        if (isAdmin())
+            return true;
+        for (Authority authority : getAuthority()) {
+            if (module.equals(authority.module.name) && authority.viewPrice) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isAdmin() {
+        AUser loginUser = SharedPreferencesHelper.getLoginUser();
+        if(loginUser==null)return false;
+        return loginUser.name.equals(User.ADMIN);
+    }
+
 
     /**
      * 查看模块是否有添加的权限

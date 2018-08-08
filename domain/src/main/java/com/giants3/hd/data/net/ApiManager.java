@@ -12,6 +12,7 @@ import com.giants3.hd.entity.Material;
 import com.giants3.hd.entity.OrderItem;
 import com.giants3.hd.entity.OrderItemWorkFlowState;
 import com.giants3.hd.entity.OrderItemWorkMemo;
+import com.giants3.hd.entity.Product;
 import com.giants3.hd.entity.ProductProcess;
 import com.giants3.hd.entity.ProductWorkMemo;
 import com.giants3.hd.entity.Quotation;
@@ -68,6 +69,8 @@ public class ApiManager {
         }.getType());
 
         tokenMaps.put(AProduct.class, new TypeToken<RemoteData<AProduct>>() {
+        }.getType());
+        tokenMaps.put(Product.class, new TypeToken<RemoteData<Product>>() {
         }.getType());
 
 
@@ -158,11 +161,26 @@ public class ApiManager {
      * @return
      * @throws HdException
      */
-    public RemoteData<AProduct> getProductList(String name, int pageIndex, int pageSize,boolean withCopy) throws HdException {
+    public RemoteData<AProduct> getAProductList(String name, int pageIndex, int pageSize, boolean withCopy) throws HdException {
 
         String url = HttpUrl.getProductList(name, pageIndex, pageSize,withCopy);
         String result = apiConnection.getString(url);
         RemoteData<AProduct> remoteData = invokeByReflect(result, AProduct.class);
+
+        return remoteData;
+    }
+ /**
+     * 获取产品列表
+     *
+     * @param id
+     * @return
+     * @throws HdException
+     */
+    public RemoteData<Product> findProductById(long id) throws HdException {
+
+        String url = HttpUrl.findProductById(id);
+        String result = apiConnection.getString(url);
+        RemoteData<Product> remoteData = invokeByReflect(result, Product.class);
 
         return remoteData;
     }
@@ -726,9 +744,9 @@ public class ApiManager {
 
     }
 
-    public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> saveAppQuotation(long quotationId) throws HdException {
-        String url = HttpUrl.saveAppQuotation(quotationId);
-        String result = apiConnection.getString(url);
+    public RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> saveAppQuotation(com.giants3.hd.noEntity.app.QuotationDetail quotationDetail) throws HdException {
+        String url = HttpUrl.saveAppQuotation( );
+        String result = apiConnection.post(url,GsonUtils.toJson(quotationDetail));
         RemoteData<com.giants3.hd.noEntity.app.QuotationDetail> remoteData = invokeByReflect(result, com.giants3.hd.noEntity.app.QuotationDetail.class);
         return remoteData;
 
@@ -743,6 +761,8 @@ public class ApiManager {
         } catch (IOException e) {
             e.printStackTrace();
             throw HdException.create("文件路径未找到:" + filePath);
+        }finally {
+            IoUtils.safeClose(inputStream);
         }
         RemoteData<Void> remoteData = new RemoteData<>();
 
@@ -809,5 +829,12 @@ public class ApiManager {
         RemoteData<WorkFlowMessage> remoteData = invokeByReflect(result, WorkFlowMessage.class);
         return remoteData;
 
+    }
+
+    public RemoteData<WorkFlowMessage> getUnHandleWorkFlowMessageReport(int hourLimit) throws HdException {
+        String url = HttpUrl.getUnHandleWorkFlowMessageReport(hourLimit );
+        String result = apiConnection.getString(url);
+        RemoteData<WorkFlowMessage> remoteData = invokeByReflect(result, WorkFlowMessage.class);
+        return remoteData;
     }
 }

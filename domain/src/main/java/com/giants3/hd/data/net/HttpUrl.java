@@ -144,6 +144,8 @@ public class HttpUrl {
 
     public static String completeUrl(String url) {
         if (StringUtils.isEmpty(url)) return "";
+        if(url.startsWith("http")) return url;
+
         return additionInfo(BASE_URL + url);
     }
 
@@ -193,6 +195,19 @@ public class HttpUrl {
                 .append("pageIndex",pageIndex)
                 .append("pageSize",pageSize)
                 .append("withCopy",withCopy)
+                ;
+        return additionInfo(formatter);
+
+
+
+    }
+    public static String findProductById(long productId) {
+
+
+        String apiUrl=BASE_URL + "/api/product/find";
+        UrlFormatter formatter=new UrlFormatter(apiUrl)
+                .append("id",productId)
+
                 ;
         return additionInfo(formatter);
 
@@ -524,9 +539,9 @@ public class HttpUrl {
 
     }
 
-    public static String saveAppQuotation(long quotationId) {
+    public static String saveAppQuotation(   ) {
 
-        return completeUrl(String.format("/api/app/quotation/save?quotationId=%d", quotationId));
+        return completeUrl(String.format("/api/app/quotation/saveDetail" ));
     }
 
     public static String printQuotation(long quotationId) {
@@ -582,5 +597,13 @@ public class HttpUrl {
         String apiUrl=BASE_URL + "api/workFlow/findMessageById";
         UrlFormatter formatter=new UrlFormatter(apiUrl).append("workFlowMessageId",workFlowMessageId)  ;
         return additionInfo(formatter);
+    }
+
+    public static String getUnHandleWorkFlowMessageReport(int hourLimit) {
+
+        String apiUrl=BASE_URL + "api/workFlow/getUnHandleWorkFlowMessageReport";
+        UrlFormatter formatter=new UrlFormatter(apiUrl).append("hourLimit",hourLimit)  ;
+        return additionInfo(formatter);
+
     }
 }

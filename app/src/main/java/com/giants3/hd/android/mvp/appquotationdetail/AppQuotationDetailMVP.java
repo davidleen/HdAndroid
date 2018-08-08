@@ -5,6 +5,7 @@ import com.giants3.hd.android.mvp.NewPresenter;
 import com.giants3.hd.android.mvp.NewViewer;
 import com.giants3.hd.android.mvp.PageModel;
 import com.giants3.hd.entity.Customer;
+import com.giants3.hd.entity.Product;
 import com.giants3.hd.noEntity.app.QuotationDetail;
 
 import java.util.List;
@@ -26,6 +27,31 @@ public interface AppQuotationDetailMVP {
 
         void setCustomers(List<Customer> customer);
         List<Customer> getCustomers();
+
+        void updateItemQty(int itmIndex, int newQty);
+
+        void updateItemPrice(int itm, float newFloatValue);
+
+        void updateItemMemo(int itm, String memo);
+
+        void updateItemDiscount(int itm, float newDisCount);
+
+        void updateCustomer(Customer customer);
+
+        void deleteQuotationItem(int item);
+
+        void updateValidateTime(String dateString);
+
+        void updateCreateTime(String dateString);
+
+        void updateQuotationNumber(String newValue);
+
+        void updateQuotationMemo(String newValue);
+
+        void addNewProduct(Product product);
+
+        boolean hasModify();
+
     }
 
     interface Presenter extends NewPresenter<AppQuotationDetailMVP.Viewer> {
@@ -34,7 +60,7 @@ public interface AppQuotationDetailMVP {
         void setQuotationId(long quotationId);
 
 
-        void addNewProduct(long productId);
+        void addNewProduct(long  productId);
 
         void deleteQuotationItem(int item);
 

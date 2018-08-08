@@ -34,7 +34,7 @@ public interface WorkFlowMainActMvp {
         /**
          * 檢查app應用更新信息
          */
-        void checkAppUpdateInfo();
+        void checkAppUpdateInfo(boolean silence);
 
         boolean checkBack();
 
@@ -52,5 +52,7 @@ public interface WorkFlowMainActMvp {
         void bindUser(AUser loginUser);
 
         void setNewWorkFlowMessageCount(int count);
+
+        void showApkUpdate(FileInfo fileInfo);
     }
 }

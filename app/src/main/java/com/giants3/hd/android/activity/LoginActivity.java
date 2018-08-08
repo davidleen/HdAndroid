@@ -321,7 +321,7 @@ public class LoginActivity extends BaseActivity {
         if (BuildConfig.DEBUG) {
 
             user.setText(loginUser.name);
-            mPasswordView.setText("xin2975.");
+            mPasswordView.setText("111");
             // attemptLogin();
         }
 

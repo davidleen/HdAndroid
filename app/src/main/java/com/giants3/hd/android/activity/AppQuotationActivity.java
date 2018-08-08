@@ -25,6 +25,7 @@ import com.giants3.hd.android.fragment.ItemPickDialogFragment;
 import com.giants3.hd.android.fragment.ProductDetailFragment;
 import com.giants3.hd.android.fragment.SearchProductFragment;
 import com.giants3.hd.android.fragment.ValueEditDialogFragment;
+import com.giants3.hd.android.helper.AuthorityUtil;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.android.mvp.AndroidRouter;
@@ -90,6 +91,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
     boolean isCellEditable = true;
 
+    boolean canViewProduct=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,22 +123,22 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
             public boolean isCellClickable(String field) {
 
 
-                if (isCellEditable) {
+
 
                     switch (field) {
                         case "price":
-                            return true;
+                            return isCellEditable;
                         case "qty":
-                            return true;
+                            return isCellEditable;
                         case "memo":
-                            return true;
+                            return isCellEditable;
                         case "productName":
-                            return true;
+                            return canViewProduct;
 
                     }
 
 
-                }
+
 
 
                 return false;
@@ -160,8 +162,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                                     float newFloatValue = Float.valueOf(newValue.trim());
 
                                     if (Float.compare(newFloatValue, data.price) != 0) {
-                                        data.price = newFloatValue;
-                                        adapter.notifyDataSetChanged();
+
 
 
                                         getPresenter().updatePrice(data.itm, newFloatValue);
@@ -192,8 +193,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                                             int newQty = Integer.valueOf(newValue.trim());
 
                                             if (Integer.compare(newQty, data.qty) != 0) {
-                                                data.qty = newQty;
-                                                adapter.notifyDataSetChanged();
+
 
 
                                                 getPresenter().updateQty(data.itm, newQty);
@@ -221,8 +221,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                                     public void onValueChange(String title, String oldValue, String newValue) {
                                         try {
                                             if (!StringUtils.compare(newValue, data.memo)) {
-                                                data.memo = newValue;
-                                                adapter.notifyDataSetChanged();
+
 
 
                                                 getPresenter().updateMemo(data.itm, newValue);
@@ -380,6 +379,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
             canEdit=true;
         }
         isCellEditable=canEdit;
+        canViewProduct= AuthorityUtil.getInstance().viewProductList();
         setEditable(createTime,canEdit);
         setEditable(validateTime,canEdit);
         setEditable(customer,canEdit);
@@ -635,7 +635,8 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                 QRProduct product = GsonUtils.fromJson(qrCodeResult.contents, QRProduct.class);
 
                 if (product != null) {
-                    getPresenter().addNewProduct(product.id);
+                   getPresenter().addNewProduct(product.id);
+
                 }
                 Log.i("result:" + product);
             } catch (Exception e) {

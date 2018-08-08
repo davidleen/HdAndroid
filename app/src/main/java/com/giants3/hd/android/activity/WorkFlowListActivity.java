@@ -315,7 +315,7 @@ public class WorkFlowListActivity extends BaseHeadViewerActivity<WorkFlowListMvp
     public void showSelectOrderItem(ErpOrderItem orderItem) {
 
 
-        orderItemInfo.setText("订单号:" + orderItem.os_no + ",货号:" + orderItem.prd_name);
+        orderItemInfo.setText("订单号:" + orderItem.os_no + ",货号:" + orderItem.prd_name+",订单数量:"+orderItem.qty);
 
 
     }

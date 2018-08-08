@@ -35,19 +35,23 @@ public class WorkFlowMainActPresenter extends BasePresenter<WorkFlowMainActMvp.V
     }
 
     @Override
-    public void checkAppUpdateInfo() {
+    public void checkAppUpdateInfo(final boolean silence) {
 
 
         getModel().loadAppUpgradeInfo(new Subscriber<RemoteData<FileInfo>>() {
             @Override
             public void onCompleted() {
+
+                if(!silence)
                 getView().hideWaiting();
             }
 
             @Override
             public void onError(Throwable e) {
-                getView().hideWaiting();
-                getView().showMessage(e.getMessage());
+                if(!silence) {
+                    getView().hideWaiting();
+                    getView().showMessage(e.getMessage());
+                }
             }
 
             @Override
@@ -62,21 +66,23 @@ public class WorkFlowMainActPresenter extends BasePresenter<WorkFlowMainActMvp.V
                         FileInfo fileInfo = stringRemoteData.datas.get(0);
 
 
-                        getView().showMessage("有新版本apk，开始下载。。。");
-                        getView().startDownLoadApk(fileInfo);
 
+                          getView().showApkUpdate(fileInfo);
 
                     } else {
+                        if(!silence)
                         getView().showMessage("当前已经是最新版本。");
                     }
                 } else {
+                    if(!silence)
                     getView().showMessage(stringRemoteData.message);
                 }
 
 
             }
         });
-        getView().showWaiting();
+        if(!silence)
+          getView().showWaiting();
     }
 
     //上次返回键点击时间

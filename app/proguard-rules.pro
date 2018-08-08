@@ -71,6 +71,7 @@
 }
 
 -keep class com.giants3.hd.entity.** { *; }
+-keep class com.giants3.hd.entity_erp.** { *; }
 -keep class com.giants3.hd.noEntity.** { *; }
 -keep class com.giants3.hd.appdata.** { *; }
 

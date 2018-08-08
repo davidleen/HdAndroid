@@ -74,13 +74,14 @@ public interface RestApi {
    * @param pageSize
    * @return
    */
-  Observable<RemoteData<AProduct>> getProductList(String name, int pageIndex, int pageSize,boolean withCopy)  ;
+  Observable<RemoteData<AProduct>> getAProductList(String name, int pageIndex, int pageSize, boolean withCopy)  ;
 
   Observable getOrderList(String name, int pageIndex, int pageSize);
 
   Observable getOrderDetail(String orderNo);
 
   Observable getProductDetail(long productId);
+  Observable findProductById(long productId);
 
   Observable getQuotationList(String name, int pageIndex, int pageSize);
 
@@ -199,7 +200,7 @@ public interface RestApi {
 
   Observable updateQuotationDiscount(long quotationId, float newDisCount);
 
-  Observable saveAppQuotation(long quotationId);
+  Observable saveAppQuotation(com.giants3.hd.noEntity.app.QuotationDetail quotationDetail);
 
   Observable printQuotation(long quotationId,String filePath);
 
@@ -216,4 +217,6 @@ public interface RestApi {
   Observable updateQuotationFieldValue(long quotationId, String field, String data);
 
     Observable getWorkFlowMessageById(long workflowMessageId);
+
+  Observable getUnHandleWorkFlowMessageReport(int hourLimit);
 }

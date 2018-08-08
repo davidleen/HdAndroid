@@ -32,8 +32,8 @@ android {
 
 
         targetSdkVersion ANDROID_TARGET_VERSION
-        versionCode 40
-        versionName "1.4.0"
+        versionCode 45
+        versionName "1.4.5"
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
 
@@ -119,5 +119,13 @@ dependencies {
     releaseCompile project(path: ':umenganalysis')
     debugCompile project(':PushSDK')
     debugCompile project(path: ':umenganalysis')
+
+
+    compile("com.github.hotchemi:permissionsdispatcher:${PERMISSIONSDISPATCHER_VERSION}") {
+        // if you don't use android.app.Fragment you can exclude support for them
+        exclude group: "com.android.support"
+
+    }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:${PERMISSIONSDISPATCHER_VERSION}"
 
 }

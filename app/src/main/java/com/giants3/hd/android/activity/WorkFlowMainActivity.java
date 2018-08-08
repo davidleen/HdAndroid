@@ -1,6 +1,8 @@
 package com.giants3.hd.android.activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.giants3.android.frame.util.Log;
+import com.giants3.android.frame.util.StorageUtils;
 import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.adapter.WorkFLowMainMenuAdapter;
@@ -37,6 +40,7 @@ import com.giants3.hd.noEntity.BufferData;
 import com.giants3.hd.noEntity.FileInfo;
 import com.giants3.hd.noEntity.RemoteData;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +97,8 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         setBackEnable(false);
 
 //        menuTitles = getResources().getStringArray(R.array.menu_title);
@@ -115,6 +121,15 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
         quotation.setVisibility(BuildConfig.DEBUG ?View.VISIBLE:View.GONE);
        // quotation.setVisibility(BuildConfig.DEBUG&&SharedPreferencesHelper.getLoginUser().isSalesman?View.VISIBLE:View.GONE);
         handleMessageEntry(getIntent());
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getPresenter().checkAppUpdateInfo(true);
+            }
+        });
+
     }
 
     @Override
@@ -327,7 +342,7 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
                 return true;
             case R.id.upgrade:
 
-                getPresenter().checkAppUpdateInfo();
+                getPresenter().checkAppUpdateInfo(false);
 
                 return true;
             case R.id.updatePassword:
@@ -471,6 +486,23 @@ public class WorkFlowMainActivity extends BaseHeadViewerActivity<WorkFlowMainAct
 
             }
         }
+
+
+    }
+
+    @Override
+    public void showApkUpdate(final FileInfo fileInfo) {
+
+
+       new  AlertDialog.Builder(this).setMessage("有新版本apk，是否下载安装？").setNegativeButton("取消",null).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+           @Override
+           public void onClick(DialogInterface dialog, int which) {
+               startDownLoadApk(fileInfo);
+
+           }
+       }).create().show();
+
+
 
 
     }
