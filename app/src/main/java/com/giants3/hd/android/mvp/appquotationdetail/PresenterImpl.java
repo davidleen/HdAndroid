@@ -4,6 +4,8 @@ import android.content.Context;
 import android.print.PrintAttributes;
 import android.print.PrintManager;
 
+import com.giants3.android.frame.util.Log;
+import com.giants3.android.frame.util.StorageUtils;
 import com.giants3.hd.android.mvp.BasePresenter;
 import com.giants3.hd.android.mvp.RemoteDataSubscriber;
 import com.giants3.hd.android.print.PDFPrintDocumentAdapter;
@@ -362,7 +364,7 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
         PrintManager printManager = (PrintManager) getView().getContext().getSystemService(Context.PRINT_SERVICE);
         PrintAttributes.Builder builder = new PrintAttributes.Builder();
         builder.setColorMode(PrintAttributes.COLOR_MODE_COLOR);
-
+        builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
         printManager.print("test pdf print", new PDFPrintDocumentAdapter(getView().getContext(), filePath), builder.build());
     }
 
@@ -378,7 +380,16 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
 
         QuotationDetail quotationDetail = getModel().getQuotationDetail();
 
-        final String filePath = new File(getView().getContext().getExternalCacheDir(), System.currentTimeMillis() + ".pdf").getPath();
+
+        final String filePath =  StorageUtils.getFilePath(     "TEMP_.pdf");
+        File file = new File(filePath);
+        if(file.exists())
+        {
+            boolean delete = file.delete();
+
+            Log.e("temp file deleted:"+delete);
+        }
+
         long quotationId = quotationDetail.quotation.id;
 
 

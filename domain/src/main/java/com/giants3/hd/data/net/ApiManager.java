@@ -1,5 +1,7 @@
 package com.giants3.hd.data.net;
 
+import android.util.Log;
+
 import com.giants3.hd.appdata.AProduct;
 import com.giants3.hd.appdata.AUser;
 import com.giants3.hd.data.utils.GsonUtils;
@@ -47,7 +49,7 @@ import de.greenrobot.common.io.IoUtils;
  * Created by david on 2016/2/13.
  */
 public class ApiManager {
-
+    private static final  String TAG="ApiManager";
     public Map<Class<?>, Type> tokenMaps;
 
     @Inject
@@ -755,14 +757,17 @@ public class ApiManager {
     public RemoteData<Void> printQuotation(long quotationId, String filePath) throws HdException {
         String url = HttpUrl.printQuotation(quotationId);
         InputStream inputStream = apiConnection.getInputStream(url);
-
+        FileOutputStream out=null;
         try {
-            IoUtils.copyAllBytes(inputStream, new FileOutputStream(filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
+            out = new FileOutputStream(filePath);
+            IoUtils.copyAllBytes(inputStream, out);
+            out.flush();
+        } catch (Throwable e) {
+            Log.e(TAG,e.getMessage());
             throw HdException.create("文件路径未找到:" + filePath);
         }finally {
             IoUtils.safeClose(inputStream);
+            IoUtils.safeClose(out);
         }
         RemoteData<Void> remoteData = new RemoteData<>();
 

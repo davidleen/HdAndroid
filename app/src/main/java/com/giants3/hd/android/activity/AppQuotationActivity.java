@@ -374,7 +374,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
 
         AUser loginUser = SharedPreferencesHelper.getLoginUser();
-        if( loginUser !=null&&data.quotation!=null&&(loginUser.isSalesman||loginUser.name.equals(User.ADMIN ))&&data.quotation.saleId== loginUser.id)
+        if( loginUser !=null&&data.quotation!=null&&((loginUser.isSalesman &&data.quotation.saleId== loginUser.id) ||loginUser.name.equals(User.ADMIN )) )
         {
             canEdit=true;
         }

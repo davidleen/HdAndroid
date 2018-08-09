@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by guocheng on 2017/6/13.
+ *
  */
 public class PDFPrintDocumentAdapter extends PrintDocumentAdapter {
 
