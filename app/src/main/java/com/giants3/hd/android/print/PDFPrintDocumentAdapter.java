@@ -52,8 +52,9 @@ public class PDFPrintDocumentAdapter extends PrintDocumentAdapter {
 
         mPdfDocument = new PrintedPdfDocument(context, newAttributes); //创建可打印PDF文档对象
 
-        pageHeight = newAttributes.getMediaSize().ISO_A4.getHeightMils() * 72 / 1000;  //设置尺寸
-        pageWidth = newAttributes.getMediaSize().ISO_A4.getWidthMils() * 72 / 1000;
+        int dpi=context.getResources().getDisplayMetrics().densityDpi;
+        pageHeight = newAttributes.getMediaSize().getHeightMils() * dpi / 1000;  //设置尺寸
+        pageWidth = newAttributes.getMediaSize().getWidthMils() * dpi / 1000;
 
         if (cancellationSignal.isCanceled()) {
             callback.onLayoutCancelled();
@@ -76,7 +77,7 @@ public class PDFPrintDocumentAdapter extends PrintDocumentAdapter {
                     if(null != page)
                         page.close();
                     page = pdfRender.openPage(i);
-                    Bitmap bmp = Bitmap.createBitmap(page.getWidth()*2,page.getHeight()*2, Bitmap.Config.ARGB_8888);
+                    Bitmap bmp = Bitmap.createBitmap(pageWidth,pageHeight, Bitmap.Config.ARGB_8888);
                     page.render(bmp, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
                     mlist.add(bmp);
                 }

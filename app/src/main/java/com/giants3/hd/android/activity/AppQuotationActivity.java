@@ -2,7 +2,6 @@ package com.giants3.hd.android.activity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -50,6 +49,7 @@ import butterknife.Bind;
 
 import static com.giants3.hd.utils.DateFormats.FORMAT_YYYY_MM_DD;
 
+
 public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDetailMVP.Presenter> implements AppQuotationDetailMVP.Viewer, SearchProductFragment.OnFragmentInteractionListener {
 
     public static final String KEY_QUOTATION_ID = "KEY_QUOTATION_ID";
@@ -91,7 +91,8 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
     boolean isCellEditable = true;
 
-    boolean canViewProduct=false;
+    boolean canViewProduct = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,22 +124,17 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
             public boolean isCellClickable(String field) {
 
 
+                switch (field) {
+                    case "price":
+                        return isCellEditable;
+                    case "qty":
+                        return isCellEditable;
+                    case "memo":
+                        return isCellEditable;
+                    case "productName":
+                        return canViewProduct;
 
-
-                    switch (field) {
-                        case "price":
-                            return isCellEditable;
-                        case "qty":
-                            return isCellEditable;
-                        case "memo":
-                            return isCellEditable;
-                        case "productName":
-                            return canViewProduct;
-
-                    }
-
-
-
+                }
 
 
                 return false;
@@ -162,7 +158,6 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                                     float newFloatValue = Float.valueOf(newValue.trim());
 
                                     if (Float.compare(newFloatValue, data.price) != 0) {
-
 
 
                                         getPresenter().updatePrice(data.itm, newFloatValue);
@@ -195,7 +190,6 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                                             if (Integer.compare(newQty, data.qty) != 0) {
 
 
-
                                                 getPresenter().updateQty(data.itm, newQty);
                                             }
                                         } catch (Throwable t) {
@@ -215,13 +209,12 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                     case "memo": {
 
 
-                        updateValue("修改备注", data.memo==null?"":data.memo,true
+                        updateValue("修改备注", data.memo == null ? "" : data.memo, true
                                 , new ValueEditDialogFragment.ValueChangeListener() {
                                     @Override
                                     public void onValueChange(String title, String oldValue, String newValue) {
                                         try {
                                             if (!StringUtils.compare(newValue, data.memo)) {
-
 
 
                                                 getPresenter().updateMemo(data.itm, newValue);
@@ -243,9 +236,9 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
                     case "productName": {
 
-                            //跳转产品详情
-                       AProduct aProduct=new AProduct();
-                       aProduct.id=data.productId;
+                        //跳转产品详情
+                        AProduct aProduct = new AProduct();
+                        aProduct.id = data.productId;
                         //调整act
                         Intent intent = new Intent(AppQuotationActivity.this, ProductDetailActivity.class);
                         intent.putExtra(ProductDetailFragment.ARG_ITEM, GsonUtils.toJson(aProduct));
@@ -343,9 +336,10 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     }
 
     private void updateValue(String title, String value, ValueEditDialogFragment.ValueChangeListener listener) {
-        updateValue(title,value,false,listener);
+        updateValue(title, value, false, listener);
     }
-    private void updateValue(String title, String value,boolean multiableText, ValueEditDialogFragment.ValueChangeListener listener) {
+
+    private void updateValue(String title, String value, boolean multiableText, ValueEditDialogFragment.ValueChangeListener listener) {
         ValueEditDialogFragment dialogFragment = new ValueEditDialogFragment();
         dialogFragment.set(title, value, listener);
         dialogFragment.setMultiableText(multiableText);
@@ -365,43 +359,36 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
         validateTime.setText(data.quotation.vDate);
 
 
-
         adapter.setDataArray(data.items);
 
 
-
-        boolean canEdit=false;
+        boolean canEdit = false;
 
 
         AUser loginUser = SharedPreferencesHelper.getLoginUser();
-        if( loginUser !=null&&data.quotation!=null&&((loginUser.isSalesman &&data.quotation.saleId== loginUser.id) ||loginUser.name.equals(User.ADMIN )) )
-        {
-            canEdit=true;
+        if (loginUser != null && data.quotation != null && ((loginUser.isSalesman && data.quotation.saleId == loginUser.id) || loginUser.name.equals(User.ADMIN))) {
+            canEdit = true;
         }
-        isCellEditable=canEdit;
-        canViewProduct= AuthorityUtil.getInstance().viewProductList();
-        setEditable(createTime,canEdit);
-        setEditable(validateTime,canEdit);
-        setEditable(customer,canEdit);
-        setEditable(memo,canEdit);
-        setEditable(qNumber,canEdit);
-
-
-
+        isCellEditable = canEdit;
+        canViewProduct = AuthorityUtil.getInstance().viewProductList();
+        setEditable(createTime, canEdit);
+        setEditable(validateTime, canEdit);
+        setEditable(customer, canEdit);
+        setEditable(memo, canEdit);
+        setEditable(qNumber, canEdit);
 
 
     }
-    private void  setEditable(TextView v, boolean isEditable)
-    {
+
+    private void setEditable(TextView v, boolean isEditable) {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            v.setTextAppearance(isEditable?R.style.value_edit_text_style:R.style.value_text_style);
-        }else
-        {
-            v.setCompoundDrawablesWithIntrinsicBounds(0,0,isEditable?R.mipmap.ic_menu_edit:0,0);
+            v.setTextAppearance(isEditable ? R.style.value_edit_text_style : R.style.value_text_style);
+        } else {
+            v.setCompoundDrawablesWithIntrinsicBounds(0, 0, isEditable ? R.mipmap.ic_menu_edit : 0, 0);
         }
-        v.setOnClickListener(isEditable?this:null);
+        v.setOnClickListener(isEditable ? this : null);
 
     }
 
@@ -409,13 +396,13 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     public static void start(AndroidRouter router, long id) {
 
 
-        start(router,id,-1);
+        start(router, id, -1);
     }
 
     public static void start(AndroidRouter router, long id, int requestCode) {
         Intent intent = new Intent(router.getContext(), AppQuotationActivity.class);
         intent.putExtra(AppQuotationActivity.KEY_QUOTATION_ID, id);
-        router.startActivityForResult(intent,requestCode);
+        router.startActivityForResult(intent, requestCode);
     }
 
     public static void start(AndroidRouter router) {
@@ -447,7 +434,6 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                 getPresenter().pickCustomer();
 
                 break;
-
 
 
             case R.id.validateTime:
@@ -494,35 +480,35 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                 break;
 
 
-                case R.id.memo: {
+            case R.id.memo: {
 
-                    final String text = memo.getText().toString();
-                    updateValue("修改备注", text, true
-                            , new ValueEditDialogFragment.ValueChangeListener() {
-                                @Override
-                                public void onValueChange(String title, String oldValue, String newValue) {
-                                    try {
-
-
-                                        if (!StringUtils.compare(newValue, text)) {
+                final String text = memo.getText().toString();
+                updateValue("修改备注", text, true
+                        , new ValueEditDialogFragment.ValueChangeListener() {
+                            @Override
+                            public void onValueChange(String title, String oldValue, String newValue) {
+                                try {
 
 
-                                            getPresenter().updateQuotationMemo(newValue);
-                                        }
-                                    } catch (Throwable t) {
-                                        t.printStackTrace();
+                                    if (!StringUtils.compare(newValue, text)) {
+
+
+                                        getPresenter().updateQuotationMemo(newValue);
                                     }
-
-
+                                } catch (Throwable t) {
+                                    t.printStackTrace();
                                 }
-                            });
 
 
-                }
+                            }
+                        });
 
-                break;
 
-                case R.id.qNumber: {
+            }
+
+            break;
+
+            case R.id.qNumber: {
 
                 final String oldQnumber = qNumber.getText().toString();
                 updateValue("修改报价单号", oldQnumber,
@@ -548,7 +534,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
             }
 
-                break;
+            break;
             case R.id.addCustomer:
 
 
@@ -598,7 +584,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
             case R.id.scanItem:
 
 
-                QRCodeFactory.start(this, "扫描产品二维码");
+                startScanProduct();
 
 
                 break;
@@ -606,6 +592,12 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
 
 
     }
+
+
+    protected void startScanProduct() {
+        QRCodeFactory.start(this, "扫描产品二维码");
+    }
+
 
     private void addNewCustomer() {
 
@@ -635,7 +627,7 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
                 QRProduct product = GsonUtils.fromJson(qrCodeResult.contents, QRProduct.class);
 
                 if (product != null) {
-                   getPresenter().addNewProduct(product.id);
+                    getPresenter().addNewProduct(product.id);
 
                 }
                 Log.i("result:" + product);
@@ -715,8 +707,6 @@ public class AppQuotationActivity extends BaseHeadViewerActivity<AppQuotationDet
     }
 
     /**
-
-     *
      * @param event
      * @author davidleen29
      */

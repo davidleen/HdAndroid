@@ -33,10 +33,22 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        SplashActivityPermissionsDispatcher.doLoadingWithPermissionCheck(this);
+        SplashActivityPermissionsDispatcher.requestSDWithPermissionCheck(this);
 
     }
     @NeedsPermission( {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
+    protected  void requestSD()
+    {
+
+        SplashActivityPermissionsDispatcher.requestCameraWithPermissionCheck(this);
+    }
+    @NeedsPermission( {Manifest.permission.CAMERA})
+    protected  void requestCamera()
+    {
+
+        doLoading();
+    }
+
     protected void doLoading() {
         getWindow().getDecorView().postDelayed(new Runnable() {
             @Override
@@ -48,7 +60,7 @@ public class SplashActivity extends BaseActivity {
 
 
     @OnShowRationale( {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
-    void showRationaleForCamera(final PermissionRequest request) {
+    void showRationaleForSD(final PermissionRequest request) {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.permission_write_read_sd)
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -69,14 +81,12 @@ public class SplashActivity extends BaseActivity {
 
     @OnPermissionDenied( {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
     void showDeniedForSD() {
-        SplashActivityPermissionsDispatcher.doLoadingWithPermissionCheck(this);
+        SplashActivityPermissionsDispatcher.requestSDWithPermissionCheck(this);
     }
 
     @OnNeverAskAgain(value = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE})
     void showNeverAskForSD() {
        ToastHelper.show(  R.string.permission_write_read_neverask );
-
-
         finish();
     }
 
@@ -87,7 +97,8 @@ public class SplashActivity extends BaseActivity {
         SplashActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
-    private void goToMain()
+
+    protected void goToMain()
     {
 
         //登录验证
@@ -105,6 +116,37 @@ public class SplashActivity extends BaseActivity {
             finish();
 
         }
+    }
+
+    @OnShowRationale( {Manifest.permission.CAMERA})
+    void showRationaleForCamera(final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.permission_camera)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+
+                    }
+                })
+                .show();
+    }
+    @OnNeverAskAgain(value = {Manifest.permission.CAMERA })
+    void showNeverAskForCamera() {
+        ToastHelper.show(  R.string.permission_camera_neverask );
+
+        finish();
+    }
+
+    @OnPermissionDenied( {Manifest.permission.CAMERA})
+    void showDeniedForCamera() {
+        SplashActivityPermissionsDispatcher.requestCameraWithPermissionCheck(this);
     }
 
 

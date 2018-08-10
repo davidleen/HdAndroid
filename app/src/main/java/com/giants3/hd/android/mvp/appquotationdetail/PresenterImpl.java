@@ -364,7 +364,7 @@ public class PresenterImpl extends BasePresenter<AppQuotationDetailMVP.Viewer, A
         PrintManager printManager = (PrintManager) getView().getContext().getSystemService(Context.PRINT_SERVICE);
         PrintAttributes.Builder builder = new PrintAttributes.Builder();
         builder.setColorMode(PrintAttributes.COLOR_MODE_COLOR);
-        builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);
+        builder.setMediaSize(PrintAttributes.MediaSize.ISO_A4);;
         printManager.print("test pdf print", new PDFPrintDocumentAdapter(getView().getContext(), filePath), builder.build());
     }
 
