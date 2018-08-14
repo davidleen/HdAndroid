@@ -31,6 +31,7 @@ import com.giants3.hd.noEntity.MessageInfo;
 import com.giants3.hd.noEntity.ProductDetail;
 import com.giants3.hd.noEntity.QuotationDetail;
 import com.giants3.hd.noEntity.RemoteData;
+import com.giants3.hd.noEntity.RemoteDateParameterizedType;
 import com.giants3.hd.noEntity.WorkFlowMemoAuth;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -50,7 +51,7 @@ import de.greenrobot.common.io.IoUtils;
  */
 public class ApiManager {
     private static final  String TAG="ApiManager";
-    public Map<Class<?>, Type> tokenMaps;
+
 
     @Inject
     ApiConnection apiConnection;
@@ -58,81 +59,7 @@ public class ApiManager {
 
     @Inject
     public ApiManager() {
-        tokenMaps = new HashMap<>();
-        tokenMaps.put(Void.class, new TypeToken<RemoteData<Void>>() {
-        }.getType());
 
-        tokenMaps.put(String.class, new TypeToken<RemoteData<String>>() {
-        }.getType());
-
-        tokenMaps.put(AUser.class, new TypeToken<RemoteData<AUser>>() {
-        }.getType());
-        tokenMaps.put(User.class, new TypeToken<RemoteData<User>>() {
-        }.getType());
-
-        tokenMaps.put(AProduct.class, new TypeToken<RemoteData<AProduct>>() {
-        }.getType());
-        tokenMaps.put(Product.class, new TypeToken<RemoteData<Product>>() {
-        }.getType());
-
-
-        tokenMaps.put(ErpOrder.class, new TypeToken<RemoteData<ErpOrder>>() {
-        }.getType());
-        tokenMaps.put(ErpOrderItem.class, new TypeToken<RemoteData<ErpOrderItem>>() {
-        }.getType());
-        tokenMaps.put(ProductDetail.class, new TypeToken<RemoteData<ProductDetail>>() {
-        }.getType());
-
-        tokenMaps.put(Quotation.class, new TypeToken<RemoteData<Quotation>>() {
-        }.getType());
-        tokenMaps.put(QuotationDetail.class, new TypeToken<RemoteData<QuotationDetail>>() {
-        }.getType());
-        tokenMaps.put(Material.class, new TypeToken<RemoteData<Material>>() {
-        }.getType());
-
-        tokenMaps.put(BufferData.class, new TypeToken<RemoteData<BufferData>>() {
-        }.getType());
-        tokenMaps.put(ProductProcess.class, new TypeToken<RemoteData<ProductProcess>>() {
-        }.getType());
-        tokenMaps.put(ErpOrderDetail.class, new TypeToken<RemoteData<ErpOrderDetail>>() {
-        }.getType());
-        tokenMaps.put(WorkFlowMessage.class, new TypeToken<RemoteData<WorkFlowMessage>>() {
-        }.getType());
-        tokenMaps.put(WorkFlowMemoAuth.class, new TypeToken<RemoteData<WorkFlowMemoAuth>>() {
-        }.getType());
-        tokenMaps.put(OrderItemWorkFlowState.class, new TypeToken<RemoteData<OrderItemWorkFlowState>>() {
-        }.getType());
-        tokenMaps.put(FileInfo.class, new TypeToken<RemoteData<FileInfo>>() {
-        }.getType());
-        tokenMaps.put(ErpWorkFlowReport.class, new TypeToken<RemoteData<ErpWorkFlowReport>>() {
-        }.getType());
-
-        tokenMaps.put(OrderItem.class, new TypeToken<RemoteData<OrderItem>>() {
-        }.getType());
-        tokenMaps.put(ErpOrderItemProcess.class, new TypeToken<RemoteData<ErpOrderItemProcess>>() {
-        }.getType());
-
-
-        tokenMaps.put(ProductWorkMemo.class, new TypeToken<RemoteData<ProductWorkMemo>>() {
-        }.getType());
-
-        tokenMaps.put(OrderItemWorkMemo.class, new TypeToken<RemoteData<OrderItemWorkMemo>>() {
-        }.getType());
-
-        tokenMaps.put(WorkFlowArea.class, new TypeToken<RemoteData<WorkFlowArea>>() {
-        }.getType());
-        tokenMaps.put(MessageInfo.class, new TypeToken<RemoteData<MessageInfo>>() {
-        }.getType());
-        tokenMaps.put(WorkFlowMaterial.class, new TypeToken<RemoteData<WorkFlowMaterial>>() {
-        }.getType());
-        tokenMaps.put(SampleState.class, new TypeToken<RemoteData<SampleState>>() {
-        }.getType());
-        tokenMaps.put(com.giants3.hd.entity.app.Quotation.class, new TypeToken<RemoteData<com.giants3.hd.entity.app.Quotation>>() {
-        }.getType());
-        tokenMaps.put(com.giants3.hd.noEntity.app.QuotationDetail.class, new TypeToken<RemoteData<com.giants3.hd.noEntity.app.QuotationDetail>>() {
-        }.getType());
-        tokenMaps.put(Customer.class, new TypeToken<RemoteData<Customer>>() {
-        }.getType());
 
 
     }
@@ -199,11 +126,8 @@ public class ApiManager {
      */
     public <T> RemoteData<T> invokeByReflect(String result, Class<T> aClass) throws HdException {
 
-        Type generateType = tokenMaps.get(aClass);
+        Type generateType = new RemoteDateParameterizedType(aClass);
 
-        if (generateType == null) {
-            throw HdException.create("未配置" + aClass.getName() + "对应的通配类型");
-        }
         RemoteData<T> remoteData = GsonUtils.fromJson(result, generateType);
 
         if (remoteData.code == RemoteData.CODE_UNLOGIN) {
