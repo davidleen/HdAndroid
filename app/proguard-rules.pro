@@ -167,7 +167,10 @@
 
 
 
-##---------------End: proguard configuration for Gson ----------
+##---------------Begin: proguard configuration for Zxing ----------
+-dontwarn com.google.zxing.**
+-keep  class com.google.zxing.**{*;}
+##---------------End: proguard configuration for Zxing ----------
 
 #关闭所有警告， 打包
 -dontwarn  **
