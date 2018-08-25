@@ -156,6 +156,8 @@ public class PDFPrintDocumentAdapter extends PrintDocumentAdapter {
     private void drawPage(PdfDocument.Page page,int pagenumber) {
         Canvas canvas = page.getCanvas();
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
         paint.setColor(Color.RED);
         if(mlist != null){
 

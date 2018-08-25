@@ -315,6 +315,7 @@
         <item>箱数||inboxCount||1||60</item>
         <item>装箱数||packQuantity||1||60</item>
         <item>规格||spec||1||100</item>
+        <item>净重||weight||1||60</item>
         <item>单位||unit||1||60</item>
         <item>箱长||boxLong||1||60</item>
         <item>箱宽||boxWidth||1||60</item>

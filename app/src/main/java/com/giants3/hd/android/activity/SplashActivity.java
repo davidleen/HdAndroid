@@ -13,6 +13,7 @@ import com.giants3.hd.android.R;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AUser;
+import com.giants3.hd.data.net.HttpUrl;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -104,6 +105,7 @@ public class SplashActivity extends BaseActivity {
         //登录验证
 
         AUser loginUser = SharedPreferencesHelper.getLoginUser();
+        HttpUrl.setToken(SharedPreferencesHelper.readToken());
         if (loginUser == null) {
 
             startLoginActivity();

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,12 +19,14 @@ import com.giants3.android.frame.util.Log;
 import com.giants3.hd.android.BuildConfig;
 import com.giants3.hd.android.R;
 import com.giants3.hd.android.SystemConst;
+import com.giants3.hd.android.entity.LoginHistory;
 import com.giants3.hd.android.events.LoginSuccessEvent;
 import com.giants3.hd.android.fragment.ItemPickDialogFragment;
 import com.giants3.hd.android.helper.AndroidUtils;
 import com.giants3.hd.android.helper.SharedPreferencesHelper;
 import com.giants3.hd.android.helper.ToastHelper;
 import com.giants3.hd.appdata.AUser;
+import com.giants3.hd.crypt.CryptUtils;
 import com.giants3.hd.crypt.DigestUtils;
 import com.giants3.hd.data.interractor.UseCaseFactory;
 import com.giants3.hd.data.net.HttpUrl;
@@ -31,6 +34,7 @@ import com.giants3.hd.entity.User;
 import com.giants3.hd.noEntity.BufferData;
 import com.giants3.hd.noEntity.RemoteData;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,12 +57,13 @@ public class LoginActivity extends BaseActivity {
     private List<User> users;
     private User loginUser;
 
-    public static final String KEY_LAST_LOGIN_USER = "KEY_LAST_LOGIN_USER";
-    private String lastLoginName;
+
 
 
     @Bind(R.id.user)
     TextView user;
+    @Bind(R.id.keepPassword)
+    CheckBox keepPassword;
     @Bind(R.id.password)
     EditText mPasswordView;
     @Bind(R.id.email_sign_in_button)
@@ -77,7 +82,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        lastLoginName = getPreferences(Context.MODE_PRIVATE).getString(KEY_LAST_LOGIN_USER, "admin");
+
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -129,7 +134,7 @@ public class LoginActivity extends BaseActivity {
         }
         // Store values at the time of the login attempt.
         final String userName = loginUser.name;
-        String password = mPasswordView.getText().toString();
+       final String password = mPasswordView.getText().toString();
 
 
         mPasswordView.setError(null);
@@ -180,15 +185,30 @@ public class LoginActivity extends BaseActivity {
                 public void onNext(RemoteData<AUser> aUser) {
                     if (aUser.isSuccess()) {
                         SharedPreferencesHelper.saveLoginUser(aUser.datas.get(0));
-                        getPreferences(Context.MODE_PRIVATE).edit().putString(KEY_LAST_LOGIN_USER, userName).commit();
-                        HttpUrl.setToken(aUser.datas.get(0).token);
-                        Log.e(aUser.datas.get(0).toString());
+
+                        String token = aUser.datas.get(0).token;
+                        SharedPreferencesHelper.saveToken(token);
+                        HttpUrl.setToken(token);
+
+
                         ToastHelper.show("登录成功");
 
                         loadInitData(aUser.datas.get(0).id);
-//                        EventBus.getDefault().post(new LoginSuccessEvent());
-//                        setResult(RESULT_OK);
-//                        finish();
+
+
+
+
+
+                        //保存登录历史记录
+                        boolean keep=keepPassword.isChecked();
+                        String encryptPassword= CryptUtils.encryptDES(password,SystemConst.DES_KEY);
+                        LoginHistory loginHistory=new LoginHistory();
+                        loginHistory.keepPassword=keep;
+                        loginHistory.passwordEncrypted=encryptPassword;
+                        loginHistory.name=userName;
+                        SharedPreferencesHelper.addLoginHistory(loginHistory);
+
+
                     } else {
                         ToastHelper.show(aUser.message);
                         showProgress(false);
@@ -296,12 +316,14 @@ public class LoginActivity extends BaseActivity {
                 if (remoteData.isSuccess()) {
                     users = remoteData.datas;
 
-                    //admin 默认显示admin
+                    AUser  lastLoginUser=SharedPreferencesHelper.getLoginUser();
+                    if(lastLoginUser!=null) {
 
-                    for (User user : users) {
-                        if (user.name.equals(lastLoginName)) {
-                            bindUser(user);
-                            return;
+                        for (User user : users) {
+                            if (user.name.equals(lastLoginUser.name)) {
+                                bindUser(user);
+                                return;
+                            }
                         }
                     }
                     bindUser(users.get(0));
@@ -318,12 +340,24 @@ public class LoginActivity extends BaseActivity {
         user.setText(loginUser.toString());
 
 
-        if (BuildConfig.DEBUG) {
 
-            user.setText(loginUser.name);
-            mPasswordView.setText("111");
-            // attemptLogin();
+        List<LoginHistory> histories=SharedPreferencesHelper.getLoginHistory();
+        LoginHistory findHistory=null;
+        if(histories!=null)
+        {
+            for(LoginHistory loginHistory:histories)
+            {
+                if(loginHistory.name.equals(loginUser.name))
+                {
+                    findHistory=loginHistory;
+
+                    break;
+                }
+            }
         }
+        keepPassword.setChecked(findHistory==null?false:findHistory.keepPassword);
+        mPasswordView.setText(findHistory==null||!findHistory.keepPassword?"":CryptUtils.decryptDES(findHistory.passwordEncrypted,SystemConst.DES_KEY));
+
 
     }
 

@@ -28,14 +28,16 @@ android {
     buildToolsVersion project.ANDROID_BUILD_VERSION
     defaultConfig {
         applicationId "com.giants3.hd.android"
-        minSdkVersion 19
+        minSdkVersion project.ANDROID_MIN_VERSION
 
 
-        targetSdkVersion ANDROID_TARGET_VERSION
-        versionCode 45
-        versionName "1.4.5"
+        targetSdkVersion project.ANDROID_TARGET_VERSION
+        versionCode 48
+        versionName "1.4.8"
 
         buildConfigField "boolean", "AUTO_UPDATES", "true"
+
+        multiDexEnabled true
 
 
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
@@ -45,6 +47,7 @@ android {
     aaptOptions {
         cruncherEnabled = false
         useNewCruncher = false
+
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -65,9 +68,9 @@ android {
             signingConfig signingConfigs.debug
         }
         debug {
-            minifyEnabled true
-
-            proguardFiles 'proguard-rules.pro'
+//            minifyEnabled true
+//            zipAlignEnabled true
+//            proguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
     }
@@ -86,6 +89,8 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 dependencies {
+
+    compile 'com.android.support:multidex:1.0.1'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile('com.nostra13.universalimageloader:universal-image-loader:1.9.4') {
         exclude group: 'com.android.support'
@@ -109,8 +114,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
     releaseCompile project(':zxing')
-    //    debugCompile project(':zxing')
-    debugCompile project(':zxing_no_op')
+//    debugCompile project(':zxing')
+     debugCompile project(':zxing_no_op')
 //        compile project(':namecardscan')
     compile "com.giants3.android:api:${API_VERSION}"
 //    compile project(':PushSDK_no_op')

@@ -2,6 +2,7 @@ package com.giants3.hd.android;
 
 import android.app.Application;
 import android.content.Context;
+
 import android.util.Log;
 
 import com.giants3.android.api.push.MessageCallback;
@@ -18,6 +19,7 @@ import com.giants3.hd.data.net.HttpUrl;
 import com.giants3.hd.data.utils.GsonUtils;
 import com.giants3.hd.exception.HdException;
 import com.giants3.hd.noEntity.app.PushMessage;
+import  android.support.multidex.MultiDex;
 
 ;
 
@@ -37,19 +39,23 @@ public class HdApplication extends Application {
      */
 
     public static Context baseContext;
-
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        MultiDex.install(this);
+    }
     @Override
     public void onCreate() {
         super.onCreate();
         baseContext = this;
 
-
+        StorageUtils.setRoot(getResources().getString(R.string.sd_root));
         ToastHelper.init(this);
         BitmapToolkit.init(this);
         SharedPreferencesHelper.init(this);
 
 
-        StorageUtils.setRoot(getResources().getString(R.string.sd_root));
+
 
 
         ConnectionHelper.init(this);

@@ -84,16 +84,18 @@ public class FileUtils {
 
         byte[] bytes= ByteArrayPool.getInstance().getBuf(1024);
 
-
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
         try {
-            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+
 
 
             FileInputStream fileInputStream=new FileInputStream(filePath);
             int leng=0;
-            while ((leng=fileInputStream.read(bytes))!=0)
+            while ((leng=fileInputStream.read(bytes))>0)
             {
 
+
+                Log.e("leng:"+leng);
                 byteArrayOutputStream.write(bytes,0,leng);
 
             }
@@ -103,7 +105,7 @@ public class FileUtils {
         ByteArrayPool.getInstance().returnBuf(bytes);
 
         try {
-            result=new String( bytes,DEFAULT_CHARSET);
+            result=new String( byteArrayOutputStream.toByteArray(),DEFAULT_CHARSET);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
